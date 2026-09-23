@@ -2,6 +2,8 @@
 
 Floe is an open-source WordPress framework theme inspired by Made 4. It starts with native WordPress features and adds custom blocks only where a specific design system needs them.
 
+AI agents and contributors should start with [Documentation/README.md](Documentation/README.md) for the project map, block contract, migration decisions, and verification workflow.
+
 ## Requirements
 
 - WordPress 6.6 or newer
