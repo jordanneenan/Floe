@@ -5,7 +5,7 @@ Find a behavior here before adding another hook. File names are part of the arch
 | File | Hook or API | Current behavior |
 | --- | --- | --- |
 | `functions.php` | `require_once` | Loads the five `Config/` files; no behavior of its own. |
-| `Config/Theme.php` | `after_setup_theme` | Text domain, title tag, thumbnails, custom logo, HTML5 markup, wide alignment, editor styles, `primary` nav menu. |
+| `Config/Theme.php` | `after_setup_theme` | Text domain, title tag, thumbnails, custom logo override, HTML5 markup, wide alignment, editor styles, `primary` nav menu. The header defaults to `Assets/Brand/floe-logo.svg` until a WordPress custom logo is set. |
 | `Config/Assets.php` | `wp_enqueue_scripts` | Enqueues root `style.css` using the theme version. Individual block assets come from block metadata. |
 | `Config/Blocks.php` | `init` | Scans only immediate directories in `Blocks/`; calls `register_block_type()` for each directory with `block.json`. |
 | `Config/Comments.php` | `init`, comments and pings filters | Removes comments/trackbacks support from post types, closes both, and hides existing comment arrays. |

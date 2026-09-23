@@ -18,6 +18,7 @@ WordPress loads Floe/functions.php
 
 | Path | Owns | Does not own |
 | --- | --- | --- |
+| `Assets/Brand/` | Theme-owned Floe logo SVGs and WordPress Site Icon export | Block-specific styling or generic site imagery |
 | `Blocks/` | Custom Gutenberg blocks, one immediate folder per unique block | ACF fields, nested group/version directories |
 | `Components/` | Shared PHP template parts such as header and footer | Block registration or site-wide hooks |
 | `Config/` | Theme setup, hooks, asset registration, admin behavior | Page markup and block-specific render logic |
@@ -29,7 +30,7 @@ WordPress loads Floe/functions.php
 ## Current template behavior
 
 - `header.php` prints the document opening, `wp_head()`, `wp_body_open()`, skip link, then `Components/Header/header.php`.
-- The header component renders the custom logo when set; otherwise it links the site name. It renders the `primary` menu and uses WordPress's page-menu fallback.
+- The header component renders a WordPress custom logo when set; otherwise it links the theme's path-based Floe SVG logo from `Assets/Brand/`. It renders the `primary` menu and uses WordPress's page-menu fallback.
 - `index.php` is the fallback template. It loops posts, shows linked titles for non-singular views, renders `the_content()`, and prints pagination.
 - `footer.php` renders `Components/Footer/footer.php`, calls `wp_footer()`, and closes the document.
 
