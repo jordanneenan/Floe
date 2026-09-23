@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": { "contentSize": "720px", "wideSize": "1200px" },
+    "spacing": {
+      "spacingSizes": [
+        { "name": "Small", "slug": "small", "size": "40px" },
+        { "name": "Medium", "slug": "medium", "size": "80px" },
+        { "name": "Large", "slug": "large", "size": "120px" }
+      ]
+    }
+  }
+}

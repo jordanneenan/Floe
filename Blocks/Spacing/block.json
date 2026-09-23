@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/spacing",
+  "version": "0.1.0",
+  "title": "Spacing",
+  "category": "design",
+  "icon": "leftright",
+  "description": "Responsive vertical space between sections.",
+  "textdomain": "floe",
+  "attributes": {
+    "size": { "type": "string", "default": "large" },
+    "desktop": { "type": "number", "default": -1 },
+    "tablet": { "type": "number", "default": -1 },
+    "mobile": { "type": "number", "default": -1 },
+    "automatic": { "type": "boolean", "default": true }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/spacing.js",
+  "style": "file:./Assets/spacing.css",
+  "render": "file:./spacing.php"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "floe-wordpress-theme",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Native WordPress framework theme inspired by Made 4",
+  "scripts": {
+    "build": "npm run build:js && npm run build:css",
+    "build:js": "wp-scripts build Blocks/Spacing/spacing.js --output-path=Blocks/Spacing/Assets",
+    "build:css": "sass --no-source-map --style=compressed Blocks/Spacing/spacing.scss Blocks/Spacing/Assets/spacing.css",
+    "watch:js": "wp-scripts start Blocks/Spacing/spacing.js --output-path=Blocks/Spacing/Assets",
+    "watch:css": "sass --watch Blocks/Spacing/spacing.scss:Blocks/Spacing/Assets/spacing.css"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^35.0.0",
+    "sass": "^1.105.0"
+  }
+}
