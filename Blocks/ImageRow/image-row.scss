@@ -7,5 +7,4 @@
 .floe-image-row--1 .floe-media { aspect-ratio: 16 / 6; }
 .floe-image-row.is-natural .floe-media { aspect-ratio: auto; }
 .floe-image-row.is-natural .floe-media img, .floe-image-row.is-natural .floe-media video { height: auto; object-fit: contain; }
-@media (max-width: 767px) { .floe-image-row--3, .editor-styles-wrapper .floe-image-row--3 > .block-editor-inner-blocks > .block-editor-block-list__layout { --floe-row-columns: 2; } }
 @media (max-width: 549px) { .floe-image-row, .editor-styles-wrapper .floe-image-row > .block-editor-inner-blocks > .block-editor-block-list__layout { --floe-row-columns: 1; } .floe-image-row--1 .floe-media { aspect-ratio: 4 / 3; } }
