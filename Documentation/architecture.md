@@ -9,7 +9,7 @@ WordPress loads Floe/functions.php
   -> init: register each immediate Blocks/* directory with block.json
   -> wp_enqueue_scripts: load root style.css
   -> template request: index.php -> header.php / footer.php -> Components/*
-  -> floe/spacing render: Blocks/Spacing/spacing.php + compiled block CSS
+  -> Floe block render: Blocks/<Block>/render.php or spacing.php + compiled assets
 ```
 
 `functions.php` is intentionally a small loader. Do not put substantial feature logic there. Each `Config/*.php` file registers its own WordPress hooks when loaded.
@@ -37,4 +37,4 @@ WordPress loads Floe/functions.php
 
 - Floe is a theme. Reusable content types, data models, APIs, and site functionality that must persist across theme switches should be implemented in a separate plugin when needed.
 - Native WordPress Site Icon, media behavior, menus, block editor, and `theme.json` controls are the starting point.
-- No existing WordPress installation or browser-based visual test is part of this repository. A successful asset build proves compilation, not runtime integration.
+- The repository does not provision WordPress. Development can be checked against the Floe LocalWP site when it is available; a successful asset build alone does not prove runtime integration.

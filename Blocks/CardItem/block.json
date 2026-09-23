@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/card-item",
+  "version": "0.1.0",
+  "title": "Card",
+  "category": "design",
+  "icon": "index-card",
+  "description": "Manual card within a Cards section.",
+  "textdomain": "floe",
+  "parent": [
+    "floe/cards"
+  ],
+  "attributes": {
+    "meta": {
+      "type": "string",
+      "default": ""
+    },
+    "title": {
+      "type": "string",
+      "default": ""
+    },
+    "description": {
+      "type": "string",
+      "default": ""
+    },
+    "linkLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "linkUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaType": {
+      "type": "string",
+      "default": "image"
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaPosterId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaPosterUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./Assets/card-item.js",
+  "style": "file:./Assets/card-item.css",
+  "render": "file:./render.php"
+}

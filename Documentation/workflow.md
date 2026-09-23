@@ -9,13 +9,13 @@ Work at the repository root. Install with `npm ci` using Node.js 20 or newer. PH
 ```sh
 npm ci
 npm run build
-npm run watch:js     # separate terminal during editing
-npm run watch:css    # separate terminal during editing
+npm run build:js
+npm run build:css
 git diff --check
 git status --short
 ```
 
-`npm run build` currently compiles **only** the Spacing block. When adding another block, update `package.json` build/watch scripts and verify that block's output. Do not assume block discovery in PHP implies automatic build discovery.
+`npm run build` discovers every immediate `Blocks/*/block.json` and compiles a matching `<slug>.js` and `<slug>.scss` into that block's `Assets/`. It also compiles the shared section CSS. `build:css` compiles only styles. `build:js` recompiles styles after JavaScript because `wp-scripts` clears each block's output directory during a JavaScript build.
 
 ## Focused verification by change
 

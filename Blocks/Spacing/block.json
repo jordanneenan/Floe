@@ -10,10 +10,12 @@
   "textdomain": "floe",
   "attributes": {
     "size": { "type": "string", "default": "large" },
+    "largeDesktop": { "type": "number", "default": -1 },
     "desktop": { "type": "number", "default": -1 },
     "tablet": { "type": "number", "default": -1 },
     "mobile": { "type": "number", "default": -1 },
-    "automatic": { "type": "boolean", "default": true }
+    "custom": { "type": "boolean", "default": false },
+    "automatic": { "type": "boolean" }
   },
   "supports": {
     "anchor": true,

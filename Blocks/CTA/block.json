@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/cta",
+  "version": "0.1.0",
+  "title": "Call to Action",
+  "category": "design",
+  "icon": "megaphone",
+  "description": "Floe Call to Action section.",
+  "textdomain": "floe",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "body": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "surface": {
+      "type": "string",
+      "default": "accent"
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/cta.js",
+  "style": "file:./Assets/cta.css",
+  "render": "file:./render.php"
+}

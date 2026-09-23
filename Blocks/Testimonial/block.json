@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/testimonial",
+  "version": "0.1.0",
+  "title": "Testimonial",
+  "category": "design",
+  "icon": "format-quote",
+  "description": "Floe Testimonial section.",
+  "textdomain": "floe",
+  "attributes": {
+    "quote": {
+      "type": "string",
+      "default": ""
+    },
+    "attribution": {
+      "type": "string",
+      "default": ""
+    },
+    "showMedia": {
+      "type": "boolean",
+      "default": false
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaType": {
+      "type": "string",
+      "default": "image"
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaPosterId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaPosterUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/testimonial.js",
+  "style": "file:./Assets/testimonial.css",
+  "render": "file:./render.php"
+}

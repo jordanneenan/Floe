@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/document-download",
+  "version": "0.1.0",
+  "title": "Document Download",
+  "category": "design",
+  "icon": "download",
+  "description": "A named list of downloadable files.",
+  "textdomain": "floe",
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/document-download.js",
+  "style": "file:./Assets/document-download.css",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/home-banner",
+  "version": "0.1.0",
+  "title": "Home Banner",
+  "category": "design",
+  "icon": "cover-image",
+  "description": "Floe Home Banner section.",
+  "textdomain": "floe",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "body": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": ""
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaType": {
+      "type": "string",
+      "default": "image"
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaPosterId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaPosterUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/home-banner.js",
+  "style": "file:./Assets/home-banner.css",
+  "render": "file:./render.php"
+}

@@ -3,6 +3,16 @@
   "version": 3,
   "settings": {
     "appearanceTools": true,
+    "color": {
+      "defaultPalette": false,
+      "palette": [
+        { "name": "Ink", "slug": "ink", "color": "#26312f" },
+        { "name": "Muted", "slug": "muted", "color": "#5f6d69" },
+        { "name": "Base", "slug": "base", "color": "#ffffff" },
+        { "name": "Subtle", "slug": "subtle", "color": "#f5f7f6" },
+        { "name": "Accent", "slug": "accent", "color": "#315c50" }
+      ]
+    },
     "layout": { "contentSize": "720px", "wideSize": "1200px" },
     "spacing": {
       "spacingSizes": [

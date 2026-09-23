@@ -1,0 +1,48 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/media",
+  "version": "0.1.0",
+  "title": "Image or Looping Video",
+  "category": "media",
+  "icon": "format-image",
+  "description": "An image or silent looping MP4 for Article and Images rows.",
+  "textdomain": "floe",
+  "ancestor": [
+    "floe/article",
+    "floe/image-row"
+  ],
+  "attributes": {
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaType": {
+      "type": "string",
+      "default": "image"
+    },
+    "mediaUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "mediaPosterId": {
+      "type": "number",
+      "default": 0
+    },
+    "mediaPosterUrl": {
+      "type": "string",
+      "default": ""
+    }
+  },
+  "supports": {
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/media.js",
+  "style": "file:./Assets/media.css",
+  "render": "file:./render.php"
+}

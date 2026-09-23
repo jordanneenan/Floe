@@ -16,6 +16,7 @@
 | Change theme setup, menus, styles, comments | [Configuration map](configuration.md) | `Config/Theme.php`, `Config/Assets.php`, `Config/Comments.php`, `theme.json` |
 | Change page structure | [Architecture](architecture.md) | `index.php`, `header.php`, `footer.php`, `Components/` |
 | Port a Made feature | [Migration decisions](migration.md) | Relevant source; Made 4 is optional reference |
+| Design the block and component library | [Design-system brief](design-system-brief.md) | Figma block wireframes, designs, and shared components |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `README.md`, Git history |
 
 ## Project facts
@@ -25,7 +26,7 @@
 - Type: classic WordPress theme with block editor support and `theme.json`, not a full-site-editing block theme.
 - Minimum: WordPress 6.6, PHP 8.0, Node.js 20 for development. Production uses committed built assets and does not need Node.
 - License: GPL-2.0-or-later.
-- Current custom block: `floe/spacing`. There are no required plugins and no ACF dependency.
+- Custom blocks: Home Banner, Page Banner, Article, Image + Copy, CTA, Testimonial, Posts, Cards, Document Download, Images, Video, and Spacing. Cards, downloads, images, and Article use nested helper blocks. There are no required plugins and no ACF dependency.
 
 ## Source-of-truth order
 

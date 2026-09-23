@@ -4,89 +4,32 @@ import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress
 import { __ } from '@wordpress/i18n';
 import metadata from './block.json';
 
-const DEFAULTS = {
-	large: [ 120, 86, 67 ],
-	medium: [ 80, 57, 44 ],
-	small: [ 40, 29, 22 ],
-	none: [ 0, 0, 0 ],
+const PRESETS = {
+	large: [ 120, 120, 86, 67 ],
+	medium: [ 80, 80, 57, 44 ],
+	small: [ 40, 40, 29, 22 ],
+	none: [ 0, 0, 0, 0 ],
 };
-
-function numberFromInput( value ) {
-	if ( value === '' ) {
-		return -1;
-	}
-	const number = Number( value );
-	return Number.isFinite( number ) ? Math.max( 0, Math.min( 500, number ) ) : -1;
-}
+const BREAKPOINTS = [ [ 'largeDesktop', 'Large desktop · 1280px and up' ], [ 'desktop', 'Desktop · 768–1279px' ], [ 'tablet', 'Tablet · 550–767px' ], [ 'mobile', 'Mobile · under 550px' ] ];
+const clamp = ( value ) => Math.max( 0, Math.min( 500, Number( value ) || 0 ) );
 
 function Edit( { attributes, setAttributes } ) {
-	const { size, desktop, tablet, mobile, automatic } = attributes;
-	const defaults = DEFAULTS[ size ] || DEFAULTS.large;
-	const desktopValue = desktop >= 0 ? desktop : defaults[ 0 ];
-	const tabletValue = desktop >= 0 && ( automatic || tablet < 0 ) ? Math.round( desktopValue / 1.4 ) : ( tablet >= 0 && ! automatic ? tablet : defaults[ 1 ] );
-	const mobileValue = desktop >= 0 && ( automatic || mobile < 0 ) ? Math.round( desktopValue / 1.8 ) : ( mobile >= 0 && ! automatic ? mobile : defaults[ 2 ] );
-	const blockProps = useBlockProps( {
-		className: `floe-spacing floe-spacing--${ size }`,
-		style: {
-			'--floe-spacing-desktop': `${ desktopValue }px`,
-			'--floe-spacing-tablet': `${ tabletValue }px`,
-			'--floe-spacing-mobile': `${ mobileValue }px`,
-		},
-	} );
-
-	return (
-		<>
-			<InspectorControls>
-				<PanelBody title={ __( 'Spacing settings', 'floe' ) }>
-					<SelectControl
-						label={ __( 'Size', 'floe' ) }
-						value={ size }
-						options={ [
-							{ label: __( 'Large', 'floe' ), value: 'large' },
-							{ label: __( 'Medium', 'floe' ), value: 'medium' },
-							{ label: __( 'Small', 'floe' ), value: 'small' },
-							{ label: __( 'No spacing', 'floe' ), value: 'none' },
-						] }
-						onChange={ ( value ) => setAttributes( { size: value } ) }
-					/>
-					<TextControl
-						label={ __( 'Desktop override (px)', 'floe' ) }
-						type="number"
-						min="0"
-						max="500"
-						value={ desktop < 0 ? '' : desktop }
-						onChange={ ( value ) => setAttributes( { desktop: numberFromInput( value ) } ) }
-					/>
-					<ToggleControl
-						label={ __( 'Calculate responsive values automatically', 'floe' ) }
-						checked={ automatic }
-						onChange={ ( value ) => setAttributes( { automatic: value } ) }
-					/>
-					{ ! automatic && (
-						<>
-							<TextControl
-								label={ __( 'Tablet override (px)', 'floe' ) }
-								type="number"
-								min="0"
-								max="500"
-								value={ tablet < 0 ? '' : tablet }
-								onChange={ ( value ) => setAttributes( { tablet: numberFromInput( value ) } ) }
-							/>
-							<TextControl
-								label={ __( 'Mobile override (px)', 'floe' ) }
-								type="number"
-								min="0"
-								max="500"
-								value={ mobile < 0 ? '' : mobile }
-								onChange={ ( value ) => setAttributes( { mobile: numberFromInput( value ) } ) }
-							/>
-						</>
-					) }
-				</PanelBody>
-			</InspectorControls>
-			<div { ...blockProps } aria-hidden="true" />
-		</>
-	);
+	const { size = 'large', custom, automatic } = attributes;
+	const preset = PRESETS[ size ] || PRESETS.large;
+	const legacyCustom = automatic !== undefined && attributes.desktop >= 0;
+	const isCustom = custom || legacyCustom;
+	const values = BREAKPOINTS.map( ( [ key ], index ) => isCustom && attributes[ key ] >= 0 ? clamp( attributes[ key ] ) : preset[ index ] );
+	if ( isCustom && attributes.largeDesktop < 0 && attributes.desktop >= 0 ) values[ 0 ] = values[ 1 ];
+	const style = Object.fromEntries( BREAKPOINTS.map( ( [ key ], index ) => [ '--floe-spacing-' + key.replace( /[A-Z]/g, ( letter ) => '-' + letter.toLowerCase() ), values[ index ] + 'px' ] ) );
+	const blockProps = useBlockProps( { className: 'floe-spacing floe-spacing--' + size, style, 'data-floe-spacing-label': ( isCustom ? 'Custom' : size ) + ' spacing' } );
+	return <>
+		<InspectorControls><PanelBody title={ __( 'Spacing', 'floe' ) }>
+			<SelectControl label={ __( 'Preset', 'floe' ) } value={ size } options={ [ { label: __( 'Large', 'floe' ), value: 'large' }, { label: __( 'Medium', 'floe' ), value: 'medium' }, { label: __( 'Small', 'floe' ), value: 'small' }, { label: __( 'No spacing', 'floe' ), value: 'none' } ] } onChange={ ( next ) => setAttributes( { size: next } ) } />
+			<ToggleControl label={ __( 'Custom values', 'floe' ) } checked={ !! isCustom } onChange={ ( next ) => setAttributes( { custom: next, automatic: undefined } ) } />
+			{ isCustom && BREAKPOINTS.map( ( [ key, label ], index ) => <TextControl key={ key } label={ label } type="number" min="0" max="500" value={ attributes[ key ] < 0 ? '' : attributes[ key ] } placeholder={ String( preset[ index ] ) } onChange={ ( next ) => setAttributes( { [ key ]: next === '' ? -1 : clamp( next ) } ) } /> ) }
+		</PanelBody></InspectorControls>
+		<div { ...blockProps } aria-hidden="true" />
+	</>;
 }
 
 registerBlockType( metadata.name, { edit: Edit, save: () => null } );

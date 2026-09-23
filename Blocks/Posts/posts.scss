@@ -1,0 +1,6 @@
+@use '../CardItem/card-item';
+.floe-posts__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.floe-posts .floe-media { height: 220px; }
+.floe-posts .floe-media--empty { background: var(--floe-subtle); }
+@media (max-width: 900px) { .floe-posts__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .floe-posts__grid { grid-template-columns: 1fr; } }

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "floe/posts",
+  "version": "0.1.0",
+  "title": "Posts",
+  "category": "design",
+  "icon": "admin-post",
+  "description": "Dynamic WordPress posts in the shared Floe card layout.",
+  "textdomain": "floe",
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": ""
+    },
+    "mode": {
+      "type": "string",
+      "default": "latest"
+    },
+    "categoryId": {
+      "type": "number",
+      "default": 0
+    },
+    "selectedIds": {
+      "type": "string",
+      "default": ""
+    },
+    "count": {
+      "type": "number",
+      "default": 3
+    },
+    "mediaOverrides": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "supports": {
+    "anchor": true,
+    "className": true,
+    "html": false
+  },
+  "editorScript": "file:./Assets/posts.js",
+  "style": "file:./Assets/posts.css",
+  "render": "file:./render.php"
+}

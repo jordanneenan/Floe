@@ -5,6 +5,9 @@ namespace Floe\Config\Blocks;
 
 defined( 'ABSPATH' ) || exit;
 
+require_once get_template_directory() . '/Blocks/_shared/render.php';
+require_once get_template_directory() . '/Blocks/_shared/simple.php';
+
 function register(): void {
 	$root = get_template_directory() . '/Blocks';
 

@@ -16,12 +16,14 @@ No ACF installation is required.
 
 ```text
 Blocks/
+  HomeBanner/, PageBanner/, Article/, ...
   Spacing/
     block.json       WordPress block metadata
     spacing.php      server render template
     spacing.scss     source styles
     spacing.js       editor source
     Assets/          built JavaScript, asset manifest, and CSS
+  _shared/           shared editor controls, PHP render helpers, section CSS and media script
 Components/
   Header/
   Footer/
@@ -46,15 +48,15 @@ npm ci
 npm run build
 ```
 
-For development, run `npm run watch:js` and `npm run watch:css` in separate terminals.
+The build script discovers every block folder with `block.json` and compiles matching JavaScript and SCSS files. For focused Spacing work, `npm run watch:spacing:js` and `npm run watch:spacing:css` are available.
 
-To add a block, create `Blocks/YourBlock/block.json` and its source files. `Config/Blocks.php` discovers folders with metadata on WordPress `init`. Extend the npm build scripts for each new JavaScript and SCSS entry point, keeping generated files in that block's `Assets/` directory.
+To add a block, create `Blocks/YourBlock/block.json` and source files named for the block slug. `Config/Blocks.php` discovers folders with metadata on WordPress `init`. Keep generated files in that block's `Assets/` directory.
 
-## Spacing block
+## Block library
 
-The Spacing block carries forward Made's default vertical values: 120px large, 80px medium, 40px small, and 0px for no spacing. Tablet and mobile defaults use approximately the same 1.4 and 1.8 ratios as Made. Editors can override the desktop value and either calculate smaller viewports automatically or set them separately. A zero override is valid.
+Floe includes Home Banner, Page Banner, Article, Image + Copy, CTA, Testimonial, Posts, Cards, Document Download, Images, Video, and Spacing. Repeatable card, file, and image-row items use nested Gutenberg blocks. Most non-icon media slots accept an image or a silent looping self-hosted MP4 with a poster. Video is a separate YouTube cover-and-play block.
 
-WordPress's own spacing controls and `theme.json` spacing presets remain available for ordinary layout. Floe's block is for projects that need Made-style spacer behavior. Core Group blocks provide HTML anchors, so Made's anchor-point block is not copied.
+Each page section has a default bottom gap. Placing Spacing directly after one replaces that gap with Large, Medium, Small, None, or custom values for large desktop, desktop, tablet, and mobile. [The block contract](Documentation/blocks.md) describes each editor field and current behaviour.
 
 ## Migration notes
 
