@@ -2,7 +2,7 @@
 
 Floe is an open-source WordPress framework theme inspired by Made 4. It starts with native WordPress features and adds custom blocks only where a specific design system needs them.
 
-AI agents and contributors should start with [Documentation/README.md](Documentation/README.md) for the project map, block contract, migration decisions, and verification workflow.
+AI agents and contributors should start with the [review handoff](Documentation/agent-handoff.md), then use [Documentation/README.md](Documentation/README.md) for the project map, block contract, migration decisions, and verification workflow.
 
 ## Requirements
 
@@ -48,7 +48,7 @@ npm ci
 npm run build
 ```
 
-The build script discovers every block folder with `block.json` and compiles matching JavaScript and SCSS files. For focused Spacing work, `npm run watch:spacing:js` and `npm run watch:spacing:css` are available.
+The build script discovers every block folder with `block.json` and compiles matching JavaScript and SCSS files. For focused work, use `npm run build:js` or `npm run build:css`. No watch script is configured.
 
 To add a block, create `Blocks/YourBlock/block.json` and source files named for the block slug. `Config/Blocks.php` discovers folders with metadata on WordPress `init`. Keep generated files in that block's `Assets/` directory.
 

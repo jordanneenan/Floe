@@ -6,11 +6,11 @@ Find a behavior here before adding another hook. File names are part of the arch
 | --- | --- | --- |
 | `functions.php` | `require_once` | Loads the five `Config/` files; no behavior of its own. |
 | `Config/Theme.php` | `after_setup_theme` | Text domain, title tag, thumbnails, custom logo override, HTML5 markup, wide alignment, editor styles, `primary` nav menu. The header defaults to `Assets/Brand/floe-logo.svg` until a WordPress custom logo is set. |
-| `Config/Assets.php` | `wp_enqueue_scripts` | Enqueues root `style.css` using the theme version. Individual block assets come from block metadata. |
+| `Config/Assets.php` | `wp_enqueue_scripts`, `enqueue_block_assets` | Enqueues root `style.css`, shared media JavaScript, and shared section CSS. Individual block assets come from block metadata. |
 | `Config/Blocks.php` | `init` | Scans only immediate directories in `Blocks/`; calls `register_block_type()` for each directory with `block.json`. |
 | `Config/Comments.php` | `init`, comments and pings filters | Removes comments/trackbacks support from post types, closes both, and hides existing comment arrays. |
 | `Config/AdminUI.php` | `admin_menu`, `admin_bar_menu`, `admin_footer_text` | Removes Comments from admin menu; removes Comments and WordPress logo from toolbar; shows “Built with Floe.” footer text. |
-| `theme.json` | Native theme settings | Enables appearance tools, sets 720px content and 1200px wide layout, offers 40/80/120px spacing sizes. |
+| `theme.json` | Native theme settings | Enables appearance tools, sets 720px content and 1200px wide layout, offers a provisional five-color palette and 40/80/120px spacing sizes. |
 
 ## Placement rules
 

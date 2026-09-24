@@ -4,10 +4,10 @@
 
 ## Read in this order
 
-1. This page for project identity and task routing.
-2. [Architecture](architecture.md) for the runtime path and file ownership.
-3. The task-specific page below.
-4. The actual source files before editing. If documentation and code differ, treat code as the current behavior and correct the documentation in the same change.
+1. [Review handoff](agent-handoff.md) for project intent, local setup, current status, and review priorities.
+2. This page for project identity and task routing.
+3. [Architecture](architecture.md) for the runtime path and file ownership.
+4. The task-specific page below and the actual source files before editing. If documentation and code differ, treat code as the current behavior and correct the documentation in the same change.
 
 | Task | Read | Primary files |
 | --- | --- | --- |

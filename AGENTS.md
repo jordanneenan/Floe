@@ -1,6 +1,6 @@
 # Floe agent entry point
 
-Floe is a WordPress theme. Read [Documentation/README.md](Documentation/README.md) before changing code. That file routes tasks to the relevant documentation and source files.
+Floe is a WordPress theme. External reviewers should start with [Documentation/agent-handoff.md](Documentation/agent-handoff.md). Read [Documentation/README.md](Documentation/README.md) before changing code; it routes tasks to the relevant documentation and source files.
 
 Project rules:
 

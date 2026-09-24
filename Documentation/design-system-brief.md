@@ -38,7 +38,7 @@ The following ten sections are the first design set. Home Banner and Page Banner
 
 ### Article contract
 
-Article is intentionally the flexible exception in the section library. The content area is a WYSIWYG editor, and an optional button follows it. An approved background-colour option can later make it a more prominent section. The editor decides the content structure inside Article; the theme supplies the section width, spacing, responsive treatment, and button presentation. Images inserted within the WYSIWYG area need the same image-or-looping-video option as other visual content; the editor mechanism for this remains to be designed.
+Article is intentionally the flexible exception in the section library. The content area is a WYSIWYG editor, and an optional button follows it. A provisional background surface option is implemented; the approved colour roles still need design review. The editor decides the content structure inside Article; the theme supplies the section width, spacing, responsive treatment, and button presentation. The `floe/media` helper provides the image-or-looping-video option inside Article, but its editor experience still needs design review.
 
 ### Images contract
 
@@ -74,6 +74,6 @@ This behaviour is implemented in the theme. See [the block contract](blocks.md) 
 
 - Exact visual layouts and allowed variants for each section, especially both banners and Images.
 - Whether Image + Copy contains one pair per block or repeatable pairs within one block.
-- Posts query/filter controls and the shared card presentation.
+- Final approval of the implemented Posts query/filter controls and shared card presentation.
 - Approved background colours and which roles may change them.
 - Video fallback, reduced-motion, and loading details.
