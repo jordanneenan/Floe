@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/article",
+	"version": "1.0.0",
+	"title": "Article",
+	"category": "floe-sections",
+	"icon": "text-page",
+	"description": "A reading column for long-form content written with WordPress's own blocks: headings, paragraphs, lists, quotes, images, tables and buttons.",
+	"keywords": [ "text", "content", "prose", "copy" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "core/heading", "core/paragraph", "core/list", "core/list-item", "core/quote", "core/pullquote", "core/image", "floe/media", "core/table", "core/separator", "core/buttons", "core/button", "core/embed" ],
+	"attributes": {
+		"action": { "type": "object", "default": {} },
+		"surface": { "type": "string", "enum": [ "base", "subtle" ], "default": "base" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "content": "Your story, in your words" } },
+			{ "name": "core/paragraph", "attributes": { "className": "is-style-lead", "content": "This area is a full WordPress editor, styled to sit comfortably inside the Floe system." } }
+		]
+	},
+	"editorScript": "file:./assets/article-editor.js",
+	"style": "file:./assets/article.css",
+	"render": "file:./article.php"
+}
