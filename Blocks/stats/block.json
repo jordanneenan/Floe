@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/stats",
+	"version": "1.0.0",
+	"title": "Stats",
+	"category": "floe-sections",
+	"icon": "chart-bar",
+	"description": "A heading group and two to four figures, each with an optional accent unit and a short label.",
+	"keywords": [ "numbers", "figures", "metrics" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/stat" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" }
+	},
+	"providesContext": {
+		"floe/headingLevel": "headingLevel"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "By the numbers", "heading": "Built to be used, not just launched" }, "innerBlocks": [ { "name": "floe/stat", "attributes": { "value": "40", "unit": "+", "label": "Sites launched" } }, { "name": "floe/stat", "attributes": { "value": "6", "unit": "wks", "label": "Brief to launch" } } ] },
+	"editorScript": "file:./assets/stats-editor.js",
+	"style": "file:./assets/stats.css",
+	"render": "file:./stats.php"
+}

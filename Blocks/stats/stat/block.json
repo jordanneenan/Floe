@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/stat",
+	"version": "1.0.0",
+	"title": "Stat",
+	"category": "floe-parts",
+	"icon": "chart-line",
+	"description": "One figure in a Stats section.",
+	"textdomain": "floe",
+	"parent": [ "floe/stats" ],
+	"usesContext": [ "floe/headingLevel" ],
+	"attributes": {
+		"value": { "type": "string", "default": "" },
+		"unit": { "type": "string", "default": "" },
+		"label": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/stat-editor.js",
+	"render": "file:./stat.php"
+}
