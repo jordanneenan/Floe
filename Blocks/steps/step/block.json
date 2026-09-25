@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/step",
+	"version": "1.0.0",
+	"title": "Step",
+	"category": "floe-parts",
+	"icon": "arrow-right-alt",
+	"description": "One step in a Steps section.",
+	"textdomain": "floe",
+	"parent": [ "floe/steps" ],
+	"usesContext": [ "floe/headingLevel" ],
+	"attributes": {
+		"title": { "type": "string", "default": "" },
+		"text": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/step-editor.js",
+	"render": "file:./step.php"
+}
