@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/media",
+	"version": "1.0.0",
+	"title": "Media",
+	"category": "floe-parts",
+	"icon": "format-image",
+	"description": "An image or silent looping MP4 from the media library.",
+	"keywords": [ "image", "video", "mp4" ],
+	"textdomain": "floe",
+	"parent": [ "floe/article", "floe/image-row" ],
+	"usesContext": [ "floe/imagesFit" ],
+	"attributes": {
+		"media": { "type": "object", "default": {} },
+		"caption": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/media-editor.js",
+	"render": "file:./media.php"
+}
