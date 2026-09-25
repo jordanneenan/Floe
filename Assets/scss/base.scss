@@ -1,0 +1,269 @@
+// Floe base styles: loaded on every page and in the editor.
+// Colour, type and spacing values come from theme.json presets.
+@use 'sass:map';
+@use 'floe' as *;
+
+// ---------------------------------------------------------------------------
+// Tokens that depend on the breakpoint
+// ---------------------------------------------------------------------------
+:root {
+	--floe-section-space: 64px;
+	--floe-header-height: 72px;
+	--floe-focus: var(--wp--preset--color--blue);
+
+	@include from(tablet) {
+		--floe-section-space: 80px;
+	}
+
+	@include from(desktop) {
+		--floe-section-space: 96px;
+		--floe-header-height: 88px;
+	}
+
+	@include from(large) {
+		--floe-section-space: 120px;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Surfaces. Put a surface class on a section and everything inside picks up
+// the right text, eyebrow, link and button colours.
+// ---------------------------------------------------------------------------
+.surface-base,
+.surface-subtle,
+.surface-tint,
+:root {
+	--surface-background: var(--wp--preset--color--white);
+	--surface-text: var(--wp--preset--color--ink);
+	--surface-text-muted: var(--wp--preset--color--muted);
+	--surface-accent: var(--wp--preset--color--blue);
+	--surface-line: var(--wp--preset--color--line);
+	--surface-raised: var(--wp--preset--color--canvas);
+	--surface-eyebrow: var(--wp--preset--color--muted);
+	--surface-eyebrow-dot: var(--wp--preset--color--blue);
+	--surface-link: var(--wp--preset--color--blue);
+	--floe-focus: var(--wp--preset--color--blue);
+}
+
+.surface-subtle {
+	--surface-background: var(--wp--preset--color--canvas);
+	--surface-raised: var(--wp--preset--color--white);
+}
+
+.surface-tint {
+	--surface-background: var(--wp--preset--color--ice);
+	--surface-raised: var(--wp--preset--color--white);
+}
+
+.surface-inverse {
+	--surface-background: var(--wp--preset--color--ink);
+	--surface-text: var(--wp--preset--color--white);
+	--surface-text-muted: var(--wp--preset--color--on-dark-muted);
+	--surface-accent: var(--wp--preset--color--on-dark-accent);
+	--surface-line: rgb(255 255 255 / 0.12);
+	--surface-raised: var(--wp--preset--color--ink-raised);
+	--surface-eyebrow: var(--wp--preset--color--on-dark-muted);
+	--surface-eyebrow-dot: var(--wp--preset--color--on-dark-accent);
+	--surface-link: var(--wp--preset--color--on-dark-accent);
+	--floe-focus: var(--wp--preset--color--on-dark-accent);
+}
+
+.surface-accent {
+	--surface-background: var(--wp--preset--color--blue);
+	--surface-text: var(--wp--preset--color--white);
+	--surface-text-muted: var(--wp--preset--color--white);
+	--surface-accent: var(--wp--preset--color--white);
+	--surface-line: rgb(255 255 255 / 0.24);
+	--surface-raised: var(--wp--preset--color--blue-deep);
+	--surface-eyebrow: var(--wp--preset--color--white);
+	--surface-eyebrow-dot: var(--wp--preset--color--white);
+	--surface-link: var(--wp--preset--color--white);
+	--floe-focus: var(--wp--preset--color--white);
+}
+
+.surface-base,
+.surface-subtle,
+.surface-tint,
+.surface-inverse,
+.surface-accent {
+	background-color: var(--surface-background);
+	color: var(--surface-text);
+}
+
+// ---------------------------------------------------------------------------
+// Reset and document
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-top: calc(var(--floe-header-height) + 16px);
+}
+
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeLegibility;
+}
+
+img,
+svg,
+video {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin: 0;
+}
+
+ul[class],
+ol[class] {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a {
+	color: var(--surface-link);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+:focus-visible {
+	@include focus-ring;
+}
+
+@include reduced-motion {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Text styles as classes, e.g. <p class="text-body-l">
+// ---------------------------------------------------------------------------
+@each $name, $style in $type-styles {
+	.text-#{$name} {
+		@include type($name);
+	}
+}
+
+.text-muted {
+	color: var(--surface-text-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Layout helpers
+// ---------------------------------------------------------------------------
+.container {
+	@include container;
+}
+
+.site-main {
+	display: block;
+}
+
+.screen-reader-text {
+	@include visually-hidden;
+}
+
+.skip-link {
+	@include visually-hidden;
+
+	&:focus {
+		position: fixed !important;
+		top: 12px;
+		left: 12px;
+		z-index: 1000;
+		width: auto;
+		height: auto;
+		padding: 12px 20px;
+		clip: auto;
+		background: var(--wp--preset--color--white);
+		color: var(--wp--preset--color--ink);
+		border-radius: var(--wp--custom--radius--pill);
+		@include type(label);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Template fallbacks: a page title when no banner provides the H1, and a
+// reading column for content that isn't built from Floe sections.
+// ---------------------------------------------------------------------------
+.page-title {
+	@include section-padding;
+	padding-bottom: 0;
+
+	h1 {
+		@include type(h1);
+	}
+}
+
+.page-title + .prose,
+.page-title + * {
+	margin-top: 0;
+}
+
+.prose {
+	@include container(var(--wp--style--global--content-size, 760px));
+	@include section-padding;
+
+	> * + * {
+		margin-top: 1.25em;
+	}
+
+	> :is(h2, h3, h4) {
+		margin-top: 1.6em;
+	}
+
+	> :is(h2, h3, h4) + * {
+		margin-top: 0.6em;
+	}
+}
+
+.archive-list {
+	@include container;
+	@include section-padding;
+	display: grid;
+	gap: 32px;
+
+	h2 {
+		@include type(h3);
+	}
+
+	h2 a {
+		color: inherit;
+		text-decoration: none;
+	}
+}
