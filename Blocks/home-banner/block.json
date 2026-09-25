@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/home-banner",
+	"version": "1.0.0",
+	"title": "Home Banner",
+	"category": "floe-sections",
+	"icon": "cover-image",
+	"description": "The home page opener: eyebrow, large headline, supporting copy, one or two actions and full-width media.",
+	"keywords": [ "hero", "banner", "intro" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"body": { "type": "string", "default": "" },
+		"primaryAction": { "type": "object", "default": {} },
+		"secondaryAction": { "type": "object", "default": {} },
+		"media": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"eyebrow": "Modular WordPress, built to last",
+			"heading": "Websites that stay clear as they grow.",
+			"body": "Purpose-built sections give every page a confident starting point, and every editor a simple way to keep it current.",
+			"primaryAction": { "label": "Explore the blocks", "url": "#" },
+			"secondaryAction": { "label": "See our work", "url": "#" }
+		}
+	},
+	"editorScript": "file:./assets/home-banner-editor.js",
+	"style": "file:./assets/home-banner.css",
+	"render": "file:./home-banner.php"
+}
