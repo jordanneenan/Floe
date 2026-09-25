@@ -1,0 +1,93 @@
+// Figma 45:345. Sticky 72px bar, white at 90% with a blur, lines above and
+// below. Mono label, pill links (active: ink with white text), optional
+// Primary action without an arrow. Links scroll sideways on mobile.
+@use 'floe' as *;
+
+.in-page-nav {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	border-block: 1px solid var(--wp--preset--color--line);
+	background: rgb(255 255 255 / 0.9);
+	color: var(--wp--preset--color--ink);
+	backdrop-filter: blur(10px);
+}
+
+.in-page-nav__inner {
+	@include container;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: 64px;
+
+	@include from(desktop) {
+		min-height: 72px;
+	}
+}
+
+.in-page-nav__links {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: 32px;
+	min-width: 0;
+}
+
+.in-page-nav__label {
+	flex: none;
+	color: var(--wp--preset--color--muted);
+	@include type(eyebrow);
+
+	@include below(desktop) {
+		display: none;
+	}
+}
+
+.in-page-nav__list {
+	display: flex;
+	gap: 8px;
+	margin: 0 calc(-1 * var(--wp--custom--content--gutter));
+	padding: 12px var(--wp--custom--content--gutter);
+	overflow-x: auto;
+	list-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@include from(desktop) {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.in-page-nav__link {
+	display: block;
+	padding: 9px 16px;
+	border-radius: var(--wp--custom--radius--pill);
+	color: var(--wp--preset--color--muted);
+	@include type(label);
+	white-space: nowrap;
+	text-decoration: none;
+	transition: background-color 0.18s ease, color 0.18s ease;
+
+	&:hover {
+		background: var(--wp--preset--color--canvas);
+		color: var(--wp--preset--color--ink);
+	}
+
+	&.is-active {
+		background: var(--wp--preset--color--ink);
+		color: var(--wp--preset--color--white);
+	}
+}
+
+.in-page-nav__action {
+	flex: none;
+
+	@include below(tablet) {
+		display: none;
+	}
+}
