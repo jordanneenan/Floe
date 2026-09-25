@@ -16,6 +16,7 @@ require_once __DIR__ . '/Config/Theme.php';
 require_once __DIR__ . '/Config/Assets.php';
 require_once __DIR__ . '/Config/Editor.php';
 require_once __DIR__ . '/Config/Templates.php';
+require_once __DIR__ . '/Config/Patterns.php';
 require_once __DIR__ . '/Config/Blocks.php';
 require_once __DIR__ . '/Config/Components.php';
 
