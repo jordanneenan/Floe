@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/testimonials",
+	"version": "1.0.0",
+	"title": "Testimonials",
+	"category": "floe-sections",
+	"icon": "format-quote",
+	"description": "Several short quotes as cards: a grid for up to three, a slider with previous and next buttons for more.",
+	"keywords": [ "quotes", "reviews", "slider" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/quote" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "What clients say", "heading": "Teams who edit their own sites" }, "innerBlocks": [ { "name": "floe/quote", "attributes": { "quote": "“We publish weekly now.”", "name": "Priya Shah", "role": "Marketing lead" } }, { "name": "floe/quote", "attributes": { "quote": "“Nothing looks off even when we move fast.”", "name": "Tom Reeves", "role": "Communications" } } ] },
+	"editorScript": "file:./assets/testimonials-editor.js",
+	"editorStyle": "file:./assets/testimonials-editor.css",
+	"style": "file:./assets/testimonials.css",
+	"viewScript": "file:./assets/testimonials.js",
+	"render": "file:./testimonials.php"
+}
