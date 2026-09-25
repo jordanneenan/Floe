@@ -138,7 +138,10 @@ function copyFonts() {
 function jsEntries( modules ) {
 	const entries = {};
 	for ( const module of modules ) {
-		for ( const suffix of [ '', '-editor' ] ) {
+		// A component's -editor.js is a library that block editor scripts
+		// import through @floe/components/<name>; it isn't a bundle of its own.
+		const suffixes = module.type === 'component' ? [ '' ] : [ '', '-editor' ];
+		for ( const suffix of suffixes ) {
 			const file = join( module.dir, `${ module.name }${ suffix }.js` );
 			if ( existsSync( file ) ) {
 				entries[ rel( join( module.dir, 'assets', `${ module.name }${ suffix }` ) ) ] = file;
