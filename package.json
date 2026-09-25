@@ -8,7 +8,7 @@
     "build:css": "node scripts/build.mjs --css",
     "build:js": "node scripts/build.mjs --js",
     "start": "node scripts/build.mjs --watch",
-    "lint:js": "wp-scripts lint-js \"Blocks/**/*.js\" \"Components/**/*.js\" \"Assets/js/**/*.js\" --ignore-pattern \"**/assets/**\" --ignore-pattern \"Assets/js/build/**\"",
+    "lint:js": "wp-scripts lint-js \"Blocks/**/*.js\" \"Components/**/*.js\" \"Assets/js/**/*.js\" \"scripts/*.mjs\"",
     "lint:css": "wp-scripts lint-style \"Blocks/**/*.scss\" \"Components/**/*.scss\" \"Assets/scss/**/*.scss\"",
     "lint": "npm run lint:js && npm run lint:css",
     "screenshots": "node scripts/screenshots.mjs"
