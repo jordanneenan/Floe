@@ -34,7 +34,7 @@ git diff --check
 git status --short
 ```
 
-`npm run start` proxies `http://floe.local` by default; set `FLOE_PROXY` for another URL. Restart it after adding or removing a module folder. `npm run screenshots` uses the Playwright installed with `@wordpress/scripts` and a local Chrome/Chromium (`CHROME_PATH` to override, `FLOE_URL` for another site). Pass paths to capture specific pages: `npm run screenshots -- /pricing/`.
+`npm run start` proxies `http://floe.local` by default; set `FLOE_PROXY` for another URL. It prints an **External** address (e.g. `http://192.168.86.41:3000`): open that on a phone or another computer on the same network to browse the site, with links rewritten to that address and live reload on save. Nothing needs setting up on the other device; if it can't connect, allow port 3000 through this machine's firewall. Restart it after adding or removing a module folder. `npm run screenshots` uses the Playwright installed with `@wordpress/scripts` and a local Chrome/Chromium (`CHROME_PATH` to override, `FLOE_URL` for another site). Pass paths to capture specific pages: `npm run screenshots -- /pricing/`.
 
 Adding a pattern file: WordPress caches the list of a theme's patterns per theme version. Bump `Version` in `style.css`, set `WP_DEVELOPMENT_MODE` to `theme` locally, or run the seed script (which clears the cache for the next request).
 

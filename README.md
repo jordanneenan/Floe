@@ -32,7 +32,8 @@ The block's folder name is also its wrapper class and its file names: inspect a 
 ```sh
 npm ci
 npm run build          # one-off build of every module
-npm run start          # watch, rebuild on save, live-reload floe.local (BrowserSync)
+npm run start          # watch, rebuild on save, live-reload; also serves the site to
+                       # phones and other computers at the printed External URL
 npm run lint           # JS and SCSS lint
 npm run screenshots    # full-page captures at 375, 600, 1024 and 1440 into .screenshots/
 ```
