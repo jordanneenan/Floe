@@ -1,0 +1,24 @@
+@use 'floe' as *;
+
+.navigation__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.sub-menu {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+}
+
+.navigation__heading {
+	margin-bottom: 20px;
+	color: var(--surface-text-muted);
+	@include type(eyebrow);
+}

@@ -1,0 +1,88 @@
+// Form field styles (Figma 42:208) for whatever form plugin a site uses:
+// visible label above a 52px field, 1.5px border, md radius. Applies inside
+// form slots (Contact, Newsletter) and to the native search form.
+@use 'floe' as *;
+
+:where(.form-slot, .search-form) {
+	--field-border: var(--wp--preset--color--line);
+
+	form {
+		display: flex;
+		flex-direction: column;
+		gap: 24px;
+	}
+
+	label,
+	legend,
+	.gfield_label,
+	.wpforms-field-label {
+		display: block;
+		margin-bottom: 8px;
+		color: var(--surface-text);
+		@include type(small);
+	}
+
+	input:not([type='checkbox'], [type='radio'], [type='submit'], [type='button'], [type='hidden'], [type='file']),
+	select,
+	textarea {
+		display: block;
+		width: 100%;
+		min-height: 52px;
+		margin: 0;
+		padding: 11px 18px;
+		border: 1.5px solid var(--field-border);
+		border-radius: var(--wp--custom--radius--md);
+		background: var(--wp--preset--color--white);
+		color: var(--wp--preset--color--ink);
+		@include type(body);
+		transition: border-color 0.18s ease, box-shadow 0.18s ease;
+
+		&::placeholder {
+			color: var(--wp--preset--color--muted);
+			opacity: 0.8;
+		}
+
+		&:hover {
+			border-color: #c9ced6;
+		}
+
+		&:focus {
+			outline: none;
+			border-color: var(--wp--preset--color--blue);
+			box-shadow: 0 0 0 3px rgb(43 80 232 / 0.18);
+		}
+
+		&[aria-invalid='true'] {
+			border-color: #c2272d;
+		}
+	}
+
+	textarea {
+		min-height: 140px;
+		padding-top: 14px;
+		resize: vertical;
+	}
+
+	input[type='checkbox'],
+	input[type='radio'] {
+		flex: none;
+		width: 20px;
+		height: 20px;
+		margin: 0 12px 0 0;
+		border: 1.5px solid var(--field-border);
+		border-radius: 6px;
+		accent-color: var(--wp--preset--color--blue);
+		vertical-align: middle;
+	}
+
+	input[type='radio'] {
+		border-radius: 50%;
+	}
+
+	:is(label, .gchoice label):has(input[type='checkbox'], input[type='radio']),
+	.gchoice label {
+		display: inline-flex;
+		align-items: center;
+		color: var(--surface-text-muted);
+	}
+}

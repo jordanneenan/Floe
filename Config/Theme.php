@@ -22,7 +22,7 @@ function setup(): void {
 		)
 	);
 	add_theme_support( 'editor-styles' );
-	add_editor_style( 'Assets/css/base.css' );
+	add_editor_style( array( 'Assets/css/base.css', 'Assets/css/editor.css' ) );
 
 	// Floe ships its own patterns; core's generic ones don't fit the system (Made does the same).
 	remove_theme_support( 'core-block-patterns' );
@@ -30,6 +30,7 @@ function setup(): void {
 	register_nav_menus(
 		array(
 			'primary'  => __( 'Header menu', 'floe' ),
+			'action'   => __( 'Header and footer button', 'floe' ),
 			'footer-1' => __( 'Footer menu 1', 'floe' ),
 			'footer-2' => __( 'Footer menu 2', 'floe' ),
 			'footer-3' => __( 'Footer menu 3', 'floe' ),

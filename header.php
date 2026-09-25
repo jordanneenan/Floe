@@ -12,4 +12,4 @@ defined( 'ABSPATH' ) || exit;
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <a class="skip-link" href="#main-content"><?php esc_html_e( 'Skip to content', 'floe' ); ?></a>
-<?php get_template_part( 'Components/Header/header' ); ?>
+<?php echo Floe\component( 'header' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped. ?>

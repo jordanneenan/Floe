@@ -1,0 +1,23 @@
+.logo {
+	display: flex;
+	flex: none;
+	align-items: center;
+	color: var(--surface-text);
+}
+
+.logo__link,
+.logo .custom-logo-link {
+	display: inline-flex;
+	color: inherit;
+}
+
+.logo__svg {
+	width: 120px;
+	height: auto;
+}
+
+.logo .custom-logo {
+	width: auto;
+	max-width: 180px;
+	max-height: 48px;
+}
