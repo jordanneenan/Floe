@@ -22,7 +22,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Brief 3.1, adapting Made
 - **Decision:** Keep one PascalCase folder per block, with children nested inside their parent (brief). Made's `<type>/<variant-code>/` layout isn't used. Visual variants are handled with block styles or attributes. If a second, structurally different design of a section is ever needed, add it as a separate block folder, which is Made's approach.
-- **Status:** Planned (phase 2)
+- **Status:** Superseded by D18 (2026-09-25). Folders are now lowercase, matching the block name. The variant approach above still stands.
 
 ## D4: Module enable/disable
 
@@ -39,7 +39,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D6: Components are discovered, namespaced, escaped and fail soft
 
 - **Source:** Brief 3.2, adapting Made
-- **Decision:** Keep Made's "a component is a function that returns markup" model. Drop Made's hand-written `include_once` lines, global function names, missing escaping and single global stylesheet. Each `Components/<Name>/` folder is discovered, and its CSS is compiled and registered on its own.
+- **Decision:** Keep Made's "a component is a function that returns markup" model. Drop Made's hand-written `include_once` lines, global function names, missing escaping and single global stylesheet. Each `Components/<name>/` folder is discovered, and its CSS is compiled and registered on its own. Folder and file naming follows D18.
 - **Status:** Planned (phase 2)
 
 ## D7: Watch script with BrowserSync live reload
@@ -87,11 +87,19 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Judgement:** Hiding the Dashboard menu doesn't stop WordPress sending users there after login, so Floe also redirects the login landing page and `index.php` to the Pages list.
 - **Status:** Planned (phase 1)
 
-## D12: Image sizes
+## D12: Image sizes and processing: Made's pipeline
 
-- **Source:** Native first over Made
-- **Decision:** Made's destructive pipeline (replacing sizes, deleting originals, JPEG quality 70) is not ported. When the Media component is built, consider registering Made's widths (800, 1440, 2400) with `add_image_size()` so `srcset`/`sizes` have sensible candidates. Leave WordPress's default sizes and originals intact.
-- **Status:** Planned (phase 3, confirm with Jordan)
+- **Source:** Jordan (2026-09-25), following Made
+- **Decision:** Keep Made's image sizes and its upload processing in the theme:
+  - Register `mobile` 800, `laptop` 1440 and `desktop` 2400 (width only, no crop). Keep `thumbnail` and stop WordPress generating its other default sizes.
+  - Set JPEG quality to 70 and keep the large-image threshold at 2560px.
+  - Convert opaque PNGs to JPEG, delete the PNG files and switch the attachment to the JPEG. Leave transparent PNGs alone.
+- **Differences from Made:**
+  - Check transparency with Imagick's alpha channel check where it's available, falling back to GD. Made reads every pixel, which is slow on big PNGs.
+  - Leave out Made's 2800px resize, which never has an effect (see [Made notes](made-notes.md)).
+  - Put the code in one self-contained file, `Config/Media/Images.php`. The Media component's `sizes` attribute uses these three widths.
+- **Note:** The PNG conversion deletes the uploaded PNG, so it can't be undone for that image. That's Made's behaviour and Jordan's choice. The theme applies it to new uploads only; existing media is untouched unless it's regenerated.
+- **Status:** Planned (phase 3, with the Media component)
 
 ## D13: Footer year uses the site timezone
 
@@ -122,3 +130,27 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan asked for a single folder holding comments and admin tidy-up, with the name and location left to the build; Judgement for the details
 - **Decision:** Create `Config/Admin/`. Each tweak is one self-contained file: `Comments.php`, `Branding.php` (logo, footer credit, login label, Howdy), `Menu.php` (hidden items, order, Dashboard redirect), `Editor.php` (block directory, sidebar width, tags), `Frontend.php` (emoji, admin bar), `CodeInjection.php` (D10). `Config/Admin/` is loaded by scanning the folder, the same idea as block discovery, so deleting a file removes that tweak and nothing lists them by name. It replaces today's `Config/Comments.php` and `Config/AdminUI.php`. It sits under `Config/` rather than `Components/` because these are site behaviours, not UI pieces.
 - **Status:** Planned (phase 1)
+
+## D18: Every module is findable from its class name
+
+- **Source:** Jordan (2026-09-25). This overrides the `src/` + `build/` and PascalCase layout in brief 3.1 and 3.2, and it's how Made works.
+- **Why:** What Jordan values most in Made is that he can inspect a page, read a block's class name, find the folder with that name and edit its files straight away, with the watcher compiling on save (D7).
+- **Decision:** Folder name, wrapper class and file names are all the block's short name (the part after `floe/` in `block.json`):
+
+  ```
+  Blocks/page-banner/
+    block.json            name "floe/page-banner"
+    page-banner.php       render template
+    page-banner.scss      styles
+    page-banner.js        front-end script, only if the block needs one
+    page-banner-editor.js editor controls
+    README.md
+    assets/               compiled CSS/JS referenced by block.json (committed)
+  ```
+
+  - The block's outer element has the class `page-banner` (exactly the folder name) alongside WordPress's own `wp-block-floe-page-banner`.
+  - Child blocks nest inside their parent in the same style, for example `Blocks/cards/card-item/card-item.php`.
+  - Shared helper folders keep the `_` prefix (`Blocks/_shared/`) so discovery ignores them.
+  - Components follow the same convention: `Components/button/button.php`, `button.scss`, `button.js` and `button-editor.js` if they need them, and the component's root class is `button`. The PHP function stays namespaced (`Floe\Components\button()`, called through `Floe\component( 'button', … )`).
+- **Consequence:** Phase 2 renames the existing `Blocks/PageBanner/`-style folders, renames `render.php` to `<name>.php` and `Assets/` to `assets/`, and splits the editor JS into `<name>-editor.js`. Brief sections 3.1 and 3.2 are updated to show this layout.
+- **Status:** Planned (phase 2)

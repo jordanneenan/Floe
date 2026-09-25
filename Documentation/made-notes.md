@@ -95,7 +95,12 @@ Patterns to leave behind:
 
 - **Comments are disabled.** Made removes comment and trackback support, closes comments and pings, empties comment arrays, redirects `edit-comments.php` and removes the menu and toolbar items. All of this sits in `admin.php`, which only loads when `is_admin()`, so the front-end `comments_open` filters never actually run on the front end. Floe's `Config/Comments.php` already applies them everywhere.
 - **Admin tidy-up.** Made removes the WP logo (admin bar and login page), trims "Howdy", relabels the login field as "Email", replaces the footer credit, removes the emoji scripts, widens the editor sidebar, removes tags (unless Relevanssi is active), disables the block directory, reorders the admin menu, and hides Dashboard and Comments. The admin bar is moved to the bottom of the page on the front end.
-- **Image pipeline** (`image-manager.php`). This replaces WordPress's sizes with `mobile` 800, `laptop` 1440 and `desktop` 2400 plus `thumbnail`. It resizes the original to a maximum of 2800px at JPEG quality 70 and deletes the original upload. Opaque PNGs are converted to JPEG.
+- **Image pipeline** (`image-manager.php`, class `CustomImageSizesManager`).
+  - It replaces WordPress's generated sizes with `mobile` 800, `laptop` 1440 and `desktop` 2400 (width only, no crop) plus `thumbnail`, and sets JPEG quality to 70.
+  - It keeps WordPress's large-image threshold at 2560px. WordPress still scales bigger uploads to a `-scaled` copy and keeps the original file.
+  - PNGs with no transparent pixels are converted to JPEG. The PNG original and its sizes are deleted and the attachment is switched to the JPEG. PNGs with transparency are left as PNGs.
+  - A further step resizes the main file to a maximum of 2800px wide. It never has an effect, because WordPress has already scaled anything over 2560px.
+  - The transparency check reads every pixel through GD, which is slow on large opaque PNGs.
 - **Section spacing.** `.block` has a bottom margin of 120px by default (medium 80, small 40), reduced on tablet and mobile. The docs say ÷1.4 and ÷1.8, while `_layout.scss` uses ×0.625 and ×0.5. The Spacing block (`spa1`) adds a spacer with a size class or a per-instance pixel override in an inline `<style>`, with tablet and mobile values at ÷1.4 and ÷1.8 or set by hand. `remove-last-block-spacing.js` strips the margin from specific last blocks, but its list is empty.
 - **Breakpoints.** Made has desktop 1400, small desktop 1000, tablet 768, mobile 600 and small mobile 440. The spacing code uses 768 and 550.
 - **Design tokens** are SCSS variables (`$primary`, `$secondary`, `$tertiary`, greys, and a `1280px` content width with 20px gutters), increasingly overridden by admin options.
@@ -118,6 +123,6 @@ Patterns to leave behind:
 | Code injection | Options fields for head, body and footer | **Adopt, natively.** Customizer fields for head, body and footer, output through native hooks. Admins only (D10). |
 | Comments off | In theme, admin-only file | **Keep in theme** permanently, in `Config/Admin/Comments.php`, applying on the front end too (D8, D17). |
 | Admin tidy-up | Extensive | **Adopt all of it** in `Config/Admin/`, one file per tweak. Appearance and Customize are never hidden (D11, D17). |
-| Image pipeline | Replaces WP sizes, deletes originals | **Don't port the destructive part.** Consider registering Made's three widths as native image sizes when building the Media component. |
+| Image pipeline | Own sizes, quality 70, opaque PNG → JPEG | **Adopt all of it** (D12). The sizes and the processing live in the theme, with a faster transparency check. |
 | Spacing | 120/80/40, per-block override, ÷1.4 and ÷1.8 | **Already reimplemented** in `floe/spacing`. The brief keeps its behaviour. Section padding follows brief section 4. |
 | Scroll animation (AOS) | Option-driven library | **Not now.** It isn't in the brief, and any future version must respect reduced motion. |

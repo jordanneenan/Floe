@@ -66,21 +66,23 @@ This is the core requirement. **Adding a folder adds a feature; deleting a folde
 
 ### 3.1 Blocks (`Blocks/`)
 
-Each block is one self-contained folder:
+Each block is one self-contained folder. **The folder name, the block's wrapper class and its file names are all the block's short name**, so you can inspect a page, read the class and go straight to the files, the way Made works (Jordan, see `decisions.md` D18):
 
 ```
-Blocks/HomeBanner/
-  block.json        apiVersion 3, name "floe/home-banner", textdomain "floe", example, supports
-  src/              index.js, edit.js, style.scss, editor.scss, view.js (only if it needs front-end JS)
-  build/            compiled output referenced by block.json (committed)
-  render.php        dynamic PHP render template
-  README.md         what the section is for, its fields, variants, and client editing notes
+Blocks/home-banner/
+  block.json               apiVersion 3, name "floe/home-banner", textdomain "floe", example, supports
+  home-banner.php          dynamic PHP render template; outer element has class "home-banner"
+  home-banner.scss         styles (partials start with _)
+  home-banner.js           front-end script, only if the block needs one (viewScript)
+  home-banner-editor.js    editor controls
+  README.md                what the section is for, its fields, variants, and client editing notes
+  assets/                  compiled output referenced by block.json (committed)
 ```
 
-- **Child blocks live inside their parent's folder**, for example `Blocks/Cards/CardItem/block.json`. Deleting `Cards/` removes its children too.
-- `floe/media` is used by more than one parent, so it stays at the top level as `Blocks/Media/`.
+- **Child blocks live inside their parent's folder**, for example `Blocks/cards/card-item/block.json`. Deleting `cards/` removes its children too.
+- `floe/media` is used by more than one parent, so it stays at the top level as `Blocks/media/`.
 - **Registration is discovery-based.** `Config/Blocks.php` scans `Blocks/` for `block.json` files one or two levels deep at runtime and registers each one. Scanning at runtime (rather than from a generated manifest) is deliberate: a deleted folder is gone on the next page load, with no rebuild needed. A cached manifest can be added later as an optimisation, as long as it rebuilds itself when folders change.
-- **The build is discovery-based too.** `npm run build` finds every block by its `block.json` and compiles its `src/` into that block's own `build/`. No block names appear in `package.json`, webpack config, SCSS indexes, `theme.json` or PHP.
+- **The build is discovery-based too.** `npm run build` finds every block by its `block.json` and compiles its sources into that block's own `assets/`. `npm run start` watches, recompiles on save and reloads the browser (BrowserSync, D7). No block names appear in `package.json`, webpack config, SCSS indexes, `theme.json` or PHP.
 - Folders starting with `_` are ignored by discovery. Use them for shared build helpers only, not for block markup.
 - **Block assets load only on pages that use the block.** Enable on-demand loading of block assets for this classic theme, and use `viewScript` in `block.json` for front-end JS instead of enqueuing it globally.
 - **Nothing breaks when a block is removed.** Deleting a block leaves no PHP errors or console errors. Content that used a deleted block simply stops rendering it. Don't hard-code one block's name inside another block, except a parent's own children.
@@ -90,12 +92,13 @@ Blocks/HomeBanner/
 Components are the reusable pieces that blocks and templates are built from. Each is a self-contained folder:
 
 ```
-Components/Button/
-  Button.php        PHP render function, e.g. Floe\Components\button( array $args ): string (escaped HTML)
-  button.scss       all styling for every button on the site
-  editor.js         optional React preview used by block edit components
-  README.md         arguments, variants, usage
-  build/            compiled CSS/JS (committed)
+Components/button/
+  button.php          PHP render function, e.g. Floe\Components\button( array $args ): string (escaped HTML); root class "button"
+  button.scss         all styling for every button on the site
+  button.js           front-end script, only if needed
+  button-editor.js    optional React preview used by block edit components
+  README.md           arguments, variants, usage
+  assets/             compiled CSS/JS (committed)
 ```
 
 - **One source of truth.** The Button component controls every button on the site, both markup and styling. Blocks must never write their own button markup or button CSS. The same applies to every component below.
