@@ -21,10 +21,11 @@ function footer( array $args = array() ): string {
 	}
 
 	$legal = sprintf(
-		/* translators: 1: year, 2: site name. */
-		__( '© %1$s %2$s. All rights reserved.', 'floe' ),
+		/* translators: 1: year, 2: site name, 3: legal line from the Customizer. */
+		__( '© %1$s %2$s. %3$s', 'floe' ),
 		wp_date( 'Y' ),
-		get_bloginfo( 'name' )
+		get_bloginfo( 'name' ),
+		get_theme_mod( 'floe_footer_legal', __( 'All rights reserved.', 'floe' ) )
 	);
 
 	return sprintf(
@@ -40,3 +41,32 @@ function footer( array $args = array() ): string {
 		esc_html__( 'Built with Floe', 'floe' )
 	);
 }
+
+/** Appearance → Customize → Footer: the legal line after "© <year> <site name>.". */
+function footer_customizer( \WP_Customize_Manager $customizer ): void {
+	$customizer->add_section(
+		'floe_footer',
+		array(
+			'title'       => __( 'Footer', 'floe' ),
+			'description' => __( 'The footer sign-off is the site tagline (Site Identity). Menus set the link columns and the button.', 'floe' ),
+			'priority'    => 120,
+		)
+	);
+	$customizer->add_setting(
+		'floe_footer_legal',
+		array(
+			'default'           => __( 'All rights reserved.', 'floe' ),
+			'sanitize_callback' => 'sanitize_text_field',
+		)
+	);
+	$customizer->add_control(
+		'floe_footer_legal',
+		array(
+			'label'       => __( 'Legal line', 'floe' ),
+			'description' => __( 'Shown after “© year site name.”', 'floe' ),
+			'section'     => 'floe_footer',
+			'type'        => 'text',
+		)
+	);
+}
+add_action( 'customize_register', __NAMESPACE__ . '\\footer_customizer' );
