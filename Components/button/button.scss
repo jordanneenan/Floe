@@ -1,0 +1,99 @@
+// Every button on the site: the Button component, core Button blocks inside
+// Article, and native submit buttons in form slots.
+@use 'floe' as *;
+
+.button,
+.wp-block-button__link,
+:where(.form-slot, .floe-form) :is(button[type='submit'], input[type='submit']) {
+	--button-bg: var(--wp--preset--color--blue);
+	--button-text: var(--wp--preset--color--white);
+	--button-border: transparent;
+	--button-bg-hover: var(--wp--preset--color--blue-deep);
+	--button-text-hover: var(--button-text);
+	--button-border-hover: var(--button-border);
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	min-height: 48px;
+	margin: 0;
+	padding: 12.5px 20px 12.5px 24px;
+	border: 1.5px solid var(--button-border);
+	border-radius: var(--wp--custom--radius--pill);
+	background: var(--button-bg);
+	color: var(--button-text);
+	@include type(label);
+	white-space: nowrap;
+	text-decoration: none;
+	cursor: pointer;
+	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+
+	&:hover {
+		background: var(--button-bg-hover);
+		color: var(--button-text-hover);
+		border-color: var(--button-border-hover);
+	}
+
+	&:focus-visible {
+		@include focus-ring;
+	}
+}
+
+// A button without an arrow is symmetrical.
+.button:not(:has(.button__icon)),
+.wp-block-button__link,
+:where(.form-slot, .floe-form) :is(button[type='submit'], input[type='submit']) {
+	padding-inline: 24px;
+}
+
+.button__icon {
+	transition: transform 0.18s ease;
+}
+
+.button:hover .button__icon {
+	transform: translateX(2px);
+}
+
+// Primary on dark surfaces becomes Inverse (Figma: "Inverse on dark or accent surfaces").
+.button--inverse,
+:is(.surface-inverse, .surface-accent) :is(.button--primary, .wp-block-button__link) {
+	--button-bg: var(--wp--preset--color--white);
+	--button-text: var(--wp--preset--color--ink);
+	--button-bg-hover: var(--wp--preset--color--ice);
+}
+
+.button--secondary,
+.is-style-outline .wp-block-button__link {
+	--button-bg: transparent;
+	--button-text: var(--surface-text, var(--wp--preset--color--ink));
+	--button-border: var(--surface-line, var(--wp--preset--color--line));
+	--button-bg-hover: transparent;
+	--button-border-hover: currentColor;
+}
+
+:is(.surface-inverse, .surface-accent) .button--secondary {
+	--button-border: rgb(255 255 255 / 0.32);
+}
+
+.button--link {
+	--button-bg: transparent;
+	--button-bg-hover: transparent;
+	--button-text: var(--surface-link, var(--wp--preset--color--blue));
+	min-height: 28px;
+	padding: 4px 0;
+	border: 0;
+	border-radius: 0;
+
+	&:hover .button__label {
+		text-decoration: underline;
+		text-underline-offset: 0.25em;
+	}
+}
+
+// Core Buttons block (inside Article).
+.wp-block-buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}

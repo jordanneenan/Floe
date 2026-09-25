@@ -1,0 +1,74 @@
+// Heading group used by most sections. Figma: eyebrow, 20px gap, H2 at 640
+// wide on the left; a 400–420 Body L intro or an action bottom-aligned on the
+// right; 64px to the content below (set by each block).
+@use 'floe' as *;
+
+.section-header {
+	color: var(--surface-text);
+}
+
+.section-header__main,
+.section-header--stacked {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.section-header__heading {
+	@include type(h2);
+	max-width: 640px;
+	color: var(--surface-text);
+	text-wrap: balance;
+}
+
+.section-header__intro {
+	@include type(body-l);
+	max-width: 420px;
+	color: var(--surface-text-muted);
+}
+
+.section-header--split {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	@include from(desktop) {
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 48px;
+	}
+}
+
+.section-header__main {
+	flex: 1 1 auto;
+	max-width: 640px;
+}
+
+.section-header__aside {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+
+	@include from(desktop) {
+		flex: 0 1 auto;
+		align-items: flex-end;
+
+		.section-header__intro {
+			width: 400px;
+			max-width: 100%;
+		}
+	}
+}
+
+.section-header--stacked {
+	.section-header__intro {
+		@include type(body);
+		max-width: 380px;
+	}
+
+	.section-header__action {
+		margin-top: 4px;
+	}
+}
