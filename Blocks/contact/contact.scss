@@ -1,0 +1,82 @@
+// Figma 44:263. Details column (460) on the left: heading group, ruled list of
+// details (mono labels, 96 wide), optional 23:10 map. Form panel (656) on the
+// right: canvas, radius xl, padding 48.
+@use 'floe' as *;
+
+.contact {
+	@include section-padding;
+}
+
+.contact__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 48px;
+
+	@include from(desktop) {
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 64px;
+	}
+}
+
+.contact__details {
+	display: flex;
+	flex: 0 1 460px;
+	flex-direction: column;
+	gap: 40px;
+
+	.section-header__intro {
+		@include type(body-l);
+		max-width: 440px;
+	}
+}
+
+.contact__list {
+	margin: 0;
+}
+
+.contact__row {
+	display: grid;
+	grid-template-columns: 96px minmax(0, 1fr);
+	gap: 24px;
+	padding: 18px 0;
+	border-top: 1px solid var(--surface-line);
+}
+
+.contact__label {
+	padding-top: 5px;
+	color: var(--surface-text-muted);
+	@include type(eyebrow);
+}
+
+.contact__value {
+	margin: 0;
+	@include type(body);
+}
+
+.contact__link {
+	color: var(--surface-text);
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+}
+
+.contact__link--accent {
+	color: var(--surface-link);
+}
+
+.contact__form {
+	flex: 0 1 656px;
+	padding: 28px 24px;
+	border-radius: var(--wp--custom--radius--xl);
+	background: var(--surface-raised, var(--wp--preset--color--canvas));
+
+	@include from(tablet) {
+		padding: 48px;
+	}
+}

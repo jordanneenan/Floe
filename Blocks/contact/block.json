@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/contact",
+	"version": "1.0.0",
+	"title": "Contact",
+	"category": "floe-sections",
+	"icon": "email",
+	"description": "A heading group, contact details, an optional map image and a slot for your form plugin's form.",
+	"keywords": [ "form", "address", "email", "phone", "map" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"email": { "type": "string", "default": "" },
+		"phone": { "type": "string", "default": "" },
+		"addressLabel": { "type": "string", "default": "" },
+		"address": { "type": "string", "default": "" },
+		"hours": { "type": "string", "default": "" },
+		"map": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Contact", "heading": "Let’s talk about your site", "email": "hello@example.com", "phone": "+61 7 3000 0000" } },
+	"editorScript": "file:./assets/contact-editor.js",
+	"style": "file:./assets/contact.css",
+	"render": "file:./contact.php"
+}
