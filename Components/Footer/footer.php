@@ -4,5 +4,5 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <footer class="floe-site-footer">
-	<p>&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></p>
+	<p>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php echo esc_html( get_bloginfo( 'name' ) ); ?></p>
 </footer>

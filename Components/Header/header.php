@@ -13,6 +13,6 @@ defined( 'ABSPATH' ) || exit;
 		<?php endif; ?>
 	</div>
 	<nav class="floe-site-nav" aria-label="<?php esc_attr_e( 'Primary menu', 'floe' ); ?>">
-		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'fallback_cb' => 'wp_page_menu' ) ); ?>
+		<?php wp_nav_menu( array( 'theme_location' => 'primary', 'container' => false, 'fallback_cb' => false ) ); ?>
 	</nav>
 </header>
