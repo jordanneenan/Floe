@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/logo-strip",
+	"version": "1.0.0",
+	"title": "Logo strip",
+	"category": "floe-sections",
+	"icon": "awards",
+	"description": "A short label and four to eight client or partner logos, shown in one muted tone.",
+	"keywords": [ "clients", "partners", "brands", "trusted by" ],
+	"textdomain": "floe",
+	"attributes": {
+		"label": { "type": "string", "default": "" },
+		"logos": { "type": "array", "default": [], "items": { "type": "object" } }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "label": "Trusted by teams at" } },
+	"editorScript": "file:./assets/logo-strip-editor.js",
+	"style": "file:./assets/logo-strip.css",
+	"render": "file:./logo-strip.php"
+}

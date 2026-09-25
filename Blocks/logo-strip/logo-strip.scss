@@ -1,0 +1,73 @@
+// Figma 43:226. 72px padding, centred mono label (no dot), 40px, then logos
+// spread across the content width in muted ink at 75%.
+@use 'floe' as *;
+
+.logo-strip {
+	padding-block: calc(var(--floe-section-space) * 0.6);
+}
+
+.logo-strip__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+
+	@include from(desktop) {
+		gap: 40px;
+	}
+}
+
+.logo-strip__label {
+	color: var(--surface-text-muted);
+	text-align: center;
+	@include type(eyebrow);
+}
+
+.logo-strip__logos {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 28px 40px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include from(desktop) {
+		flex-wrap: nowrap;
+		justify-content: space-between;
+		gap: 32px;
+	}
+}
+
+.logo-strip__item {
+	display: flex;
+	flex: 0 1 auto;
+	justify-content: center;
+	min-width: 0;
+
+	@include below(tablet) {
+		flex-basis: calc(33.333% - 27px);
+	}
+}
+
+.logo-strip__logo {
+	display: block;
+	width: min(100%, 150px, calc(32px * var(--ratio, 3)));
+	max-height: 32px;
+	aspect-ratio: var(--ratio, 3);
+	opacity: 0.75;
+}
+
+.logo-strip__logo--mask {
+	background: var(--surface-text-muted);
+	mask: var(--logo) center / contain no-repeat;
+}
+
+.logo-strip__logo--image {
+	height: auto;
+	object-fit: contain;
+	filter: grayscale(1) contrast(0.9);
+}
