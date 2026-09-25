@@ -1,4 +1,4 @@
-@use 'breakpoints' as *;
+@use "breakpoints" as *;
 
 // Centred content column: 1248px inside fluid gutters (96px at 1440).
 @mixin container($width: var(--wp--custom--content--width)) {
@@ -25,12 +25,13 @@
 	padding: 0;
 	margin: -1px;
 	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
 	white-space: nowrap;
 	border: 0;
 }
 
 @mixin reduced-motion {
+
 	@media (prefers-reduced-motion: reduce) {
 		@content;
 	}

@@ -1,4 +1,4 @@
-/**
+/*
  * Full-page screenshots of the preview site at Floe's four breakpoints, into
  * the git-ignored .screenshots/ folder.
  *
@@ -15,12 +15,31 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright-core';
 
 const root = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
-const site = ( process.env.FLOE_URL || 'http://floe.local' ).replace( /\/$/, '' );
+const site = ( process.env.FLOE_URL || 'http://floe.local' ).replace(
+	/\/$/,
+	''
+);
 const widths = [ 375, 600, 1024, 1440 ];
 const paths = process.argv.slice( 2 ).length
 	? process.argv.slice( 2 )
-	: [ '/', '/platform/', '/pricing/', '/about/', '/contact/', '/journal/', '/a-considered-approach-to-growing-a-website/', '/block-preview/' ];
-const executablePath = process.env.CHROME_PATH || [ '/usr/bin/chromium', '/usr/bin/google-chrome-stable', '/usr/bin/google-chrome', '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' ].find( existsSync );
+	: [
+			'/',
+			'/platform/',
+			'/pricing/',
+			'/about/',
+			'/contact/',
+			'/journal/',
+			'/a-considered-approach-to-growing-a-website/',
+			'/block-preview/',
+		];
+const executablePath =
+	process.env.CHROME_PATH ||
+	[
+		'/usr/bin/chromium',
+		'/usr/bin/google-chrome-stable',
+		'/usr/bin/google-chrome',
+		'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+	].find( existsSync );
 
 const out = join( root, '.screenshots' );
 mkdirSync( out, { recursive: true } );
@@ -31,7 +50,9 @@ for ( const width of widths ) {
 	for ( const path of paths ) {
 		await page.goto( site + path, { waitUntil: 'networkidle' } );
 		await page.evaluate( () => document.fonts.ready );
-		const name = ( path.replace( /^\/|\/$/g, '' ).replace( /\//g, '-' ) || 'home' ) + `-${ width }.png`;
+		const name =
+			( path.replace( /^\/|\/$/g, '' ).replace( /\//g, '-' ) || 'home' ) +
+			`-${ width }.png`;
 		await page.screenshot( { path: join( out, name ), fullPage: true } );
 		console.log( '.screenshots/' + name );
 	}

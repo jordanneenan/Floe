@@ -1,7 +1,7 @@
 // Floe base styles: loaded on every page and in the editor.
 // Colour, type and spacing values come from theme.json presets.
-@use 'sass:map';
-@use 'floe' as *;
+@use "sass:map";
+@use "floe" as *;
 
 // ---------------------------------------------------------------------------
 // Tokens that depend on the breakpoint
@@ -109,7 +109,7 @@ body {
 	margin: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizeLegibility;
+	text-rendering: optimizelegibility;
 }
 
 img,
@@ -141,6 +141,12 @@ ol[class] {
 	list-style: none;
 }
 
+// Long words (URLs, product names) wrap rather than widen the page, even
+// inside flex and grid columns.
+:is(h1, h2, h3, h4, h5, h6, p, li, dd, figcaption, blockquote) {
+	overflow-wrap: anywhere;
+}
+
 a {
 	color: var(--surface-link);
 	text-decoration-thickness: 1px;
@@ -156,10 +162,12 @@ textarea {
 }
 
 :focus-visible {
+
 	@include focus-ring;
 }
 
 @include reduced-motion {
+
 	*,
 	*::before,
 	*::after {
@@ -175,6 +183,7 @@ textarea {
 // ---------------------------------------------------------------------------
 @each $name, $style in $type-styles {
 	.text-#{$name} {
+
 		@include type($name);
 	}
 }
@@ -187,6 +196,7 @@ textarea {
 // Layout helpers
 // ---------------------------------------------------------------------------
 .container {
+
 	@include container;
 }
 
@@ -195,10 +205,12 @@ textarea {
 }
 
 .screen-reader-text {
+
 	@include visually-hidden;
 }
 
 .skip-link {
+
 	@include visually-hidden;
 
 	&:focus {
@@ -209,10 +221,11 @@ textarea {
 		width: auto;
 		height: auto;
 		padding: 12px 20px;
-		clip: auto;
+		clip-path: none;
 		background: var(--wp--preset--color--white);
 		color: var(--wp--preset--color--ink);
 		border-radius: var(--wp--custom--radius--pill);
+
 		@include type(label);
 	}
 }
@@ -222,10 +235,12 @@ textarea {
 // reading column for content that isn't built from Floe sections.
 // ---------------------------------------------------------------------------
 .page-title {
+
 	@include section-padding;
 	padding-bottom: 0;
 
 	h1 {
+
 		@include type(h1);
 	}
 }
@@ -236,6 +251,7 @@ textarea {
 }
 
 .prose {
+
 	@include container(var(--wp--style--global--content-size, 760px));
 	@include section-padding;
 
@@ -253,12 +269,14 @@ textarea {
 }
 
 .archive-list {
+
 	@include container;
 	@include section-padding;
 	display: grid;
 	gap: 32px;
 
 	h2 {
+
 		@include type(h3);
 	}
 

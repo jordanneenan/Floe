@@ -2,14 +2,16 @@
 // 420px label column, row dividers, optional highlighted column (blue 4%)
 // with a "Popular" badge, check and dash icons. Scrolls sideways on small
 // screens inside its own frame.
-@use 'sass:math';
-@use 'floe' as *;
+@use "sass:math";
+@use "floe" as *;
 
 .table {
+
 	@include section-padding;
 }
 
 .table__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -62,11 +64,13 @@
 
 		th {
 			padding-block: 20px;
+
 			@include type(h4);
 			white-space: nowrap;
 		}
 
 		th:first-child {
+
 			@include type(eyebrow);
 		}
 	}
@@ -76,6 +80,7 @@
 	}
 
 	tbody td {
+
 		@include type(body);
 		color: var(--surface-text);
 	}
@@ -95,11 +100,13 @@
 	figcaption {
 		padding: 16px 28px;
 		color: var(--surface-text-muted);
+
 		@include type(small);
 	}
 }
 
 .table--emphasise-last tbody tr:last-child td:not(:first-child) {
+
 	@include type(h4);
 }
 
@@ -125,6 +132,7 @@
 		border-radius: var(--wp--custom--radius--pill);
 		background: var(--wp--preset--color--blue-soft);
 		color: var(--wp--preset--color--blue);
+
 		@include type(eyebrow);
 		vertical-align: 2px;
 	}

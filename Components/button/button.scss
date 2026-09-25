@@ -1,10 +1,10 @@
 // Every button on the site: the Button component, core Button blocks inside
 // Article, and native submit buttons in form slots.
-@use 'floe' as *;
+@use "floe" as *;
 
 .button,
 .wp-block-button__link,
-:where(.form-slot, .floe-form) :is(button[type='submit'], input[type='submit']) {
+:where(.form-slot, .floe-form) :is(button[type="submit"], input[type="submit"]) {
 	--button-bg: var(--wp--preset--color--blue);
 	--button-text: var(--wp--preset--color--white);
 	--button-border: transparent;
@@ -23,8 +23,10 @@
 	border-radius: var(--wp--custom--radius--pill);
 	background: var(--button-bg);
 	color: var(--button-text);
+
 	@include type(label);
-	white-space: nowrap;
+	max-width: 100%;
+	text-align: left;
 	text-decoration: none;
 	cursor: pointer;
 	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
@@ -36,6 +38,7 @@
 	}
 
 	&:focus-visible {
+
 		@include focus-ring;
 	}
 }
@@ -43,7 +46,7 @@
 // A button without an arrow is symmetrical.
 .button:not(:has(.button__icon)),
 .wp-block-button__link,
-:where(.form-slot, .floe-form) :is(button[type='submit'], input[type='submit']) {
+:where(.form-slot, .floe-form) :is(button[type="submit"], input[type="submit"]) {
 	padding-inline: 24px;
 }
 
@@ -55,7 +58,8 @@
 	transform: translateX(2px);
 }
 
-// Primary on dark surfaces becomes Inverse (Figma: "Inverse on dark or accent surfaces").
+// Primary on dark surfaces becomes Inverse
+// (Figma: "Inverse on dark or accent surfaces").
 .button--inverse,
 :is(.surface-inverse, .surface-accent) :is(.button--primary, .wp-block-button__link) {
 	--button-bg: var(--wp--preset--color--white);
@@ -69,7 +73,7 @@
 	--button-text: var(--surface-text, var(--wp--preset--color--ink));
 	--button-border: var(--surface-line, var(--wp--preset--color--line));
 	--button-bg-hover: transparent;
-	--button-border-hover: currentColor;
+	--button-border-hover: currentcolor;
 }
 
 :is(.surface-inverse, .surface-accent) .button--secondary {

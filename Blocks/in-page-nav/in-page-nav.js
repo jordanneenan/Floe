@@ -1,10 +1,12 @@
-/**
+/*
  * Highlight the in-page link for the section currently in view, and keep the
  * active pill scrolled into view on narrow screens.
  */
 document.querySelectorAll( '.in-page-nav' ).forEach( ( nav ) => {
 	const links = [ ...nav.querySelectorAll( '.in-page-nav__link' ) ];
-	const sections = links.map( ( link ) => document.getElementById( decodeURIComponent( link.hash.slice( 1 ) ) ) );
+	const sections = links.map( ( link ) =>
+		document.getElementById( decodeURIComponent( link.hash.slice( 1 ) ) )
+	);
 	const list = nav.querySelector( '.in-page-nav__list' );
 	let current = null;
 
@@ -19,7 +21,10 @@ document.querySelectorAll( '.in-page-nav' ).forEach( ( nav ) => {
 			if ( active ) {
 				link.setAttribute( 'aria-current', 'true' );
 				if ( list && list.scrollWidth > list.clientWidth ) {
-					list.scrollTo( { left: link.offsetLeft - 16, behavior: 'smooth' } );
+					list.scrollTo( {
+						left: link.offsetLeft - 16,
+						behavior: 'smooth',
+					} );
 				}
 			} else {
 				link.removeAttribute( 'aria-current' );

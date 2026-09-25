@@ -1,9 +1,10 @@
 // Site footer (Figma 30:25): ink surface; 96 top / 40 bottom padding on
 // desktop; sign-off column (logo, H3 tagline, action) and link columns; legal
 // row on a faint divider.
-@use 'floe' as *;
+@use "floe" as *;
 
 .site-footer__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -40,6 +41,7 @@
 }
 
 .site-footer__tagline {
+
 	@include type(h3);
 	color: var(--surface-text);
 }
@@ -56,6 +58,7 @@
 }
 
 .site-footer__column {
+
 	.navigation__heading {
 		margin-bottom: 20px;
 	}
@@ -67,6 +70,7 @@
 
 		a {
 			color: var(--surface-text);
+
 			@include type(body);
 
 			&:hover {
@@ -86,5 +90,6 @@
 	padding-top: 28px;
 	border-top: 1px solid var(--surface-line);
 	color: var(--surface-text-muted);
+
 	@include type(small);
 }

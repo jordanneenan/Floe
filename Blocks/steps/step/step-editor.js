@@ -12,8 +12,14 @@ function Edit( { attributes, setAttributes, context } ) {
 		<li { ...blockProps }>
 			<span className="step__marker" aria-hidden="true" />
 			<div className="step__body">
-				{ text( 'title', __( 'Step title', 'floe' ) )( { tagName: `h${ level }`, className: 'step__title' } ) }
-				{ text( 'text', __( 'What happens in this step', 'floe' ) )( { tagName: 'p', className: 'step__text' } ) }
+				{ text(
+					'title',
+					__( 'Step title', 'floe' )
+				)( { tagName: `h${ level }`, className: 'step__title' } ) }
+				{ text(
+					'text',
+					__( 'What happens in this step', 'floe' )
+				)( { tagName: 'p', className: 'step__text' } ) }
 			</div>
 		</li>
 	);

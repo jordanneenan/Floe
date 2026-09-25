@@ -1,6 +1,11 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, ToggleControl, __experimentalNumberControl as NumberControl } from '@wordpress/components';
+import {
+	PanelBody,
+	SelectControl,
+	TextControl,
+	ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import metadata from './block.json';
 
@@ -18,17 +23,31 @@ const BREAKPOINTS = [
 	[ 'mobile', __( 'Mobile (under 550px)', 'floe' ) ],
 ];
 
-const clamp = ( value ) => Math.max( 0, Math.min( 500, parseInt( value, 10 ) || 0 ) );
+const clamp = ( value ) =>
+	Math.max( 0, Math.min( 500, parseInt( value, 10 ) || 0 ) );
 
 function Edit( { attributes, setAttributes } ) {
 	const { size, custom } = attributes;
 	const preset = PRESETS[ size ] || PRESETS.large;
 	const values = BREAKPOINTS.map( ( [ key ], index ) =>
-		custom && Number.isFinite( attributes[ key ] ) ? attributes[ key ] : preset[ index ]
+		custom && Number.isFinite( attributes[ key ] )
+			? attributes[ key ]
+			: preset[ index ]
 	);
-	const style = Object.fromEntries( BREAKPOINTS.map( ( [ key ], index ) => [ `--spacing-${ key }`, `${ values[ index ] }px` ] ) );
-	const label = custom ? __( 'Custom spacing', 'floe' ) : `${ size } ${ __( 'spacing', 'floe' ) }`;
-	const blockProps = useBlockProps( { className: 'spacing', style, 'data-label': label } );
+	const style = Object.fromEntries(
+		BREAKPOINTS.map( ( [ key ], index ) => [
+			`--spacing-${ key }`,
+			`${ values[ index ] }px`,
+		] )
+	);
+	const label = custom
+		? __( 'Custom spacing', 'floe' )
+		: `${ size } ${ __( 'spacing', 'floe' ) }`;
+	const blockProps = useBlockProps( {
+		className: 'spacing',
+		style,
+		'data-label': label,
+	} );
 
 	return (
 		<>
@@ -49,22 +68,39 @@ function Edit( { attributes, setAttributes } ) {
 					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
-						label={ __( 'Set exact values per screen size', 'floe' ) }
+						label={ __(
+							'Set exact values per screen size',
+							'floe'
+						) }
 						checked={ custom }
-						onChange={ ( next ) => setAttributes( { custom: next } ) }
+						onChange={ ( next ) =>
+							setAttributes( { custom: next } )
+						}
 					/>
 					{ custom &&
 						BREAKPOINTS.map( ( [ key, text ], index ) => (
-							<NumberControl
+							<TextControl
 								__next40pxDefaultSize
+								__nextHasNoMarginBottom
 								key={ key }
-								label={ text }
+								type="number"
+								label={ `${ text } (px)` }
 								min={ 0 }
 								max={ 500 }
-								suffix="px"
-								value={ Number.isFinite( attributes[ key ] ) ? attributes[ key ] : '' }
+								value={
+									Number.isFinite( attributes[ key ] )
+										? attributes[ key ]
+										: ''
+								}
 								placeholder={ String( preset[ index ] ) }
-								onChange={ ( next ) => setAttributes( { [ key ]: next === '' || next === undefined ? undefined : clamp( next ) } ) }
+								onChange={ ( next ) =>
+									setAttributes( {
+										[ key ]:
+											next === '' || next === undefined
+												? undefined
+												: clamp( next ),
+									} )
+								}
 							/>
 						) ) }
 				</PanelBody>

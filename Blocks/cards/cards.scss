@@ -1,12 +1,14 @@
 // Figma 36:173. Section header, 64px, three-up grid with 32px gaps. Feature
 // cards stretch to equal height.
-@use 'floe' as *;
+@use "floe" as *;
 
 .cards {
+
 	@include section-padding;
 }
 
 .cards__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;

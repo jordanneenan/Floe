@@ -10,9 +10,23 @@ function Edit( { attributes, setAttributes, context } ) {
 	const blockProps = useBlockProps( { className: 'person' } );
 	return (
 		<li { ...blockProps }>
-			<MediaSlot value={ attributes.portrait } onChange={ ( portrait ) => setAttributes( { portrait } ) } ratio="4/5" allowVideo={ false } label={ __( 'Portrait', 'floe' ) } className="person__portrait" placeholder />
-			{ text( 'name', __( 'Name', 'floe' ), { allowedFormats: [] } )( { tagName: `h${ level }`, className: 'person__name' } ) }
-			{ text( 'role', __( 'Role', 'floe' ), { allowedFormats: [] } )( { tagName: 'p', className: 'person__role' } ) }
+			<MediaSlot
+				value={ attributes.portrait }
+				onChange={ ( portrait ) => setAttributes( { portrait } ) }
+				ratio="4/5"
+				allowVideo={ false }
+				label={ __( 'Portrait', 'floe' ) }
+				className="person__portrait"
+				placeholder
+			/>
+			{ text( 'name', __( 'Name', 'floe' ), { allowedFormats: [] } )( {
+				tagName: `h${ level }`,
+				className: 'person__name',
+			} ) }
+			{ text( 'role', __( 'Role', 'floe' ), { allowedFormats: [] } )( {
+				tagName: 'p',
+				className: 'person__role',
+			} ) }
 		</li>
 	);
 }

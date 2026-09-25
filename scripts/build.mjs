@@ -1,4 +1,4 @@
-/**
+/*
  * Floe build. Discovers every module by folder and compiles it in place:
  *
  *   Blocks/<name>/ (or Blocks/<parent>/<name>/) with a block.json
@@ -17,7 +17,13 @@
  *   npm run start   build, then watch, recompile on save and live-reload
  *                   floe.local through BrowserSync (FLOE_PROXY overrides the URL)
  */
-import { existsSync, mkdirSync, readdirSync, copyFileSync, writeFileSync } from 'node:fs';
+import {
+	existsSync,
+	mkdirSync,
+	readdirSync,
+	copyFileSync,
+	writeFileSync,
+} from 'node:fs';
 import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
@@ -26,7 +32,12 @@ import * as sass from 'sass';
 const require = createRequire( import.meta.url );
 const root = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
 const watch = process.argv.includes( '--watch' );
-const only = process.argv.includes( '--css' ) ? 'css' : process.argv.includes( '--js' ) ? 'js' : 'all';
+let only = 'all';
+if ( process.argv.includes( '--css' ) ) {
+	only = 'css';
+} else if ( process.argv.includes( '--js' ) ) {
+	only = 'js';
+}
 
 const log = ( ...args ) => console.log( '[floe]', ...args );
 const rel = ( path ) => relative( root, path ).split( sep ).join( '/' );
@@ -37,7 +48,13 @@ const rel = ( path ) => relative( root, path ).split( sep ).join( '/' );
 const subfolders = ( dir ) =>
 	existsSync( dir )
 		? readdirSync( dir, { withFileTypes: true } )
-				.filter( ( entry ) => entry.isDirectory() && ! entry.name.startsWith( '_' ) && ! entry.name.startsWith( '.' ) && entry.name !== 'assets' )
+				.filter(
+					( entry ) =>
+						entry.isDirectory() &&
+						! entry.name.startsWith( '_' ) &&
+						! entry.name.startsWith( '.' ) &&
+						entry.name !== 'assets'
+				)
 				.map( ( entry ) => join( dir, entry.name ) )
 		: [];
 
@@ -49,7 +66,11 @@ export function discoverModules() {
 		}
 		for ( const child of subfolders( dir ) ) {
 			if ( existsSync( join( child, 'block.json' ) ) ) {
-				modules.push( { type: 'block', dir: child, name: basename( child ) } );
+				modules.push( {
+					type: 'block',
+					dir: child,
+					name: basename( child ),
+				} );
 			}
 		}
 	}
@@ -74,7 +95,9 @@ function compileScss( input, output ) {
 		log( 'css', rel( output ) );
 		return true;
 	} catch ( error ) {
-		console.error( `[floe] Sass error in ${ rel( input ) }:\n${ error.message }` );
+		console.error(
+			`[floe] Sass error in ${ rel( input ) }:\n${ error.message }`
+		);
 		return false;
 	}
 }
@@ -84,7 +107,15 @@ function compileModuleCss( module ) {
 	for ( const suffix of [ '', '-editor' ] ) {
 		const input = join( module.dir, `${ module.name }${ suffix }.scss` );
 		if ( existsSync( input ) ) {
-			ok = compileScss( input, join( module.dir, 'assets', `${ module.name }${ suffix }.css` ) ) && ok;
+			ok =
+				compileScss(
+					input,
+					join(
+						module.dir,
+						'assets',
+						`${ module.name }${ suffix }.css`
+					)
+				) && ok;
 		}
 	}
 	return ok;
@@ -95,7 +126,15 @@ function compileGlobalCss() {
 	const dir = join( root, 'Assets/scss' );
 	for ( const file of readdirSync( dir ) ) {
 		if ( file.endsWith( '.scss' ) && ! file.startsWith( '_' ) ) {
-			ok = compileScss( join( dir, file ), join( root, 'Assets/css', file.replace( /\.scss$/, '.css' ) ) ) && ok;
+			ok =
+				compileScss(
+					join( dir, file ),
+					join(
+						root,
+						'Assets/css',
+						file.replace( /\.scss$/, '.css' )
+					)
+				) && ok;
 		}
 	}
 	return ok;
@@ -140,11 +179,20 @@ function jsEntries( modules ) {
 	for ( const module of modules ) {
 		// A component's -editor.js is a library that block editor scripts
 		// import through @floe/components/<name>; it isn't a bundle of its own.
-		const suffixes = module.type === 'component' ? [ '' ] : [ '', '-editor' ];
+		const suffixes =
+			module.type === 'component' ? [ '' ] : [ '', '-editor' ];
 		for ( const suffix of suffixes ) {
 			const file = join( module.dir, `${ module.name }${ suffix }.js` );
 			if ( existsSync( file ) ) {
-				entries[ rel( join( module.dir, 'assets', `${ module.name }${ suffix }` ) ) ] = file;
+				entries[
+					rel(
+						join(
+							module.dir,
+							'assets',
+							`${ module.name }${ suffix }`
+						)
+					)
+				] = file;
 			}
 		}
 	}
@@ -152,7 +200,8 @@ function jsEntries( modules ) {
 	if ( existsSync( globalJs ) ) {
 		for ( const file of readdirSync( globalJs ) ) {
 			if ( file.endsWith( '.js' ) && ! file.startsWith( '_' ) ) {
-				entries[ `Assets/js/build/${ file.replace( /\.js$/, '' ) }` ] = join( globalJs, file );
+				entries[ `Assets/js/build/${ file.replace( /\.js$/, '' ) }` ] =
+					join( globalJs, file );
 			}
 		}
 	}
@@ -183,7 +232,9 @@ function webpackConfig( modules ) {
 						options: {
 							babelrc: false,
 							configFile: false,
-							presets: [ require.resolve( '@wordpress/babel-preset-default' ) ],
+							presets: [
+								require.resolve( '@wordpress/babel-preset-default' ),
+							],
 							cacheDirectory: true,
 						},
 					},
@@ -196,17 +247,25 @@ function webpackConfig( modules ) {
 			// `import { Button } from '@floe/components/button'` loads
 			// Components/button/button-editor.js. A missing component fails the
 			// build with a clear message instead of failing silently.
-			new webpack.NormalModuleReplacementPlugin( /^@floe\/components\/[^/]+$/, ( resource ) => {
-				const name = resource.request.split( '/' ).pop();
-				const file = join( root, 'Components', name, `${ name }-editor.js` );
-				if ( ! existsSync( file ) ) {
-					throw new Error(
-						`Floe: "${ resource.request }" is imported by ${ rel( resource.contextInfo?.issuer || resource.context ) }, ` +
-							`but Components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
+			new webpack.NormalModuleReplacementPlugin(
+				/^@floe\/components\/[^/]+$/,
+				( resource ) => {
+					const name = resource.request.split( '/' ).pop();
+					const file = join(
+						root,
+						'Components',
+						name,
+						`${ name }-editor.js`
 					);
+					if ( ! existsSync( file ) ) {
+						throw new Error(
+							`Floe: "${ resource.request }" is imported by ${ rel( resource.contextInfo?.issuer || resource.context ) }, ` +
+								`but Components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
+						);
+					}
+					resource.request = file;
 				}
-				resource.request = file;
-			} ),
+			),
 			new DependencyExtractionWebpackPlugin(),
 		],
 		stats: 'errors-warnings',
@@ -214,11 +273,11 @@ function webpackConfig( modules ) {
 }
 
 function runWebpack( modules ) {
-	const webpack = require( 'webpack' );
 	const config = webpackConfig( modules );
 	if ( ! Object.keys( config.entry ).length ) {
 		return Promise.resolve( true );
 	}
+	const webpack = require( 'webpack' );
 	return new Promise( ( resolvePromise ) => {
 		const compiler = webpack( config );
 		const report = ( error, stats ) => {
@@ -226,20 +285,39 @@ function runWebpack( modules ) {
 				console.error( '[floe]', error.message );
 				return resolvePromise( false );
 			}
-			const info = stats.toString( { colors: true, all: false, errors: true, warnings: true, errorDetails: true } );
+			const info = stats.toString( {
+				colors: true,
+				all: false,
+				errors: true,
+				warnings: true,
+				errorDetails: true,
+			} );
 			if ( info.trim() ) {
 				console.log( info );
 			}
-			log( `js ${ Object.keys( config.entry ).length } bundles ${ stats.hasErrors() ? 'FAILED' : 'built' }` );
+			log(
+				`js ${ Object.keys( config.entry ).length } bundles ${ stats.hasErrors() ? 'FAILED' : 'built' }`
+			);
 			resolvePromise( ! stats.hasErrors() );
 		};
 		if ( watch ) {
-			compiler.watch( { ignored: [ '**/node_modules/**', '**/assets/**', '**/Assets/js/build/**' ] }, ( error, stats ) => {
-				report( error, stats );
-				reload();
-			} );
+			compiler.watch(
+				{
+					ignored: [
+						'**/node_modules/*',
+						'**/assets/*',
+						'**/Assets/js/build/**',
+					],
+				},
+				( error, stats ) => {
+					report( error, stats );
+					reload();
+				}
+			);
 		} else {
-			compiler.run( ( error, stats ) => compiler.close( () => report( error, stats ) ) );
+			compiler.run( ( error, stats ) =>
+				compiler.close( () => report( error, stats ) )
+			);
 		}
 	} );
 }
@@ -265,10 +343,20 @@ async function startWatch( modules ) {
 	const proxy = process.env.FLOE_PROXY || 'http://floe.local';
 
 	browserSync = require( 'browser-sync' ).create();
-	browserSync.init( { proxy, open: false, notify: false, ui: false, logLevel: 'info' } );
+	browserSync.init( {
+		proxy,
+		open: false,
+		notify: false,
+		ui: false,
+		logLevel: 'info',
+	} );
 
 	chokidar
-		.watch( [ 'Blocks', 'Components', 'Assets/scss' ], { cwd: root, ignoreInitial: true, ignored: /(^|[/\\])(assets|node_modules)([/\\]|$)/ } )
+		.watch( [ 'Blocks', 'Components', 'Assets/scss' ], {
+			cwd: root,
+			ignoreInitial: true,
+			ignored: /(^|[/\\])(assets|node_modules)([/\\]|$)/,
+		} )
 		.on( 'all', ( event, path ) => {
 			const file = join( root, path );
 			if ( file.endsWith( '.scss' ) ) {
@@ -279,16 +367,24 @@ async function startWatch( modules ) {
 					buildCss( modules );
 				}
 				reload( '*.css' );
-			} else if ( file.endsWith( '.php' ) || file.endsWith( 'block.json' ) ) {
+			} else if (
+				file.endsWith( '.php' ) ||
+				file.endsWith( 'block.json' )
+			) {
 				reload();
 			}
 			if ( event === 'addDir' || event === 'unlinkDir' ) {
-				log( 'A folder was added or removed. Restart `npm run start` to pick up new modules.' );
+				log(
+					'A folder was added or removed. Restart `npm run start` to pick up new modules.'
+				);
 			}
 		} );
 
 	chokidar
-		.watch( [ '*.php', 'Config', 'patterns', 'theme.json' ], { cwd: root, ignoreInitial: true } )
+		.watch( [ '*.php', 'Config', 'patterns', 'theme.json' ], {
+			cwd: root,
+			ignoreInitial: true,
+		} )
 		.on( 'change', () => reload() );
 
 	log( `watching, live reload via BrowserSync proxying ${ proxy }` );
@@ -296,7 +392,9 @@ async function startWatch( modules ) {
 
 // ---------------------------------------------------------------------------
 const modules = discoverModules();
-log( `${ modules.filter( ( m ) => m.type === 'block' ).length } blocks, ${ modules.filter( ( m ) => m.type === 'component' ).length } components` );
+log(
+	`${ modules.filter( ( m ) => m.type === 'block' ).length } blocks, ${ modules.filter( ( m ) => m.type === 'component' ).length } components`
+);
 
 let ok = true;
 if ( only !== 'js' ) {

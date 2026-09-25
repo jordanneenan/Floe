@@ -1,6 +1,7 @@
-// Text styles from Figma "Floe / Foundations". Sizes come from theme.json presets
-// (fluid where the preset is fluid); line height and tracking are kept here.
-@use 'sass:map';
+// Text styles from Figma "Floe / Foundations". Sizes come from theme.json
+// presets (fluid where the preset is fluid); line height and tracking are
+// kept here.
+@use "sass:map";
 
 $type-styles: (
 	display-xl: (size: display-xl, line: 1.048, tracking: -0.035em, weight: 500),
@@ -20,13 +21,16 @@ $type-styles: (
 // @include type(h2);
 @mixin type($name) {
 	$style: map.get($type-styles, $name);
+
 	@if not $style {
+
 		@error 'Unknown Floe text style "#{$name}".';
 	}
 	font-size: var(--wp--preset--font-size--#{map.get($style, size)});
 	line-height: map.get($style, line);
 	letter-spacing: map.get($style, tracking);
 	font-weight: map.get($style, weight);
+
 	@if $name == eyebrow {
 		font-family: var(--wp--preset--font-family--geist-mono);
 		text-transform: uppercase;

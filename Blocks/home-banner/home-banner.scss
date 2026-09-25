@@ -1,6 +1,6 @@
 // Figma 33:11. 96px padding at 1440; intro row (heading group 820 left,
 // supporting 380 right, bottom-aligned), 72px gap, 1248×600 media (radius xl).
-@use 'floe' as *;
+@use "floe" as *;
 
 .home-banner {
 	padding-block: calc(var(--floe-section-space) * 0.6) calc(var(--floe-section-space) * 0.8);
@@ -11,6 +11,7 @@
 }
 
 .home-banner__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -46,6 +47,7 @@
 }
 
 .home-banner__heading {
+
 	@include type(display-xl);
 	text-wrap: balance;
 }
@@ -63,6 +65,7 @@
 }
 
 .home-banner__body {
+
 	@include type(body-l);
 	color: var(--surface-text-muted);
 }
@@ -74,6 +77,7 @@
 }
 
 .home-banner__media {
+
 	@include below(desktop) {
 		aspect-ratio: 4 / 3 !important;
 	}

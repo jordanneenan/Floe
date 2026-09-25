@@ -1,12 +1,14 @@
 // Figma 44:221. Header with slider controls, 64px, then quote cards (canvas,
 // radius lg, padding 40/36) 24px apart; three across.
-@use 'floe' as *;
+@use "floe" as *;
 
 .testimonials {
+
 	@include section-padding;
 }
 
 .testimonials__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -27,6 +29,7 @@
 }
 
 .testimonials--grid .testimonials__track {
+
 	@include from(desktop) {
 		grid-auto-columns: minmax(0, 1fr);
 		grid-auto-flow: column;
@@ -117,6 +120,7 @@
 	margin: 0;
 
 	p {
+
 		@include type(body-l);
 	}
 }
@@ -139,10 +143,12 @@
 }
 
 .quote__name {
+
 	@include type(label);
 }
 
 .quote__role {
+
 	@include type(small);
 	color: var(--surface-text-muted);
 }

@@ -10,10 +10,18 @@ function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...blockProps }>
 			<p className="stat__figure">
-				{ text( 'value', '40', { allowedFormats: [] } )( { tagName: 'span', className: 'stat__value' } ) }
-				{ text( 'unit', __( 'unit', 'floe' ), { allowedFormats: [] } )( { tagName: 'span', className: 'stat__unit' } ) }
+				{ text( 'value', '40', { allowedFormats: [] } )( {
+					tagName: 'span',
+					className: 'stat__value',
+				} ) }
+				{ text( 'unit', __( 'unit', 'floe' ), { allowedFormats: [] } )(
+					{ tagName: 'span', className: 'stat__unit' }
+				) }
 			</p>
-			{ text( 'label', __( 'What the number means', 'floe' ) )( { tagName: 'p', className: 'stat__label' } ) }
+			{ text(
+				'label',
+				__( 'What the number means', 'floe' )
+			)( { tagName: 'p', className: 'stat__label' } ) }
 		</div>
 	);
 }

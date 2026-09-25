@@ -1,12 +1,14 @@
 // Figma 35:75. White section, 96px padding; panel radius xl, padding 88/80,
-// copy left (620 wide), action column right-aligned. Soft radial glow top right.
-@use 'floe' as *;
+// copy left (620 wide), action column right-aligned. Soft radial glow at
+// the top right.
+@use "floe" as *;
 
 .cta {
 	padding-block: calc(var(--floe-section-space) * 0.8);
 }
 
 .cta__inner {
+
 	@include container;
 }
 
@@ -50,11 +52,13 @@
 }
 
 .cta__heading {
+
 	@include type(h1);
 	text-wrap: balance;
 }
 
 .cta__body {
+
 	@include type(body-l);
 	max-width: 520px;
 	color: var(--surface-text-muted);
@@ -73,6 +77,7 @@
 }
 
 .cta__note {
+
 	@include type(small);
 	color: var(--surface-text-muted);
 

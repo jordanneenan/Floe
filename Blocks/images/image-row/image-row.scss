@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .image-row {
 	display: grid;
@@ -11,6 +11,7 @@
 	}
 
 	&.image-row--count-3 {
+
 		@include below(tablet) {
 			grid-auto-flow: row;
 		}
@@ -29,6 +30,7 @@
 
 // Fill: the row sets the shape.
 .images--fill {
+
 	.image-row--count-1 .media {
 		aspect-ratio: 1248 / 560;
 

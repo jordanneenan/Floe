@@ -7,8 +7,17 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, context, isSelected } ) {
 	const inRow = context[ 'floe/imagesFit' ] !== undefined;
 	const fill = inRow && context[ 'floe/imagesFit' ] !== 'natural';
-	const blockProps = useBlockProps( { className: inRow ? 'floe-media-block-wrapper' : 'media-figure' } );
-	const slot = <MediaSlot value={ attributes.media } onChange={ ( media ) => setAttributes( { media } ) } cover={ fill } className="media-block" />;
+	const blockProps = useBlockProps( {
+		className: inRow ? 'floe-media-block-wrapper' : 'media-figure',
+	} );
+	const slot = (
+		<MediaSlot
+			value={ attributes.media }
+			onChange={ ( media ) => setAttributes( { media } ) }
+			cover={ fill }
+			className="media-block"
+		/>
+	);
 
 	if ( inRow ) {
 		return <div { ...blockProps }>{ slot }</div>;

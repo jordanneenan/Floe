@@ -1,7 +1,8 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .breadcrumb {
 	color: var(--surface-text-muted);
+
 	@include type(eyebrow);
 
 	.wp-block-breadcrumbs ol {
@@ -37,7 +38,7 @@
 		}
 	}
 
-	[aria-current='page'] {
+	[aria-current="page"] {
 		color: var(--surface-text);
 	}
 }

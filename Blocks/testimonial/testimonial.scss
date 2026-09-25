@@ -1,12 +1,14 @@
 // Figma 35:76. Canvas surface, 120px padding, left-aligned stack with 40px
 // gaps: 120px blue quote mark, 40/50 quote (1000 wide), attribution row.
-@use 'floe' as *;
+@use "floe" as *;
 
 .testimonial {
+
 	@include section-padding;
 }
 
 .testimonial__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -66,10 +68,12 @@
 }
 
 .testimonial__name {
+
 	@include type(label);
 }
 
 .testimonial__role {
+
 	@include type(small);
 	color: var(--surface-text-muted);
 }

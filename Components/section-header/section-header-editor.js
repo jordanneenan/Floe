@@ -1,4 +1,4 @@
-/**
+/*
  * SectionHeader: React twin of section-header.php.
  *
  * Each text part can be a node, or a function that receives
@@ -20,11 +20,31 @@ const part = ( value, tagName, className ) => {
 	return <Tag className={ className }>{ value }</Tag>;
 };
 
-export function SectionHeader( { eyebrow, heading, headingLevel = 2, intro, action, aside, layout = 'split' } ) {
-	const eyebrowNode = eyebrow ? <Eyebrow>{ typeof eyebrow === 'function' ? eyebrow( { tagName: 'span', className: '' } ) : eyebrow }</Eyebrow> : null;
-	const headingNode = part( heading, `h${ headingLevel }`, 'section-header__heading' );
+export function SectionHeader( {
+	eyebrow,
+	heading,
+	headingLevel = 2,
+	intro,
+	action,
+	aside,
+	layout = 'split',
+} ) {
+	const eyebrowNode = eyebrow ? (
+		<Eyebrow>
+			{ typeof eyebrow === 'function'
+				? eyebrow( { tagName: 'span', className: '' } )
+				: eyebrow }
+		</Eyebrow>
+	) : null;
+	const headingNode = part(
+		heading,
+		`h${ headingLevel }`,
+		'section-header__heading'
+	);
 	const introNode = part( intro, 'p', 'section-header__intro' );
-	const actionNode = action ? <div className="section-header__action">{ action }</div> : null;
+	const actionNode = action ? (
+		<div className="section-header__action">{ action }</div>
+	) : null;
 
 	if ( layout === 'stacked' ) {
 		return (

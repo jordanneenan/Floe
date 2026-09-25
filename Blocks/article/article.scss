@@ -1,13 +1,15 @@
 // Figma 34:28. 760px reading column, offset right of centre on large screens
 // (312px in from the content edge at 1440). Default styling for core blocks:
 // 24px rhythm, 64px above headings, 72px around quotes and figures.
-@use 'floe' as *;
+@use "floe" as *;
 
 .article {
+
 	@include section-padding;
 }
 
 .article__inner {
+
 	@include container;
 }
 
@@ -68,23 +70,28 @@
 	}
 
 	h2 {
+
 		@include type(h2);
 	}
 
 	h3 {
+
 		@include type(h3);
 	}
 
 	h4 {
+
 		@include type(h4);
 	}
 
 	p {
+
 		@include type(body);
 		color: var(--surface-text-muted);
 	}
 
 	p.is-style-lead {
+
 		@include type(body-l);
 		color: var(--surface-text);
 	}
@@ -105,7 +112,7 @@
 		font-weight: 600;
 	}
 
-	:is(ul, ol):not([class*='wp-block-'][class*='__']) {
+	:is(ul, ol):not([class*="wp-block-"][class*="__"]) {
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
@@ -118,6 +125,7 @@
 			position: relative;
 			padding-left: 30px;
 			color: var(--surface-text);
+
 			@include type(body);
 		}
 
@@ -126,8 +134,8 @@
 		}
 	}
 
-	ul:not([class*='wp-block-'][class*='__']) > li::before {
-		content: '';
+	ul:not([class*="wp-block-"][class*="__"]) > li::before {
+		content: "";
 		position: absolute;
 		top: 13px;
 		left: 0;
@@ -136,7 +144,7 @@
 		background: var(--surface-accent);
 	}
 
-	ol:not([class*='wp-block-'][class*='__']) {
+	ol:not([class*="wp-block-"][class*="__"]) {
 		counter-reset: article-list;
 
 		> li {
@@ -149,6 +157,7 @@
 			top: 5px;
 			left: 0;
 			color: var(--surface-accent);
+
 			@include type(eyebrow);
 		}
 	}
@@ -173,6 +182,7 @@
 		}
 
 		p {
+
 			@include type(quote);
 			color: var(--surface-text);
 		}
@@ -181,11 +191,13 @@
 			display: block;
 			color: var(--surface-text-muted);
 			font-style: normal;
+
 			@include type(eyebrow);
 		}
 	}
 
 	.wp-block-image {
+
 		img {
 			width: 100%;
 			border-radius: var(--wp--custom--radius--lg);
@@ -196,6 +208,7 @@
 			margin: 12px 0 0;
 			color: var(--surface-text-muted);
 			text-align: left;
+
 			@include type(small);
 		}
 	}
@@ -220,16 +233,19 @@
 			border-bottom: 1px solid var(--surface-line);
 			text-align: left;
 			vertical-align: top;
+
 			@include type(body);
 		}
 
 		th {
+
 			@include type(label);
 		}
 
 		figcaption {
 			margin-top: 12px;
 			color: var(--surface-text-muted);
+
 			@include type(small);
 		}
 	}

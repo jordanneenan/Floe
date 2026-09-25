@@ -1,12 +1,14 @@
 // Figma 37:201. Ink section, header then a 16:9 cover (radius xl) 56px below,
 // Play control centred.
-@use 'floe' as *;
+@use "floe" as *;
 
 .video {
+
 	@include section-padding;
 }
 
 .video__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -17,6 +19,7 @@
 	}
 
 	.section-header__intro {
+
 		@include type(body);
 	}
 }

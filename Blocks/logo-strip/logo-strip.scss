@@ -1,12 +1,13 @@
 // Figma 43:226. 72px padding, centred mono label (no dot), 40px, then logos
 // spread across the content width in muted ink at 75%.
-@use 'floe' as *;
+@use "floe" as *;
 
 .logo-strip {
 	padding-block: calc(var(--floe-section-space) * 0.6);
 }
 
 .logo-strip__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -21,6 +22,7 @@
 .logo-strip__label {
 	color: var(--surface-text-muted);
 	text-align: center;
+
 	@include type(eyebrow);
 }
 

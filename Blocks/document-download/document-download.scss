@@ -1,12 +1,14 @@
 // Figma 37:130. Heading group 400 wide on the left, 760px file list on the
 // right with a line on top.
-@use 'floe' as *;
+@use "floe" as *;
 
 .document-download {
+
 	@include section-padding;
 }
 
 .document-download__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;

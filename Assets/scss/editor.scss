@@ -1,5 +1,5 @@
 // Editor-only chrome for Floe blocks (loaded into the editor canvas only).
-@use 'floe' as *;
+@use "floe" as *;
 
 .floe-link-button {
 	position: relative;
@@ -76,5 +76,6 @@
 	border: 1px dashed rgb(90 100 116 / 0.5);
 	border-radius: var(--wp--custom--radius--md);
 	color: var(--wp--preset--color--muted);
+
 	@include type(small);
 }

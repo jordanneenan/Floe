@@ -1,7 +1,8 @@
 // Editor: wrap cards three across so every quote is editable.
-@use 'floe' as *;
+@use "floe" as *;
 
 .testimonials .floe-editor-wrap {
+
 	@include from(desktop) {
 		grid-auto-flow: row;
 		grid-template-columns: repeat(3, minmax(0, 1fr));

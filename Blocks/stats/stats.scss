@@ -1,12 +1,14 @@
 // Figma 43:235. Header, 64px, then up to four stats in equal columns with a
 // line on top: Display value, H3 unit in the accent colour, Body label.
-@use 'floe' as *;
+@use "floe" as *;
 
 .stats {
+
 	@include section-padding;
 }
 
 .stats__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -52,15 +54,18 @@
 }
 
 .stat__value {
+
 	@include type(display);
 }
 
 .stat__unit {
+
 	@include type(h3);
 	color: var(--surface-accent);
 }
 
 .stat__label {
+
 	@include type(body);
 	color: var(--surface-text-muted);
 }

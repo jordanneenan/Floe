@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .navigation__list {
 	margin: 0;
@@ -20,5 +20,6 @@
 .navigation__heading {
 	margin-bottom: 20px;
 	color: var(--surface-text-muted);
+
 	@include type(eyebrow);
 }

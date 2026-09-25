@@ -1,7 +1,7 @@
 // Figma 45:345. Sticky 72px bar, white at 90% with a blur, lines above and
 // below. Mono label, pill links (active: ink with white text), optional
 // Primary action without an arrow. Links scroll sideways on mobile.
-@use 'floe' as *;
+@use "floe" as *;
 
 .in-page-nav {
 	position: sticky;
@@ -14,6 +14,7 @@
 }
 
 .in-page-nav__inner {
+
 	@include container;
 	display: flex;
 	align-items: center;
@@ -37,6 +38,7 @@
 .in-page-nav__label {
 	flex: none;
 	color: var(--wp--preset--color--muted);
+
 	@include type(eyebrow);
 
 	@include below(desktop) {
@@ -68,6 +70,7 @@
 	padding: 9px 16px;
 	border-radius: var(--wp--custom--radius--pill);
 	color: var(--wp--preset--color--muted);
+
 	@include type(label);
 	white-space: nowrap;
 	text-decoration: none;

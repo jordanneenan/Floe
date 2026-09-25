@@ -1,12 +1,14 @@
 // Figma 34:94. 120px vertical padding; media 624 (39:35) + 96 gap + copy 528,
 // copy vertically centred; copy gap 28, 8 extra above the action.
-@use 'floe' as *;
+@use "floe" as *;
 
 .image-copy {
+
 	@include section-padding;
 }
 
 .image-copy__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -21,6 +23,7 @@
 }
 
 .image-copy--media-right .image-copy__inner {
+
 	@include from(desktop) {
 		grid-template-columns: minmax(0, 528fr) minmax(0, 624fr);
 
@@ -31,6 +34,7 @@
 }
 
 .image-copy.no-media .image-copy__inner {
+
 	@include from(desktop) {
 		grid-template-columns: minmax(0, 760px);
 	}
@@ -48,11 +52,13 @@
 }
 
 .image-copy__heading {
+
 	@include type(h2);
 	text-wrap: balance;
 }
 
 .image-copy__body {
+
 	@include type(body-l);
 	color: var(--surface-text-muted);
 }

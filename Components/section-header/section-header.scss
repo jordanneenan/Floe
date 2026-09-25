@@ -1,7 +1,7 @@
 // Heading group used by most sections. Figma: eyebrow, 20px gap, H2 at 640
 // wide on the left; a 400–420 Body L intro or an action bottom-aligned on the
 // right; 64px to the content below (set by each block).
-@use 'floe' as *;
+@use "floe" as *;
 
 .section-header {
 	color: var(--surface-text);
@@ -15,6 +15,7 @@
 }
 
 .section-header__heading {
+
 	@include type(h2);
 	max-width: 640px;
 	color: var(--surface-text);
@@ -22,6 +23,7 @@
 }
 
 .section-header__intro {
+
 	@include type(body-l);
 	max-width: 420px;
 	color: var(--surface-text-muted);
@@ -63,7 +65,9 @@
 }
 
 .section-header--stacked {
+
 	.section-header__intro {
+
 		@include type(body);
 		max-width: 380px;
 	}

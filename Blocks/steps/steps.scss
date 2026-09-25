@@ -2,13 +2,15 @@
 // (the first is filled blue), text columns 28px below. Markers line up with
 // their text column (Figma drifts by up to 24px; aligned here on purpose).
 // Mobile: vertical, with the line running down the left.
-@use 'floe' as *;
+@use "floe" as *;
 
 .steps {
+
 	@include section-padding;
 }
 
 .steps__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -49,7 +51,7 @@
 
 	// Connector to the next step.
 	&:not(:last-child)::after {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 44px;
 		bottom: calc(-1 * var(--step-gap));
@@ -77,6 +79,7 @@
 	border-radius: 50%;
 	background: var(--wp--preset--color--white);
 	color: var(--wp--preset--color--ink);
+
 	@include type(eyebrow);
 
 	&::before {
@@ -102,10 +105,12 @@
 }
 
 .step__title {
+
 	@include type(h3);
 }
 
 .step__text {
+
 	@include type(body);
 	color: var(--surface-text-muted);
 }

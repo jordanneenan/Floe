@@ -1,12 +1,14 @@
 // Figma 43:183. Stacked heading group (400) on the left, 760px list of Details
 // items on the right with a line on top.
-@use 'floe' as *;
+@use "floe" as *;
 
 .faq {
+
 	@include section-padding;
 }
 
 .faq__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;

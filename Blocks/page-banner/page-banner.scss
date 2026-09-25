@@ -1,7 +1,7 @@
 // Figma 33:65. Tint surface; padding 72 top, 104 bottom (96 with media);
 // 56px between breadcrumb, title row and media. H1 Display at 700 wide,
 // intro (Body L, 420) and link bottom-aligned on the right.
-@use 'floe' as *;
+@use "floe" as *;
 
 .page-banner {
 	padding-top: calc(var(--floe-section-space) * 0.6);
@@ -13,6 +13,7 @@
 }
 
 .page-banner__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -37,6 +38,7 @@
 }
 
 .page-banner__heading {
+
 	@include type(display);
 	max-width: 700px;
 	text-wrap: balance;
@@ -55,11 +57,13 @@
 }
 
 .page-banner__intro {
+
 	@include type(body-l);
 	color: var(--surface-text-muted);
 }
 
 .page-banner__media {
+
 	@include below(desktop) {
 		aspect-ratio: 4 / 3 !important;
 	}

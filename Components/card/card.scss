@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .card {
 	position: relative;
@@ -9,12 +9,14 @@
 }
 
 .card__title {
+
 	@include type(h3);
 	color: var(--surface-text);
 	text-wrap: balance;
 }
 
 .card__text {
+
 	@include type(body);
 	color: var(--surface-text-muted);
 }
@@ -25,7 +27,7 @@
 	text-decoration: none;
 
 	&::after {
-		content: '';
+		content: "";
 		position: absolute;
 		inset: 0;
 		z-index: 1;
@@ -36,6 +38,7 @@
 		outline: none;
 
 		&::after {
+
 			@include focus-ring(4px);
 		}
 	}
@@ -68,11 +71,13 @@
 	border-radius: var(--wp--custom--radius--pill);
 	background: var(--wp--preset--color--blue-soft);
 	color: var(--wp--preset--color--blue);
+
 	@include type(eyebrow);
 }
 
 .card__date {
 	color: var(--surface-text-muted);
+
 	@include type(eyebrow);
 }
 
@@ -92,6 +97,7 @@
 .card__number {
 	margin-bottom: 48px;
 	color: var(--surface-accent);
+
 	@include type(eyebrow);
 
 	@include from(desktop) {

@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .eyebrow {
 	display: flex;
@@ -6,6 +6,7 @@
 	gap: 10px;
 	margin: 0;
 	color: var(--surface-eyebrow, var(--wp--preset--color--muted));
+
 	@include type(eyebrow);
 }
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Looping MP4s in Media slots: play only while on screen, never autoplay for
  * visitors who prefer reduced motion, and a visible pause/play control
  * (WCAG 2.2.2).
@@ -9,7 +9,9 @@ function setState( media, playing ) {
 	const button = media.querySelector( '.media__toggle' );
 	media.classList.toggle( 'is-paused', ! playing );
 	if ( button ) {
-		const label = playing ? button.dataset.labelPause : button.dataset.labelPlay;
+		const label = playing
+			? button.dataset.labelPause
+			: button.dataset.labelPlay;
 		button.setAttribute( 'aria-pressed', playing ? 'false' : 'true' );
 		button.querySelector( '.screen-reader-text' ).textContent = label;
 	}
@@ -17,16 +19,20 @@ function setState( media, playing ) {
 
 function init( media ) {
 	const video = media.querySelector( 'video' );
-	const button = media.querySelector( '.media__toggle' );
 	if ( ! video || media.dataset.ready ) {
 		return;
 	}
+	const button = media.querySelector( '.media__toggle' );
 	media.dataset.ready = '1';
 
 	let pausedByUser = reduceMotion.matches;
 	setState( media, false );
 
-	const play = () => video.play().then( () => setState( media, true ) ).catch( () => setState( media, false ) );
+	const play = () =>
+		video
+			.play()
+			.then( () => setState( media, true ) )
+			.catch( () => setState( media, false ) );
 	const pause = () => {
 		video.pause();
 		setState( media, false );

@@ -1,13 +1,15 @@
 // Figma 44:263. Details column (460) on the left: heading group, ruled list of
 // details (mono labels, 96 wide), optional 23:10 map. Form panel (656) on the
 // right: canvas, radius xl, padding 48.
-@use 'floe' as *;
+@use "floe" as *;
 
 .contact {
+
 	@include section-padding;
 }
 
 .contact__inner {
+
 	@include container;
 	display: flex;
 	flex-direction: column;
@@ -28,6 +30,7 @@
 	gap: 40px;
 
 	.section-header__intro {
+
 		@include type(body-l);
 		max-width: 440px;
 	}
@@ -48,11 +51,13 @@
 .contact__label {
 	padding-top: 5px;
 	color: var(--surface-text-muted);
+
 	@include type(eyebrow);
 }
 
 .contact__value {
 	margin: 0;
+
 	@include type(body);
 }
 

@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .play-control {
 	display: inline-flex;
@@ -25,6 +25,7 @@
 	}
 
 	&:focus-visible {
+
 		@include focus-ring(4px);
 		outline-color: var(--wp--preset--color--white);
 	}
@@ -54,10 +55,12 @@
 }
 
 .play-control__label {
+
 	@include type(label);
 }
 
 .play-control__duration {
 	color: var(--wp--preset--color--muted);
+
 	@include type(eyebrow);
 }

@@ -1,4 +1,4 @@
-@use 'floe' as *;
+@use "floe" as *;
 
 .media {
 	position: relative;
@@ -7,6 +7,7 @@
 	isolation: isolate;
 
 	&.media--cover {
+
 		.media__image,
 		.media__video {
 			position: absolute;
@@ -25,11 +26,25 @@
 	height: auto;
 }
 
-.media--radius-sm { border-radius: var(--wp--custom--radius--sm); }
-.media--radius-md { border-radius: var(--wp--custom--radius--md); }
-.media--radius-lg { border-radius: var(--wp--custom--radius--lg); }
-.media--radius-xl { border-radius: var(--wp--custom--radius--xl); }
-.media--radius-pill { border-radius: var(--wp--custom--radius--pill); }
+.media--radius-sm {
+	border-radius: var(--wp--custom--radius--sm);
+}
+
+.media--radius-md {
+	border-radius: var(--wp--custom--radius--md);
+}
+
+.media--radius-lg {
+	border-radius: var(--wp--custom--radius--lg);
+}
+
+.media--radius-xl {
+	border-radius: var(--wp--custom--radius--xl);
+}
+
+.media--radius-pill {
+	border-radius: var(--wp--custom--radius--pill);
+}
 
 // Figma "neutral placeholder" for portrait slots with no image yet.
 .media--placeholder {
@@ -64,6 +79,7 @@
 	}
 
 	&:focus-visible {
+
 		@include focus-ring;
 		outline-color: var(--wp--preset--color--white);
 	}
@@ -74,6 +90,7 @@
 }
 
 .media.is-paused {
+
 	.media__icon-pause {
 		display: none;
 	}
@@ -90,5 +107,6 @@
 .media-figure__caption {
 	margin-top: 12px;
 	color: var(--surface-text-muted);
+
 	@include type(small);
 }

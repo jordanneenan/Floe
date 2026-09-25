@@ -1,4 +1,4 @@
-/**
+/*
  * Eyebrow: React twin of eyebrow.php. Pass the text as a node.
  * import { Eyebrow } from '@floe/components/eyebrow';
  */
