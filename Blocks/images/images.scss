@@ -1,0 +1,28 @@
+// Figma 37:174. Optional heading group (64px to the rows), rows 24px apart.
+// Fill: rows are 1248×560 (one), 612×456 each (two) and 4:3 (three).
+@use 'floe' as *;
+
+.images {
+	@include section-padding;
+}
+
+.images__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		gap: 64px;
+	}
+}
+
+.images__rows {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+
+	@include from(tablet) {
+		gap: 24px;
+	}
+}

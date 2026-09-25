@@ -1,0 +1,23 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/image-row",
+	"version": "1.0.0",
+	"title": "Image row",
+	"category": "floe-parts",
+	"icon": "columns",
+	"description": "One row of one to three images or looping MP4s.",
+	"textdomain": "floe",
+	"parent": [ "floe/images" ],
+	"allowedBlocks": [ "floe/media" ],
+	"attributes": {
+		"gap": { "type": "boolean", "default": true }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/image-row-editor.js",
+	"style": "file:./assets/image-row.css",
+	"render": "file:./image-row.php"
+}
