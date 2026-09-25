@@ -42,17 +42,17 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** Keep Made's "a component is a function that returns markup" model. Drop Made's hand-written `include_once` lines, global function names, missing escaping and single global stylesheet. Each `Components/<Name>/` folder is discovered, and its CSS is compiled and registered on its own.
 - **Status:** Planned (phase 2)
 
-## D7: Watch script without BrowserSync
+## D7: Watch script with BrowserSync live reload
 
-- **Source:** Judgement (brief section 6 asks for `npm run start`; Made uses chokidar with BrowserSync)
-- **Decision:** `npm run start` watches and rebuilds block and component sources, and Jordan reloads `floe.local` manually. BrowserSync can be added later if Jordan wants live reload. If it is, take the proxy URL from an environment variable instead of hard-coding it as Made does.
-- **Status:** Planned (phase 2), Open on live reload
+- **Source:** Jordan (2026-09-25), following Made
+- **Decision:** `npm run start` watches block and component sources, rebuilds them, and reloads the browser through BrowserSync, as Made does. Made hard-codes its proxy (`made-4.local`). Floe's defaults to `http://floe.local` and can be overridden with an environment variable (for example `FLOE_PROXY`), so it works on other machines. `npm run build` stays a one-off build with no BrowserSync.
+- **Status:** Planned (phase 2)
 
 ## D8: Comments stay disabled by the theme
 
-- **Source:** Made, with a brief section 6 check
-- **Decision:** Made disables comments in the theme, so Floe keeps `Config/Comments.php`. The Made version only runs in the admin, because it lives in `admin.php`. Floe's version already applies everywhere, which is the intended behaviour. Remaining gaps, such as redirecting `edit-comments.php`, removing the dashboard widget and handling comment feeds, get fixed in phase 1. Disabling comments is site behaviour, so it may belong in a small plugin later.
-- **Status:** Adopted; **Open** for Jordan: keep it in the theme, or plan a plugin?
+- **Source:** Jordan (2026-09-25), following Made
+- **Decision:** Disabling comments stays in the theme permanently; there's no plugin. It moves into the admin folder with the other admin tweaks (see D17). The Made version only runs in the admin, because it lives in `admin.php`. Floe's applies everywhere, which is the intended behaviour. Phase 1 also adds the pieces Made has that Floe doesn't yet: redirecting `edit-comments.php` and removing the dashboard comments widget.
+- **Status:** Planned (phase 1)
 
 ## D9: Brand settings use native WordPress, not options pages
 
@@ -60,18 +60,32 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** Made's ACF options for logo, favicon, brand colours and fonts are replaced by the custom logo, Site Icon, the `theme.json` palette and self-hosted Geist. Floe won't have a brand-colours repeater.
 - **Status:** Adopted
 
-## D10: Code injection fields are not ported
+## D10: Code injection in the Customizer
 
-- **Source:** Judgement (native first; this is site behaviour)
-- **Decision:** Made has header, body and footer code-injection options. Floe doesn't build them, because `wp_head`, `wp_body_open` and `wp_footer` are native hooks and a snippet plugin can cover the need. The theme must call `wp_body_open()`.
-- **Status:** **Open**: does Jordan want this as a Floe plugin later?
+- **Source:** Jordan (2026-09-25): no plugin, so the theme decides; following Made
+- **Decision:** Jordan doesn't want a plugin, so Floe keeps Made's feature inside the theme, built natively instead of with ACF. There will be a **Code injection** section in the Customizer (Appearance → Customize) with three fields: *Head*, *Start of body* and *Footer*. They print through the native `wp_head`, `wp_body_open` (already called in `header.php`) and `wp_footer` hooks.
+  - The settings are stored as site options, not theme mods, so the code isn't lost if the theme is ever switched.
+  - Only users with the `unfiltered_html` capability (administrators) can see or edit the fields, because they accept raw scripts.
+  - The feature lives in its own file in the admin folder (D17), so it can be removed by deleting that file.
+- **Status:** Planned (phase 1)
 
-## D11: Admin tidy-up beyond the current set
+## D11: Admin tidy-up: full Made parity
 
-- **Source:** Made versus the existing Floe docs
-- **Decision:** Floe already copies Made's WP logo removal, comments menu removal and footer credit. Made also hides Dashboard, trims "Howdy", relabels the login field, reorders the menu, removes tags, disables the block directory, removes emoji scripts and moves the admin bar to the bottom. The brief says to follow Made, but the earlier Floe docs deliberately kept Dashboard and other menus. Nothing changes in phase 0.
-- **Proposal:** Adopt the low-risk items (disable the block directory, remove emoji scripts). Leave menus, Dashboard and tags alone unless Jordan wants Made parity.
-- **Status:** **Open**
+- **Source:** Jordan (2026-09-25), following Made
+- **Decision:** Adopt all of Made's admin tweaks, grouped in the admin folder (D17):
+  - Remove the WordPress logo from the admin bar and the login page, and set Floe's own admin footer credit.
+  - Replace "Howdy, name" with just the name, and relabel the login field "Username or Email Address" as "Email".
+  - Hide the Dashboard and Comments menu items.
+  - Reorder the admin menu to Pages, Posts, Media, Plugins, Users, Settings. Appearance and the rest follow in core order.
+  - Remove tags from posts (unconditionally; Floe uses native search, so Made's Relevanssi exception isn't needed).
+  - Disable the block directory in the editor.
+  - Remove the emoji detection script and styles.
+  - Widen the editor settings sidebar.
+  - Turn off the periodic admin email verification screen.
+  - Stop the admin bar from pushing the page down on the front end. Made's comment says "bottom", but its CSS actually makes the bar sit in the normal page flow at the top, so Floe copies the actual behaviour.
+- **Rule:** Appearance and Appearance → Customize are **never hidden**. Made doesn't hide them either (its line is commented out), and the Customizer holds code injection (D10) and the logo.
+- **Judgement:** Hiding the Dashboard menu doesn't stop WordPress sending users there after login, so Floe also redirects the login landing page and `index.php` to the Pages list.
+- **Status:** Planned (phase 1)
 
 ## D12: Image sizes
 
@@ -97,8 +111,14 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** The LocalWP site runs WordPress 7.1.2 and PHP 8.5.3 (Local's PHP service for this site). Change `style.css` `Requires at least` from 6.6 to 7.1 in phase 1 and update the docs that state 6.6. Keep `Requires PHP` at 8.0 unless code needs more.
 - **Status:** Planned (phase 1)
 
-## D16: Preview imagery not yet supplied
+## D16: Preview imagery comes through the media library
 
-- **Source:** Brief 7
-- **Decision:** The eight Floe images (`floe-hero`, `-dawn`, `-drift`, `-seam`, `-blue`, `-giant`, `-pack-teal`, `-dusk`) are not in the repository or anywhere under the home directory. `Assets/PreviewImagery/` still holds the five architectural images committed in `5f5a610`, and they stay until Jordan supplies the new files.
-- **Status:** **Open**: waiting on the files (needed by phase 6)
+- **Source:** Jordan (2026-09-25)
+- **Decision:** The eight Floe images won't be committed. Jordan will upload them into WordPress once the blocks exist. The phase 6 seed script (brief 7) therefore won't import images from the repository. It will use suitable images already in the media library if there are any, and leave media empty otherwise. The five architectural images in `Assets/PreviewImagery/` are no longer the preview set. Remove them and update the README in phase 6, unless Jordan wants to keep them.
+- **Status:** Adopted
+
+## D17: Admin tweaks live in `Config/Admin/`, one file per tweak
+
+- **Source:** Jordan asked for a single folder holding comments and admin tidy-up, with the name and location left to the build; Judgement for the details
+- **Decision:** Create `Config/Admin/`. Each tweak is one self-contained file: `Comments.php`, `Branding.php` (logo, footer credit, login label, Howdy), `Menu.php` (hidden items, order, Dashboard redirect), `Editor.php` (block directory, sidebar width, tags), `Frontend.php` (emoji, admin bar), `CodeInjection.php` (D10). `Config/Admin/` is loaded by scanning the folder, the same idea as block discovery, so deleting a file removes that tweak and nothing lists them by name. It replaces today's `Config/Comments.php` and `Config/AdminUI.php`. It sits under `Config/` rather than `Components/` because these are site behaviours, not UI pieces.
+- **Status:** Planned (phase 1)

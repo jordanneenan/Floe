@@ -109,15 +109,15 @@ Patterns to leave behind:
 | `_` prefix | Partials are never compiled on their own | **Adopt.** Folders and files starting with `_` are ignored by discovery (brief 3.1). |
 | Per-block assets | Enqueued only when the block is present | **Adopt, natively.** Assets are declared in `block.json` and on-demand loading is enabled. Front-end JS uses `viewScript`, with no jQuery. |
 | Allowed blocks | Allowlist built from discovery | **Adopt the shape.** Floe sections are the top-level inserter items, built from discovery with no central name list. Core blocks are allowed only inside designated slots (brief 4). |
-| Build | Glob Sass, central global lists, Rollup and BrowserSync | **Adapt.** Discovery-based `@wordpress/scripts` and Sass builds for blocks *and* components, with no central lists, plus a real `npm run start` watch. BrowserSync isn't needed yet (see decisions). |
+| Build | Glob Sass, central global lists, Rollup and BrowserSync | **Adapt.** Discovery-based `@wordpress/scripts` and Sass builds for blocks *and* components, with no central lists, plus a real `npm run start` watch with BrowserSync live reload, as Made has, proxying `floe.local` by default (D7). |
 | Components | Global functions returning strings, included by hand | **Adapt.** Namespaced functions returning escaped HTML, discovered from `Components/*/`, called through `Floe\component()`, which fails soft when a component is missing. Each component compiles and registers its own CSS. |
 | Component variants | Layout subfolders chosen by option | **Keep in reserve** for the header if more layouts are wanted later. For now there is one header layout. |
 | Module on/off | None | **New.** Add a `Config/Modules.php` seam, an option and a filter (brief 3.3). |
 | Header/footer | Direct includes, ACF logo, unregistered menu locations | **Adapt.** Use `get_header()`/`get_footer()` templates calling Header, Navigation and Footer components, with the native custom logo, registered locations, no page fallback, an accessible disclosure button, and the year from `wp_date()`. |
 | Brand settings | ACF options (logo, favicon, colours, fonts) | **Replace natively.** Custom logo, Site Icon, `theme.json` palette and self-hosted fonts. |
-| Code injection | Options fields for head, body and footer | **Not in theme.** Use native `wp_head`/`wp_body_open`/`wp_footer` with a plugin. Flag to Jordan. |
-| Comments off | In theme, admin-only file | **Keep in theme** (`Config/Comments.php`), fixed to apply on the front end too. Brief section 6 asks to flag whether it belongs in a plugin. |
-| Admin tidy-up | Extensive | **Partly adopted already** (logo, comments, footer text). The rest is an open question for Jordan (see decisions). |
+| Code injection | Options fields for head, body and footer | **Adopt, natively.** Customizer fields for head, body and footer, output through native hooks. Admins only (D10). |
+| Comments off | In theme, admin-only file | **Keep in theme** permanently, in `Config/Admin/Comments.php`, applying on the front end too (D8, D17). |
+| Admin tidy-up | Extensive | **Adopt all of it** in `Config/Admin/`, one file per tweak. Appearance and Customize are never hidden (D11, D17). |
 | Image pipeline | Replaces WP sizes, deletes originals | **Don't port the destructive part.** Consider registering Made's three widths as native image sizes when building the Media component. |
 | Spacing | 120/80/40, per-block override, ÷1.4 and ÷1.8 | **Already reimplemented** in `floe/spacing`. The brief keeps its behaviour. Section padding follows brief section 4. |
 | Scroll animation (AOS) | Option-driven library | **Not now.** It isn't in the brief, and any future version must respect reduced motion. |
