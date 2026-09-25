@@ -6,7 +6,7 @@ Project rules:
 
 - The project name and text domain are **Floe** and `floe`.
 - **Native WordPress first.** If WordPress can do it natively, use that. Otherwise it goes in the theme. Only if it can't reasonably live in the theme does it become a small plugin, and ask Jordan first. No ACF dependency.
-- **Everything is a module.** Each block is one self-contained folder under `Blocks/`, and each reusable UI piece is one self-contained folder under `Components/`. Adding a folder adds the feature; deleting it removes the feature completely. Never add a central list of block or component names.
+- **Everything is a module.** Each block is one self-contained folder under `Blocks/`, and each reusable UI piece is one self-contained folder under `Components/`. The folder name, the wrapper class and the file names all match (`Blocks/page-banner/page-banner.php`, class `page-banner`). Adding a folder adds the feature; deleting it removes the feature completely. Never add a central list of block or component names.
 - **Made is the default reference.** Where the build brief doesn't specify something, follow how Made (Jordan's previous platform) does it and record the choice in `Documentation/decisions.md`. Adapt its patterns rather than copying code wholesale.
 - Keep `functions.php` as a loader, with theme configuration in `Config/`.
 - Commit source and generated build output together, and keep `block.json` asset paths aligned with the compiled files.

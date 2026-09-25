@@ -24,23 +24,38 @@ The same `LD_LIBRARY_PATH=… php -l file.php` gives a PHP syntax check without 
 
 ```sh
 npm ci
-npm run build
-npm run build:js
-npm run build:css
+npm run build         # every module, global CSS and fonts
+npm run build:css     # styles only
+npm run build:js      # scripts only
+npm run start         # build, watch, recompile on save, live-reload through BrowserSync
+npm run lint          # lint:js (WordPress ESLint rules) and lint:css (stylelint)
+npm run screenshots   # full-page captures at 375/600/1024/1440 into .screenshots/
 git diff --check
 git status --short
 ```
 
-`npm run build` discovers every immediate `Blocks/*/block.json` and compiles a matching `<slug>.js` and `<slug>.scss` into that block's `Assets/`. It also compiles the shared section CSS. `build:css` compiles only styles. `build:js` recompiles styles after JavaScript because `wp-scripts` clears each block's output directory during a JavaScript build.
+`npm run start` proxies `http://floe.local` by default; set `FLOE_PROXY` for another URL. Restart it after adding or removing a module folder. `npm run screenshots` uses the Playwright installed with `@wordpress/scripts` and a local Chrome/Chromium (`CHROME_PATH` to override, `FLOE_URL` for another site). Pass paths to capture specific pages: `npm run screenshots -- /pricing/`.
+
+Adding a pattern file: WordPress caches the list of a theme's patterns per theme version. Bump `Version` in `style.css`, set `WP_DEVELOPMENT_MODE` to `theme` locally, or run the seed script (which clears the cache for the next request).
+
+## Preview content
+
+`scripts/seed-preview.php` builds the preview site on any WordPress running Floe and is safe to run again:
+
+```sh
+wp eval-file wp-content/themes/floe/scripts/seed-preview.php /path/to/preview/images
+```
+
+With a folder argument it uploads the photos first (through WordPress's normal upload processing, skipping any already in the library). It then uploads the placeholder logos, generates the placeholder documents, creates the sample journal posts, the Home, Platform, Pricing, About, Contact, Journal, Privacy, Accessibility and Block Preview pages from `patterns/`, sets the front and posts pages, builds the menus, sets the title, tagline, date format and footer legal line, and moves WordPress's starter post and page to the trash. Patterns look images up by file name, so pages pick up photos whenever they're uploaded.
 
 ## Focused verification by change
 
 | Change | Minimum check |
 | --- | --- |
 | Documentation only | Links and referenced paths resolve; `git diff --check`; compare claims to current source. |
-| SCSS or JS | `npm run build`; inspect `Assets/` diff and `block.json` paths. |
-| PHP | PHP syntax check when a PHP runtime is available; inspect hooks, escaping, and template output. |
-| Block behavior | Build, then insert/edit/render the block in WordPress when a site is available. Check editor and frontend at desktop, tablet, and mobile widths. |
+| SCSS or JS | `npm run build`; inspect the `assets/` diff and `block.json` paths. |
+| PHP | `php -l` on changed files (see WP-CLI above for Local's PHP); inspect hooks, escaping and template output. |
+| Block behavior | Build, then insert/edit/render the block in WordPress. Check the editor and the front end at 375, 600, 1024 and 1440 (`npm run screenshots`). |
 | `theme.json` | Parse JSON, then inspect editor settings in WordPress when available. |
 
 Do not report a live WordPress or browser test unless it actually ran. A JavaScript asset build and static PHP parse cannot prove WordPress registration or UI behavior.
@@ -48,6 +63,6 @@ Do not report a live WordPress or browser test unless it actually ran. A JavaScr
 ## Completion and docs upkeep
 
 - Keep changes scoped; update the owning documentation page when the contract changes.
-- Commit generated `Assets/` files with their sources so the theme works without a build step on another computer.
+- Commit generated `assets/` files with their sources so the theme works without a build step on another computer.
 - Confirm `git status` is clean after committing and that the intended remote branch contains the commit after pushing.
 - Record environment limitations in the handoff instead of implying a check passed.

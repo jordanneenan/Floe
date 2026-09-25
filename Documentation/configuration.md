@@ -1,25 +1,44 @@
 # Configuration map
 
-Find a behavior here before adding another hook. File names are part of the architecture contract.
+Find a behaviour here before adding another hook.
 
-| File | Hook or API | Current behavior |
+## Core setup (`Config/*.php`, loaded in order by `functions.php`)
+
+| File | What it does |
+| --- | --- |
+| `Modules.php` | Discovers blocks and components; enabled state from `floe_disabled_modules` + `floe_enabled_modules` filter. |
+| `Theme.php` | Theme supports (title tag, thumbnails, custom logo, responsive embeds, HTML5, editor styles), removes core block patterns, disables remote patterns, registers menu locations. |
+| `Assets.php` | Enqueues `Assets/css/base.css`; turns on per-block, on-demand asset loading. |
+| `Editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level, "Floe sections" / "Floe parts" categories, Article template for new posts, no Openverse. |
+| `Templates.php` | Page title H1 when the content has none; reading-column wrapper for non-section content. |
+| `Patterns.php` | "Floe pages" pattern category and pattern helpers (`image_id()`, `media()`, `link()`, `block()`, core block markup helpers). |
+| `Blocks.php` | Registers enabled blocks; `Floe\block_attributes()`. |
+| `Components.php` | Loads enabled components, registers their CSS/JS; `Floe\component()` and `Floe\icon()`. |
+
+## Feature files (auto-loaded from `Config/*/`)
+
+Delete a file to remove that behaviour.
+
+| File | Behaviour |
+| --- | --- |
+| `Admin/Comments.php` | Comments and pingbacks off site-wide (front end and admin), comment screens redirected, menu/toolbar/dashboard items removed, no comment feed or `X-Pingback`. |
+| `Admin/Branding.php` | No WordPress logo (toolbar, login), "Howdy" removed, login label "Email", footer credit "Built with Floe." |
+| `Admin/Menu.php` | Dashboard hidden, menu order Pages, Posts, Media, Plugins, Users, Settings; logins and the dashboard go to Pages; no admin-email check. Appearance and Customize are never hidden. |
+| `Admin/Editor.php` | No block directory, no tags on posts, wider editor sidebar. |
+| `Admin/Frontend.php` | No emoji scripts; admin bar sits in the page flow. |
+| `Admin/CodeInjection.php` | Customizer → Code injection: Head, Start of body and Footer fields (administrators only; stored as options so they survive a theme change). |
+| `Media/Images.php` | Made's image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
+
+## Site settings the theme reads
+
+| Setting | Where | Used for |
 | --- | --- | --- |
-| `functions.php` | `require_once` | Loads the five `Config/` files; no behavior of its own. |
-| `Config/Theme.php` | `after_setup_theme` | Text domain, title tag, thumbnails, custom logo override, HTML5 markup, wide alignment, editor styles, `primary` nav menu. The header defaults to `Assets/Brand/floe-logo.svg` until a WordPress custom logo is set. |
-| `Config/Assets.php` | `wp_enqueue_scripts`, `enqueue_block_assets` | Enqueues root `style.css`, shared media JavaScript, and shared section CSS. Individual block assets come from block metadata. |
-| `Config/Blocks.php` | `init` | Scans only immediate directories in `Blocks/`; calls `register_block_type()` for each directory with `block.json`. |
-| `Config/Comments.php` | `init`, comments and pings filters | Removes comments/trackbacks support from post types, closes both, and hides existing comment arrays. |
-| `Config/AdminUI.php` | `admin_menu`, `admin_bar_menu`, `admin_footer_text` | Removes Comments from admin menu; removes Comments and WordPress logo from toolbar; shows “Built with Floe.” footer text. |
-| `theme.json` | Native theme settings | Enables appearance tools, sets 720px content and 1200px wide layout, offers a provisional five-color palette and 40/80/120px spacing sizes. |
-
-## Placement rules
-
-- Admin menu, toolbar, login, editor chrome, or admin copy changes belong in `Config/AdminUI.php` (or a new focused `Config/` file if it grows large).
-- Theme supports, menus, and text-domain setup belong in `Config/Theme.php`.
-- Global asset registration belongs in `Config/Assets.php`. Per-block asset declarations belong in that block's `block.json`.
-- Content behavior such as the comments policy should stay outside `AdminUI.php`; hiding a menu is not the same as changing content behavior.
-- Load any new `Config/` file explicitly from `functions.php`; there is no automatic config discovery.
-
-## Defaults intentionally left native
-
-Floe does not remove Dashboard, Posts, Pages, Media, Plugins, Users, or Settings. It does not restrict allowed block types or replace WordPress's image pipeline. A new admin restriction needs a concrete product requirement; do not port it solely because Made had one.
+| Logo | Customize → Site Identity | Header and footer (falls back to the Floe logo). |
+| Site Icon | Customize → Site Identity | Browser icon. |
+| Tagline | Settings → General | Footer sign-off. |
+| Header menu | Appearance → Menus, location "Header menu" | Main navigation. |
+| Header and footer button | Menu location of that name | First item becomes the header and footer button. |
+| Footer menus 1–3 | Menu locations | Footer link columns; each menu's name is its heading. |
+| Footer legal line | Customize → Footer | Text after "© year site name." |
+| Code injection | Customize → Code injection | Scripts in head, body and footer. |
+| Date format | Settings → General | Post card and post dates. |

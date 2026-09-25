@@ -4,18 +4,22 @@ Made is the default reference where the [build brief](build-brief.md) is silent.
 
 ## Current mapping
 
-| Made 4 area | Floe status | Where / why |
+| Made area | Floe | Where / why |
 | --- | --- | --- |
-| `blocks/<group>/<id>/` | Restructured | One folder per block directly under `Blocks/`; the library now includes 12 sections and 4 nested helpers. |
-| ACF block fields and `acf_register_block_type()` | Replaced | WordPress `block.json`, native block attributes, editor controls, PHP render. |
-| `blocks/spacing/spa1/` | Reimplemented | `floe/spacing` preserves size choices, default values, responsive ratios, and per-block overrides. It is not a file-for-file copy. |
-| `components/` | Partially adopted | Header and footer template parts under `Components/`. Other Made components have not been ported. |
-| `functions.php` plus `functions/` | Reorganized | Thin root loader and focused files in `Config/`. |
-| Admin comments suppression / light UI cleanup | Partially adopted | `Config/Comments.php` and `Config/AdminUI.php`. Dashboard and normal WordPress menus remain. |
-| Made option pages, ACF global fields, brand colors | Not ported | Prefer core settings and `theme.json`; add project-specific controls only for a confirmed need. |
-| Made image conversion and size rewrite | Not ported | Use native media handling initially. |
-| Made front-end libraries and build pipeline | Not ported | Current build uses `@wordpress/scripts` and Sass for each custom block, plus shared section CSS. |
-| Made anchor-point block | Not ported | Use core block HTML anchors. |
+| `blocks/<type>/<variant>/` discovered at runtime | Adopted, natively | `Blocks/<name>/` with `block.json`, discovered at runtime by `Config/Modules.php`; folder, class and file names match (D18). |
+| ACF blocks and field groups | Replaced | `block.json` attributes, RichText/InnerBlocks editing, PHP render templates. |
+| Per-block assets only where used | Adopted | `block.json` assets with on-demand loading; `viewScript` for front-end JS. |
+| `components/` (button, image-video, header, footer) | Adopted and extended | `Components/<name>/`, discovered, namespaced, escaped, fail-soft via `Floe\component()`, with React twins for the editor. |
+| Allowed-blocks list built from discovery | Adopted | `Config/Editor.php`, plus core blocks restricted to Floe slots. |
+| Build: Sass glob, Rollup, BrowserSync watch | Adapted | `scripts/build.mjs`: discovery-based Sass and webpack, `npm run start` with BrowserSync. |
+| Comments disabled | Adopted (fixed to apply on the front end) | `Config/Admin/Comments.php`. |
+| Admin tidy-up | Adopted in full | `Config/Admin/` (Appearance and Customize stay visible). |
+| Code injection options | Adopted, natively | Customizer fields, `Config/Admin/CodeInjection.php`. |
+| Image sizes and processing | Adopted | `Config/Media/Images.php`. |
+| Brand colours, logo, favicon, fonts options | Replaced | `theme.json`, custom logo, Site Icon, self-hosted Geist. |
+| Spacing block and section gaps | Adapted | Sections own their padding; `floe/spacing` replaces the facing padding. |
+| Header layouts as subfolders | In reserve | One header layout for now (D14). |
+| Animate on scroll, Ajax Load More, Relevanssi search | Not ported | Not in the brief; native search is used when search is designed. |
 
 ## Decision rule for future ports
 

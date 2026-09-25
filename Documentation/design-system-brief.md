@@ -1,6 +1,6 @@
 # Floe block and component design brief
 
-**Status:** first-pass designs and theme block implementation. Use [the Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) for visual exploration and [the block contract](blocks.md) for implemented behaviour. Made 4 is a reference for use cases, not a source to copy or a definition of current best practice.
+**Status:** superseded as the working brief by [build-brief.md](build-brief.md); kept for the original product rationale. The blocks are now built against the approved Figma designs. Use [the Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) for visual exploration and [the block contract](blocks.md) for implemented behaviour. Made 4 is a reference for use cases, not a source to copy or a definition of current best practice.
 
 ## Figma design progress
 
