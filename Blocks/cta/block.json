@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/cta",
+	"version": "1.0.0",
+	"title": "CTA",
+	"category": "floe-sections",
+	"icon": "megaphone",
+	"description": "A contained call to action panel: eyebrow, heading, a short line, one action and an optional note.",
+	"keywords": [ "call to action", "contact", "panel" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"body": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"note": { "type": "string", "default": "" },
+		"surface": { "type": "string", "enum": [ "inverse", "accent" ], "default": "inverse" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"eyebrow": "Ready when you are",
+			"heading": "Make the next step clear",
+			"body": "A short, focused invitation keeps the choice simple.",
+			"action": { "label": "Start a project", "url": "#" },
+			"note": "or email hello@studio.com"
+		}
+	},
+	"editorScript": "file:./assets/cta-editor.js",
+	"style": "file:./assets/cta.css",
+	"render": "file:./cta.php"
+}
