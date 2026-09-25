@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/table",
+	"version": "1.0.0",
+	"title": "Table",
+	"category": "floe-sections",
+	"icon": "editor-table",
+	"description": "A heading group and a comparison table built with WordPress's own Table block, with an optional highlighted column.",
+	"keywords": [ "comparison", "pricing", "plans" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "core/table" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"highlight": { "type": "number", "default": 0 },
+		"badge": { "type": "string", "default": "" },
+		"emphasiseLastRow": { "type": "boolean", "default": false }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Compare", "heading": "Choose the right starting point" } },
+	"editorScript": "file:./assets/table-editor.js",
+	"style": "file:./assets/table.css",
+	"render": "file:./table.php"
+}

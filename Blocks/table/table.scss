@@ -1,0 +1,128 @@
+// Figma 45:255. Rounded, bordered table: header row on the subtle surface,
+// 420px label column, row dividers, optional highlighted column (blue 4%)
+// with a "Popular" badge, check and dash icons. Scrolls sideways on small
+// screens inside its own frame.
+@use 'sass:math';
+@use 'floe' as *;
+
+.table {
+	@include section-padding;
+}
+
+.table__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		gap: 64px;
+	}
+}
+
+.table__frame {
+	overflow-x: auto;
+	border: 1px solid var(--surface-line);
+	border-radius: var(--wp--custom--radius--lg);
+	-webkit-overflow-scrolling: touch;
+
+	&:focus-visible {
+		outline-offset: 4px;
+	}
+
+	.wp-block-table {
+		margin: 0;
+		overflow: visible;
+	}
+
+	table {
+		width: 100%;
+		min-width: 640px;
+		border-collapse: collapse;
+		table-layout: auto;
+	}
+
+	:is(th, td) {
+		padding: 18px 20px;
+		border: 0;
+		text-align: left;
+		vertical-align: middle;
+
+		@include from(desktop) {
+			padding: 22px 28px;
+		}
+	}
+
+	thead {
+		border: 0;
+		background: var(--wp--preset--color--canvas);
+
+		th {
+			padding-block: 20px;
+			@include type(h4);
+			white-space: nowrap;
+		}
+
+		th:first-child {
+			@include type(eyebrow);
+		}
+	}
+
+	tbody tr {
+		border-top: 1px solid var(--surface-line);
+	}
+
+	tbody td {
+		@include type(body);
+		color: var(--surface-text);
+	}
+
+	tbody td:first-child {
+		color: var(--surface-text-muted);
+
+		@include from(desktop) {
+			width: 420px;
+		}
+	}
+
+	tfoot {
+		border-top: 1px solid var(--surface-line);
+	}
+
+	figcaption {
+		padding: 16px 28px;
+		color: var(--surface-text-muted);
+		@include type(small);
+	}
+}
+
+.table--emphasise-last tbody tr:last-child td:not(:first-child) {
+	@include type(h4);
+}
+
+.table__check {
+	color: var(--wp--preset--color--blue);
+}
+
+.table__dash {
+	color: var(--wp--preset--color--muted);
+}
+
+// Highlighted column: data-highlight="1" is the first column after the labels.
+@for $column from 1 through 6 {
+	.table__frame[data-highlight='#{$column}'] tr > :nth-child(#{$column + 1}) {
+		background-color: rgb(43 80 232 / 0.04);
+	}
+
+	.table__frame[data-highlight='#{$column}'][style*='--badge'] thead th:nth-child(#{$column + 1})::after {
+		content: var(--badge);
+		display: inline-block;
+		margin-left: 10px;
+		padding: 4px 10px;
+		border-radius: var(--wp--custom--radius--pill);
+		background: var(--wp--preset--color--blue-soft);
+		color: var(--wp--preset--color--blue);
+		@include type(eyebrow);
+		vertical-align: 2px;
+	}
+}
