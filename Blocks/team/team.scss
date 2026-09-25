@@ -1,0 +1,54 @@
+// Figma 44:317. Header, 64px, then people in a 4-up grid (24px gaps; 2-up
+// tablet, 1-up mobile). Portrait 4:5, 26px to the H4 name, Small role.
+@use 'floe' as *;
+
+.team {
+	@include section-padding;
+}
+
+.team__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		gap: 64px;
+	}
+}
+
+.team__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	gap: 40px 24px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include from(tablet) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include from(desktop) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+}
+
+.person {
+	display: flex;
+	flex-direction: column;
+}
+
+.person__portrait {
+	margin-bottom: 26px;
+}
+
+.person__name {
+	@include type(h4);
+}
+
+.person__role {
+	margin-top: 6px;
+	@include type(small);
+	color: var(--surface-text-muted);
+}

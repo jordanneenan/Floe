@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/person",
+	"version": "1.0.0",
+	"title": "Person",
+	"category": "floe-parts",
+	"icon": "admin-users",
+	"description": "One person in a Team section.",
+	"textdomain": "floe",
+	"parent": [ "floe/team" ],
+	"usesContext": [ "floe/headingLevel" ],
+	"attributes": {
+		"portrait": { "type": "object", "default": {} },
+		"name": { "type": "string", "default": "" },
+		"role": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/person-editor.js",
+	"render": "file:./person.php"
+}
