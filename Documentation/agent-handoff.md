@@ -14,9 +14,8 @@ The first set is Home Banner, Page Banner, Article, Image + Copy, CTA, Testimoni
 
 | Item | Location / status |
 | --- | --- |
-| Git repository | `/home/jordan/Projects/Floe`; remote `https://github.com/jordanneenan/Floe.git`, branch `main` |
+| Git repository and installed theme | `/home/jordan/Local Sites/floe/app/public/wp-content/themes/floe`; remote `https://github.com/jordanneenan/Floe.git`, branch `main` |
 | LocalWP install | `/home/jordan/Local Sites/floe/app/public` |
-| Installed theme | `wp-content/themes/floe` in that LocalWP site is a symlink to this repository |
 | Local preview | `http://floe.local/floe-block-qa/` (`Floe Block Preview`, local page ID 10) |
 | Current local homepage | `http://floe.local/` still shows the starter WordPress post; it is not the proposed brochure site |
 | Made 4 reference | `/home/jordan/Projects/made-4` on the original machine; optional and not available in every environment |
@@ -24,9 +23,11 @@ The first set is Home Banner, Page Banner, Article, Image + Copy, CTA, Testimoni
 | Logo and mark | `Assets/Brand/floe-logo.svg`, `floe-mark.svg`, `floe-site-icon.svg` and `.png` |
 | Preview photos | Five architectural WebP files in `Assets/PreviewImagery/`; these are placeholder assets, not a media-library migration mechanism |
 
-The preview page and its media attachments are stored in the **local WordPress database and uploads**, not in Git. Attachment IDs and the page ID are specific to this LocalWP site. Cloning the repository alone does not recreate the preview content. A reviewer on another machine must install the theme in WordPress and make test content, or obtain a separate site export. Never assume the LocalWP URL resolves elsewhere.
+The repository now lives directly in LocalWP's theme directory, with no second Floe checkout or symlink under `/home/jordan/Projects`. The preview page and its media attachments are stored in the **local WordPress database and uploads**, not in Git. Attachment IDs and the page ID are specific to this LocalWP site. Cloning the repository alone does not recreate the preview content. A reviewer on another machine must install the theme in WordPress and make test content, or obtain a separate site export. Never assume the LocalWP URL resolves elsewhere.
 
-Before this documentation update on 24 September 2026, `main` was clean and **five commits ahead of `origin/main`**, with `4b9452d` as HEAD. Check `git status -sb` for the current count. A GitHub-only reviewer will not see local commits until they are pushed.
+When starting a Codex task, select the theme directory above as the project folder. The existing Codex sidebar project named Floe still points to `/home/jordan/Projects` as of this move and needs its saved folder changed in the app before new tasks use it.
+
+Check `git status -sb` for current local changes and whether `main` is ahead of `origin/main`. A GitHub-only reviewer will not see local commits until they are pushed.
 
 ## Runtime architecture
 
@@ -66,7 +67,7 @@ Most visual media slots accept a WordPress image or a media-library MP4. MP4 req
 Requirements: WordPress 6.6+, PHP 8+, Node 20+ and npm for development. Built assets are committed, so a deployed theme does not need Node.
 
 ```sh
-cd /home/jordan/Projects/Floe
+cd '/home/jordan/Local Sites/floe/app/public/wp-content/themes/floe'
 npm ci
 npm run build
 git diff --check
