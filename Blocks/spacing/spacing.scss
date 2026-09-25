@@ -1,0 +1,27 @@
+@use 'floe' as *;
+
+.spacing {
+	display: block;
+	height: var(--spacing-mobile, 67px);
+
+	@include from(tablet) {
+		height: var(--spacing-tablet, 86px);
+	}
+
+	@include from(desktop) {
+		height: var(--spacing-desktop, 120px);
+	}
+
+	@include from(large) {
+		height: var(--spacing-large, 120px);
+	}
+}
+
+// The gap replaces the padding on the facing edges of the sections either side.
+.floe-section:has(+ .spacing) {
+	padding-bottom: 0;
+}
+
+.spacing + .floe-section {
+	padding-top: 0;
+}
