@@ -1,0 +1,75 @@
+// Figma 35:76. Canvas surface, 120px padding, left-aligned stack with 40px
+// gaps: 120px blue quote mark, 40/50 quote (1000 wide), attribution row.
+@use 'floe' as *;
+
+.testimonial {
+	@include section-padding;
+}
+
+.testimonial__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+	margin-block: 0;
+
+	@include from(desktop) {
+		gap: 40px;
+	}
+}
+
+.testimonial__mark {
+	display: block;
+	height: 56px;
+	color: var(--surface-accent);
+	font-size: 88px;
+	font-weight: 500;
+	line-height: 1;
+	letter-spacing: -0.035em;
+
+	@include from(desktop) {
+		height: 80px;
+		font-size: 120px;
+		line-height: 0.95;
+	}
+}
+
+.testimonial__quote {
+	max-width: 1000px;
+	margin: 0;
+
+	p {
+		font-size: var(--wp--preset--font-size--h2);
+		font-weight: 500;
+		line-height: 1.25;
+		letter-spacing: -0.018em;
+		text-wrap: pretty;
+	}
+}
+
+.testimonial__attribution {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.testimonial__portrait {
+	flex: none;
+	width: 56px;
+}
+
+.testimonial__who {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.testimonial__name {
+	@include type(label);
+}
+
+.testimonial__role {
+	@include type(small);
+	color: var(--surface-text-muted);
+}
