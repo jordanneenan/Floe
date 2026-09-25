@@ -10,5 +10,5 @@
 		'wp-i18n',
 		'wp-primitives'
 	),
-	'version' => '94dc796e605c3c1f1be5'
+	'version' => '5fe966e0cdf090ba55fc'
 );

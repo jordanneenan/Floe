@@ -10,7 +10,7 @@ import metadata from './block.json';
 const MASKED = [ 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ];
 
 function Logo( { id } ) {
-	const media = useSelect( ( select ) => select( coreStore ).getMedia( id, { context: 'view' } ), [ id ] );
+	const media = useSelect( ( select ) => select( coreStore ).getEntityRecord( 'postType', 'attachment', id, { context: 'view' } ), [ id ] );
 	if ( ! media ) {
 		return null;
 	}

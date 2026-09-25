@@ -21,8 +21,8 @@
 		margin: 0;
 	}
 
-	.wp-block-breadcrumbs li:not(:first-child)::before {
-		content: var(--separator, '/');
+	// Core draws the separator after each item (decorative, empty alt text).
+	.wp-block-breadcrumbs li:not(:last-child)::after {
 		margin: 0;
 		opacity: 1;
 	}

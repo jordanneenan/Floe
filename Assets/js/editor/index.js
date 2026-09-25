@@ -111,8 +111,8 @@ export function useMedia( value ) {
 	const posterId = value?.posterId;
 	return useSelect(
 		( select ) => {
-			const media = id ? select( coreStore ).getMedia( id, { context: 'view' } ) : null;
-			const poster = posterId ? select( coreStore ).getMedia( posterId, { context: 'view' } ) : null;
+			const media = id ? select( coreStore ).getEntityRecord( 'postType', 'attachment', id, { context: 'view' } ) : null;
+			const poster = posterId ? select( coreStore ).getEntityRecord( 'postType', 'attachment', posterId, { context: 'view' } ) : null;
 			if ( ! media ) {
 				return { media: null, url: '', type: 'image', alt: '' };
 			}

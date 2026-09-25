@@ -19,7 +19,7 @@ const formatSize = ( bytes ) => {
 
 function Edit( { attributes, setAttributes } ) {
 	const id = attributes.file?.id;
-	const file = useSelect( ( select ) => ( id ? select( coreStore ).getMedia( id, { context: 'view' } ) : null ), [ id ] );
+	const file = useSelect( ( select ) => ( id ? select( coreStore ).getEntityRecord( 'postType', 'attachment', id, { context: 'view' } ) : null ), [ id ] );
 	const blockProps = useBlockProps( { className: 'download' } );
 	const onSelect = ( media ) => setAttributes( { file: { id: media.id } } );
 

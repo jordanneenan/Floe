@@ -21,6 +21,9 @@
 }
 
 .table__frame {
+	// Positioned so the visually hidden labels in icon cells stay inside the
+	// scrolling frame instead of widening the page.
+	position: relative;
 	overflow-x: auto;
 	border: 1px solid var(--surface-line);
 	border-radius: var(--wp--custom--radius--lg);
