@@ -62,7 +62,7 @@ add_filter( 'image_size_names_choose', __NAMESPACE__ . '\\size_names' );
  * scaled-down copy, which is fast and still catches transparent areas.
  */
 function png_has_transparency( string $file ): bool {
-	if ( class_exists( '\\Imagick' ) ) {
+	if ( class_exists( '\\Imagick' ) && \Imagick::queryFormats( 'PNG' ) ) {
 		try {
 			$image = new \Imagick( $file );
 			if ( ! $image->getImageAlphaChannel() ) {
