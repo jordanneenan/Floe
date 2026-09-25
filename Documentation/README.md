@@ -4,10 +4,11 @@
 
 ## Read in this order
 
-1. [Review handoff](agent-handoff.md) for project intent, local setup, current status, and review priorities.
-2. This page for project identity and task routing.
-3. [Architecture](architecture.md) for the runtime path and file ownership.
-4. The task-specific page below and the actual source files before editing. If documentation and code differ, treat code as the current behavior and correct the documentation in the same change.
+1. [Build brief](build-brief.md), the working brief and phase plan for building Floe from the Figma designs.
+2. [Decisions](decisions.md) for choices made where the brief is silent, and [Made notes](made-notes.md) for how Made (the default reference) works.
+3. This page for project identity and task routing.
+4. [Architecture](architecture.md) for the runtime path and file ownership.
+5. The task-specific page below and the actual source files before editing. If documentation and code differ, treat code as the current behavior and correct the documentation in the same change.
 
 | Task | Read | Primary files |
 | --- | --- | --- |
@@ -15,7 +16,9 @@
 | Change admin UI | [Configuration map](configuration.md) | `Config/AdminUI.php` |
 | Change theme setup, menus, styles, comments | [Configuration map](configuration.md) | `Config/Theme.php`, `Config/Assets.php`, `Config/Comments.php`, `theme.json` |
 | Change page structure | [Architecture](architecture.md) | `index.php`, `header.php`, `footer.php`, `Components/` |
-| Port a Made feature | [Migration decisions](migration.md) | Relevant source; Made 4 is optional reference |
+| Follow or port a Made pattern | [Made notes](made-notes.md), [Decisions](decisions.md), [Migration](migration.md) | `../made/` (read-only reference theme) |
+| Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
+| Older review context | [Review handoff](agent-handoff.md) | |
 | Design the block and component library | [Design-system brief](design-system-brief.md) | Figma block wireframes, designs, and shared components |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `README.md`, Git history |
 
@@ -30,7 +33,7 @@
 
 ## Source-of-truth order
 
-For implementation facts, use: **current code and `block.json` → package scripts / WordPress metadata → these docs → root README → optional Made 4 reference**. The user’s current instructions override project documentation. Do not infer that a Made feature exists in Floe because it is mentioned as a reference.
+For implementation facts, use: **current code and `block.json` → package scripts / WordPress metadata → these docs → root README**. For what to build, use: **Jordan's current instruction → the build brief → what Made does → judgement**, with native WordPress first, and record the last two in [decisions](decisions.md). Do not infer that a Made feature exists in Floe because it is mentioned as a reference.
 
 ## Change checklist
 

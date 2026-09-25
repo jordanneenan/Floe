@@ -1,6 +1,6 @@
 # Made 4 reference and migration decisions
 
-Made 4 is a historical source for Floe's structure and selected behavior. The reference was cloned from `git@bitbucket.org:jordanneenan/made-4.git` during initial setup. A local copy at `/home/jordan/Projects/made-4` may exist on the original machine; agents on other machines must not assume that path or Bitbucket access exists.
+Made is the default reference where the [build brief](build-brief.md) is silent. It is installed read-only beside Floe at `wp-content/themes/made` in the same LocalWP site: read it, but never edit, activate, commit or depend on it. [Made notes](made-notes.md) describe its architecture, and [decisions](decisions.md) records each choice to follow or depart from it. This page keeps the earlier area-by-area mapping.
 
 ## Current mapping
 

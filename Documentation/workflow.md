@@ -2,7 +2,23 @@
 
 ## Environment
 
-Work at the repository root. Install with `npm ci` using Node.js 20 or newer. PHP and a WordPress site are needed for runtime testing; this repository does not provision them. Production deployments use committed assets and do not run npm.
+Work at the repository root. The repository is the theme folder inside the LocalWP site, `~/Local Sites/floe/app/public/wp-content/themes/floe`, served at `http://floe.local`. It is the only copy, with no separate checkout and no symlink. `Local Sites` contains a space, so quote paths. Install with `npm ci` using Node.js 20 or newer. PHP and a WordPress site are needed for runtime testing; this repository does not provision them. Production deployments use committed assets and do not run npm.
+
+Work on one branch per phase of the [build brief](build-brief.md) (`phase-1-foundations`, …), push it, and stop for Jordan's review before merging to `main`.
+
+### WP-CLI
+
+Local's "Open site shell" provides `wp` ready to use. From a normal terminal on Jordan's Linux machine, PHP and WP-CLI are not on the PATH, so use Local's bundled copies. The site must be running in Local for any command that reaches the database. The site ID (`XrngiJY5d`) and PHP version come from `~/.config/Local/sites.json`.
+
+```sh
+LOCAL_PHP="$HOME/.config/Local/lightning-services/php-8.5.3+1/bin/linux"
+LD_LIBRARY_PATH="$LOCAL_PHP/shared-libs" "$LOCAL_PHP/bin/php" \
+  -c "$HOME/.config/Local/run/XrngiJY5d/conf/php/php.ini" \
+  /opt/Local/resources/extraResources/bin/wp-cli/wp-cli.phar \
+  --path="$HOME/Local Sites/floe/app/public" theme list
+```
+
+The same `LD_LIBRARY_PATH=… php -l file.php` gives a PHP syntax check without a system PHP.
 
 ## Common commands
 

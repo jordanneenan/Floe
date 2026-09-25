@@ -1,6 +1,6 @@
 # Floe review handoff
 
-This is the starting point for an AI or human reviewing Floe without the original conversation. Read [AGENTS.md](../AGENTS.md) for contribution rules, then use the source and `block.json` files to verify implementation claims. The current user request takes precedence over this document.
+This is the older starting point for reviewing Floe without the original conversation. For build work, start with the [build brief](build-brief.md). Read [AGENTS.md](../AGENTS.md) for contribution rules, then use the source and `block.json` files to verify implementation claims. The current user request takes precedence over this document.
 
 ## Project and intent
 
@@ -18,14 +18,14 @@ The first set is Home Banner, Page Banner, Article, Image + Copy, CTA, Testimoni
 | LocalWP install | `/home/jordan/Local Sites/floe/app/public` |
 | Local preview | `http://floe.local/floe-block-qa/` (`Floe Block Preview`, local page ID 10) |
 | Current local homepage | `http://floe.local/` still shows the starter WordPress post; it is not the proposed brochure site |
-| Made 4 reference | `/home/jordan/Projects/made-4` on the original machine; optional and not available in every environment |
+| Made reference | Read-only theme beside Floe at `wp-content/themes/made` in the same LocalWP site. Never edit, activate, commit or depend on it. See [Made notes](made-notes.md) |
 | Figma first pass | [Floe design file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n); access is separate from Git access |
 | Logo and mark | `Assets/Brand/floe-logo.svg`, `floe-mark.svg`, `floe-site-icon.svg` and `.png` |
 | Preview photos | Five architectural WebP files in `Assets/PreviewImagery/`; these are placeholder assets, not a media-library migration mechanism |
 
-The repository now lives directly in LocalWP's theme directory, with no second Floe checkout or symlink under `/home/jordan/Projects`. The preview page and its media attachments are stored in the **local WordPress database and uploads**, not in Git. Attachment IDs and the page ID are specific to this LocalWP site. Cloning the repository alone does not recreate the preview content. A reviewer on another machine must install the theme in WordPress and make test content, or obtain a separate site export. Never assume the LocalWP URL resolves elsewhere.
+The repository lives only in LocalWP's theme directory. There is no other checkout and no symlink. The preview page and its media attachments are stored in the **local WordPress database and uploads**, not in Git. Attachment IDs and the page ID are specific to this LocalWP site. Cloning the repository alone does not recreate the preview content. A reviewer on another machine must install the theme in WordPress and make test content, or obtain a separate site export. Never assume the LocalWP URL resolves elsewhere.
 
-When starting a Codex task, select the theme directory above as the project folder. The existing Codex sidebar project named Floe still points to `/home/jordan/Projects` as of this move and needs its saved folder changed in the app before new tasks use it.
+When starting an agent task (Claude Code, Codex or similar), use the theme directory above as the project folder. `Local Sites` contains a space, so quote it in shell commands.
 
 Check `git status -sb` for current local changes and whether `main` is ahead of `origin/main`. A GitHub-only reviewer will not see local commits until they are pushed.
 
