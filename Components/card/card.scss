@@ -99,6 +99,11 @@
 	}
 }
 
+.card__number--auto::before {
+	counter-increment: floe-card;
+	content: counter(floe-card, decimal-leading-zero);
+}
+
 .card__more {
 	margin-top: auto;
 	padding-top: 4px;

@@ -24,7 +24,8 @@ namespace Floe;
  * (its folder name, e.g. "page-banner", so you can inspect a page and find the
  * folder), "floe-section" for top-level sections (blocks in the Floe sections
  * category, unless block.json sets "supports": { "floeSection": false }), plus
- * any extra classes and attributes.
+ * a surface class ('surface' => 'tint' gives "surface-tint"), and any extra
+ * classes and attributes.
  *
  * @param \WP_Block|null $block Current block instance (the $block variable in render templates).
  */
@@ -38,7 +39,14 @@ function block_attributes( $block, array $extra = array() ): string {
 			(array) ( $extra['class'] ?? array() )
 		)
 	);
-	unset( $extra['class'] );
+	if ( ! empty( $extra['surface'] ) ) {
+		$classes[] = 'surface-' . sanitize_html_class( (string) $extra['surface'] );
+	}
+	unset( $extra['class'], $extra['surface'] );
 	$extra['class'] = implode( ' ', $classes );
+	// Sections with an HTML anchor get it as their id (used by In-page navigation).
+	if ( $block instanceof \WP_Block && ! empty( $block->attributes['anchor'] ) && empty( $extra['id'] ) ) {
+		$extra['id'] = sanitize_title( (string) $block->attributes['anchor'] );
+	}
 	return get_block_wrapper_attributes( $extra );
 }

@@ -6,7 +6,7 @@
 	background: var(--wp--preset--color--canvas);
 	isolation: isolate;
 
-	&[style*='aspect-ratio'] {
+	&.media--cover {
 		.media__image,
 		.media__video {
 			position: absolute;
@@ -35,7 +35,7 @@
 .media--placeholder {
 	background: linear-gradient(126.87deg, #f2f0eb 7.14%, #ccc7bf 78.57%);
 
-	&:not([style*='aspect-ratio']) {
+	&:not(.media--cover) {
 		aspect-ratio: 4 / 3;
 	}
 }

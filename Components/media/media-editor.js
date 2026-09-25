@@ -5,7 +5,7 @@
  *
  * import { Media } from '@floe/components/media';
  */
-export function Media( { url, alt = '', type = 'image', poster, ratio = '', radius = 'lg', placeholder = false, className = '', children } ) {
+export function Media( { url, alt = '', type = 'image', poster, ratio = '', radius = 'lg', cover = false, placeholder = false, className = '', children } ) {
 	const classes = [ 'media', `media--radius-${ radius }` ];
 	if ( type === 'video' ) {
 		classes.push( 'media--video' );
@@ -20,6 +20,9 @@ export function Media( { url, alt = '', type = 'image', poster, ratio = '', radi
 		classes.push( className );
 	}
 	const style = /^[0-9.]+\s*\/\s*[0-9.]+$/.test( ratio ) ? { aspectRatio: ratio } : undefined;
+	if ( style || cover ) {
+		classes.splice( 2, 0, 'media--cover' );
+	}
 
 	return (
 		<div className={ classes.join( ' ' ) } style={ style }>

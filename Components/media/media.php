@@ -8,6 +8,7 @@
  *       'alt'         => '',             // optional override; otherwise read from the library at render time
  *       'sizes'       => '(min-width: 1440px) 1248px, 100vw',
  *       'ratio'       => '4/3',          // CSS aspect-ratio; '' keeps the file's natural ratio
+ *       'cover'       => false,          // cover a box whose size is set by the parent's CSS
  *       'radius'      => 'lg',           // sm | md | lg | xl | pill | none
  *       'placeholder' => false,          // show the neutral placeholder when there is no media
  *       'caption'     => '',             // wraps the media in <figure> with a caption
@@ -29,6 +30,9 @@ function media( array $args ): string {
 	$radius      = in_array( $args['radius'] ?? 'lg', array( 'sm', 'md', 'lg', 'xl', 'pill', 'none' ), true ) ? ( $args['radius'] ?? 'lg' ) : 'lg';
 	$classes     = array( 'media', 'media--radius-' . $radius );
 	$style       = preg_match( '#^[0-9.]+\s*/\s*[0-9.]+$#', $ratio ) ? 'aspect-ratio:' . $ratio : '';
+	if ( $style || ! empty( $args['cover'] ) ) {
+		$classes[] = 'media--cover';
+	}
 	$inner       = '';
 	$mime        = $id ? (string) get_post_mime_type( $id ) : '';
 	$is_image    = $id && wp_attachment_is_image( $id );

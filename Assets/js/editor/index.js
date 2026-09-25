@@ -25,12 +25,13 @@ import { SectionHeader } from '@floe/components/section-header';
 const LinkControl = StableLinkControl || ExperimentalLinkControl;
 
 /**
- * Block wrapper props with the block's own class (its folder name) and, for
- * top-level sections, "floe-section", matching Floe\block_attributes().
+ * Block wrapper props with the block's own class (its folder name), and for
+ * top-level sections "floe-section" and an optional surface class, matching
+ * Floe\block_attributes().
  */
-export function useFloeBlockProps( name, extra = {}, { section = true } = {} ) {
+export function useFloeBlockProps( name, extra = {}, { section = true, surface = '' } = {} ) {
 	const slug = name.split( '/' )[ 1 ];
-	const className = [ slug, section ? 'floe-section' : '', extra.className ].filter( Boolean ).join( ' ' );
+	const className = [ slug, section ? 'floe-section' : '', surface ? `surface-${ surface }` : '', extra.className ].filter( Boolean ).join( ' ' );
 	return useBlockProps( { ...extra, className } );
 }
 
@@ -136,7 +137,7 @@ export function useMedia( value ) {
  * remove, set a poster (MP4) and override alt text from the overlay.
  * Value: { id, posterId, alt }.
  */
-export function MediaSlot( { value, onChange, ratio = '', radius = 'lg', allowVideo = true, label = __( 'Image or looping MP4', 'floe' ), placeholder = false, className = '' } ) {
+export function MediaSlot( { value, onChange, ratio = '', radius = 'lg', cover = false, allowVideo = true, label = __( 'Image or looping MP4', 'floe' ), placeholder = false, className = '' } ) {
 	const resolved = useMedia( value );
 	const allowedTypes = allowVideo ? [ 'image', 'video' ] : [ 'image' ];
 	const select = ( media ) => {
@@ -162,7 +163,7 @@ export function MediaSlot( { value, onChange, ratio = '', radius = 'lg', allowVi
 
 	return (
 		<div className={ `floe-media-slot ${ className }`.trim() }>
-			<Media url={ resolved.url } type={ resolved.type } poster={ resolved.poster } alt={ resolved.alt } ratio={ ratio } radius={ radius } placeholder={ placeholder || ! resolved.url } />
+			<Media url={ resolved.url } type={ resolved.type } poster={ resolved.poster } alt={ resolved.alt } ratio={ ratio } radius={ radius } cover={ cover } placeholder={ placeholder || ! resolved.url } />
 			<MediaUploadCheck>
 				<div className="floe-media-slot__tools">
 					<ToolbarGroup>

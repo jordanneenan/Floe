@@ -52,7 +52,10 @@ function card( array $args ): string {
 	$parts = array();
 
 	if ( 'feature' === $variant ) {
-		if ( ! empty( $args['number'] ) ) {
+		// 'auto' numbers cards in order with a CSS counter (01, 02, …).
+		if ( 'auto' === ( $args['number'] ?? '' ) ) {
+			$parts[] = '<p class="card__number card__number--auto" aria-hidden="true"></p>';
+		} elseif ( ! empty( $args['number'] ) ) {
 			$parts[] = '<p class="card__number">' . esc_html( (string) $args['number'] ) . '</p>';
 		}
 	} else {

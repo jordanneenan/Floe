@@ -20,7 +20,8 @@ const part = ( value, tagName, className ) => {
 export function Card( { variant = 'post', media, category, date, number, title, text, linkLabel, headingLevel = 3, linked = false } ) {
 	return (
 		<article className={ `card card--${ variant }${ linked ? ' card--linked' : '' }` }>
-			{ variant === 'feature' && part( number, 'p', 'card__number' ) }
+			{ variant === 'feature' && number === 'auto' && <p className="card__number card__number--auto" aria-hidden="true" /> }
+			{ variant === 'feature' && number && number !== 'auto' && part( number, 'p', 'card__number' ) }
 			{ variant !== 'feature' && media }
 			{ variant === 'post' && ( category || date ) && (
 				<div className="card__meta">
