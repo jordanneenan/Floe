@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/posts",
+	"version": "1.0.0",
+	"title": "Posts",
+	"category": "floe-sections",
+	"icon": "grid-view",
+	"description": "A heading group and a grid of post cards: the latest posts, posts from a category, or hand-picked posts.",
+	"keywords": [ "news", "blog", "journal", "articles" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"action": { "type": "object", "default": {} },
+		"source": { "type": "string", "enum": [ "latest", "category", "manual" ], "default": "latest" },
+		"category": { "type": "number", "default": 0 },
+		"posts": { "type": "array", "default": [], "items": { "type": "number" } },
+		"count": { "type": "number", "default": 3 },
+		"mediaOverrides": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Latest posts", "heading": "Ideas and updates" } },
+	"editorScript": "file:./assets/posts-editor.js",
+	"style": "file:./assets/posts.css",
+	"render": "file:./posts.php"
+}

@@ -1,0 +1,34 @@
+// Figma 36:58. Section header with a Secondary "View all" button, 64px, then
+// a three-up grid of Post cards (32px gaps).
+@use 'floe' as *;
+
+.posts {
+	@include section-padding;
+}
+
+.posts__inner {
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		gap: 64px;
+	}
+}
+
+.posts__grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	align-items: start;
+	gap: 40px 24px;
+
+	@include from(tablet) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include from(desktop) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 48px 32px;
+	}
+}
