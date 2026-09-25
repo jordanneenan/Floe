@@ -1,47 +1,311 @@
-import { execFileSync } from 'node:child_process';
-import { existsSync, mkdirSync, readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
+/**
+ * Floe build. Discovers every module by folder and compiles it in place:
+ *
+ *   Blocks/<name>/ (or Blocks/<parent>/<name>/) with a block.json
+ *   Components/<name>/
+ *
+ *   <name>.scss         -> assets/<name>.css
+ *   <name>-editor.scss  -> assets/<name>-editor.css
+ *   <name>.js           -> assets/<name>.js         (front end)
+ *   <name>-editor.js    -> assets/<name>-editor.js  (editor)
+ *
+ * plus the global Assets/scss/*.scss -> Assets/css/*.css and the Geist fonts.
+ * No module names are listed anywhere: adding a folder adds it to the build.
+ * Folders starting with "_" are ignored.
+ *
+ *   npm run build   one-off production build
+ *   npm run start   build, then watch, recompile on save and live-reload
+ *                   floe.local through BrowserSync (FLOE_PROXY overrides the URL)
+ */
+import { existsSync, mkdirSync, readdirSync, copyFileSync, writeFileSync } from 'node:fs';
+import { basename, dirname, join, relative, resolve, sep } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import * as sass from 'sass';
 
-const root = process.cwd();
-const blocks = join(root, 'Blocks');
-const cssOnly = process.argv.includes('--css');
-const runJs = !cssOnly;
-// wp-scripts clears each block's Assets directory, so every JS build must
-// restore its CSS afterwards. --css remains a CSS-only shortcut.
-const runCss = true;
-const binary = (name) => join(root, 'node_modules', '.bin', name);
+const require = createRequire( import.meta.url );
+const root = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
+const watch = process.argv.includes( '--watch' );
+const only = process.argv.includes( '--css' ) ? 'css' : process.argv.includes( '--js' ) ? 'js' : 'all';
 
-const blockFolders = readdirSync(blocks, { withFileTypes: true }).filter((folder) => {
-	return folder.isDirectory() && !folder.name.startsWith('_') && existsSync(join(blocks, folder.name, 'block.json'));
-});
+const log = ( ...args ) => console.log( '[floe]', ...args );
+const rel = ( path ) => relative( root, path ).split( sep ).join( '/' );
 
-for (const folder of blockFolders) {
-	const dir = join(blocks, folder.name);
-	const metadataPath = join(dir, 'block.json');
-	const metadata = JSON.parse(readFileSync(metadataPath, 'utf8'));
-	const slug = metadata.name.split('/')[1];
-	const output = join(dir, 'Assets');
-	mkdirSync(output, { recursive: true });
-	if (runJs && existsSync(join(dir, slug + '.js'))) {
-		console.log('Building JS:', slug);
-		execFileSync(binary('wp-scripts'), ['build', join('Blocks', folder.name, slug + '.js'), '--output-path=' + join('Blocks', folder.name, 'Assets')], { stdio: 'inherit', cwd: root });
+// ---------------------------------------------------------------------------
+// Discovery
+// ---------------------------------------------------------------------------
+const subfolders = ( dir ) =>
+	existsSync( dir )
+		? readdirSync( dir, { withFileTypes: true } )
+				.filter( ( entry ) => entry.isDirectory() && ! entry.name.startsWith( '_' ) && ! entry.name.startsWith( '.' ) && entry.name !== 'assets' )
+				.map( ( entry ) => join( dir, entry.name ) )
+		: [];
+
+export function discoverModules() {
+	const modules = [];
+	for ( const dir of subfolders( join( root, 'Blocks' ) ) ) {
+		if ( existsSync( join( dir, 'block.json' ) ) ) {
+			modules.push( { type: 'block', dir, name: basename( dir ) } );
+		}
+		for ( const child of subfolders( dir ) ) {
+			if ( existsSync( join( child, 'block.json' ) ) ) {
+				modules.push( { type: 'block', dir: child, name: basename( child ) } );
+			}
+		}
+	}
+	for ( const dir of subfolders( join( root, 'Components' ) ) ) {
+		modules.push( { type: 'component', dir, name: basename( dir ) } );
+	}
+	return modules;
+}
+
+// ---------------------------------------------------------------------------
+// Sass
+// ---------------------------------------------------------------------------
+function compileScss( input, output ) {
+	try {
+		const result = sass.compile( input, {
+			style: 'compressed',
+			loadPaths: [ join( root, 'Assets/scss' ) ],
+			quietDeps: true,
+		} );
+		mkdirSync( dirname( output ), { recursive: true } );
+		writeFileSync( output, result.css );
+		log( 'css', rel( output ) );
+		return true;
+	} catch ( error ) {
+		console.error( `[floe] Sass error in ${ rel( input ) }:\n${ error.message }` );
+		return false;
 	}
 }
 
-for (const folder of blockFolders) {
-	const dir = join(blocks, folder.name);
-	const metadata = JSON.parse(readFileSync(join(dir, 'block.json'), 'utf8'));
-	const slug = metadata.name.split('/')[1];
-	const output = join(dir, 'Assets');
-	mkdirSync(output, { recursive: true });
-	if (runCss && existsSync(join(dir, slug + '.scss'))) {
-		console.log('Building CSS:', slug);
-		execFileSync(binary('sass'), ['--no-source-map', '--no-charset', '--style=compressed', join(dir, slug + '.scss'), join(output, slug + '.css')], { stdio: 'inherit', cwd: root });
+function compileModuleCss( module ) {
+	let ok = true;
+	for ( const suffix of [ '', '-editor' ] ) {
+		const input = join( module.dir, `${ module.name }${ suffix }.scss` );
+		if ( existsSync( input ) ) {
+			ok = compileScss( input, join( module.dir, 'assets', `${ module.name }${ suffix }.css` ) ) && ok;
+		}
+	}
+	return ok;
+}
+
+function compileGlobalCss() {
+	let ok = true;
+	const dir = join( root, 'Assets/scss' );
+	for ( const file of readdirSync( dir ) ) {
+		if ( file.endsWith( '.scss' ) && ! file.startsWith( '_' ) ) {
+			ok = compileScss( join( dir, file ), join( root, 'Assets/css', file.replace( /\.scss$/, '.css' ) ) ) && ok;
+		}
+	}
+	return ok;
+}
+
+function buildCss( modules ) {
+	let ok = compileGlobalCss();
+	for ( const module of modules ) {
+		ok = compileModuleCss( module ) && ok;
+	}
+	return ok;
+}
+
+// ---------------------------------------------------------------------------
+// Fonts (SIL OFL, from the geist npm package)
+// ---------------------------------------------------------------------------
+function copyFonts() {
+	const fonts = join( root, 'node_modules/geist/dist/fonts' );
+	const target = join( root, 'Assets/fonts' );
+	mkdirSync( target, { recursive: true } );
+	const files = {
+		'geist-sans/Geist-Variable.woff2': 'Geist-Variable.woff2',
+		'geist-sans/Geist-Italic[wght].woff2': 'Geist-Italic-Variable.woff2',
+		'geist-mono/GeistMono-Variable.woff2': 'GeistMono-Variable.woff2',
+	};
+	for ( const [ from, to ] of Object.entries( files ) ) {
+		if ( existsSync( join( fonts, from ) ) ) {
+			copyFileSync( join( fonts, from ), join( target, to ) );
+		}
+	}
+	const licence = join( root, 'node_modules/geist/LICENSE.txt' );
+	if ( existsSync( licence ) ) {
+		copyFileSync( licence, join( target, 'OFL.txt' ) );
 	}
 }
 
-if (runCss) {
-	const output = join(blocks, '_shared', 'Assets');
-	mkdirSync(output, { recursive: true });
-	execFileSync(binary('sass'), ['--no-source-map', '--no-charset', '--style=compressed', join(blocks, '_shared', 'sections.scss'), join(output, 'sections.css')], { stdio: 'inherit', cwd: root });
+// ---------------------------------------------------------------------------
+// JavaScript (webpack, one self-contained bundle per file)
+// ---------------------------------------------------------------------------
+function jsEntries( modules ) {
+	const entries = {};
+	for ( const module of modules ) {
+		for ( const suffix of [ '', '-editor' ] ) {
+			const file = join( module.dir, `${ module.name }${ suffix }.js` );
+			if ( existsSync( file ) ) {
+				entries[ rel( join( module.dir, 'assets', `${ module.name }${ suffix }` ) ) ] = file;
+			}
+		}
+	}
+	const globalJs = join( root, 'Assets/js' );
+	if ( existsSync( globalJs ) ) {
+		for ( const file of readdirSync( globalJs ) ) {
+			if ( file.endsWith( '.js' ) && ! file.startsWith( '_' ) ) {
+				entries[ `Assets/js/build/${ file.replace( /\.js$/, '' ) }` ] = join( globalJs, file );
+			}
+		}
+	}
+	return entries;
+}
+
+function webpackConfig( modules ) {
+	const webpack = require( 'webpack' );
+	const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+
+	return {
+		mode: 'production',
+		context: root,
+		entry: jsEntries( modules ),
+		output: { path: root, filename: '[name].js', clean: false },
+		devtool: false,
+		resolve: {
+			extensions: [ '.js', '.jsx' ],
+			alias: { '@floe/editor': join( root, 'Assets/js/editor' ) },
+		},
+		module: {
+			rules: [
+				{
+					test: /\.jsx?$/,
+					exclude: /node_modules/,
+					use: {
+						loader: require.resolve( 'babel-loader' ),
+						options: {
+							babelrc: false,
+							configFile: false,
+							presets: [ require.resolve( '@wordpress/babel-preset-default' ) ],
+							cacheDirectory: true,
+						},
+					},
+				},
+			],
+		},
+		optimization: { splitChunks: false, runtimeChunk: false },
+		performance: { hints: false },
+		plugins: [
+			// `import { Button } from '@floe/components/button'` loads
+			// Components/button/button-editor.js. A missing component fails the
+			// build with a clear message instead of failing silently.
+			new webpack.NormalModuleReplacementPlugin( /^@floe\/components\/[^/]+$/, ( resource ) => {
+				const name = resource.request.split( '/' ).pop();
+				const file = join( root, 'Components', name, `${ name }-editor.js` );
+				if ( ! existsSync( file ) ) {
+					throw new Error(
+						`Floe: "${ resource.request }" is imported by ${ rel( resource.contextInfo?.issuer || resource.context ) }, ` +
+							`but Components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
+					);
+				}
+				resource.request = file;
+			} ),
+			new DependencyExtractionWebpackPlugin(),
+		],
+		stats: 'errors-warnings',
+	};
+}
+
+function runWebpack( modules ) {
+	const webpack = require( 'webpack' );
+	const config = webpackConfig( modules );
+	if ( ! Object.keys( config.entry ).length ) {
+		return Promise.resolve( true );
+	}
+	return new Promise( ( resolvePromise ) => {
+		const compiler = webpack( config );
+		const report = ( error, stats ) => {
+			if ( error ) {
+				console.error( '[floe]', error.message );
+				return resolvePromise( false );
+			}
+			const info = stats.toString( { colors: true, all: false, errors: true, warnings: true, errorDetails: true } );
+			if ( info.trim() ) {
+				console.log( info );
+			}
+			log( `js ${ Object.keys( config.entry ).length } bundles ${ stats.hasErrors() ? 'FAILED' : 'built' }` );
+			resolvePromise( ! stats.hasErrors() );
+		};
+		if ( watch ) {
+			compiler.watch( { ignored: [ '**/node_modules/**', '**/assets/**', '**/Assets/js/build/**' ] }, ( error, stats ) => {
+				report( error, stats );
+				reload();
+			} );
+		} else {
+			compiler.run( ( error, stats ) => compiler.close( () => report( error, stats ) ) );
+		}
+	} );
+}
+
+// ---------------------------------------------------------------------------
+// Watch + BrowserSync
+// ---------------------------------------------------------------------------
+let browserSync;
+function reload( files ) {
+	if ( browserSync ) {
+		browserSync.reload( files );
+	}
+}
+
+function moduleFor( file, modules ) {
+	return modules
+		.filter( ( module ) => file.startsWith( module.dir + sep ) )
+		.sort( ( a, b ) => b.dir.length - a.dir.length )[ 0 ];
+}
+
+async function startWatch( modules ) {
+	const chokidar = require( 'chokidar' );
+	const proxy = process.env.FLOE_PROXY || 'http://floe.local';
+
+	browserSync = require( 'browser-sync' ).create();
+	browserSync.init( { proxy, open: false, notify: false, ui: false, logLevel: 'info' } );
+
+	chokidar
+		.watch( [ 'Blocks', 'Components', 'Assets/scss' ], { cwd: root, ignoreInitial: true, ignored: /(^|[/\\])(assets|node_modules)([/\\]|$)/ } )
+		.on( 'all', ( event, path ) => {
+			const file = join( root, path );
+			if ( file.endsWith( '.scss' ) ) {
+				const module = moduleFor( file, modules );
+				if ( module ) {
+					compileModuleCss( module );
+				} else {
+					buildCss( modules );
+				}
+				reload( '*.css' );
+			} else if ( file.endsWith( '.php' ) || file.endsWith( 'block.json' ) ) {
+				reload();
+			}
+			if ( event === 'addDir' || event === 'unlinkDir' ) {
+				log( 'A folder was added or removed. Restart `npm run start` to pick up new modules.' );
+			}
+		} );
+
+	chokidar
+		.watch( [ '*.php', 'Config', 'patterns', 'theme.json' ], { cwd: root, ignoreInitial: true } )
+		.on( 'change', () => reload() );
+
+	log( `watching, live reload via BrowserSync proxying ${ proxy }` );
+}
+
+// ---------------------------------------------------------------------------
+const modules = discoverModules();
+log( `${ modules.filter( ( m ) => m.type === 'block' ).length } blocks, ${ modules.filter( ( m ) => m.type === 'component' ).length } components` );
+
+let ok = true;
+if ( only !== 'js' ) {
+	copyFonts();
+	ok = buildCss( modules ) && ok;
+}
+if ( watch ) {
+	await startWatch( modules );
+	runWebpack( modules );
+} else {
+	if ( only !== 'css' ) {
+		ok = ( await runWebpack( modules ) ) && ok;
+	}
+	process.exitCode = ok ? 0 : 1;
 }
