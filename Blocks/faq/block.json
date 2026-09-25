@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/faq",
+	"version": "1.0.0",
+	"title": "FAQ",
+	"category": "floe-sections",
+	"icon": "editor-help",
+	"description": "A heading group beside a list of questions and answers, built with WordPress's own Details block.",
+	"keywords": [ "questions", "accordion", "help" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "core/details" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"oneOpen": { "type": "boolean", "default": false },
+		"schema": { "type": "boolean", "default": false }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "FAQ", "heading": "Questions, answered" } },
+	"editorScript": "file:./assets/faq-editor.js",
+	"style": "file:./assets/faq.css",
+	"render": "file:./faq.php"
+}
