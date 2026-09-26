@@ -1,0 +1,35 @@
+// Scroll reveal (reveal.js): a soft fade and a short rise.
+@use "floe" as *;
+
+html [data-reveal] {
+	opacity: 0;
+	transform: translate3d(0, 28px, 0);
+	transition: opacity var(--floe-reveal) var(--floe-ease), transform var(--floe-reveal) var(--floe-ease);
+	transition-delay: var(--reveal-delay, 0ms);
+}
+
+html [data-reveal="in"] {
+	opacity: 1;
+	transform: none;
+}
+
+// Steps: the connector to the next step draws itself in.
+.step[data-reveal]::after {
+	transform: scale(0);
+	transform-origin: left top;
+	transition: transform 0.7s var(--floe-ease);
+	transition-delay: calc(var(--reveal-delay, 0ms) + 0.15s);
+}
+
+.step[data-reveal="in"]::after {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	html [data-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}

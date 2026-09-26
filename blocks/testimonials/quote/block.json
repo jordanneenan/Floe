@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/quote",
+	"version": "1.0.0",
+	"title": "Quote card",
+	"category": "floe-parts",
+	"icon": "format-quote",
+	"description": "One short quote in a Testimonials section.",
+	"textdomain": "floe",
+	"parent": [ "floe/testimonials" ],
+	"attributes": {
+		"quote": { "type": "string", "default": "" },
+		"name": { "type": "string", "default": "" },
+		"role": { "type": "string", "default": "" },
+		"portrait": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/quote-editor.js",
+	"render": "file:./quote.php"
+}

@@ -1,0 +1,29 @@
+// Floe breakpoints. Mobile first: styles without a mixin apply to mobile
+// (under 550px).
+//   mobile   0–549
+//   tablet   550–767
+//   desktop  768–1279
+//   large    1280+
+@use "sass:map";
+
+$breakpoints: (
+	tablet: 550px,
+	desktop: 768px,
+	large: 1280px,
+);
+
+// @include from(desktop) { … } applies at 768px and wider.
+@mixin from($name) {
+
+	@media (min-width: map.get($breakpoints, $name)) {
+		@content;
+	}
+}
+
+// @include below(desktop) { … } applies below 768px.
+@mixin below($name) {
+
+	@media (max-width: (map.get($breakpoints, $name) - 0.02px)) {
+		@content;
+	}
+}

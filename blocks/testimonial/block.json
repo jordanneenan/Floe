@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/testimonial",
+	"version": "1.0.0",
+	"title": "Testimonial",
+	"category": "floe-sections",
+	"icon": "format-quote",
+	"description": "One long quote with a large accent quote mark, the person's name and role, and an optional small portrait.",
+	"keywords": [ "quote", "review" ],
+	"textdomain": "floe",
+	"attributes": {
+		"quote": { "type": "string", "default": "" },
+		"name": { "type": "string", "default": "" },
+		"role": { "type": "string", "default": "" },
+		"portrait": { "type": "object", "default": {} },
+		"surface": { "type": "string", "enum": [ "subtle", "base", "tint" ], "default": "subtle" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"quote": "A flexible system gives us consistency without making every page feel the same.",
+			"name": "Alex Morgan",
+			"role": "Director, Client Organisation"
+		}
+	},
+	"editorScript": "file:./assets/testimonial-editor.js",
+	"style": "file:./assets/testimonial.css",
+	"render": "file:./testimonial.php"
+}

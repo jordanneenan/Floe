@@ -1,6 +1,0 @@
-.floe-home-banner__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 64px; min-height: 500px; }
-.floe-home-banner__copy { max-width: 610px; }
-.floe-home-banner .floe-section__heading { max-width: 11ch; font-size: clamp(3.25rem, 5vw, 4.5rem); }
-.floe-home-banner .floe-media, .floe-home-banner .floe-media-editor__visual { height: 500px; }
-.floe-home-banner:not(.has-media) .floe-home-banner__grid { grid-template-columns: 1fr; }
-@media (max-width: 767px) { .floe-home-banner__grid { grid-template-columns: 1fr; gap: 40px; } .floe-home-banner .floe-media, .floe-home-banner .floe-media-editor__visual { height: auto; aspect-ratio: 4 / 3; } }

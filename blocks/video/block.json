@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/video",
+	"version": "1.0.0",
+	"title": "Video",
+	"category": "floe-sections",
+	"icon": "video-alt3",
+	"description": "A YouTube video behind a cover image and play button. The player loads only when a visitor presses play.",
+	"keywords": [ "youtube", "film", "embed" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"url": { "type": "string", "default": "" },
+		"cover": { "type": "object", "default": {} },
+		"duration": { "type": "string", "default": "" },
+		"surface": { "type": "string", "enum": [ "inverse", "base", "subtle" ], "default": "inverse" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Video", "heading": "See how a Floe site comes together", "duration": "2:14" } },
+	"editorScript": "file:./assets/video-editor.js",
+	"style": "file:./assets/video.css",
+	"viewScript": "file:./assets/video.js",
+	"render": "file:./video.php"
+}

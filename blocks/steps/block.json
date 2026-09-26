@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/steps",
+	"version": "1.0.0",
+	"title": "Steps",
+	"category": "floe-sections",
+	"icon": "editor-ol",
+	"description": "A heading group and three to five numbered, connected steps.",
+	"keywords": [ "process", "timeline", "how it works" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/step" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"action": { "type": "object", "default": {} },
+		"surface": { "type": "string", "enum": [ "subtle", "base", "tint" ], "default": "subtle" }
+	},
+	"providesContext": {
+		"floe/headingLevel": "headingLevel"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Process", "heading": "From brief to launch in four steps" }, "innerBlocks": [ { "name": "floe/step", "attributes": { "title": "Discover", "text": "We agree goals and audiences." } }, { "name": "floe/step", "attributes": { "title": "Design", "text": "Brand tokens are applied." } }, { "name": "floe/step", "attributes": { "title": "Launch", "text": "The site goes live." } } ] },
+	"editorScript": "file:./assets/steps-editor.js",
+	"style": "file:./assets/steps.css",
+	"render": "file:./steps.php"
+}

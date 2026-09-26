@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/newsletter",
+	"version": "1.0.0",
+	"title": "Newsletter",
+	"category": "floe-sections",
+	"icon": "email-alt",
+	"description": "A tint panel with a heading, a short line and your mailing provider's signup form. Without a form it works as a slimmer call to action.",
+	"keywords": [ "subscribe", "signup", "mailing list" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"note": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Newsletter", "heading": "Notes from the studio", "intro": "One short email a month." } },
+	"editorScript": "file:./assets/newsletter-editor.js",
+	"style": "file:./assets/newsletter.css",
+	"render": "file:./newsletter.php"
+}

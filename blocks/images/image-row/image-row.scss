@@ -1,0 +1,53 @@
+@use "floe" as *;
+
+.image-row {
+	display: grid;
+	grid-auto-columns: minmax(0, 1fr);
+	grid-auto-flow: column;
+	gap: 16px;
+
+	@include from(tablet) {
+		gap: 24px;
+	}
+
+	&.image-row--count-3 {
+
+		@include below(tablet) {
+			grid-auto-flow: row;
+		}
+	}
+
+	&.image-row--no-gap {
+		gap: 0;
+		overflow: hidden;
+		border-radius: var(--wp--custom--radius--lg);
+
+		.media {
+			border-radius: 0;
+		}
+	}
+}
+
+// Fill: the row sets the shape.
+.images--fill {
+
+	.image-row--count-1 .media {
+		aspect-ratio: 1248 / 560;
+
+		@include below(desktop) {
+			aspect-ratio: 4 / 3;
+		}
+	}
+
+	.image-row--count-2 .media {
+		aspect-ratio: 612 / 456;
+	}
+
+	.image-row--count-3 .media {
+		aspect-ratio: 4 / 3;
+	}
+}
+
+.images--natural .image-row {
+	align-items: start;
+}

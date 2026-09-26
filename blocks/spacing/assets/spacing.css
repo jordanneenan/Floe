@@ -1,0 +1,1 @@
+.spacing{display:block;height:var(--spacing-mobile, 67px)}@media(min-width: 550px){.spacing{height:var(--spacing-tablet, 86px)}}@media(min-width: 768px){.spacing{height:var(--spacing-desktop, 120px)}}@media(min-width: 1280px){.spacing{height:var(--spacing-large, 120px)}}.floe-section:has(+.spacing){padding-bottom:0}.spacing+.floe-section{padding-top:0}

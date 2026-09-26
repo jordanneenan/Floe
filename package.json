@@ -1,15 +1,28 @@
 {
   "name": "floe-wordpress-theme",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "description": "Native WordPress framework theme inspired by Made 4",
+  "description": "Modular WordPress theme: native WordPress first, one folder per block and component.",
   "scripts": {
-    "build": "node scripts/build.mjs",
-    "build:js": "node scripts/build.mjs --js",
-    "build:css": "node scripts/build.mjs --css"
+    "build": "node build.mjs",
+    "build:css": "node build.mjs --css",
+    "build:js": "node build.mjs --js",
+    "start": "node build.mjs --watch",
+    "lint:js": "wp-scripts lint-js \"blocks/**/*.js\" \"components/**/*.js\" \"assets/js/**/*.js\" build.mjs",
+    "lint:css": "wp-scripts lint-style \"blocks/**/*.scss\" \"components/**/*.scss\" \"assets/scss/**/*.scss\"",
+    "lint": "npm run lint:js && npm run lint:css"
   },
   "devDependencies": {
+    "@wordpress/babel-preset-default": "^8.56.0",
+    "@wordpress/dependency-extraction-webpack-plugin": "^6.56.0",
+    "@wordpress/icons": "^17.0.0",
     "@wordpress/scripts": "^35.0.0",
-    "sass": "^1.105.0"
+    "babel-loader": "^10.1.1",
+    "browser-sync": "^3.0.4",
+    "chokidar": "^5.0.0",
+    "geist": "^1.7.2",
+    "sass": "^1.105.0",
+    "webpack": "^5.111.1",
+    "webpack-cli": "^5.1.4"
   }
 }

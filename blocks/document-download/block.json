@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/document-download",
+	"version": "1.0.0",
+	"title": "Document Download",
+	"category": "floe-sections",
+	"icon": "download",
+	"description": "A heading group beside a list of downloadable files. Type and size come from the media library.",
+	"keywords": [ "files", "pdf", "documents", "resources" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/download" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Resources", "heading": "Documents to take away", "intro": "Reports, guides and forms, ready to download." } },
+	"editorScript": "file:./assets/document-download-editor.js",
+	"style": "file:./assets/document-download.css",
+	"render": "file:./document-download.php"
+}

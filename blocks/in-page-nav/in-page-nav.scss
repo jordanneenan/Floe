@@ -1,0 +1,96 @@
+// Figma 45:345. Sticky 72px bar, white at 90% with a blur, lines above and
+// below. Mono label, pill links (active: ink with white text), optional
+// Primary action without an arrow. Links scroll sideways on mobile.
+@use "floe" as *;
+
+.in-page-nav {
+	position: sticky;
+	top: 0;
+	z-index: 40;
+	border-block: 1px solid var(--surface-line);
+	background: var(--surface-glass);
+	color: var(--surface-text);
+	backdrop-filter: blur(10px);
+}
+
+.in-page-nav__inner {
+
+	@include container;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	min-height: 64px;
+
+	@include from(desktop) {
+		min-height: 72px;
+	}
+}
+
+.in-page-nav__links {
+	display: flex;
+	flex: 1 1 auto;
+	align-items: center;
+	gap: 32px;
+	min-width: 0;
+}
+
+.in-page-nav__label {
+	flex: none;
+	color: var(--surface-text-muted);
+
+	@include type(eyebrow);
+
+	@include below(desktop) {
+		display: none;
+	}
+}
+
+.in-page-nav__list {
+	display: flex;
+	gap: 8px;
+	margin: 0 calc(-1 * var(--wp--custom--content--gutter));
+	padding: 12px var(--wp--custom--content--gutter);
+	overflow-x: auto;
+	list-style: none;
+	scrollbar-width: none;
+
+	&::-webkit-scrollbar {
+		display: none;
+	}
+
+	@include from(desktop) {
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.in-page-nav__link {
+	display: block;
+	padding: 9px 16px;
+	border-radius: var(--wp--custom--radius--pill);
+	color: var(--surface-text-muted);
+
+	@include type(label);
+	white-space: nowrap;
+	text-decoration: none;
+	transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease);
+
+	&:hover {
+		background: var(--surface-raised);
+		color: var(--surface-text);
+	}
+
+	&.is-active {
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
+	}
+}
+
+.in-page-nav__action {
+	flex: none;
+
+	@include below(tablet) {
+		display: none;
+	}
+}

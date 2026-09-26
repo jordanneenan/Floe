@@ -1,0 +1,44 @@
+@use "floe" as *;
+
+.breadcrumb {
+	color: var(--surface-text-muted);
+
+	@include type(eyebrow);
+
+	.wp-block-breadcrumbs ol {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.wp-block-breadcrumbs li {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		margin: 0;
+	}
+
+	// Core draws the separator after each item (decorative, empty alt text).
+	.wp-block-breadcrumbs li:not(:last-child)::after {
+		margin: 0;
+		opacity: 1;
+	}
+
+	a {
+		color: inherit;
+		text-decoration: none;
+
+		&:hover {
+			color: var(--surface-text);
+			text-decoration: underline;
+		}
+	}
+
+	[aria-current="page"] {
+		color: var(--surface-text);
+	}
+}

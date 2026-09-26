@@ -1,0 +1,31 @@
+// Figma 35:75. White section with 96px padding holding one to three panels.
+@use "floe" as *;
+
+.cta {
+	padding-block: calc(var(--floe-section-space) * 0.8);
+}
+
+.cta__inner {
+
+	@include container;
+	display: grid;
+	gap: 16px;
+
+	@include from(tablet) {
+		gap: 24px;
+	}
+}
+
+.cta--count-2 .cta__inner {
+
+	@include from(desktop) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+.cta--count-3 .cta__inner {
+
+	@include from(desktop) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}

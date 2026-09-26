@@ -1,0 +1,40 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/cards",
+	"version": "1.0.0",
+	"title": "Cards",
+	"category": "floe-sections",
+	"icon": "screenoptions",
+	"description": "A heading group and a grid of cards: numbered Feature cards, or Media cards with an image each.",
+	"keywords": [ "grid", "services", "features", "benefits" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/card-item" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"style": { "type": "string", "enum": [ "feature", "media" ], "default": "feature" },
+		"surface": { "type": "string", "enum": [ "base", "subtle", "tint" ], "default": "base" }
+	},
+	"providesContext": {
+		"floe/cardStyle": "style",
+		"floe/cardsHeadingLevel": "headingLevel"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": { "eyebrow": "How we work", "heading": "A simple process, done properly", "intro": "Manually entered cards for services, benefits or steps." },
+		"innerBlocks": [
+			{ "name": "floe/card-item", "attributes": { "title": "Plan the structure", "text": "Sections are chosen for the job each page needs to do." } },
+			{ "name": "floe/card-item", "attributes": { "title": "Design the system", "text": "Typography, colour and imagery carry the brand." } },
+			{ "name": "floe/card-item", "attributes": { "title": "Launch and grow", "text": "Editors add pages confidently." } }
+		]
+	},
+	"editorScript": "file:./assets/cards-editor.js",
+	"style": "file:./assets/cards.css",
+	"render": "file:./cards.php"
+}

@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/image-copy",
+	"version": "1.0.0",
+	"title": "Image + Copy",
+	"category": "floe-sections",
+	"icon": "align-pull-left",
+	"description": "Media beside a short story: eyebrow, heading, body and an optional action. Media can sit left or right.",
+	"keywords": [ "media text", "split", "feature" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"body": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"media": { "type": "object", "default": {} },
+		"mediaPosition": { "type": "string", "enum": [ "left", "right" ], "default": "left" },
+		"surface": { "type": "string", "enum": [ "base", "subtle", "tint" ], "default": "base" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"eyebrow": "Image + Copy",
+			"heading": "A section with room to breathe",
+			"body": "Put the visual and the message together. Reverse the layout when the page needs a different rhythm.",
+			"action": { "label": "Learn more", "url": "#" }
+		}
+	},
+	"editorScript": "file:./assets/image-copy-editor.js",
+	"style": "file:./assets/image-copy.css",
+	"render": "file:./image-copy.php"
+}

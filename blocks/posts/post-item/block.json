@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/post-item",
+	"version": "1.0.0",
+	"title": "Post card",
+	"category": "floe-parts",
+	"icon": "text-page",
+	"description": "One manually entered card in a Posts section.",
+	"textdomain": "floe",
+	"parent": [ "floe/posts" ],
+	"usesContext": [ "floe/postsHeadingLevel" ],
+	"attributes": {
+		"media": { "type": "object", "default": {} },
+		"label": { "type": "string", "default": "" },
+		"date": { "type": "string", "default": "" },
+		"title": { "type": "string", "default": "" },
+		"text": { "type": "string", "default": "" },
+		"link": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/post-item-editor.js",
+	"render": "file:./post-item.php"
+}

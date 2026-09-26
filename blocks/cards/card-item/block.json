@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/card-item",
+	"version": "1.0.0",
+	"title": "Card",
+	"category": "floe-parts",
+	"icon": "id",
+	"description": "One card in a Cards section.",
+	"textdomain": "floe",
+	"parent": [ "floe/cards" ],
+	"usesContext": [ "floe/cardStyle", "floe/cardsHeadingLevel" ],
+	"attributes": {
+		"title": { "type": "string", "default": "" },
+		"text": { "type": "string", "default": "" },
+		"link": { "type": "object", "default": {} },
+		"media": { "type": "object", "default": {} }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/card-item-editor.js",
+	"render": "file:./card-item.php"
+}

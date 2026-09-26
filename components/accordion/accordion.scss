@@ -1,0 +1,89 @@
+// Core Details block as the Floe accordion item (Figma 42:196). The summary is
+// the control; the round toggle is decorative.
+@use "floe" as *;
+
+.wp-block-details {
+	--toggle-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%230B1220' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M8 3V13M3 8H13'/%3E%3C/svg%3E");
+	--toggle-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23FFFFFF' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M3 8H13'/%3E%3C/svg%3E");
+
+	margin: 0;
+	padding: 24px 0;
+	border-bottom: 1px solid var(--surface-line);
+	interpolate-size: allow-keywords;
+
+	@include from(tablet) {
+		padding: 28px 0;
+	}
+
+	> summary {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 24px;
+		color: var(--surface-text);
+
+		@include type(h4);
+		list-style: none;
+		cursor: pointer;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
+
+		&::after {
+			content: "";
+			flex: none;
+			width: 36px;
+			height: 36px;
+			border-radius: 50%;
+			background: var(--surface-raised) var(--toggle-plus) center / 16px no-repeat;
+			transition: background-color var(--floe-duration) var(--floe-ease), transform var(--floe-duration) var(--floe-ease);
+		}
+
+		&:hover::after {
+			background-color: var(--surface-line);
+		}
+
+		&:focus-visible {
+			outline-offset: 6px;
+			border-radius: var(--wp--custom--radius--sm);
+		}
+	}
+
+	&[open] > summary::after {
+		background: var(--wp--preset--color--blue) var(--toggle-minus) center / 16px no-repeat;
+		transform: rotate(180deg);
+	}
+
+	// Opens and closes smoothly where the browser can animate to auto height.
+
+	&::details-content {
+		block-size: 0;
+		overflow-y: clip;
+		opacity: 0;
+		transition: block-size var(--floe-duration) var(--floe-ease), opacity var(--floe-duration) var(--floe-ease), content-visibility var(--floe-duration) allow-discrete;
+	}
+
+	&[open]::details-content {
+		block-size: auto;
+		opacity: 1;
+	}
+
+	> :not(summary) {
+		max-width: 680px;
+		margin-top: 14px;
+		color: var(--surface-text-muted);
+
+		@include type(body);
+	}
+
+	> :not(summary) + :not(summary) {
+		margin-top: 12px;
+	}
+}
+
+// Light plus on dark surfaces.
+:root[data-theme="dark"] .wp-block-details,
+.surface-inverse .wp-block-details {
+	--toggle-plus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23F2F4F8' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M8 3V13M3 8H13'/%3E%3C/svg%3E");
+}

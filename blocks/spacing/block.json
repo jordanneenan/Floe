@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/spacing",
+	"version": "1.0.0",
+	"title": "Spacing",
+	"category": "floe-sections",
+	"icon": "image-flip-vertical",
+	"description": "A gap between two sections. Replaces the space the sections would otherwise leave, at each screen size.",
+	"keywords": [ "gap", "space", "spacer" ],
+	"textdomain": "floe",
+	"attributes": {
+		"size": { "type": "string", "enum": [ "large", "medium", "small", "none" ], "default": "large" },
+		"custom": { "type": "boolean", "default": false },
+		"large": { "type": "number" },
+		"desktop": { "type": "number" },
+		"tablet": { "type": "number" },
+		"mobile": { "type": "number" }
+	},
+	"supports": {
+		"html": false,
+		"anchor": false,
+		"className": false,
+		"customClassName": false,
+		"floeSection": false
+	},
+	"example": { "attributes": { "size": "medium" } },
+	"editorScript": "file:./assets/spacing-editor.js",
+	"editorStyle": "file:./assets/spacing-editor.css",
+	"style": "file:./assets/spacing.css",
+	"render": "file:./spacing.php"
+}

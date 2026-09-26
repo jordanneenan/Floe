@@ -1,0 +1,111 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/posts",
+	"version": "2.0.0",
+	"title": "Posts",
+	"category": "floe-sections",
+	"icon": "grid-view",
+	"description": "A grid of post cards: the latest of any post type (a set number or all, with load more and filters), hand-picked posts, or manual entries.",
+	"keywords": [
+		"news",
+		"blog",
+		"journal",
+		"articles",
+		"listing",
+		"load more",
+		"filter"
+	],
+	"textdomain": "floe",
+	"allowedBlocks": [
+		"floe/post-item"
+	],
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": ""
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
+		"headingLevel": {
+			"type": "number",
+			"default": 2
+		},
+		"action": {
+			"type": "object",
+			"default": {}
+		},
+		"source": {
+			"type": "string",
+			"enum": [
+				"latest",
+				"picker",
+				"manual"
+			],
+			"default": "latest"
+		},
+		"postType": {
+			"type": "string",
+			"default": "post"
+		},
+		"count": {
+			"type": "number",
+			"default": 3
+		},
+		"showAll": {
+			"type": "boolean",
+			"default": false
+		},
+		"more": {
+			"type": "string",
+			"enum": [
+				"none",
+				"button",
+				"scroll"
+			],
+			"default": "none"
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
+		"term": {
+			"type": "number",
+			"default": 0
+		},
+		"showFilters": {
+			"type": "boolean",
+			"default": false
+		},
+		"posts": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "number"
+			}
+		},
+		"mediaOverrides": {
+			"type": "object",
+			"default": {}
+		}
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"eyebrow": "Latest posts",
+			"heading": "Ideas and updates"
+		}
+	},
+	"editorScript": "file:./assets/posts-editor.js",
+	"style": "file:./assets/posts.css",
+	"viewScript": "file:./assets/posts.js",
+	"render": "file:./posts.php",
+	"providesContext": {
+		"floe/postsHeadingLevel": "headingLevel"
+	}
+}

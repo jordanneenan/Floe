@@ -1,0 +1,207 @@
+// Site header (Figma 30:2): 88px, white, 1px line underneath. Logo left, menu,
+// one Primary action (no arrow) right. Current page in ink, others muted.
+@use "floe" as *;
+
+.site-header {
+	position: relative;
+	z-index: 50;
+	border-bottom: 1px solid var(--surface-line);
+	background: var(--surface-background);
+}
+
+.site-header__inner {
+
+	@include container;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 24px;
+	min-height: var(--floe-header-height);
+}
+
+.site-header__toggle {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	margin-right: -10px;
+	padding: 0;
+	border: 0;
+	border-radius: 50%;
+	background: transparent;
+	color: var(--surface-text);
+	cursor: pointer;
+
+	.site-header__icon-close {
+		display: none;
+	}
+}
+
+.site-header.is-open .site-header__toggle {
+
+	.site-header__icon-open {
+		display: none;
+	}
+
+	.site-header__icon-close {
+		display: block;
+	}
+}
+
+.site-header__nav .navigation__list {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+
+	a {
+		display: block;
+		padding: 12px 0;
+		color: var(--surface-text-muted);
+
+		@include type(label);
+		transition: color var(--floe-duration) var(--floe-ease);
+
+		&:hover {
+			color: var(--surface-text);
+		}
+	}
+
+	:is(.current-menu-item, .current-menu-ancestor, .current_page_parent) > a {
+		color: var(--surface-text);
+	}
+
+	.sub-menu a {
+		padding-left: 16px;
+	}
+}
+
+// Mobile/tablet: the panel drops down under the header bar.
+@include below(desktop) {
+
+	.site-header.has-js .site-header__panel {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		left: 0;
+		display: none;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 20px;
+		max-height: calc(100dvh - var(--floe-header-height));
+		padding: 12px var(--wp--custom--content--gutter) 32px;
+		overflow-y: auto;
+		border-bottom: 1px solid var(--surface-line);
+		background: var(--surface-background);
+		box-shadow: 0 24px 32px rgb(11 18 32 / 0.08);
+		opacity: 0;
+		transform: translateY(-8px);
+		transition: opacity var(--floe-duration) var(--floe-ease), transform var(--floe-duration) var(--floe-ease), display var(--floe-duration) allow-discrete;
+	}
+
+	.site-header.is-open .site-header__panel {
+		display: flex;
+		opacity: 1;
+		transform: none;
+
+		@starting-style {
+			opacity: 0;
+			transform: translateY(-8px);
+		}
+	}
+
+	.site-header__nav {
+		width: 100%;
+	}
+
+	.site-header__nav .navigation__list a {
+
+		@include type(h4);
+	}
+
+	// Without JavaScript the menu simply shows below the logo.
+	.site-header:not(.has-js) {
+
+		.site-header__inner {
+			flex-wrap: wrap;
+		}
+
+		.site-header__toggle {
+			display: none;
+		}
+
+		.site-header__panel {
+			width: 100%;
+			padding-bottom: 20px;
+		}
+	}
+}
+
+@include from(desktop) {
+
+	.site-header__toggle {
+		display: none;
+	}
+
+	.site-header__panel {
+		display: contents;
+	}
+
+	.site-header__nav .navigation__list {
+		flex-direction: row;
+		align-items: center;
+		gap: 36px;
+
+		> li {
+			position: relative;
+		}
+
+		a {
+			padding: 8px 0;
+		}
+
+		// One level of dropdown.
+		.sub-menu {
+			position: absolute;
+			top: 100%;
+			left: -16px;
+			display: none;
+			min-width: 220px;
+			padding: 8px;
+			border: 1px solid var(--surface-line);
+			border-radius: var(--wp--custom--radius--md);
+			background: var(--surface-background);
+			box-shadow: 0 16px 32px rgb(11 18 32 / 0.08);
+			opacity: 0;
+			transform: translateY(6px);
+			transition: opacity var(--floe-duration) var(--floe-ease), transform var(--floe-duration) var(--floe-ease), display var(--floe-duration) allow-discrete;
+
+			a {
+				padding: 10px 12px;
+				border-radius: var(--wp--custom--radius--sm);
+			}
+
+			a {
+				transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease);
+			}
+
+			a:hover {
+				background: var(--surface-raised);
+			}
+		}
+
+		li:is(:hover, :focus-within) > .sub-menu {
+			display: block;
+			opacity: 1;
+			transform: none;
+
+			@starting-style {
+				opacity: 0;
+				transform: translateY(6px);
+			}
+		}
+	}
+}
+
+.has-open-menu {
+	overflow: hidden;
+}

@@ -1,0 +1,401 @@
+// Floe base styles: loaded on every page and in the editor.
+// Colour, type and spacing values come from theme.json presets.
+@use "sass:map";
+@use "floe" as *;
+
+// ---------------------------------------------------------------------------
+// Tokens that depend on the breakpoint
+// ---------------------------------------------------------------------------
+:root {
+	--floe-section-space: 64px;
+	--floe-header-height: 72px;
+	--floe-focus: var(--wp--preset--color--blue);
+
+	@include from(tablet) {
+		--floe-section-space: 80px;
+	}
+
+	@include from(desktop) {
+		--floe-section-space: 96px;
+		--floe-header-height: 88px;
+	}
+
+	@include from(large) {
+		--floe-section-space: 120px;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Motion. One timing for every colour change and hover, one for reveals.
+// ---------------------------------------------------------------------------
+:root {
+	--floe-duration: var(--wp--custom--motion--duration, 0.4s);
+	--floe-ease: var(--wp--custom--motion--ease, cubic-bezier(0.22, 1, 0.36, 1));
+	--floe-reveal: var(--wp--custom--motion--reveal, 0.9s);
+}
+
+// ---------------------------------------------------------------------------
+// Surfaces. Put a surface class on a section and everything inside picks up
+// the right text, eyebrow, link, button, field and chip colours. Components
+// only ever read these variables, so dark mode just redefines them.
+// ---------------------------------------------------------------------------
+.surface-base,
+.surface-subtle,
+.surface-tint,
+:root {
+	--surface-background: var(--wp--preset--color--white);
+	--surface-text: var(--wp--preset--color--ink);
+	--surface-text-muted: var(--wp--preset--color--muted);
+	--surface-accent: var(--wp--preset--color--blue);
+	--surface-line: var(--wp--preset--color--line);
+	--surface-line-strong: #c9ced6;
+	--surface-raised: var(--wp--preset--color--canvas);
+	--surface-eyebrow: var(--wp--preset--color--muted);
+	--surface-eyebrow-dot: var(--wp--preset--color--blue);
+	--surface-link: var(--wp--preset--color--blue);
+	--surface-strong: var(--wp--preset--color--ink);
+	--surface-on-strong: var(--wp--preset--color--white);
+	--surface-field: var(--wp--preset--color--white);
+	--surface-chip: var(--wp--preset--color--blue-soft);
+	--surface-chip-text: var(--wp--preset--color--blue);
+	--surface-tile: var(--wp--preset--color--ice);
+	--surface-highlight: rgb(43 80 232 / 0.04);
+	--surface-glass: rgb(255 255 255 / 0.9);
+	--surface-placeholder: linear-gradient(126.87deg, #f2f0eb 7.14%, #ccc7bf 78.57%);
+	--floe-focus: var(--wp--preset--color--blue);
+}
+
+.surface-subtle {
+	--surface-background: var(--wp--preset--color--canvas);
+	--surface-raised: var(--wp--preset--color--white);
+}
+
+.surface-tint {
+	--surface-background: var(--wp--preset--color--ice);
+	--surface-raised: var(--wp--preset--color--white);
+}
+
+.surface-inverse {
+	--surface-background: var(--wp--preset--color--ink);
+	--surface-text: var(--wp--preset--color--white);
+	--surface-text-muted: var(--wp--preset--color--on-dark-muted);
+	--surface-accent: var(--wp--preset--color--on-dark-accent);
+	--surface-line: rgb(255 255 255 / 0.12);
+	--surface-line-strong: rgb(255 255 255 / 0.32);
+	--surface-raised: var(--wp--preset--color--ink-raised);
+	--surface-eyebrow: var(--wp--preset--color--on-dark-muted);
+	--surface-eyebrow-dot: var(--wp--preset--color--on-dark-accent);
+	--surface-link: var(--wp--preset--color--on-dark-accent);
+	--surface-strong: var(--wp--preset--color--white);
+	--surface-on-strong: var(--wp--preset--color--ink);
+	--surface-field: var(--wp--preset--color--ink-raised);
+	--surface-chip: rgb(169 188 255 / 0.14);
+	--surface-chip-text: var(--wp--preset--color--on-dark-accent);
+	--surface-tile: rgb(169 188 255 / 0.1);
+	--surface-highlight: rgb(169 188 255 / 0.06);
+	--surface-glass: rgb(11 18 32 / 0.88);
+	--surface-placeholder: linear-gradient(126.87deg, #1d2a44 7.14%, #111a2c 78.57%);
+	--floe-focus: var(--wp--preset--color--on-dark-accent);
+}
+
+.surface-accent {
+	--surface-background: var(--wp--preset--color--blue);
+	--surface-text: var(--wp--preset--color--white);
+	--surface-text-muted: var(--wp--preset--color--white);
+	--surface-accent: var(--wp--preset--color--white);
+	--surface-line: rgb(255 255 255 / 0.24);
+	--surface-line-strong: rgb(255 255 255 / 0.48);
+	--surface-raised: var(--wp--preset--color--blue-deep);
+	--surface-eyebrow: var(--wp--preset--color--white);
+	--surface-eyebrow-dot: var(--wp--preset--color--white);
+	--surface-link: var(--wp--preset--color--white);
+	--surface-strong: var(--wp--preset--color--white);
+	--surface-on-strong: var(--wp--preset--color--blue);
+	--surface-chip: rgb(255 255 255 / 0.16);
+	--surface-chip-text: var(--wp--preset--color--white);
+	--surface-tile: rgb(255 255 255 / 0.12);
+	--surface-highlight: rgb(255 255 255 / 0.08);
+	--floe-focus: var(--wp--preset--color--white);
+}
+
+// Dark mode: html[data-theme="dark"], set before the page paints (see the
+// theme-toggle component). The light surfaces take dark values; Inverse goes
+// a step deeper so dark sections and the footer still stand apart; Accent
+// stays blue.
+:root {
+	color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+	color-scheme: dark;
+
+	&,
+	.surface-base,
+	.surface-subtle,
+	.surface-tint {
+		--surface-background: var(--wp--custom--dark--base);
+		--surface-text: var(--wp--custom--dark--text);
+		--surface-text-muted: var(--wp--custom--dark--muted);
+		--surface-accent: var(--wp--custom--dark--accent);
+		--surface-line: var(--wp--custom--dark--line);
+		--surface-line-strong: rgb(255 255 255 / 0.3);
+		--surface-raised: var(--wp--custom--dark--raised);
+		--surface-eyebrow: var(--wp--custom--dark--muted);
+		--surface-eyebrow-dot: var(--wp--custom--dark--accent);
+		--surface-link: var(--wp--custom--dark--accent);
+		--surface-strong: var(--wp--custom--dark--text);
+		--surface-on-strong: var(--wp--custom--dark--base);
+		--surface-field: var(--wp--custom--dark--field);
+		--surface-chip: var(--wp--custom--dark--chip);
+		--surface-chip-text: var(--wp--custom--dark--accent);
+		--surface-tile: var(--wp--custom--dark--tile);
+		--surface-highlight: rgb(169 188 255 / 0.06);
+		--surface-glass: rgb(11 18 32 / 0.86);
+		--surface-placeholder: linear-gradient(126.87deg, #1d2a44 7.14%, #111a2c 78.57%);
+		--floe-focus: var(--wp--custom--dark--accent);
+	}
+
+	.surface-subtle {
+		--surface-background: var(--wp--custom--dark--subtle);
+		--surface-raised: var(--wp--custom--dark--raised-alt);
+	}
+
+	.surface-tint {
+		--surface-background: var(--wp--custom--dark--tint);
+		--surface-raised: var(--wp--custom--dark--raised-alt);
+	}
+
+	.surface-inverse {
+		--surface-background: var(--wp--custom--dark--inverse);
+		--surface-raised: var(--wp--custom--dark--inverse-raised);
+		--surface-field: var(--wp--custom--dark--inverse-raised);
+	}
+}
+
+body,
+.surface-base,
+.surface-subtle,
+.surface-tint,
+.surface-inverse,
+.surface-accent {
+	background-color: var(--surface-background);
+	color: var(--surface-text);
+}
+
+@keyframes floe-rise {
+
+	from {
+		opacity: 0;
+		transform: translate3d(0, 24px, 0);
+	}
+}
+
+// While the theme switches (browsers without view transitions), colours
+// cross-fade instead of snapping.
+.floe-theme-changing,
+.floe-theme-changing *,
+.floe-theme-changing *::before,
+.floe-theme-changing *::after {
+	transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease), fill var(--floe-duration) var(--floe-ease) !important;
+}
+
+// ---------------------------------------------------------------------------
+// Reset and document
+// ---------------------------------------------------------------------------
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+	scroll-padding-top: calc(var(--floe-header-height) + 16px);
+}
+
+body {
+	margin: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizelegibility;
+}
+
+img,
+svg,
+video {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+	margin: 0;
+}
+
+ul[class],
+ol[class] {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+// Long words (URLs, product names) wrap rather than widen the page, even
+// inside flex and grid columns.
+:is(h1, h2, h3, h4, h5, h6, p, li, dd, figcaption, blockquote) {
+	overflow-wrap: anywhere;
+}
+
+a {
+	color: var(--surface-link);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.2em;
+	transition: color var(--floe-duration) var(--floe-ease);
+}
+
+button,
+input,
+select,
+textarea {
+	font: inherit;
+	color: inherit;
+}
+
+:focus-visible {
+
+	@include focus-ring;
+}
+
+@include reduced-motion {
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Text styles as classes, e.g. <p class="text-body-l">
+// ---------------------------------------------------------------------------
+@each $name, $style in $type-styles {
+	.text-#{$name} {
+
+		@include type($name);
+	}
+}
+
+.text-muted {
+	color: var(--surface-text-muted);
+}
+
+// ---------------------------------------------------------------------------
+// Layout helpers
+// ---------------------------------------------------------------------------
+.container {
+
+	@include container;
+}
+
+.site-main {
+	display: block;
+}
+
+.screen-reader-text {
+
+	@include visually-hidden;
+}
+
+.skip-link {
+
+	@include visually-hidden;
+
+	&:focus {
+		position: fixed !important;
+		top: 12px;
+		left: 12px;
+		z-index: 1000;
+		width: auto;
+		height: auto;
+		padding: 12px 20px;
+		clip-path: none;
+		background: var(--wp--preset--color--white);
+		color: var(--wp--preset--color--ink);
+		border-radius: var(--wp--custom--radius--pill);
+
+		@include type(label);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Template fallbacks: a page title when no banner provides the H1, and a
+// reading column for content that isn't built from Floe sections.
+// ---------------------------------------------------------------------------
+.page-title {
+
+	@include section-padding;
+	padding-bottom: 0;
+
+	h1 {
+
+		@include type(h1);
+	}
+}
+
+.page-title + .prose,
+.page-title + * {
+	margin-top: 0;
+}
+
+.prose {
+
+	@include container;
+	@include section-padding;
+
+	> * {
+		max-width: var(--wp--custom--content--narrow);
+	}
+
+	> * + * {
+		margin-top: 1.25em;
+	}
+
+	> :is(h2, h3, h4) {
+		margin-top: 1.6em;
+	}
+
+	> :is(h2, h3, h4) + * {
+		margin-top: 0.6em;
+	}
+}
+
+.archive-list {
+
+	@include container;
+	@include section-padding;
+	display: grid;
+	gap: 32px;
+
+	h2 {
+
+		@include type(h3);
+	}
+
+	h2 a {
+		color: inherit;
+		text-decoration: none;
+	}
+}

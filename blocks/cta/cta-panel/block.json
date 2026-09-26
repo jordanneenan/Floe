@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/cta-panel",
+	"version": "1.0.0",
+	"title": "CTA panel",
+	"category": "floe-parts",
+	"icon": "megaphone",
+	"description": "One call to action panel: eyebrow, heading, a short line, one action, an optional note and an optional image.",
+	"textdomain": "floe",
+	"parent": [ "floe/cta" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"body": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"note": { "type": "string", "default": "" },
+		"media": { "type": "object", "default": {} },
+		"surface": { "type": "string", "enum": [ "inverse", "accent", "tint", "subtle" ], "default": "inverse" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/cta-panel-editor.js",
+	"style": "file:./assets/cta-panel.css",
+	"render": "file:./cta-panel.php"
+}

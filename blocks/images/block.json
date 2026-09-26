@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/images",
+	"version": "1.0.0",
+	"title": "Images",
+	"category": "floe-sections",
+	"icon": "format-gallery",
+	"description": "Rows of one, two or three images or looping MP4s, with an optional heading.",
+	"keywords": [ "gallery", "grid", "photos" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/image-row" ],
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"fit": { "type": "string", "enum": [ "fill", "natural" ], "default": "fill" }
+	},
+	"providesContext": {
+		"floe/imagesFit": "fit"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": { "attributes": { "eyebrow": "Gallery", "heading": "Places we have shaped" } },
+	"editorScript": "file:./assets/images-editor.js",
+	"style": "file:./assets/images.css",
+	"render": "file:./images.php"
+}

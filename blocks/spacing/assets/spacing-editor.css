@@ -1,0 +1,1 @@
+.spacing{position:relative;min-height:24px;background:rgba(43,80,232,.05);outline:1px dashed rgba(43,80,232,.35);outline-offset:-1px}.spacing::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;color:#5a6474;font:500 12px/1 var(--wp--preset--font-family--geist-mono, monospace);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}

@@ -1,0 +1,1 @@
+@media(min-width: 768px){.testimonials .floe-editor-wrap{grid-auto-flow:row;grid-template-columns:repeat(3, minmax(0, 1fr))}}

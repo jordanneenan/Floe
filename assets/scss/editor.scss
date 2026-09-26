@@ -1,0 +1,96 @@
+// Editor-only chrome for Floe blocks (loaded into the editor canvas only).
+@use "floe" as *;
+
+// Floe sections fill the whole editor canvas, as they fill the page on the
+// site. WordPress otherwise centres every top-level block at the content
+// width (860px) and adds gaps between them.
+.is-root-container > [data-type^="floe/"] {
+	max-width: none;
+	margin-block: 0;
+}
+
+// The page title sits in the same content container as the sections, so it
+// lines up with their headings.
+.editor-visual-editor__post-title-wrapper {
+
+	@include container;
+}
+
+.floe-link-button {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+
+	.button .block-editor-rich-text__editable {
+		min-width: 2ch;
+	}
+
+	&.is-unlinked .button {
+		outline: 1px dashed rgb(90 100 116 / 0.6);
+		outline-offset: 3px;
+	}
+}
+
+.floe-link-button__edit.components-button {
+	opacity: 0;
+	transition: opacity 0.15s ease;
+}
+
+.is-selected .floe-link-button__edit.components-button,
+.has-child-selected .floe-link-button__edit.components-button,
+.floe-link-button:focus-within .floe-link-button__edit.components-button,
+.floe-link-button:hover .floe-link-button__edit.components-button {
+	opacity: 1;
+}
+
+.floe-media-slot {
+	position: relative;
+
+	&.is-empty {
+		display: flex;
+		border-radius: var(--wp--custom--radius--lg);
+		background: var(--wp--preset--color--canvas);
+
+		.components-placeholder {
+			width: 100%;
+			min-height: 100%;
+			border-radius: inherit;
+			box-shadow: none;
+			background: transparent;
+		}
+	}
+}
+
+.floe-media-slot__tools {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+	z-index: 2;
+	display: none;
+	border-radius: 4px;
+	background: #fff;
+	box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+}
+
+.is-selected .floe-media-slot__tools,
+.has-child-selected .floe-media-slot__tools,
+.floe-media-slot:hover .floe-media-slot__tools,
+.floe-media-slot:focus-within .floe-media-slot__tools {
+	display: block;
+}
+
+.floe-media-slot__alt {
+	width: 280px;
+	padding: 12px;
+}
+
+// Hint for empty inner-block slots.
+.floe-slot-hint {
+	padding: 16px;
+	border: 1px dashed rgb(90 100 116 / 0.5);
+	border-radius: var(--wp--custom--radius--md);
+	color: var(--wp--preset--color--muted);
+
+	@include type(small);
+}

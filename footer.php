@@ -3,7 +3,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-get_template_part( 'Components/Footer/footer' );
+echo Floe\component( 'footer' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output is escaped.
 wp_footer();
 ?>
 </body>

@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/download",
+	"version": "1.0.0",
+	"title": "Download",
+	"category": "floe-parts",
+	"icon": "media-document",
+	"description": "One downloadable file.",
+	"textdomain": "floe",
+	"parent": [ "floe/document-download" ],
+	"attributes": {
+		"file": { "type": "object", "default": {} },
+		"title": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/download-editor.js",
+	"render": "file:./download.php"
+}

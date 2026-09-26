@@ -1,0 +1,38 @@
+// Text styles from Figma "Floe / Foundations". Sizes come from theme.json
+// presets (fluid where the preset is fluid); line height and tracking are
+// kept here.
+@use "sass:map";
+
+$type-styles: (
+	display-xl: (size: display-xl, line: 1.048, tracking: -0.035em, weight: 500),
+	display:    (size: display, line: 1.0625, tracking: -0.03em, weight: 500),
+	h1:         (size: heading-1, line: 1.077, tracking: -0.025em, weight: 500),
+	h2:         (size: heading-2, line: 1.15, tracking: -0.02em, weight: 500),
+	h3:         (size: heading-3, line: 1.231, tracking: -0.012em, weight: 500),
+	h4:         (size: heading-4, line: 1.368, tracking: -0.006em, weight: 600),
+	quote:      (size: quote, line: 1.222, tracking: -0.018em, weight: 500),
+	body-l:     (size: body-l, line: 1.55, tracking: -0.003em, weight: 400),
+	body:       (size: body, line: 1.588, tracking: -0.002em, weight: 400),
+	small:      (size: small, line: 1.5, tracking: 0, weight: 400),
+	label:      (size: label, line: 1.333, tracking: -0.001em, weight: 500),
+	eyebrow:    (size: eyebrow, line: 1.333, tracking: 0.06em, weight: 500),
+);
+
+// @include type(h2);
+@mixin type($name) {
+	$style: map.get($type-styles, $name);
+
+	@if not $style {
+
+		@error 'Unknown Floe text style "#{$name}".';
+	}
+	font-size: var(--wp--preset--font-size--#{map.get($style, size)});
+	line-height: map.get($style, line);
+	letter-spacing: map.get($style, tracking);
+	font-weight: map.get($style, weight);
+
+	@if $name == eyebrow {
+		font-family: var(--wp--preset--font-family--geist-mono);
+		text-transform: uppercase;
+	}
+}

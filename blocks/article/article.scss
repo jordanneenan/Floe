@@ -1,0 +1,252 @@
+// Figma 34:28, widened: an 860px reading column aligned to the left edge of
+// the content area, so it lines up with every other section. Core blocks:
+// 24px rhythm, 64px above headings, 72px around quotes and figures.
+@use "floe" as *;
+
+.article {
+
+	@include section-padding;
+}
+
+.article__inner {
+
+	@include container;
+}
+
+.article__content,
+.article__action {
+	max-width: var(--wp--custom--content--narrow);
+}
+
+.article__action {
+	margin-top: 48px;
+
+	@include from(desktop) {
+		margin-top: 64px;
+	}
+}
+
+.article__content {
+	--article-gap: 24px;
+	--article-heading-gap: 40px;
+	--article-feature-gap: 48px;
+
+	@include from(desktop) {
+		--article-heading-gap: 64px;
+		--article-feature-gap: 72px;
+	}
+
+	> * {
+		margin-block: 0;
+	}
+
+	> * + * {
+		margin-top: var(--article-gap);
+	}
+
+	> :is(h2, h3, h4, .wp-block-heading):not(:first-child) {
+		margin-top: var(--article-heading-gap);
+	}
+
+	> :is(.wp-block-quote, .wp-block-pullquote, .wp-block-image, .media-figure, .media, .wp-block-table, .wp-block-embed, .wp-block-separator) {
+		margin-block: var(--article-feature-gap);
+
+		&:first-child {
+			margin-top: 0;
+		}
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	> :is(.wp-block-quote, .wp-block-pullquote, .wp-block-image, .media-figure, .media, .wp-block-table, .wp-block-embed, .wp-block-separator) + * {
+		margin-top: 0;
+	}
+
+	h2 {
+
+		@include type(h2);
+	}
+
+	h3 {
+
+		@include type(h3);
+	}
+
+	h4 {
+
+		@include type(h4);
+	}
+
+	p {
+
+		@include type(body);
+		color: var(--surface-text-muted);
+	}
+
+	p.is-style-lead {
+
+		@include type(body-l);
+		color: var(--surface-text);
+	}
+
+	a:not(.button, .wp-block-button__link) {
+		color: var(--surface-link);
+		text-decoration: underline;
+		text-decoration-thickness: from-font;
+		text-underline-offset: 0.18em;
+
+		&:hover {
+			text-decoration-thickness: 2px;
+		}
+	}
+
+	strong {
+		color: var(--surface-text);
+		font-weight: 600;
+	}
+
+	:is(ul, ol):not([class*="wp-block-"][class*="__"]) {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		margin-inline: 0;
+		margin-bottom: 0;
+		padding: 0;
+		list-style: none;
+
+		li {
+			position: relative;
+			padding-left: 30px;
+			color: var(--surface-text);
+
+			@include type(body);
+		}
+
+		:is(ul, ol) {
+			margin-top: 12px;
+		}
+	}
+
+	ul:not([class*="wp-block-"][class*="__"]) > li::before {
+		content: "";
+		position: absolute;
+		top: 13px;
+		left: 0;
+		width: 14px;
+		height: 2px;
+		background: var(--surface-accent);
+	}
+
+	ol:not([class*="wp-block-"][class*="__"]) {
+		counter-reset: article-list;
+
+		> li {
+			counter-increment: article-list;
+		}
+
+		> li::before {
+			content: counter(article-list, decimal-leading-zero);
+			position: absolute;
+			top: 5px;
+			left: 0;
+			color: var(--surface-accent);
+
+			@include type(eyebrow);
+		}
+	}
+
+	:is(.wp-block-quote, .wp-block-pullquote) {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-inline: 0;
+		padding: 0 0 0 24px;
+		border: 0;
+		border-left: 3px solid var(--surface-accent);
+		text-align: left;
+
+		@include from(desktop) {
+			padding-left: 32px;
+		}
+
+		blockquote {
+			display: contents;
+			margin: 0;
+		}
+
+		p {
+
+			@include type(quote);
+			color: var(--surface-text);
+		}
+
+		cite {
+			display: block;
+			color: var(--surface-text-muted);
+			font-style: normal;
+
+			@include type(eyebrow);
+		}
+	}
+
+	.wp-block-image {
+
+		img {
+			width: 100%;
+			border-radius: var(--wp--custom--radius--lg);
+		}
+
+		figcaption,
+		.wp-element-caption {
+			margin: 12px 0 0;
+			color: var(--surface-text-muted);
+			text-align: left;
+
+			@include type(small);
+		}
+	}
+
+	.wp-block-separator {
+		height: 0;
+		border: 0;
+		border-top: 1px solid var(--surface-line);
+	}
+
+	.wp-block-table {
+		overflow-x: auto;
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+		}
+
+		:is(th, td) {
+			padding: 14px 16px 14px 0;
+			border: 0;
+			border-bottom: 1px solid var(--surface-line);
+			text-align: left;
+			vertical-align: top;
+
+			@include type(body);
+		}
+
+		th {
+
+			@include type(label);
+		}
+
+		figcaption {
+			margin-top: 12px;
+			color: var(--surface-text-muted);
+
+			@include type(small);
+		}
+	}
+
+	.wp-block-embed iframe {
+		width: 100%;
+		border-radius: var(--wp--custom--radius--lg);
+	}
+}

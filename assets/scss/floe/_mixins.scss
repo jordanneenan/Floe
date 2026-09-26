@@ -1,0 +1,48 @@
+@use "breakpoints" as *;
+
+// Centred content column: 1248px inside fluid gutters (96px at 1440).
+@mixin container($width: var(--wp--custom--content--width)) {
+	width: 100%;
+	max-width: calc(#{$width} + 2 * var(--wp--custom--content--gutter));
+	margin-inline: auto;
+	padding-inline: var(--wp--custom--content--gutter);
+}
+
+// Vertical padding for a full section: 120px on large desktop, scaling down.
+@mixin section-padding {
+	padding-block: var(--floe-section-space);
+}
+
+@mixin focus-ring($offset: 3px) {
+	outline: 2px solid var(--floe-focus);
+	outline-offset: $offset;
+}
+
+@mixin visually-hidden {
+	position: absolute !important;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+@mixin reduced-motion {
+
+	@media (prefers-reduced-motion: reduce) {
+		@content;
+	}
+}
+
+// First-screen load-in: fade and rise as the page appears. Front end only
+// (scope it under .site-main) so the editor doesn't replay it on every change.
+@mixin rise($delay: 0s) {
+	animation: floe-rise var(--floe-reveal) var(--floe-ease) $delay both;
+
+	@include reduced-motion {
+		animation: none;
+	}
+}
