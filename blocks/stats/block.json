@@ -14,7 +14,8 @@
 		"eyebrow": { "type": "string", "default": "" },
 		"heading": { "type": "string", "default": "" },
 		"headingLevel": { "type": "number", "default": 2 },
-		"intro": { "type": "string", "default": "" }
+		"intro": { "type": "string", "default": "" },
+		"countUp": { "type": "boolean", "default": false }
 	},
 	"providesContext": {
 		"floe/headingLevel": "headingLevel"
@@ -26,5 +27,6 @@
 	"example": { "attributes": { "eyebrow": "By the numbers", "heading": "Built to be used, not just launched" }, "innerBlocks": [ { "name": "floe/stat", "attributes": { "value": "40", "unit": "+", "label": "Sites launched" } }, { "name": "floe/stat", "attributes": { "value": "6", "unit": "wks", "label": "Brief to launch" } } ] },
 	"editorScript": "file:./assets/stats-editor.js",
 	"style": "file:./assets/stats.css",
+	"viewScript": "file:./assets/stats.js",
 	"render": "file:./stats.php"
 }

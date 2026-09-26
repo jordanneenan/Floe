@@ -5,7 +5,7 @@ import {
 	useInnerBlocksProps,
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import {
@@ -44,6 +44,19 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 						onChange={ ( headingLevel ) =>
 							setAttributes( { headingLevel } )
 						}
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __(
+							'Count up when scrolled into view',
+							'floe'
+						) }
+						help={ __(
+							'The numbers tick up from zero on the live site.',
+							'floe'
+						) }
+						checked={ attributes.countUp }
+						onChange={ ( countUp ) => setAttributes( { countUp } ) }
 					/>
 					<p>{ __( 'Two to four stats.', 'floe' ) }</p>
 				</PanelBody>

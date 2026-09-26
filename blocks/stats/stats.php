@@ -12,8 +12,17 @@ defined( 'ABSPATH' ) || exit;
 if ( '' === trim( $content ) ) {
 	return;
 }
+
+$wrapper = array(
+	'surface' => 'base',
+	'class'   => 'stats--count-' . min( 4, count( $block->inner_blocks ) ),
+);
+// stats.js ticks the figures up from zero as they scroll into view.
+if ( ! empty( $attributes['countUp'] ) ) {
+	$wrapper['data-count-up'] = '';
+}
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base', 'class' => 'stats--count-' . min( 4, count( $block->inner_blocks ) ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, $wrapper ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="stats__inner">
 		<?php
 		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
