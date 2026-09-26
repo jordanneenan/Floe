@@ -14,6 +14,7 @@
 | --- | --- | --- |
 | Add or change a block | [Block library](blocks.md), the block's README | `blocks/<name>/` |
 | Add or change a component | [Architecture](architecture.md#modules), the component's README | `components/<name>/` |
+| Prepare, generate or place images | [Images](images.md) | `components/media/`, `includes/media/images.php` |
 | Change tokens, type, surfaces, breakpoints | [Architecture](architecture.md#styling-system) | `theme.json`, `assets/scss/` |
 | Change editor lockdown or allowed blocks | [Configuration map](configuration.md) | `includes/editor.php`, block `allowedBlocks` |
 | Change admin behaviour or site-wide tweaks | [Configuration map](configuration.md) | `includes/admin/`, `includes/media/` |

@@ -310,3 +310,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-26): header and footer links broke mid-word at tablet widths ("Platfor / m" at 800px, "Documentat / ion" at 1024px)
 - **Decision:** The header keeps the menu button below the `large` breakpoint (1280px) and shows the menu in the bar from there. The default five items and button need about 820px of content width, so 768px was too narrow, and 1280px leaves room for longer client menus while staying on the system breakpoints; Made uses a separate `$navBreak` instead. Menu labels wrap only between words (`overflow-wrap: normal` in the Navigation component, overriding base.scss's `anywhere` for list items); header links and the button don't wrap at all, and a menu too long for the bar wraps onto a second row between items. In the footer the link columns sit beside the sign-off only when both fit (about 1090px with three columns) and otherwise wrap underneath, and the columns themselves wrap rather than squeeze.
 - **Status:** Adopted
+
+## D44: Images are 16:9 or 4:3
+
+- **Source:** Jordan (2026-09-26): wide banner and full-width images should be 16:9, smaller images 4:3, documented for people and AI
+- **Decision:** Upload full-width images (banners, one-per-row Images, Video cover, CTA panel, Contact map, post featured images) at 16:9, 2560 × 1440, and smaller ones (Image + Copy, Cards, two- and three-per-row Images, Article media) at 4:3, 2000 × 1500. Team portraits stay 4:5 and testimonial photos 1:1, as drawn in Figma. The slots keep their Figma shapes and crop from the centre, so the guidance includes a safe area (the middle 75% × 60% of a 16:9 image) rather than changing the layouts. [Images](images.md) has the slot-by-slot crops, file formats, alt text and AI generation notes.
+- **Status:** Adopted
