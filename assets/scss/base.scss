@@ -121,9 +121,10 @@
 // Dark mode: html[data-theme="dark"], set before the page paints (see the
 // theme-toggle component). The light surfaces take dark values; Inverse goes
 // a step deeper so dark sections and the footer still stand apart; Accent
-// stays blue.
+// stays blue. "only light" stops Chrome's forced dark mode inverting the
+// light theme after a visitor has switched to it.
 :root {
-	color-scheme: light;
+	color-scheme: only light;
 }
 
 :root[data-theme="dark"] {
