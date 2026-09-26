@@ -304,3 +304,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-26): no email address shown on the site, and no form plugin
 - **Decision:** A **Form** block (`blocks/form/`) goes in the Contact and Newsletter form slots. It has two types: the Figma enquiry form (first and last name, email, organisation, "How can we help?", consent) and a one-field newsletter signup. It posts to `admin-post.php`, so it works without JavaScript; with JavaScript it sends in the background and shows the thank-you message in place. Each entry is saved as a private **Enquiry** (admin menu, no public URL) before an alert is emailed to the site's administration email address with Reply-To set to the sender, so nothing is lost if email fails. Spam protection is a hidden field, a signed timestamp (sends within two seconds of loading are refused) and five sends per visitor per ten minutes; there is no nonce, so cached pages keep working. `includes/mail/smtp.php` sends all WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST`. Newsletter signups are stored the same way until a mailing provider is chosen.
 - **Status:** Adopted
+
+## D43: Images are 16:9 or 4:3
+
+- **Source:** Jordan (2026-09-26): wide banner and full-width images should be 16:9, smaller images 4:3, documented for people and AI
+- **Decision:** Upload full-width images (banners, one-per-row Images, Video cover, CTA panel, Contact map, post featured images) at 16:9, 2560 × 1440, and smaller ones (Image + Copy, Cards, two- and three-per-row Images, Article media) at 4:3, 2000 × 1500. Team portraits stay 4:5 and testimonial photos 1:1, as drawn in Figma. The slots keep their Figma shapes and crop from the centre, so the guidance includes a safe area (the middle 75% × 60% of a 16:9 image) rather than changing the layouts. [Images](images.md) has the slot-by-slot crops, file formats, alt text and AI generation notes.
+- **Status:** Adopted

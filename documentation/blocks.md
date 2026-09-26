@@ -41,7 +41,7 @@ Every block is a folder under `blocks/` with its own README describing its field
 - **Headings.** Exactly one H1 per page, owned by the banners (their title falls back to the page title). Section headings default to H2 with a heading-level control; child titles are one level below their section.
 - **Empty is invisible.** A section with nothing to show (no posts, no files, no quote…) renders nothing; optional parts leave no gap. Hiding media (e.g. Page Banner "Show media") removes its space even when media is selected.
 - **Links** are `{ label, url, newTab }` objects edited with WordPress's link picker (page search included); a button without a URL isn't rendered.
-- **Media** is stored as `{ id, posterId, alt }`. Alt text is read from the library at render time unless the slot overrides it. WordPress decides lazy or eager loading.
+- **Media** is stored as `{ id, posterId, alt }`. Alt text is read from the library at render time unless the slot overrides it. WordPress decides lazy or eager loading. Each slot's shape and crop, and the sizes to upload, are in [Images](images.md).
 - **Keyboard and focus.** Every interactive element has a visible focus style; custom controls (header menu, slider, video, media pause) are real buttons with accessible names.
 - **`example`** in every `block.json` for inserter previews, and a README in every folder.
 
