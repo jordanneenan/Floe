@@ -1,9 +1,16 @@
 @use "floe" as *;
 
+// Menu labels wrap between words, never inside one. base.scss lets list items
+// break anywhere, which would let flex and grid columns squeeze a label to a
+// letter per line.
 .navigation__list {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+
+	li {
+		overflow-wrap: normal;
+	}
 
 	a {
 		color: inherit;
@@ -19,6 +26,7 @@
 
 .navigation__heading {
 	margin-bottom: 20px;
+	overflow-wrap: normal;
 	color: var(--surface-text-muted);
 
 	@include type(eyebrow);
