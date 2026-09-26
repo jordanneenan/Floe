@@ -259,7 +259,9 @@ function register_post_type(): void {
 			'show_in_admin_bar'   => false,
 			'exclude_from_search' => true,
 			'menu_icon'           => 'dashicons-email-alt',
-			'menu_position'       => 25,
+			// Last in the admin menu: Floe's order (includes/admin/menu.php)
+			// doesn't list it, and unlisted items keep their position.
+			'menu_position'       => 100,
 			'supports'            => false,
 			'rewrite'             => false,
 			'query_var'           => false,
@@ -276,19 +278,6 @@ if ( did_action( 'init' ) ) {
 } else {
 	add_action( 'init', __NAMESPACE__ . '\\register_post_type' );
 }
-
-// Enquiries sits after Posts in Floe's menu order (includes/admin/menu.php).
-function menu_order( $order ) {
-	if ( ! is_array( $order ) ) {
-		return $order;
-	}
-	$item  = 'edit.php?post_type=' . POST_TYPE;
-	$order = array_values( array_diff( $order, array( $item ) ) );
-	$after = array_search( 'edit.php', $order, true );
-	array_splice( $order, false === $after ? count( $order ) : $after + 1, 0, array( $item ) );
-	return $order;
-}
-add_filter( 'menu_order', __NAMESPACE__ . '\\menu_order', 20 );
 
 function meta( int $id, string $key ): string {
 	return (string) get_post_meta( $id, '_floe_' . $key, true );
