@@ -1,6 +1,14 @@
 // Editor-only chrome for Floe blocks (loaded into the editor canvas only).
 @use "floe" as *;
 
+// Floe sections fill the whole editor canvas, as they fill the page on the
+// site. WordPress otherwise centres every top-level block at the content
+// width (860px) and adds gaps between them.
+.is-root-container > [data-type^="floe/"] {
+	max-width: none;
+	margin-block: 0;
+}
+
 .floe-link-button {
 	position: relative;
 	display: inline-flex;
