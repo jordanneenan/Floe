@@ -1,6 +1,4 @@
-// Figma 35:75. White section, 96px padding; panel radius xl, padding 88/80,
-// copy left (620 wide), action column right-aligned. Soft radial glow at
-// the top right.
+// Figma 35:75. White section with 96px padding holding one to three panels.
 @use "floe" as *;
 
 .cta {
@@ -10,78 +8,24 @@
 .cta__inner {
 
 	@include container;
-}
-
-.cta__panel {
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	gap: 32px;
-	padding: 48px 28px;
-	overflow: hidden;
-	border-radius: var(--wp--custom--radius--xl);
-	background-image: radial-gradient(50% 67% at 90% 6.7%, var(--cta-glow) 0%, transparent 100%);
-	--cta-glow: rgb(43 79 232 / 0.55);
-
-	&.surface-accent {
-		--cta-glow: rgb(255 255 255 / 0.22);
-	}
+	display: grid;
+	gap: 16px;
 
 	@include from(tablet) {
-		padding: 64px 48px;
-	}
-
-	@include from(desktop) {
-		flex-direction: row;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 48px;
-		padding: 88px 80px;
-	}
-}
-
-.cta__copy {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	max-width: 620px;
-
-	@include from(desktop) {
 		gap: 24px;
 	}
 }
 
-.cta__heading {
-
-	@include type(h1);
-	text-wrap: balance;
-}
-
-.cta__body {
-
-	@include type(body-l);
-	max-width: 520px;
-	color: var(--surface-text-muted);
-}
-
-.cta__actions {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	gap: 16px;
+.cta--count-2 .cta__inner {
 
 	@include from(desktop) {
-		flex: none;
-		align-items: flex-end;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
 
-.cta__note {
+.cta--count-3 .cta__inner {
 
-	@include type(small);
-	color: var(--surface-text-muted);
-
-	a {
-		color: inherit;
+	@include from(desktop) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 }

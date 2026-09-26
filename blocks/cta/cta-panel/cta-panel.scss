@@ -1,0 +1,121 @@
+// A CTA panel: radius xl, soft radial glow top right. On its own it's the wide
+// Figma banner (copy left, action right); in two or three columns the content
+// stacks with the action at the bottom.
+@use "floe" as *;
+
+.cta-panel {
+	--cta-glow: rgb(43 79 232 / 0.55);
+
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	padding: 48px 28px;
+	overflow: hidden;
+	border-radius: var(--wp--custom--radius--xl);
+	background-image: radial-gradient(50% 67% at 90% 6.7%, var(--cta-glow) 0%, transparent 100%);
+
+	&.surface-accent {
+		--cta-glow: rgb(255 255 255 / 0.22);
+	}
+
+	&.surface-tint,
+	&.surface-subtle {
+		--cta-glow: rgb(43 80 232 / 0.08);
+	}
+
+	@include from(tablet) {
+		padding: 56px 48px;
+	}
+}
+
+.cta-panel__copy {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	max-width: 620px;
+}
+
+.cta-panel__heading {
+
+	@include type(h2);
+	text-wrap: balance;
+}
+
+.cta-panel__body {
+
+	@include type(body-l);
+	max-width: 520px;
+	color: var(--surface-text-muted);
+}
+
+.cta-panel__actions {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 16px;
+	margin-top: auto;
+}
+
+.cta-panel__note {
+
+	@include type(small);
+	color: var(--surface-text-muted);
+
+	a {
+		color: inherit;
+	}
+}
+
+.cta-panel__media {
+	margin: -20px -12px 0;
+	border-radius: var(--wp--custom--radius--lg);
+
+	@include from(tablet) {
+		margin: -32px -24px 0;
+	}
+}
+
+// One panel: the wide banner from Figma.
+.cta--count-1 .cta-panel {
+
+	@include from(desktop) {
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 48px;
+		padding: 88px 80px;
+
+		.cta-panel__copy {
+			gap: 24px;
+		}
+
+		.cta-panel__heading {
+
+			@include type(h1);
+		}
+
+		.cta-panel__actions {
+			flex: none;
+			align-items: flex-end;
+		}
+
+		&.has-media {
+			flex-wrap: wrap;
+
+			.cta-panel__media {
+				flex: 0 0 calc(100% + 64px);
+				margin: -56px -32px 8px;
+			}
+		}
+	}
+}
+
+// Three columns: a size down for the heading.
+.cta--count-3 .cta-panel__heading {
+
+	@include from(desktop) {
+
+		@include type(h3);
+	}
+}

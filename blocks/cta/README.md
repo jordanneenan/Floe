@@ -1,14 +1,15 @@
 # CTA (`floe/cta`)
 
-A contained call-to-action panel (Figma `35:75`), rounded on the white page rather than a full-bleed band.
+One to three call-to-action panels in a row (Figma `35:75`, with Made's multi-column CTA). Add **CTA panel** blocks inside it; the columns follow the number of panels.
 
-| Field | Notes |
+| Panels | Layout |
 | --- | --- |
-| Surface | Ink (Inverse, default) or Accent (blue), in the sidebar. The eyebrow, text and button colours follow automatically; the button takes the white Inverse look. |
-| Eyebrow, Heading, Body | Heading is H1-sized but an H2 by default (sidebar: H2–H4). |
-| Action | One button. |
-| Note | Optional small line under the button, e.g. "or email hello@studio.com". Links are allowed (select text and add a `mailto:` link). |
+| 1 | The wide Figma banner: copy on the left (H1-sized heading), button and note on the right. |
+| 2 | Two equal columns; each panel stacks its content with the button at the bottom. |
+| 3 | Three equal columns; headings drop to H3 size. |
 
-**Responsive:** below 768px the action and note stack under the copy, left-aligned.
+Each panel has its own settings (see [cta-panel](cta-panel/README.md)).
 
-**Components used:** Eyebrow, Button.
+**Responsive:** panels stack below 768px, and a single panel's button moves under its copy.
+
+**Components used:** Eyebrow, Button, Media (through CTA panel).
