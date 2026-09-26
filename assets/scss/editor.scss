@@ -9,6 +9,13 @@
 	margin-block: 0;
 }
 
+// The page title sits in the same content container as the sections, so it
+// lines up with their headings.
+.editor-visual-editor__post-title-wrapper {
+
+	@include container;
+}
+
 .floe-link-button {
 	position: relative;
 	display: inline-flex;
