@@ -7,6 +7,7 @@ import { __ } from '@wordpress/i18n';
 import { useState, useRef } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
+import { store as blocksStore } from '@wordpress/blocks';
 import {
 	RichText,
 	useBlockProps,
@@ -475,6 +476,28 @@ export function SurfaceControl( { value, onChange, options } ) {
 			} ) ) }
 			onChange={ onChange }
 		/>
+	);
+}
+
+/**
+ * Blocks a form slot accepts: any non-Floe block (a form plugin's block, or
+ * the Shortcode block), plus Floe blocks made for this parent (Form).
+ *
+ * @param {string} name The slot block's name, e.g. "floe/contact".
+ * @return {string[]} Allowed block names.
+ */
+export function useFormSlotBlocks( name ) {
+	return useSelect(
+		( select ) =>
+			select( blocksStore )
+				.getBlockTypes()
+				.filter(
+					( type ) =>
+						! type.name.startsWith( 'floe/' ) ||
+						( type.parent || [] ).includes( name )
+				)
+				.map( ( type ) => type.name ),
+		[ name ]
 	);
 }
 

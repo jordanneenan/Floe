@@ -1,4 +1,4 @@
-import { registerBlockType, store as blocksStore } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import {
 	InnerBlocks,
 	InspectorControls,
@@ -14,19 +14,13 @@ import {
 	HeadingLevelControl,
 	LinkButton,
 	useText,
+	useFormSlotBlocks,
 } from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, clientId, name } ) {
 	const text = useText( attributes, setAttributes );
-	const allowedBlocks = useSelect(
-		( select ) =>
-			select( blocksStore )
-				.getBlockTypes()
-				.map( ( type ) => type.name )
-				.filter( ( type ) => ! type.startsWith( 'floe/' ) ),
-		[]
-	);
+	const allowedBlocks = useFormSlotBlocks( name );
 	const hasForm = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ) > 0,
 		[ clientId ]
@@ -40,7 +34,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 			placeholder: (
 				<p className="floe-slot-hint">
 					{ __(
-						'Form slot: add your mailing provider’s signup block or shortcode. Leave empty and add a button instead to use this as a slim call to action.',
+						'Form slot: add Floe’s Form block (Newsletter signup), or your mailing provider’s signup block or shortcode. Leave empty and add a button instead to use this as a slim call to action.',
 						'floe'
 					) }
 				</p>

@@ -1,11 +1,10 @@
-import { registerBlockType, store as blocksStore } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import {
 	InnerBlocks,
 	InspectorControls,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import {
 	useFloeBlockProps,
@@ -13,24 +12,13 @@ import {
 	HeadingLevelControl,
 	MediaSlot,
 	useText,
+	useFormSlotBlocks,
 } from '@floe/editor';
 import metadata from './block.json';
 
-// Any block except Floe sections can go in the form slot (a form plugin's
-// block, or the Shortcode block).
-export const useFormSlotBlocks = () =>
-	useSelect(
-		( select ) =>
-			select( blocksStore )
-				.getBlockTypes()
-				.map( ( type ) => type.name )
-				.filter( ( name ) => ! name.startsWith( 'floe/' ) ),
-		[]
-	);
-
 function Edit( { attributes, setAttributes, name } ) {
 	const text = useText( attributes, setAttributes );
-	const allowedBlocks = useFormSlotBlocks();
+	const allowedBlocks = useFormSlotBlocks( name );
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: 'has-form' },
@@ -44,7 +32,7 @@ function Edit( { attributes, setAttributes, name } ) {
 			placeholder: (
 				<p className="floe-slot-hint">
 					{ __(
-						'Form slot: add your form plugin’s block (or a Shortcode block with its shortcode). It picks up Floe’s form styling.',
+						'Form slot: add Floe’s Form block, or a form plugin’s block or shortcode. It picks up Floe’s form styling.',
 						'floe'
 					) }
 				</p>
