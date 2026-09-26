@@ -72,12 +72,25 @@ function restrict_to_slots(): void {
 }
 add_action( 'init', __NAMESPACE__ . '\\restrict_to_slots', PHP_INT_MAX );
 
-// New posts start with an Article section, so authors write in the reading column.
+// Posts are built from blocks like pages: new posts start with a Page Banner,
+// an Article for the writing, and a CTA. Blocks that are switched off are
+// left out of the starting layout.
 function post_template(): void {
-	$post = get_post_type_object( 'post' );
-	if ( $post && \WP_Block_Type_Registry::get_instance()->is_registered( 'floe/article' ) ) {
-		$post->template = array( array( 'floe/article' ) );
+	$post     = get_post_type_object( 'post' );
+	$registry = \WP_Block_Type_Registry::get_instance();
+	if ( ! $post ) {
+		return;
 	}
+	$template = array();
+	foreach ( array( 'floe/page-banner', 'floe/article' ) as $name ) {
+		if ( $registry->is_registered( $name ) ) {
+			$template[] = array( $name );
+		}
+	}
+	if ( $registry->is_registered( 'floe/cta' ) && $registry->is_registered( 'floe/cta-panel' ) ) {
+		$template[] = array( 'floe/cta', array(), array( array( 'floe/cta-panel' ) ) );
+	}
+	$post->template = $template;
 }
 add_action( 'init', __NAMESPACE__ . '\\post_template', PHP_INT_MAX );
 
