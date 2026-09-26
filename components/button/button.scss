@@ -4,7 +4,7 @@
 
 .button,
 .wp-block-button__link,
-:where(.form-slot, .floe-form) :is(button[type="submit"], input[type="submit"]) {
+:where(.form-slot) :is(button[type="submit"], input[type="submit"]) {
 	--button-bg: var(--wp--preset--color--blue);
 	--button-text: var(--wp--preset--color--white);
 	--button-border: transparent;
@@ -46,7 +46,7 @@
 // A button without an arrow is symmetrical.
 .button:not(:has(.button__icon)),
 .wp-block-button__link,
-:where(.form-slot, .floe-form) :is(button[type="submit"], input[type="submit"]) {
+:where(.form-slot) :is(button[type="submit"]:not(.button), input[type="submit"]) {
 	padding-inline: 24px;
 }
 

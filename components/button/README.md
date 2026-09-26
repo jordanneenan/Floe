@@ -19,6 +19,8 @@ echo Floe\component( 'button', [
 ] );
 ```
 
+For a form, pass `'type' => 'submit'` and no `url`: it renders a `<button type="submit">` with the same look.
+
 Blocks store links as `{ label, url, newTab }` objects; `Floe\Components\button_args_from_link( $link, [ 'style' => 'secondary' ] )` converts one.
 
 The stylesheet also styles core Button blocks (inside Article) and native submit buttons inside form slots, so there is only one button design.

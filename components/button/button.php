@@ -11,6 +11,9 @@
  *       'new_tab' => false,
  *   ) );
  *
+ * With 'type' => 'submit' (or 'button') and no url it renders a <button>
+ * instead of a link, e.g. a form's submit button.
+ *
  * Primary buttons switch to the Inverse look automatically on the Inverse and
  * Accent surfaces, so blocks don't need to know which surface they sit on.
  */
@@ -39,17 +42,21 @@ function button_args_from_link( $link, array $defaults = array() ): array {
 function button( array $args ): string {
 	$label = trim( wp_strip_all_tags( (string) ( $args['label'] ?? '' ) ) );
 	$url   = (string) ( $args['url'] ?? '' );
-	if ( '' === $label || '' === $url ) {
+	$type  = in_array( $args['type'] ?? '', array( 'submit', 'button' ), true ) ? $args['type'] : '';
+	if ( '' === $label || ( '' === $url && '' === $type ) ) {
 		return '';
 	}
 
 	$style = in_array( $args['style'] ?? '', BUTTON_STYLES, true ) ? $args['style'] : 'primary';
 	$arrow = array_key_exists( 'arrow', $args ) ? (bool) $args['arrow'] : true;
 
-	$attributes = array(
-		'class' => trim( 'button button--' . $style . ' ' . ( $args['class'] ?? '' ) ),
-		'href'  => esc_url( $url ),
-	);
+	$tag        = '' === $url ? 'button' : 'a';
+	$attributes = array( 'class' => trim( 'button button--' . $style . ' ' . ( $args['class'] ?? '' ) ) );
+	if ( 'a' === $tag ) {
+		$attributes['href'] = esc_url( $url );
+	} else {
+		$attributes['type'] = $type;
+	}
 	$new_tab_note = '';
 	if ( ! empty( $args['new_tab'] ) ) {
 		$attributes['target'] = '_blank';
@@ -69,10 +76,11 @@ function button( array $args ): string {
 	}
 
 	return sprintf(
-		'<a%1$s><span class="button__label">%2$s</span>%3$s%4$s</a>',
+		'<%5$s%1$s><span class="button__label">%2$s</span>%3$s%4$s</%5$s>',
 		$html,
 		esc_html( $label ),
 		$new_tab_note,
-		$arrow ? \Floe\icon( 'arrow', array( 'class' => 'button__icon' ) ) : ''
+		$arrow ? \Floe\icon( 'arrow', array( 'class' => 'button__icon' ) ) : '',
+		$tag
 	);
 }
