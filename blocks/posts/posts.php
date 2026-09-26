@@ -4,7 +4,8 @@
  * optional "Load more" (button or automatic on scroll). Sources: the latest
  * of any post type, hand-picked posts, or manual entries (child blocks).
  * Filtering and loading more swap the cards in place through the block's
- * REST route; the page and its URL don't change.
+ * REST route without reloading the page. The chosen filter is kept in the
+ * address (?filter=<term-slug>) so the view can be shared or bookmarked.
  *
  * @var array    $attributes
  * @var string   $content
@@ -49,14 +50,26 @@ if ( 'manual' === $source ) {
 		);
 	}
 } else {
-	$taxonomy = Posts\valid_taxonomy( (string) $attributes['taxonomy'], $type );
+	$taxonomy   = Posts\valid_taxonomy( (string) $attributes['taxonomy'], $type );
 	$filters_on = $taxonomy && $attributes['showFilters'];
-	$config   = array(
+	$terms      = $filters_on ? Posts\filter_terms( $taxonomy ) : array();
+
+	// A filter chosen earlier is in the address (?filter=<term-slug>), so a
+	// shared or bookmarked link opens already filtered.
+	$active = 0;
+	$wanted = isset( $_GET['filter'] ) ? sanitize_title( wp_unslash( (string) $_GET['filter'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public read-only filter.
+	foreach ( $terms as $term ) {
+		if ( '' !== $wanted && $term->slug === $wanted ) {
+			$active = (int) $term->term_id;
+		}
+	}
+
+	$config = array(
 		'type'      => $type,
 		'per_page'  => max( 1, min( Posts\MAX_PER_PAGE, (int) $attributes['count'] ) ),
 		'all'       => (bool) $attributes['showAll'],
 		'taxonomy'  => $taxonomy,
-		'term'      => $filters_on ? 0 : absint( $attributes['term'] ),
+		'term'      => $filters_on ? $active : absint( $attributes['term'] ),
 		'exclude'   => array_filter( array( $current ) ),
 		'level'     => $level,
 		'overrides' => (array) $attributes['mediaOverrides'],
@@ -64,20 +77,23 @@ if ( 'manual' === $source ) {
 	[ $posts, $more ] = Posts\query( $config + array( 'page' => 1 ) );
 	$cards = Posts\cards( $posts, $config );
 
-	if ( $filters_on ) {
-		$terms = Posts\filter_terms( $taxonomy );
-		if ( $terms ) {
-			$buttons = '<li><button type="button" class="posts__filter" data-term="0" aria-pressed="true">' . esc_html__( 'All', 'floe' ) . '</button></li>';
-			foreach ( $terms as $term ) {
-				$buttons .= sprintf(
-					'<li><button type="button" class="posts__filter" data-term="%d" aria-pressed="false">%s</button></li>',
-					(int) $term->term_id,
-					esc_html( $term->name )
-				);
-			}
-			$label   = get_taxonomy( $taxonomy )->labels->name ?? __( 'Categories', 'floe' );
-			$filters = '<ul class="posts__filters" aria-label="' . esc_attr( sprintf( /* translators: %s: taxonomy name. */ __( 'Filter by %s', 'floe' ), $label ) ) . '">' . $buttons . '</ul>';
+	if ( $terms ) {
+		$buttons = sprintf(
+			'<li><button type="button" class="posts__filter" data-term="0" data-slug="" aria-pressed="%s">%s</button></li>',
+			$active ? 'false' : 'true',
+			esc_html__( 'All', 'floe' )
+		);
+		foreach ( $terms as $term ) {
+			$buttons .= sprintf(
+				'<li><button type="button" class="posts__filter" data-term="%d" data-slug="%s" aria-pressed="%s">%s</button></li>',
+				(int) $term->term_id,
+				esc_attr( $term->slug ),
+				(int) $term->term_id === $active ? 'true' : 'false',
+				esc_html( $term->name )
+			);
 		}
+		$label   = get_taxonomy( $taxonomy )->labels->name ?? __( 'Categories', 'floe' );
+		$filters = '<ul class="posts__filters" aria-label="' . esc_attr( sprintf( /* translators: %s: taxonomy name. */ __( 'Filter by %s', 'floe' ), $label ) ) . '">' . $buttons . '</ul>';
 	}
 }
 

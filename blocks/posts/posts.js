@@ -1,7 +1,8 @@
 /*
  * Posts block: filter buttons and "Load more" (a button, or automatic when
  * the button scrolls into view). Cards come from the block's REST route and
- * are swapped in place: no page load and no URL change.
+ * are swapped in place without reloading the page; the chosen filter is kept
+ * in the address (?filter=<slug>) and Back steps through filters.
  */
 function setup( section ) {
 	const config = JSON.parse( section.dataset.posts || '{}' );
@@ -88,18 +89,49 @@ function setup( section ) {
 			} );
 	};
 
+	const select = ( button ) => {
+		filters.forEach( ( other ) =>
+			other.setAttribute( 'aria-pressed', String( other === button ) )
+		);
+		term = Number( button.dataset.term ) || 0;
+		return load( true );
+	};
+
 	filters.forEach( ( button ) =>
 		button.addEventListener( 'click', () => {
 			if ( button.getAttribute( 'aria-pressed' ) === 'true' ) {
 				return;
 			}
-			filters.forEach( ( other ) =>
-				other.setAttribute( 'aria-pressed', String( other === button ) )
+			select( button );
+			// Keep the filter in the address without reloading the page, so
+			// the view can be shared, bookmarked or reached with Back.
+			const url = new URL( window.location.href );
+			if ( button.dataset.slug ) {
+				url.searchParams.set( 'filter', button.dataset.slug );
+			} else {
+				url.searchParams.delete( 'filter' );
+			}
+			window.history.pushState(
+				{ floeFilter: button.dataset.slug || '' },
+				'',
+				url
 			);
-			term = Number( button.dataset.term ) || 0;
-			load( true );
 		} )
 	);
+
+	if ( filters.length ) {
+		window.addEventListener( 'popstate', () => {
+			const slug =
+				new URL( window.location.href ).searchParams.get( 'filter' ) ||
+				'';
+			const button =
+				filters.find( ( item ) => item.dataset.slug === slug ) ||
+				filters[ 0 ];
+			if ( button.getAttribute( 'aria-pressed' ) !== 'true' ) {
+				select( button );
+			}
+		} );
+	}
 
 	moreButton?.addEventListener( 'click', () => load( false ) );
 

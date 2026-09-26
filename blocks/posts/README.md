@@ -11,7 +11,7 @@ A heading group and a grid of post cards (Figma `36:58`), with everything Made's
 | Show all / Number of posts | Every published post (up to 100), or 1–24 at a time. |
 | More posts | **None**, a **Load more button**, or **Load automatically on scroll**. Each load adds the same number again. |
 | Taxonomy | Categories or any public custom taxonomy of the post type. Used for the label on each card, the filters, and "Only show". |
-| Show filters | Buttons for "All" and each **top-level** term with posts. Clicking one swaps the cards in place: the page doesn't reload and the URL doesn't change. |
+| Show filters | Buttons for "All" and each **top-level** term with posts. Clicking one swaps the cards in place without reloading the page, and puts the filter in the address (`?filter=<term-slug>`): the link can be shared or bookmarked and opens already filtered, and Back/Forward step through filters. An unknown slug shows everything. |
 | Only show | Limit to one term (when filters are off). |
 | Card images | The featured image by default; override per post for this section only. |
 

@@ -278,8 +278,8 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D38: Posts block does listing, load more and filters itself
 
 - **Source:** Jordan (2026-09-26), following Made's Posts block without the Ajax Load More plugin
-- **Decision:** Sources are Latest (any public post type), Hand-picked and Manual entries (child **Post card** blocks). Latest shows 1–24 or all (capped at 100), with "More posts" set to none, a Load more button, or automatic loading on scroll. Filters are the top-level terms of a chosen taxonomy (categories or a custom taxonomy). Filtering and loading more fetch server-rendered cards from the block's REST route (`floe/v1/posts`) and swap them in place, with no page load and no URL change. The route only returns published posts of public post types, filtered by public taxonomies.
-- **Status:** Adopted (phase 8); **Open**: should filter state go into the URL later so a filtered view can be shared? (Jordan asked for no URL change for now.)
+- **Decision:** Sources are Latest (any public post type), Hand-picked and Manual entries (child **Post card** blocks). Latest shows 1–24 or all (capped at 100), with "More posts" set to none, a Load more button, or automatic loading on scroll. Filters are the top-level terms of a chosen taxonomy (categories or a custom taxonomy). Filtering and loading more fetch server-rendered cards from the block's REST route (`floe/v1/posts`) and swap them in place without reloading the page. The chosen filter goes in the address as `?filter=<term-slug>` (with `pushState`, so Back and Forward step through filters); the server reads it, so a shared link opens already filtered. The route only returns published posts of public post types, filtered by public taxonomies.
+- **Status:** Adopted (phase 8). Filter in the URL confirmed by Jordan (2026-09-26), as long as the page doesn't refresh.
 
 ## D39: CTA holds one to three panels
 
