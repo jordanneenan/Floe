@@ -1,6 +1,6 @@
 <?php
 /**
- * Image pipeline, following Made (Documentation/decisions.md D12).
+ * Image pipeline, following Made (documentation/decisions.md D12).
  *
  * - WordPress generates only Floe's sizes: mobile 800, laptop 1440 and
  *   desktop 2400 wide (no crop), plus the thumbnail.
@@ -13,7 +13,7 @@
  * Applies to new uploads. Delete this file to return to WordPress defaults.
  */
 
-namespace Floe\Config\Media\Images;
+namespace Floe\Includes\Media\Images;
 
 defined( 'ABSPATH' ) || exit;
 

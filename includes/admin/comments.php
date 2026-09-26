@@ -4,7 +4,7 @@
  * Delete this file to allow comments again.
  */
 
-namespace Floe\Config\Admin\Comments;
+namespace Floe\Includes\Admin\Comments;
 
 defined( 'ABSPATH' ) || exit;
 

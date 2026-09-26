@@ -4,7 +4,7 @@
  * load only where they are used.
  */
 
-namespace Floe\Config\Assets;
+namespace Floe\Includes\Assets;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +14,7 @@ function version( string $relative_path ): string {
 }
 
 function enqueue(): void {
-	wp_enqueue_style( 'floe-base', get_template_directory_uri() . '/Assets/css/base.css', array(), version( 'Assets/css/base.css' ) );
+	wp_enqueue_style( 'floe-base', get_template_directory_uri() . '/assets/css/base.css', array(), version( 'assets/css/base.css' ) );
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue' );
 

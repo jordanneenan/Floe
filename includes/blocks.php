@@ -1,12 +1,12 @@
 <?php
 /**
- * Registers every enabled block found by Config/Modules.php, and provides the
+ * Registers every enabled block found by includes/modules.php, and provides the
  * helpers block templates share.
  */
 
-namespace Floe\Config\Blocks;
+namespace Floe\Includes\Blocks;
 
-use Floe\Config\Modules;
+use Floe\Includes\Modules;
 
 defined( 'ABSPATH' ) || exit;
 

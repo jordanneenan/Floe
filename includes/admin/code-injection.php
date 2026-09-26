@@ -6,7 +6,7 @@
  * Only users who can post unfiltered HTML (administrators) see the fields.
  */
 
-namespace Floe\Config\Admin\CodeInjection;
+namespace Floe\Includes\Admin\CodeInjection;
 
 defined( 'ABSPATH' ) || exit;
 

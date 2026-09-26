@@ -1,5 +1,5 @@
 // Everything a block or component needs: `@use 'floe' as *;`
-// (the build adds Assets/scss to Sass load paths). Outputs no CSS.
+// (the build adds assets/scss to Sass load paths). Outputs no CSS.
 @forward "breakpoints";
 @forward "type";
 @forward "mixins";

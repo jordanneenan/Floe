@@ -4,7 +4,7 @@
  * sits in the page flow instead of pushing the layout down.
  */
 
-namespace Floe\Config\Admin\Frontend;
+namespace Floe\Includes\Admin\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * Module discovery. Every block (a folder under Blocks/ with a block.json, one
- * or two levels deep) and every component (a folder under Components/) is a
+ * Module discovery. Every block (a folder under blocks/ with a block.json, one
+ * or two levels deep) and every component (a folder under components/) is a
  * module. Nothing lists module names: adding a folder adds the module and
  * deleting it removes it on the next page load. Folders starting with "_" are
  * ignored.
@@ -13,7 +13,7 @@
  * write that option.
  */
 
-namespace Floe\Config\Modules;
+namespace Floe\Includes\Modules;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -39,7 +39,7 @@ function all(): array {
 		return $list;
 	};
 
-	foreach ( $folders( $root . '/Blocks' ) as $name => $dir ) {
+	foreach ( $folders( $root . '/blocks' ) as $name => $dir ) {
 		if ( is_file( $dir . '/block.json' ) ) {
 			$found[ 'block:' . $name ] = array( 'type' => 'block', 'name' => $name, 'dir' => $dir, 'parent' => null );
 		}
@@ -49,7 +49,7 @@ function all(): array {
 			}
 		}
 	}
-	foreach ( $folders( $root . '/Components' ) as $name => $dir ) {
+	foreach ( $folders( $root . '/components' ) as $name => $dir ) {
 		$found[ 'component:' . $name ] = array( 'type' => 'component', 'name' => $name, 'dir' => $dir, 'parent' => null );
 	}
 

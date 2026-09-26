@@ -1,19 +1,19 @@
 <?php
 /**
- * Component discovery. Each enabled folder in Components/ is loaded:
+ * Component discovery. Each enabled folder in components/ is loaded:
  *
- *   Components/<name>/<name>.php     defines Floe\Components\<name>( array $args ): string
- *   Components/<name>/assets/<name>.css  loaded on the front end and in the editor
- *   Components/<name>/assets/<name>.js   registered as "floe-<name>" for front-end use
+ *   components/<name>/<name>.php     defines Floe\Components\<name>( array $args ): string
+ *   components/<name>/assets/<name>.css  loaded on the front end and in the editor
+ *   components/<name>/assets/<name>.js   registered as "floe-<name>" for front-end use
  *
  * Call components through Floe\component( 'button', $args ). If a component
  * has been deleted or switched off, that returns an empty string (and logs
  * when WP_DEBUG is on) instead of causing a fatal error.
  */
 
-namespace Floe\Config\Components;
+namespace Floe\Includes\Components;
 
-use Floe\Config\Modules;
+use Floe\Includes\Modules;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -28,7 +28,7 @@ function load(): void {
 load();
 
 function url( array $module, string $file ): string {
-	return get_template_directory_uri() . '/Components/' . $module['name'] . '/assets/' . $file;
+	return get_template_directory_uri() . '/components/' . $module['name'] . '/assets/' . $file;
 }
 
 function register_assets(): void {

@@ -4,7 +4,7 @@
  * page has no banner the template prints the title instead.
  */
 
-namespace Floe\Config\Templates;
+namespace Floe\Includes\Templates;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -34,9 +34,6 @@ function the_content(): void {
 	if ( false === stripos( $content, '<h1' ) ) {
 		echo '<header class="page-title container">';
 		the_title( '<h1>', '</h1>' );
-		if ( 'post' === get_post_type() ) {
-			echo '<p class="text-small text-muted">' . esc_html( get_the_date() ) . '</p>';
-		}
 		echo '</header>';
 	}
 

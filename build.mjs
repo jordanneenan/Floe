@@ -1,15 +1,15 @@
 /*
  * Floe build. Discovers every module by folder and compiles it in place:
  *
- *   Blocks/<name>/ (or Blocks/<parent>/<name>/) with a block.json
- *   Components/<name>/
+ *   blocks/<name>/ (or blocks/<parent>/<name>/) with a block.json
+ *   components/<name>/
  *
  *   <name>.scss         -> assets/<name>.css
  *   <name>-editor.scss  -> assets/<name>-editor.css
  *   <name>.js           -> assets/<name>.js         (front end)
  *   <name>-editor.js    -> assets/<name>-editor.js  (editor)
  *
- * plus the global Assets/scss/*.scss -> Assets/css/*.css and the Geist fonts.
+ * plus the global assets/scss/*.scss -> assets/css/*.css and the Geist fonts.
  * No module names are listed anywhere: adding a folder adds it to the build.
  * Folders starting with "_" are ignored.
  *
@@ -24,13 +24,13 @@ import {
 	copyFileSync,
 	writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join, relative, resolve, sep } from 'node:path';
+import { basename, dirname, join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import * as sass from 'sass';
 
 const require = createRequire( import.meta.url );
-const root = resolve( dirname( fileURLToPath( import.meta.url ) ), '..' );
+const root = dirname( fileURLToPath( import.meta.url ) );
 const watch = process.argv.includes( '--watch' );
 let only = 'all';
 if ( process.argv.includes( '--css' ) ) {
@@ -60,7 +60,7 @@ const subfolders = ( dir ) =>
 
 export function discoverModules() {
 	const modules = [];
-	for ( const dir of subfolders( join( root, 'Blocks' ) ) ) {
+	for ( const dir of subfolders( join( root, 'blocks' ) ) ) {
 		if ( existsSync( join( dir, 'block.json' ) ) ) {
 			modules.push( { type: 'block', dir, name: basename( dir ) } );
 		}
@@ -74,7 +74,7 @@ export function discoverModules() {
 			}
 		}
 	}
-	for ( const dir of subfolders( join( root, 'Components' ) ) ) {
+	for ( const dir of subfolders( join( root, 'components' ) ) ) {
 		modules.push( { type: 'component', dir, name: basename( dir ) } );
 	}
 	return modules;
@@ -87,7 +87,7 @@ function compileScss( input, output ) {
 	try {
 		const result = sass.compile( input, {
 			style: 'compressed',
-			loadPaths: [ join( root, 'Assets/scss' ) ],
+			loadPaths: [ join( root, 'assets/scss' ) ],
 			quietDeps: true,
 		} );
 		mkdirSync( dirname( output ), { recursive: true } );
@@ -123,7 +123,7 @@ function compileModuleCss( module ) {
 
 function compileGlobalCss() {
 	let ok = true;
-	const dir = join( root, 'Assets/scss' );
+	const dir = join( root, 'assets/scss' );
 	for ( const file of readdirSync( dir ) ) {
 		if ( file.endsWith( '.scss' ) && ! file.startsWith( '_' ) ) {
 			ok =
@@ -131,7 +131,7 @@ function compileGlobalCss() {
 					join( dir, file ),
 					join(
 						root,
-						'Assets/css',
+						'assets/css',
 						file.replace( /\.scss$/, '.css' )
 					)
 				) && ok;
@@ -153,7 +153,7 @@ function buildCss( modules ) {
 // ---------------------------------------------------------------------------
 function copyFonts() {
 	const fonts = join( root, 'node_modules/geist/dist/fonts' );
-	const target = join( root, 'Assets/fonts' );
+	const target = join( root, 'assets/fonts' );
 	mkdirSync( target, { recursive: true } );
 	const files = {
 		'geist-sans/Geist-Variable.woff2': 'Geist-Variable.woff2',
@@ -196,11 +196,11 @@ function jsEntries( modules ) {
 			}
 		}
 	}
-	const globalJs = join( root, 'Assets/js' );
+	const globalJs = join( root, 'assets/js' );
 	if ( existsSync( globalJs ) ) {
 		for ( const file of readdirSync( globalJs ) ) {
 			if ( file.endsWith( '.js' ) && ! file.startsWith( '_' ) ) {
-				entries[ `Assets/js/build/${ file.replace( /\.js$/, '' ) }` ] =
+				entries[ `assets/js/build/${ file.replace( /\.js$/, '' ) }` ] =
 					join( globalJs, file );
 			}
 		}
@@ -220,7 +220,7 @@ function webpackConfig( modules ) {
 		devtool: false,
 		resolve: {
 			extensions: [ '.js', '.jsx' ],
-			alias: { '@floe/editor': join( root, 'Assets/js/editor' ) },
+			alias: { '@floe/editor': join( root, 'assets/js/editor' ) },
 		},
 		module: {
 			rules: [
@@ -245,7 +245,7 @@ function webpackConfig( modules ) {
 		performance: { hints: false },
 		plugins: [
 			// `import { Button } from '@floe/components/button'` loads
-			// Components/button/button-editor.js. A missing component fails the
+			// components/button/button-editor.js. A missing component fails the
 			// build with a clear message instead of failing silently.
 			new webpack.NormalModuleReplacementPlugin(
 				/^@floe\/components\/[^/]+$/,
@@ -253,14 +253,14 @@ function webpackConfig( modules ) {
 					const name = resource.request.split( '/' ).pop();
 					const file = join(
 						root,
-						'Components',
+						'components',
 						name,
 						`${ name }-editor.js`
 					);
 					if ( ! existsSync( file ) ) {
 						throw new Error(
 							`Floe: "${ resource.request }" is imported by ${ rel( resource.contextInfo?.issuer || resource.context ) }, ` +
-								`but Components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
+								`but components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
 						);
 					}
 					resource.request = file;
@@ -306,7 +306,7 @@ function runWebpack( modules ) {
 					ignored: [
 						'**/node_modules/*',
 						'**/assets/*',
-						'**/Assets/js/build/**',
+						'**/assets/js/build/**',
 					],
 				},
 				( error, stats ) => {
@@ -352,7 +352,7 @@ async function startWatch( modules ) {
 	} );
 
 	chokidar
-		.watch( [ 'Blocks', 'Components', 'Assets/scss' ], {
+		.watch( [ 'Blocks', 'Components', 'assets/scss' ], {
 			cwd: root,
 			ignoreInitial: true,
 			ignored: /(^|[/\\])(assets|node_modules)([/\\]|$)/,
@@ -381,7 +381,7 @@ async function startWatch( modules ) {
 		} );
 
 	chokidar
-		.watch( [ '*.php', 'Config', 'patterns', 'theme.json' ], {
+		.watch( [ '*.php', 'includes', 'theme.json' ], {
 			cwd: root,
 			ignoreInitial: true,
 		} )

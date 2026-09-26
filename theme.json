@@ -66,14 +66,14 @@
 							"fontStyle": "normal",
 							"fontWeight": "100 900",
 							"fontDisplay": "swap",
-							"src": [ "file:./Assets/fonts/Geist-Variable.woff2" ]
+							"src": [ "file:./assets/fonts/Geist-Variable.woff2" ]
 						},
 						{
 							"fontFamily": "Geist",
 							"fontStyle": "italic",
 							"fontWeight": "100 900",
 							"fontDisplay": "swap",
-							"src": [ "file:./Assets/fonts/Geist-Italic-Variable.woff2" ]
+							"src": [ "file:./assets/fonts/Geist-Italic-Variable.woff2" ]
 						}
 					]
 				},
@@ -87,7 +87,7 @@
 							"fontStyle": "normal",
 							"fontWeight": "100 900",
 							"fontDisplay": "swap",
-							"src": [ "file:./Assets/fonts/GeistMono-Variable.woff2" ]
+							"src": [ "file:./assets/fonts/GeistMono-Variable.woff2" ]
 						}
 					]
 				}

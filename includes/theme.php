@@ -1,7 +1,7 @@
 <?php
 /** Theme setup and native WordPress features. */
 
-namespace Floe\Config\Theme;
+namespace Floe\Includes\Theme;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,9 +22,9 @@ function setup(): void {
 		)
 	);
 	add_theme_support( 'editor-styles' );
-	add_editor_style( array( 'Assets/css/base.css', 'Assets/css/editor.css' ) );
+	add_editor_style( array( 'assets/css/base.css', 'assets/css/editor.css' ) );
 
-	// Floe ships its own patterns; core's generic ones don't fit the system (Made does the same).
+	// Core's generic patterns don't fit the system (Made removes them too).
 	remove_theme_support( 'core-block-patterns' );
 
 	register_nav_menus(

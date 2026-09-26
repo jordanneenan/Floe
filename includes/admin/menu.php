@@ -4,7 +4,7 @@
  * Customize are never hidden. Also turns off the periodic admin-email check.
  */
 
-namespace Floe\Config\Admin\Menu;
+namespace Floe\Includes\Admin\Menu;
 
 defined( 'ABSPATH' ) || exit;
 

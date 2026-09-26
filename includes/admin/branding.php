@@ -4,7 +4,7 @@
  * "Howdy" removed and a simpler login label.
  */
 
-namespace Floe\Config\Admin\Branding;
+namespace Floe\Includes\Admin\Branding;
 
 defined( 'ABSPATH' ) || exit;
 

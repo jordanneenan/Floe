@@ -6,7 +6,7 @@
  * Nothing here names individual Floe blocks: they are found by namespace.
  */
 
-namespace Floe\Config\Editor;
+namespace Floe\Includes\Editor;
 
 defined( 'ABSPATH' ) || exit;
 

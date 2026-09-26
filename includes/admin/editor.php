@@ -4,7 +4,7 @@
  * wider settings sidebar.
  */
 
-namespace Floe\Config\Admin\Editor;
+namespace Floe\Includes\Admin\Editor;
 
 defined( 'ABSPATH' ) || exit;
 
