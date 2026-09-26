@@ -79,7 +79,7 @@
 	flex: 0 1 656px;
 	padding: 28px 24px;
 	border-radius: var(--wp--custom--radius--xl);
-	background: var(--surface-raised, var(--wp--preset--color--canvas));
+	background: var(--surface-raised);
 
 	@include from(tablet) {
 		padding: 48px;

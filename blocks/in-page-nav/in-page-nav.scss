@@ -7,9 +7,9 @@
 	position: sticky;
 	top: 0;
 	z-index: 40;
-	border-block: 1px solid var(--wp--preset--color--line);
-	background: rgb(255 255 255 / 0.9);
-	color: var(--wp--preset--color--ink);
+	border-block: 1px solid var(--surface-line);
+	background: var(--surface-glass);
+	color: var(--surface-text);
 	backdrop-filter: blur(10px);
 }
 
@@ -37,7 +37,7 @@
 
 .in-page-nav__label {
 	flex: none;
-	color: var(--wp--preset--color--muted);
+	color: var(--surface-text-muted);
 
 	@include type(eyebrow);
 
@@ -69,21 +69,21 @@
 	display: block;
 	padding: 9px 16px;
 	border-radius: var(--wp--custom--radius--pill);
-	color: var(--wp--preset--color--muted);
+	color: var(--surface-text-muted);
 
 	@include type(label);
 	white-space: nowrap;
 	text-decoration: none;
-	transition: background-color 0.18s ease, color 0.18s ease;
+	transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease);
 
 	&:hover {
-		background: var(--wp--preset--color--canvas);
-		color: var(--wp--preset--color--ink);
+		background: var(--surface-raised);
+		color: var(--surface-text);
 	}
 
 	&.is-active {
-		background: var(--wp--preset--color--ink);
-		color: var(--wp--preset--color--white);
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
 	}
 }
 

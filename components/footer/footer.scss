@@ -85,6 +85,7 @@
 .site-footer__bottom {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	justify-content: space-between;
 	gap: 8px 24px;
 	padding-top: 28px;
@@ -92,4 +93,10 @@
 	color: var(--surface-text-muted);
 
 	@include type(small);
+}
+
+.site-footer__meta {
+	display: flex;
+	align-items: center;
+	gap: 16px;
 }

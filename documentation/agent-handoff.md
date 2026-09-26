@@ -22,7 +22,7 @@ Preview content lives in the local database; it isn't in git.
 
 ## Build status (September 2026)
 
-Phases 0–7 of the brief are built, each on its own branch (`phase-0-baseline` … `phase-7-qa-docs`), stacked in order, plus `phase-8-simplify` (Jordan's first review: lowercase layout, `includes/`, no patterns or scripts, 860px left-aligned column, Journal as a normal page, the new Posts block and the multi-panel CTA). All await review before merging to `main`. See the [architecture](architecture.md) and [block library](blocks.md).
+Phases 0–7 of the brief are built, each on its own branch (`phase-0-baseline` … `phase-7-qa-docs`), stacked in order, plus `phase-8-simplify` (Jordan's first review: lowercase layout, `includes/`, no patterns or scripts, 860px left-aligned column, Journal as a normal page, the new Posts block and the multi-panel CTA). Then `phase-9-dark-motion`: dark mode with a footer toggle, the 0.4s motion timing, scroll reveals and small animations (D40, D41). All await review before merging to `main`. See the [architecture](architecture.md) and [block library](blocks.md).
 
 Verified on floe.local:
 - `npm run build`, `npm run lint` (JS and SCSS) and `php -l` on every PHP file pass.

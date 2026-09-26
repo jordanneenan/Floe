@@ -3,7 +3,7 @@
 .media {
 	position: relative;
 	overflow: hidden;
-	background: var(--wp--preset--color--canvas);
+	background: var(--surface-raised);
 	isolation: isolate;
 
 	&.media--cover {
@@ -48,7 +48,7 @@
 
 // Figma "neutral placeholder" for portrait slots with no image yet.
 .media--placeholder {
-	background: linear-gradient(126.87deg, #f2f0eb 7.14%, #ccc7bf 78.57%);
+	background: var(--surface-placeholder);
 
 	&:not(.media--cover) {
 		aspect-ratio: 4 / 3;
@@ -72,7 +72,7 @@
 	color: var(--wp--preset--color--ink);
 	cursor: pointer;
 	backdrop-filter: blur(8px);
-	transition: background-color 0.18s ease;
+	transition: background-color var(--floe-duration) var(--floe-ease);
 
 	&:hover {
 		background: var(--wp--preset--color--white);

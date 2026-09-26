@@ -41,7 +41,7 @@
 
 	@include type(label);
 	cursor: pointer;
-	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+	transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease);
 
 	&:hover {
 		border-color: var(--surface-text);
@@ -49,9 +49,9 @@
 	}
 
 	&[aria-pressed="true"] {
-		border-color: var(--wp--preset--color--ink);
-		background: var(--wp--preset--color--ink);
-		color: var(--wp--preset--color--white);
+		border-color: var(--surface-strong);
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
 	}
 }
 
@@ -60,7 +60,7 @@
 	grid-template-columns: minmax(0, 1fr);
 	align-items: start;
 	gap: 40px 24px;
-	transition: opacity 0.2s ease;
+	transition: opacity var(--floe-duration) var(--floe-ease);
 
 	@include from(tablet) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));

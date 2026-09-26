@@ -27,8 +27,8 @@
 	width: 56px;
 	height: 56px;
 	border-radius: var(--wp--custom--radius--md);
-	background: var(--wp--preset--color--ice);
-	color: var(--wp--preset--color--blue);
+	background: var(--surface-tile);
+	color: var(--surface-chip-text);
 
 	@include type(eyebrow);
 }
@@ -61,7 +61,7 @@
 	height: 48px;
 	border: 1.5px solid var(--surface-line);
 	border-radius: 50%;
-	transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+	transition: background-color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease);
 }
 
 .file-row:hover .file-row__action {

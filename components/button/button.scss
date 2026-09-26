@@ -29,7 +29,7 @@
 	text-align: left;
 	text-decoration: none;
 	cursor: pointer;
-	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+	transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease);
 
 	&:hover {
 		background: var(--button-bg-hover);
@@ -51,7 +51,7 @@
 }
 
 .button__icon {
-	transition: transform 0.18s ease;
+	transition: transform var(--floe-duration) var(--floe-ease);
 }
 
 .button:hover .button__icon {
@@ -70,20 +70,20 @@
 .button--secondary,
 .is-style-outline .wp-block-button__link {
 	--button-bg: transparent;
-	--button-text: var(--surface-text, var(--wp--preset--color--ink));
-	--button-border: var(--surface-line, var(--wp--preset--color--line));
+	--button-text: var(--surface-text);
+	--button-border: var(--surface-line);
 	--button-bg-hover: transparent;
 	--button-border-hover: currentcolor;
 }
 
 :is(.surface-inverse, .surface-accent) .button--secondary {
-	--button-border: rgb(255 255 255 / 0.32);
+	--button-border: var(--surface-line-strong);
 }
 
 .button--link {
 	--button-bg: transparent;
 	--button-bg-hover: transparent;
-	--button-text: var(--surface-link, var(--wp--preset--color--blue));
+	--button-text: var(--surface-link);
 	min-height: 28px;
 	padding: 4px 0;
 	border: 0;

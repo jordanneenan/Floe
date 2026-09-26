@@ -51,7 +51,7 @@
 }
 
 .card--linked .card__media .media__image {
-	transition: transform 0.4s ease;
+	transition: transform 0.8s var(--floe-ease);
 }
 
 .card--linked:hover .card__media .media__image {
@@ -69,8 +69,8 @@
 .card__chip {
 	padding: 5px 10px;
 	border-radius: var(--wp--custom--radius--pill);
-	background: var(--wp--preset--color--blue-soft);
-	color: var(--wp--preset--color--blue);
+	background: var(--surface-chip);
+	color: var(--surface-chip-text);
 
 	@include type(eyebrow);
 }
@@ -87,7 +87,7 @@
 	height: 100%;
 	padding: 32px 28px;
 	border-radius: var(--wp--custom--radius--lg);
-	background: var(--surface-raised, var(--wp--preset--color--canvas));
+	background: var(--surface-raised);
 
 	@include from(desktop) {
 		padding: 36px;

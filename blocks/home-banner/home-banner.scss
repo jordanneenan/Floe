@@ -82,3 +82,22 @@
 		aspect-ratio: 4 / 3 !important;
 	}
 }
+
+// Load-in: heading, then copy and actions, then the image.
+.site-main {
+
+	.home-banner__heading-group {
+
+		@include rise;
+	}
+
+	.home-banner__supporting {
+
+		@include rise(0.12s);
+	}
+
+	.home-banner__media {
+
+		@include rise(0.24s);
+	}
+}

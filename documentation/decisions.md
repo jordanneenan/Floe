@@ -286,3 +286,16 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-26), following Made's CTA (a repeater of panels in a row)
 - **Decision:** The CTA block is a container of 1–3 **CTA panel** child blocks, each with eyebrow, heading, body, action, note, optional image and its own surface (Ink, Accent, Tint, Subtle). One panel keeps the wide Figma layout; two or three sit in equal columns with headings stepping down in size. Existing CTAs were converted to one-panel CTAs.
 - **Status:** Adopted (phase 8)
+
+## D40: Dark mode follows the device until the visitor chooses
+
+- **Source:** Jordan (2026-09-26)
+- **Decision:** Dark mode is a set of dark tokens (`settings.custom.dark`) applied to the existing surfaces under `html[data-theme="dark"]`, so every block gets a dark version without its own dark styles. The site follows `prefers-color-scheme` (live) until the visitor presses the sun/moon toggle in the footer; the choice is then kept in `localStorage`. An inline script at the top of `<head>` sets the theme before first paint, so there's no flash. Switching wipes the new theme across the page in a circle from the button where View Transitions are supported, and cross-fades colours over 0.4s elsewhere. The editor stays light. Figma gets a dark copy of each block and component beside the light one.
+- **Status:** Adopted (phase 9)
+
+## D41: One motion timing, and reveals that never hold content back
+
+- **Source:** Jordan (2026-09-26): "any color changes, on buttons, need to fade over 0.4 seconds", with a smooth, subtle fade-in as content scrolls into view
+- **Decision:** Every colour change and hover uses `--floe-duration` (0.4s) and `--floe-ease` (`cubic-bezier(0.22, 1, 0.36, 1)`), from `settings.custom.motion`. Scroll reveals are a component (`components/reveal/`) that picks its own targets: the parts of each section, with grid and list items staggered 90ms apart. Only JavaScript hides anything, and only below the fold, so nothing is hidden without it and the first screen never waits; banners have their own CSS load-in instead. Reduced motion turns every animation off. Deleting the Reveal folder switches reveals off.
+- **Status:** Adopted (phase 9)
+

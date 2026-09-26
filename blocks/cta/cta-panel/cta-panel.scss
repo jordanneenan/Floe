@@ -24,6 +24,10 @@
 		--cta-glow: rgb(43 80 232 / 0.08);
 	}
 
+	:root[data-theme="dark"] &:is(.surface-tint, .surface-subtle, .surface-base) {
+		--cta-glow: rgb(169 188 255 / 0.12);
+	}
+
 	@include from(tablet) {
 		padding: 56px 48px;
 	}

@@ -36,3 +36,13 @@
 		@content;
 	}
 }
+
+// First-screen load-in: fade and rise as the page appears. Front end only
+// (scope it under .site-main) so the editor doesn't replay it on every change.
+@mixin rise($delay: 0s) {
+	animation: floe-rise var(--floe-reveal) var(--floe-ease) $delay both;
+
+	@include reduced-motion {
+		animation: none;
+	}
+}

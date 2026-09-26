@@ -82,7 +82,7 @@
 		background: transparent;
 		color: var(--surface-text);
 		cursor: pointer;
-		transition: background-color 0.18s ease, color 0.18s ease, opacity 0.18s ease;
+		transition: background-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), opacity var(--floe-duration) var(--floe-ease);
 
 		&:disabled {
 			opacity: 0.4;
@@ -91,13 +91,13 @@
 	}
 
 	.testimonials__next {
-		border-color: var(--wp--preset--color--ink);
-		background: var(--wp--preset--color--ink);
-		color: var(--wp--preset--color--white);
+		border-color: var(--surface-strong);
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
 	}
 
 	button:not(:disabled):hover {
-		border-color: var(--wp--preset--color--ink);
+		border-color: var(--surface-strong);
 	}
 }
 
@@ -109,7 +109,7 @@
 	margin: 0;
 	padding: 32px 28px 28px;
 	border-radius: var(--wp--custom--radius--lg);
-	background: var(--surface-raised, var(--wp--preset--color--canvas));
+	background: var(--surface-raised);
 
 	@include from(desktop) {
 		padding: 40px 36px 36px;

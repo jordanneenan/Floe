@@ -68,3 +68,22 @@
 		aspect-ratio: 4 / 3 !important;
 	}
 }
+
+// Load-in: breadcrumb and title row, then the image.
+.site-main {
+
+	.page-banner__inner > * {
+
+		@include rise;
+	}
+
+	.page-banner__inner > :nth-child(2) {
+
+		@include rise(0.1s);
+	}
+
+	.page-banner__media {
+
+		@include rise(0.22s);
+	}
+}

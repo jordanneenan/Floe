@@ -159,7 +159,16 @@
 				"width": "1248px",
 				"narrow": "860px",
 				"gutter": "clamp(20px, 6.667vw, 96px)"
-			}
+			},
+			"dark": {
+				"base": "#0B1220", "subtle": "#111A2C", "tint": "#132038",
+				"raised": "#18233A", "raisedAlt": "#1D2A44",
+				"inverse": "#060A12", "inverseRaised": "#101828",
+				"text": "#F2F4F8", "muted": "#9AA4B5", "accent": "#A9BCFF",
+				"line": "rgb(255 255 255 / 0.12)", "field": "#0E1728",
+				"chip": "rgb(169 188 255 / 0.14)", "tile": "rgb(169 188 255 / 0.1)"
+			},
+			"motion": { "duration": "0.4s", "ease": "cubic-bezier(0.22, 1, 0.36, 1)", "reveal": "0.9s" }
 		},
 		"blocks": {
 			"core/paragraph": {
