@@ -21,6 +21,7 @@
 | Change the template or page titles | [Architecture](architecture.md#templates) | `index.php`, `includes/templates.php` |
 | Follow or port a Made pattern | [Made notes](made-notes.md), [Decisions](decisions.md), [Migration](migration.md) | `../made/` (read-only reference theme) |
 | Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
+| Write or edit site copy, block examples or posts | [Content ethos](content-ethos.md) | LocalWP database, block `example` in `block.json` |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `build.mjs` |
 | Older review context | [Review handoff](agent-handoff.md) | |
 

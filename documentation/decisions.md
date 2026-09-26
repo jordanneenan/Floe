@@ -316,3 +316,10 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-26): wide banner and full-width images should be 16:9, smaller images 4:3, documented for people and AI
 - **Decision:** Upload full-width images (banners, one-per-row Images, Video cover, CTA panel, Contact map, post featured images) at 16:9, 2560 × 1440, and smaller ones (Image + Copy, Cards, two- and three-per-row Images, Article media) at 4:3, 2000 × 1500. Team portraits stay 4:5 and testimonial photos 1:1, as drawn in Figma. The slots keep their Figma shapes and crop from the centre, so the guidance includes a safe area (the middle 75% × 60% of a 16:9 image) rather than changing the layouts. [Images](images.md) has the slot-by-slot crops, file formats, alt text and AI generation notes.
 - **Status:** Adopted
+
+## D45: Site copy says "blocks", and sells freedom rather than constraint
+
+- **Source:** Jordan (2026-09-26): change "sections" to "blocks" throughout the site, drop "tokens", and focus on freedom rather than constraint
+- **Decision:** The site's own copy follows [the content ethos](content-ethos.md): Floe is built from designed blocks on a native WordPress foundation, editors are free to build their own pages, and the studio customises the branding for each client. The preview pages, posts and download titles in the LocalWP database were rewritten to match, on floe.local and floewp.com; the Platform page's library anchor is now `#blocks`, and the journal post "Building better pages with fewer choices" became "The freedom to build your own pages" (WordPress redirects the old address). "Section" stays as the internal code term for a top-level block. The logos, stats, testimonials and team are illustrative and must be replaced or removed before launch.
+- **Status:** Adopted. **Open**: whether the editor's "Floe sections" inserter category and the `block.json` examples (Home Banner, Image + Copy, Cards, Steps) that say "sections" or "tokens" should change too
+
