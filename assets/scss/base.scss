@@ -252,8 +252,12 @@ textarea {
 
 .prose {
 
-	@include container(var(--wp--style--global--content-size, 760px));
+	@include container;
 	@include section-padding;
+
+	> * {
+		max-width: var(--wp--style--global--content-size, 860px);
+	}
 
 	> * + * {
 		margin-top: 1.25em;

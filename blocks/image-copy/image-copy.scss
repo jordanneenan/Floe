@@ -36,7 +36,7 @@
 .image-copy.no-media .image-copy__inner {
 
 	@include from(desktop) {
-		grid-template-columns: minmax(0, 760px);
+		grid-template-columns: minmax(0, 860px);
 	}
 }
 

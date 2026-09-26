@@ -1,6 +1,6 @@
 <?php
 /**
- * Article: WordPress's own blocks in a 760px reading column, plus an
+ * Article: WordPress's own blocks in an 860px reading column, plus an
  * optional button.
  *
  * @var array    $attributes

@@ -5,7 +5,7 @@
 		"appearanceTools": false,
 		"useRootPaddingAwareAlignments": false,
 		"layout": {
-			"contentSize": "760px",
+			"contentSize": "860px",
 			"wideSize": "1248px",
 			"allowEditing": false,
 			"allowCustomContentAndWideSize": false

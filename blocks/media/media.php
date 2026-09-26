@@ -16,7 +16,7 @@ echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEs
 	'media',
 	(array) $attributes['media'] + array(
 		'cover'   => $fill,
-		'sizes'   => $in_row ? '(min-width: 1440px) 624px, (min-width: 768px) 50vw, 92vw' : '(min-width: 800px) 760px, 92vw',
+		'sizes'   => $in_row ? '(min-width: 1440px) 624px, (min-width: 768px) 50vw, 92vw' : '(min-width: 900px) 860px, 92vw',
 		'caption' => $in_row ? '' : (string) $attributes['caption'],
 		'class'   => 'media-block',
 	)

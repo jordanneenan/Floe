@@ -1,6 +1,6 @@
 # Article (`floe/article`)
 
-Long-form content written with WordPress's own blocks, in a 760px reading column (Figma `34:28`). New posts start with an Article.
+Long-form content written with WordPress's own blocks, in an 860px reading column, left-aligned with the other sections (Figma `34:28`, widened). New posts start with an Article.
 
 **Allowed inside:** Heading, Paragraph, List, Quote, Pullquote, Image, Media (Floe), Table, Separator, Buttons, Embed. Floe sections can't be nested inside.
 
@@ -19,6 +19,6 @@ Long-form content written with WordPress's own blocks, in a 760px reading column
 | Optional button | Primary button under the content (hidden until it has a link). |
 | Surface | Base (default) or Subtle. |
 
-**Responsive:** on large screens (1280+) the column sits right of centre as in Figma (312px in from the content edge at 1440); below that it's centred. The section renders nothing if it's empty.
+**Responsive:** the column is up to 860px wide and always starts at the content's left edge, so headings line up with the sections above and below. The width comes from `contentSize` in `theme.json`. The section renders nothing if it's empty.
 
 **Components used:** Button (Media via the Media block).

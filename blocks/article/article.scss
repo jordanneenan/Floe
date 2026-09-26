@@ -1,5 +1,5 @@
-// Figma 34:28. 760px reading column, offset right of centre on large screens
-// (312px in from the content edge at 1440). Default styling for core blocks:
+// Figma 34:28, widened: an 860px reading column aligned to the left edge of
+// the content area, so it lines up with every other section. Core blocks:
 // 24px rhythm, 64px above headings, 72px around quotes and figures.
 @use "floe" as *;
 
@@ -15,12 +15,7 @@
 
 .article__content,
 .article__action {
-	max-width: 760px;
-	margin-inline: auto;
-
-	@include from(large) {
-		margin-left: 25%;
-	}
+	max-width: var(--wp--style--global--content-size, 860px);
 }
 
 .article__action {

@@ -1,6 +1,6 @@
 # Media (`floe/media`)
 
-One image or silent looping MP4, as a child of **Article** and of **Images** rows. It's a shared helper, so it lives at the top level of `Blocks/`.
+One image or silent looping MP4, as a child of **Article** and of **Images** rows. It's a shared helper, so it lives at the top level of `blocks/`.
 
 | Field | Notes |
 | --- | --- |
