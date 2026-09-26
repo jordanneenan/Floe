@@ -21,7 +21,8 @@ function admin_bar( \WP_Admin_Bar $bar ): void {
 		);
 	}
 }
-add_action( 'admin_bar_menu', __NAMESPACE__ . '\\admin_bar', 999 );
+// After core adds the my-account node at 9991.
+add_action( 'admin_bar_menu', __NAMESPACE__ . '\\admin_bar', 9992 );
 
 function footer_text(): string {
 	return esc_html__( 'Built with Floe.', 'floe' );

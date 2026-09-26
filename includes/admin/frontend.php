@@ -1,7 +1,7 @@
 <?php
 /**
  * Front-end housekeeping, following Made: no emoji scripts, and the admin bar
- * sits in the page flow instead of pushing the layout down.
+ * sits in the page flow at the bottom of the page instead of over the header.
  */
 
 namespace Floe\Includes\Admin\Frontend;
@@ -15,6 +15,9 @@ remove_action( 'admin_print_styles', 'print_emoji_styles' );
 
 function admin_bar_in_flow(): void {
 	add_theme_support( 'admin-bar', array( 'callback' => '__return_false' ) );
+	// Core renders the bar on wp_body_open when the theme calls it; dropping
+	// that leaves the wp_footer fallback, so the bar lands after the footer.
+	remove_action( 'wp_body_open', 'wp_admin_bar_render', 0 );
 }
 add_action( 'after_setup_theme', __NAMESPACE__ . '\\admin_bar_in_flow' );
 
