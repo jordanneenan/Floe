@@ -33,10 +33,6 @@
 			"type": "number",
 			"default": 2
 		},
-		"intro": {
-			"type": "string",
-			"default": ""
-		},
 		"action": {
 			"type": "object",
 			"default": {}

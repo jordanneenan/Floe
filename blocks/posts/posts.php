@@ -122,7 +122,6 @@ $data      = 'latest' === $source && ( $load_more || $filters )
 				'eyebrow'       => $attributes['eyebrow'],
 				'heading'       => $attributes['heading'],
 				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
 				'action'        => Floe\Components\button_args_from_link( $attributes['action'], array( 'style' => 'secondary' ) ),
 			)
 		);

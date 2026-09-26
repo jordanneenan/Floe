@@ -4,7 +4,7 @@ A heading group and a grid of post cards (Figma `36:58`), with everything Made's
 
 | Field | Notes |
 | --- | --- |
-| Eyebrow, Heading, Intro | Section header. |
+| Eyebrow, Heading | Section header. |
 | "View all" link | Optional Secondary button on the right. |
 | Show | **Latest** of a post type, **Hand-picked** (search by title, reorder, remove; up to 24), or **Manual entries** (add **Post card** blocks and type everything in). |
 | Post type | Any public post type (Posts, Pages, or a custom type). |

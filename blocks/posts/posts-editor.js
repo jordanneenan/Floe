@@ -515,6 +515,7 @@ function Edit( { attributes, setAttributes, name } ) {
 					<EditableSectionHeader
 						attributes={ attributes }
 						setAttributes={ setAttributes }
+						intro={ false }
 						action
 						actionStyle="secondary"
 						placeholders={ {
