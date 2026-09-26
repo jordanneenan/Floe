@@ -29,24 +29,15 @@ npm run build:css     # styles only
 npm run build:js      # scripts only
 npm run start         # build, watch, recompile on save, live-reload through BrowserSync
 npm run lint          # lint:js (WordPress ESLint rules) and lint:css (stylelint)
-npm run screenshots   # full-page captures at 375/600/1024/1440 into .screenshots/
 git diff --check
 git status --short
 ```
 
-`npm run start` proxies `http://floe.local` by default; set `FLOE_PROXY` for another URL. It prints an **External** address (e.g. `http://192.168.86.41:3000`): open that on a phone or another computer on the same network to browse the site, with links rewritten to that address and live reload on save. Nothing needs setting up on the other device; if it can't connect, allow port 3000 through this machine's firewall. Restart it after adding or removing a module folder. `npm run screenshots` uses the Playwright installed with `@wordpress/scripts` and a local Chrome/Chromium (`CHROME_PATH` to override, `FLOE_URL` for another site). Pass paths to capture specific pages: `npm run screenshots -- /pricing/`.
-
-Adding a pattern file: WordPress caches the list of a theme's patterns per theme version. Bump `Version` in `style.css`, set `WP_DEVELOPMENT_MODE` to `theme` locally, or run the seed script (which clears the cache for the next request).
+`npm run start` proxies `http://floe.local` by default; set `FLOE_PROXY` for another URL. It prints an **External** address (e.g. `http://192.168.86.41:3000`): open that on a phone or another computer on the same network to browse the site, with links rewritten to that address and live reload on save. Nothing needs setting up on the other device; if it can't connect, allow port 3000 through this machine's firewall. Restart it after adding or removing a module folder.
 
 ## Preview content
 
-`scripts/seed-preview.php` builds the preview site on any WordPress running Floe and is safe to run again:
-
-```sh
-wp eval-file wp-content/themes/floe/scripts/seed-preview.php /path/to/preview/images
-```
-
-With a folder argument it uploads the photos first (through WordPress's normal upload processing, skipping any already in the library). It then uploads the placeholder logos, generates the placeholder documents, creates the sample journal posts, the Home, Platform, Pricing, About, Contact, Journal, Privacy, Accessibility and Block Preview pages from `patterns/`, sets the front and posts pages, builds the menus, sets the title, tagline, date format and footer legal line, and moves WordPress's starter post and page to the trash. Patterns look images up by file name, so pages pick up photos whenever they're uploaded.
+The preview site's pages, posts and menus live in the LocalWP database and are built from blocks in the editor, like any client site. There are no theme patterns or seed scripts. Pages worth keeping as starting points can be saved as synced or unsynced patterns in WordPress itself.
 
 ## Focused verification by change
 
@@ -55,7 +46,7 @@ With a folder argument it uploads the photos first (through WordPress's normal u
 | Documentation only | Links and referenced paths resolve; `git diff --check`; compare claims to current source. |
 | SCSS or JS | `npm run build`; inspect the `assets/` diff and `block.json` paths. |
 | PHP | `php -l` on changed files (see WP-CLI above for Local's PHP); inspect hooks, escaping and template output. |
-| Block behavior | Build, then insert/edit/render the block in WordPress. Check the editor and the front end at 375, 600, 1024 and 1440 (`npm run screenshots`). |
+| Block behavior | Build, then insert/edit/render the block in WordPress. Check the editor and the front end at 375, 600, 1024 and 1440. |
 | `theme.json` | Parse JSON, then inspect editor settings in WordPress when available. |
 
 Do not report a live WordPress or browser test unless it actually ran. A JavaScript asset build and static PHP parse cannot prove WordPress registration or UI behavior.

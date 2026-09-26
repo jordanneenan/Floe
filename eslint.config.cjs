@@ -9,7 +9,7 @@ const globals = require( 'globals' );
 module.exports = [
 	...wpConfig,
 	{
-		ignores: [ '**/assets/**', 'assets/js/build/**' ],
+		ignores: [ 'blocks/**/assets/**', 'components/**/assets/**', 'assets/js/build/**' ],
 	},
 	{
 		languageOptions: {

@@ -2,20 +2,20 @@
 
 Find a behaviour here before adding another hook.
 
-## Core setup (`Config/*.php`, loaded in order by `functions.php`)
+## Core setup (`includes/*.php`, loaded in order by `functions.php`)
 
 | File | What it does |
 | --- | --- |
 | `Modules.php` | Discovers blocks and components; enabled state from `floe_disabled_modules` + `floe_enabled_modules` filter. |
 | `Theme.php` | Theme supports (title tag, thumbnails, custom logo, responsive embeds, HTML5, editor styles), removes core block patterns, disables remote patterns, registers menu locations. |
-| `Assets.php` | Enqueues `Assets/css/base.css`; turns on per-block, on-demand asset loading. |
-| `Editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level, "Floe sections" / "Floe parts" categories, Article template for new posts, no Openverse. |
+| `Assets.php` | Enqueues `assets/css/base.css`; turns on per-block, on-demand asset loading. |
+| `Editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level, "Floe sections" / "Floe parts" categories, Page Banner + Article + CTA template for new posts, no Openverse. |
 | `Templates.php` | Page title H1 when the content has none; reading-column wrapper for non-section content. |
 | `Patterns.php` | "Floe pages" pattern category and pattern helpers (`image_id()`, `media()`, `link()`, `block()`, core block markup helpers). |
 | `Blocks.php` | Registers enabled blocks; `Floe\block_attributes()`. |
 | `Components.php` | Loads enabled components, registers their CSS/JS; `Floe\component()` and `Floe\icon()`. |
 
-## Feature files (auto-loaded from `Config/*/`)
+## Feature files (auto-loaded from `includes/*/`)
 
 Delete a file to remove that behaviour.
 

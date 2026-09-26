@@ -6,16 +6,16 @@ Made is the default reference where the [build brief](build-brief.md) is silent.
 
 | Made area | Floe | Where / why |
 | --- | --- | --- |
-| `blocks/<type>/<variant>/` discovered at runtime | Adopted, natively | `Blocks/<name>/` with `block.json`, discovered at runtime by `Config/Modules.php`; folder, class and file names match (D18). |
+| `blocks/<type>/<variant>/` discovered at runtime | Adopted, natively | `blocks/<name>/` with `block.json`, discovered at runtime by `includes/modules.php`; folder, class and file names match (D18). |
 | ACF blocks and field groups | Replaced | `block.json` attributes, RichText/InnerBlocks editing, PHP render templates. |
 | Per-block assets only where used | Adopted | `block.json` assets with on-demand loading; `viewScript` for front-end JS. |
-| `components/` (button, image-video, header, footer) | Adopted and extended | `Components/<name>/`, discovered, namespaced, escaped, fail-soft via `Floe\component()`, with React twins for the editor. |
-| Allowed-blocks list built from discovery | Adopted | `Config/Editor.php`, plus core blocks restricted to Floe slots. |
-| Build: Sass glob, Rollup, BrowserSync watch | Adapted | `scripts/build.mjs`: discovery-based Sass and webpack, `npm run start` with BrowserSync. |
-| Comments disabled | Adopted (fixed to apply on the front end) | `Config/Admin/Comments.php`. |
-| Admin tidy-up | Adopted in full | `Config/Admin/` (Appearance and Customize stay visible). |
-| Code injection options | Adopted, natively | Customizer fields, `Config/Admin/CodeInjection.php`. |
-| Image sizes and processing | Adopted | `Config/Media/Images.php`. |
+| `components/` (button, image-video, header, footer) | Adopted and extended | `components/<name>/`, discovered, namespaced, escaped, fail-soft via `Floe\component()`, with React twins for the editor. |
+| Allowed-blocks list built from discovery | Adopted | `includes/editor.php`, plus core blocks restricted to Floe slots. |
+| Build: Sass glob, Rollup, BrowserSync watch | Adapted | `build.mjs`: discovery-based Sass and webpack, `npm run start` with BrowserSync. |
+| Comments disabled | Adopted (fixed to apply on the front end) | `includes/admin/comments.php`. |
+| Admin tidy-up | Adopted in full | `includes/admin/` (Appearance and Customize stay visible). |
+| Code injection options | Adopted, natively | Customizer fields, `includes/admin/code-injection.php`. |
+| Image sizes and processing | Adopted | `includes/media/images.php`. |
 | Brand colours, logo, favicon, fonts options | Replaced | `theme.json`, custom logo, Site Icon, self-hosted Geist. |
 | Spacing block and section gaps | Adapted | Sections own their padding; `floe/spacing` replaces the facing padding. |
 | Header layouts as subfolders | In reserve | One header layout for now (D14). |

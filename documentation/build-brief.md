@@ -2,7 +2,7 @@
 
 This is the working brief for building Floe from the approved Figma designs. It is written for Claude Code working in Jordan's repository at `~/Local Sites/floe/app/public/wp-content/themes/floe`, but any developer can follow it.
 
-Read this whole file before starting. Then read `AGENTS.md` and `Documentation/README.md`.
+Read this whole file before starting. Then read `AGENTS.md` and `documentation/README.md`.
 
 ## 1. How to make decisions
 
@@ -10,7 +10,7 @@ When sources disagree, use this order:
 
 1. **Jordan's current instruction** in the session.
 2. **This brief.**
-3. **What Made does.** Made is Jordan's previous platform. If this brief doesn't cover something, find how Made handles it and do the same. Record the decision in `Documentation/decisions.md` (create it) so it can be revisited. Made isn't perfect, but following it by default beats inventing a new pattern.
+3. **What Made does.** Made is Jordan's previous platform. If this brief doesn't cover something, find how Made handles it and do the same. Record the decision in `documentation/decisions.md` (create it) so it can be revisited. Made isn't perfect, but following it by default beats inventing a new pattern.
 4. **Your own judgement**, recorded in `decisions.md` the same way.
 
 One rule outranks Made: **native WordPress first.** If WordPress has a native way to do something, use it: core blocks, menus, the media library, `theme.json`, patterns, native search, the custom logo, the site icon, WP-CLI. If it can't be native, it goes in the theme. If it can't reasonably live in the theme, it becomes a small plugin that Jordan owns, but ask first. There's no ACF, and no third-party plugin is required for the theme to work.
@@ -64,12 +64,12 @@ If you can't find Made, tell Jordan rather than guessing.
 
 This is the core requirement. **Adding a folder adds a feature; deleting a folder removes it completely.** There are no central lists to edit, anywhere.
 
-### 3.1 Blocks (`Blocks/`)
+### 3.1 Blocks (`blocks/`)
 
 Each block is one self-contained folder. **The folder name, the block's wrapper class and its file names are all the block's short name**, so you can inspect a page, read the class and go straight to the files, the way Made works (Jordan, see `decisions.md` D18):
 
 ```
-Blocks/home-banner/
+blocks/home-banner/
   block.json               apiVersion 3, name "floe/home-banner", textdomain "floe", example, supports
   home-banner.php          dynamic PHP render template; outer element has class "home-banner"
   home-banner.scss         styles (partials start with _)
@@ -79,20 +79,20 @@ Blocks/home-banner/
   assets/                  compiled output referenced by block.json (committed)
 ```
 
-- **Child blocks live inside their parent's folder**, for example `Blocks/cards/card-item/block.json`. Deleting `cards/` removes its children too.
-- `floe/media` is used by more than one parent, so it stays at the top level as `Blocks/media/`.
-- **Registration is discovery-based.** `Config/Blocks.php` scans `Blocks/` for `block.json` files one or two levels deep at runtime and registers each one. Scanning at runtime (rather than from a generated manifest) is deliberate: a deleted folder is gone on the next page load, with no rebuild needed. A cached manifest can be added later as an optimisation, as long as it rebuilds itself when folders change.
+- **Child blocks live inside their parent's folder**, for example `blocks/cards/card-item/block.json`. Deleting `cards/` removes its children too.
+- `floe/media` is used by more than one parent, so it stays at the top level as `blocks/media/`.
+- **Registration is discovery-based.** `includes/blocks.php` scans `blocks/` for `block.json` files one or two levels deep at runtime and registers each one. Scanning at runtime (rather than from a generated manifest) is deliberate: a deleted folder is gone on the next page load, with no rebuild needed. A cached manifest can be added later as an optimisation, as long as it rebuilds itself when folders change.
 - **The build is discovery-based too.** `npm run build` finds every block by its `block.json` and compiles its sources into that block's own `assets/`. `npm run start` watches, recompiles on save and reloads the browser (BrowserSync, D7). No block names appear in `package.json`, webpack config, SCSS indexes, `theme.json` or PHP.
 - Folders starting with `_` are ignored by discovery. Use them for shared build helpers only, not for block markup.
 - **Block assets load only on pages that use the block.** Enable on-demand loading of block assets for this classic theme, and use `viewScript` in `block.json` for front-end JS instead of enqueuing it globally.
 - **Nothing breaks when a block is removed.** Deleting a block leaves no PHP errors or console errors. Content that used a deleted block simply stops rendering it. Don't hard-code one block's name inside another block, except a parent's own children.
 
-### 3.2 Components (`Components/`)
+### 3.2 Components (`components/`)
 
 Components are the reusable pieces that blocks and templates are built from. Each is a self-contained folder:
 
 ```
-Components/button/
+components/button/
   button.php          PHP render function, e.g. Floe\Components\button( array $args ): string (escaped HTML); root class "button"
   button.scss         all styling for every button on the site
   button.js           front-end script, only if needed
@@ -102,7 +102,7 @@ Components/button/
 ```
 
 - **One source of truth.** The Button component controls every button on the site, both markup and styling. Blocks must never write their own button markup or button CSS. The same applies to every component below.
-- **Discovery.** `Config/Components.php` finds each `Components/*/` folder, loads its PHP, and registers its compiled CSS on the front end and in the editor. Deleting the folder removes all of that.
+- **Discovery.** `includes/components.php` finds each `components/*/` folder, loads its PHP, and registers its compiled CSS on the front end and in the editor. Deleting the folder removes all of that.
 - **Graceful dependencies.** Provide a helper, for example `Floe\component( 'button', $args )`, that returns an empty string (and logs when `WP_DEBUG` is on) if the component is missing. That way a deleted component can't cause a fatal error. Each block's README lists the components it uses.
 - **Editor previews.** Blocks import component previews through a build alias such as `@floe/components/button`. A missing component should fail the build with a clear message, not fail silently.
 
@@ -129,7 +129,7 @@ Components to build (Figma node IDs are in section 9):
 
 Jordan will later want to switch modules on and off. Build the seam for this now, but not the UI:
 
-- `Config/Modules.php` returns every discovered block and component with an enabled flag.
+- `includes/modules.php` returns every discovered block and component with an enabled flag.
 - Enabled state comes from a `floe_disabled_modules` option (empty by default), passed through a `floe_enabled_modules` filter.
 - A disabled module isn't registered, isn't enqueued and doesn't appear in the inserter.
 - Adding an admin screen later should only require writing that option.
@@ -263,7 +263,7 @@ These come from the code review of the current repo:
 
 ## 7. Preview content and imagery
 
-- **Imagery.** Put the eight Floe images (`floe-hero`, `-dawn`, `-drift`, `-seam`, `-blue`, `-giant`, `-pack-teal`, `-dusk`; Jordan has the files) in `Assets/PreviewImagery/`, replacing the architectural set, and update its README. They're placeholders, not client content.
+- **Imagery.** Put the eight Floe images (`floe-hero`, `-dawn`, `-drift`, `-seam`, `-blue`, `-giant`, `-pack-teal`, `-dusk`; Jordan has the files) in `assets/PreviewImagery/`, replacing the architectural set, and update its README. They're placeholders, not client content.
 - **Brochure pages as patterns.** Build Home, Platform, Pricing, About and Contact as theme patterns in `patterns/`. WordPress registers them from the file header, so this is native. Use the copy from the Figma brochure pages.
 - **Seed script.** Add `scripts/seed-preview.php`, run with `wp eval-file`. It imports the preview imagery, creates a "Block Preview" page with every block, creates the five brochure pages from the patterns, sets Home as the front page and builds the menus. It must be safe to run repeatedly. This makes the preview reproducible on any machine, instead of living only in one LocalWP database.
 
@@ -271,8 +271,8 @@ These come from the code review of the current repo:
 
 Stop for Jordan's review at the end of each phase.
 
-0. **Baseline.** Verify the environment (section 2). Read Made's architecture and write `Documentation/made-notes.md`: what Made does for module discovery, registration, the build, components, header/footer and settings, and what Floe will adopt. Create `decisions.md`. Update any existing docs (`agent-handoff.md`, `workflow.md`, `README.md` and others) that still describe `~/Projects/Floe` or a symlink, so they match the single-location setup. No behaviour changes yet.
-1. **Foundations.** `theme.json` tokens and fonts, editor lockdown, base styles, breakpoint mixins, surfaces, the `Config/` fixes from section 6.
+0. **Baseline.** Verify the environment (section 2). Read Made's architecture and write `documentation/made-notes.md`: what Made does for module discovery, registration, the build, components, header/footer and settings, and what Floe will adopt. Create `decisions.md`. Update any existing docs (`agent-handoff.md`, `workflow.md`, `README.md` and others) that still describe `~/Projects/Floe` or a symlink, so they match the single-location setup. No behaviour changes yet.
+1. **Foundations.** `theme.json` tokens and fonts, editor lockdown, base styles, breakpoint mixins, surfaces, the `includes/` fixes from section 6.
 2. **Module system.** Block and component discovery (runtime and build), the component helper, the `Modules.php` seam, docs. **Acceptance test:** duplicate a block folder under a new name and rename it in `block.json`; after a build it appears in the inserter. Delete it, and it's gone with no errors. Do the same for a component. Show Jordan both.
 3. **Components.** Everything in 3.2, including header, navigation and footer, verified at all four breakpoints.
 4. **Existing blocks.** Rebuild the original twelve against the Figma designs, one block per commit, fixing section 6 as you go.
@@ -281,7 +281,7 @@ Stop for Jordan's review at the end of each phase.
 7. **QA and docs.**
    - Keyboard-only pass, reduced motion, long-content and missing-field checks, screen reader spot checks.
    - `npm run build`, lint, `php -l` on every file (plus PHPCS with WordPress Coding Standards if available).
-   - Update `Documentation/` so it matches the code.
+   - Update `documentation/` so it matches the code.
 
 ## 9. Figma reference
 

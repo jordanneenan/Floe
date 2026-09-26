@@ -93,7 +93,7 @@ Patterns to leave behind:
 
 **Global behaviour** (`functions/core/core.php`, `functions/admin/admin.php`):
 
-- **Comments are disabled.** Made removes comment and trackback support, closes comments and pings, empties comment arrays, redirects `edit-comments.php` and removes the menu and toolbar items. All of this sits in `admin.php`, which only loads when `is_admin()`, so the front-end `comments_open` filters never actually run on the front end. Floe's `Config/Comments.php` already applies them everywhere.
+- **Comments are disabled.** Made removes comment and trackback support, closes comments and pings, empties comment arrays, redirects `edit-comments.php` and removes the menu and toolbar items. All of this sits in `admin.php`, which only loads when `is_admin()`, so the front-end `comments_open` filters never actually run on the front end. Floe's `includes/Comments.php` already applies them everywhere.
 - **Admin tidy-up.** Made removes the WP logo (admin bar and login page), trims "Howdy", relabels the login field as "Email", replaces the footer credit, removes the emoji scripts, widens the editor sidebar, removes tags (unless Relevanssi is active), disables the block directory, reorders the admin menu, and hides Dashboard and Comments. The admin bar is moved to the bottom of the page on the front end.
 - **Image pipeline** (`image-manager.php`, class `CustomImageSizesManager`).
   - It replaces WordPress's generated sizes with `mobile` 800, `laptop` 1440 and `desktop` 2400 (width only, no crop) plus `thumbnail`, and sets JPEG quality to 70.
@@ -109,20 +109,20 @@ Patterns to leave behind:
 
 | Area | Made | Floe |
 | --- | --- | --- |
-| Block discovery | Runtime folder scan, deleting a folder removes the block | **Adopt.** Scan `Blocks/` for `block.json` one or two levels deep at runtime. Register natively with `register_block_type()` (no ACF). |
-| Block naming | `<type>/<variant-code>` folders | **Adapt.** One PascalCase folder per block (`Blocks/PageBanner/`), with children nested inside their parent. Design variants use block styles or attributes rather than sibling variant folders. Made's pattern stays available if a second, truly different design is ever needed. |
+| Block discovery | Runtime folder scan, deleting a folder removes the block | **Adopt.** Scan `blocks/` for `block.json` one or two levels deep at runtime. Register natively with `register_block_type()` (no ACF). |
+| Block naming | `<type>/<variant-code>` folders | **Adapt.** One PascalCase folder per block (`blocks/PageBanner/`), with children nested inside their parent. Design variants use block styles or attributes rather than sibling variant folders. Made's pattern stays available if a second, truly different design is ever needed. |
 | `_` prefix | Partials are never compiled on their own | **Adopt.** Folders and files starting with `_` are ignored by discovery (brief 3.1). |
 | Per-block assets | Enqueued only when the block is present | **Adopt, natively.** Assets are declared in `block.json` and on-demand loading is enabled. Front-end JS uses `viewScript`, with no jQuery. |
 | Allowed blocks | Allowlist built from discovery | **Adopt the shape.** Floe sections are the top-level inserter items, built from discovery with no central name list. Core blocks are allowed only inside designated slots (brief 4). |
 | Build | Glob Sass, central global lists, Rollup and BrowserSync | **Adapt.** Discovery-based `@wordpress/scripts` and Sass builds for blocks *and* components, with no central lists, plus a real `npm run start` watch with BrowserSync live reload, as Made has, proxying `floe.local` by default (D7). |
-| Components | Global functions returning strings, included by hand | **Adapt.** Namespaced functions returning escaped HTML, discovered from `Components/*/`, called through `Floe\component()`, which fails soft when a component is missing. Each component compiles and registers its own CSS. |
+| Components | Global functions returning strings, included by hand | **Adapt.** Namespaced functions returning escaped HTML, discovered from `components/*/`, called through `Floe\component()`, which fails soft when a component is missing. Each component compiles and registers its own CSS. |
 | Component variants | Layout subfolders chosen by option | **Keep in reserve** for the header if more layouts are wanted later. For now there is one header layout. |
-| Module on/off | None | **New.** Add a `Config/Modules.php` seam, an option and a filter (brief 3.3). |
+| Module on/off | None | **New.** Add a `includes/modules.php` seam, an option and a filter (brief 3.3). |
 | Header/footer | Direct includes, ACF logo, unregistered menu locations | **Adapt.** Use `get_header()`/`get_footer()` templates calling Header, Navigation and Footer components, with the native custom logo, registered locations, no page fallback, an accessible disclosure button, and the year from `wp_date()`. |
 | Brand settings | ACF options (logo, favicon, colours, fonts) | **Replace natively.** Custom logo, Site Icon, `theme.json` palette and self-hosted fonts. |
 | Code injection | Options fields for head, body and footer | **Adopt, natively.** Customizer fields for head, body and footer, output through native hooks. Admins only (D10). |
-| Comments off | In theme, admin-only file | **Keep in theme** permanently, in `Config/Admin/Comments.php`, applying on the front end too (D8, D17). |
-| Admin tidy-up | Extensive | **Adopt all of it** in `Config/Admin/`, one file per tweak. Appearance and Customize are never hidden (D11, D17). |
+| Comments off | In theme, admin-only file | **Keep in theme** permanently, in `includes/admin/comments.php`, applying on the front end too (D8, D17). |
+| Admin tidy-up | Extensive | **Adopt all of it** in `includes/admin/`, one file per tweak. Appearance and Customize are never hidden (D11, D17). |
 | Image pipeline | Own sizes, quality 70, opaque PNG → JPEG | **Adopt all of it** (D12). The sizes and the processing live in the theme, with a faster transparency check. |
 | Spacing | 120/80/40, per-block override, ÷1.4 and ÷1.8 | **Already reimplemented** in `floe/spacing`. The brief keeps its behaviour. Section padding follows brief section 4. |
 | Scroll animation (AOS) | Option-driven library | **Not now.** It isn't in the brief, and any future version must respect reduced motion. |

@@ -12,16 +12,15 @@
 
 | Task | Read | Primary files |
 | --- | --- | --- |
-| Add or change a block | [Block library](blocks.md), the block's README | `Blocks/<name>/` |
-| Add or change a component | [Architecture](architecture.md#modules), the component's README | `Components/<name>/` |
-| Change tokens, type, surfaces, breakpoints | [Architecture](architecture.md#styling-system) | `theme.json`, `Assets/scss/` |
-| Change editor lockdown or allowed blocks | [Configuration map](configuration.md) | `Config/Editor.php`, block `allowedBlocks` |
-| Change admin behaviour or site-wide tweaks | [Configuration map](configuration.md) | `Config/Admin/`, `Config/Media/` |
-| Change templates or page titles | [Architecture](architecture.md#templates) | `singular.php`, `index.php`, `Config/Templates.php` |
-| Change brochure pages or preview content | [Workflow](workflow.md#preview-content) | `patterns/`, `scripts/seed-preview.php` |
+| Add or change a block | [Block library](blocks.md), the block's README | `blocks/<name>/` |
+| Add or change a component | [Architecture](architecture.md#modules), the component's README | `components/<name>/` |
+| Change tokens, type, surfaces, breakpoints | [Architecture](architecture.md#styling-system) | `theme.json`, `assets/scss/` |
+| Change editor lockdown or allowed blocks | [Configuration map](configuration.md) | `includes/editor.php`, block `allowedBlocks` |
+| Change admin behaviour or site-wide tweaks | [Configuration map](configuration.md) | `includes/admin/`, `includes/media/` |
+| Change the template or page titles | [Architecture](architecture.md#templates) | `index.php`, `includes/templates.php` |
 | Follow or port a Made pattern | [Made notes](made-notes.md), [Decisions](decisions.md), [Migration](migration.md) | `../made/` (read-only reference theme) |
 | Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
-| Build, verify, or release | [Workflow](workflow.md) | `package.json`, `scripts/` |
+| Build, verify, or release | [Workflow](workflow.md) | `package.json`, `build.mjs` |
 | Older review context | [Review handoff](agent-handoff.md) | |
 
 ## Project facts
@@ -31,7 +30,7 @@
 - Type: classic WordPress theme with block editor support and `theme.json`, not a full-site-editing block theme.
 - Minimum: WordPress 7.1, PHP 8.0, Node.js 20 for development. Production uses committed built assets and doesn't need Node.
 - License: GPL-2.0-or-later.
-- 22 sections plus 8 child blocks, 15 components, five brochure page patterns and a Block Preview pattern. No required plugins and no ACF.
+- 22 sections plus 10 child blocks and 15 components. No required plugins and no ACF.
 
 ## Source-of-truth order
 
@@ -39,8 +38,8 @@ For implementation facts, use: **current code and `block.json` → package scrip
 
 ## Change checklist
 
-1. Locate the owning module or `Config/` file.
+1. Locate the owning module or `includes/` file.
 2. Keep the one-folder-per-module layout and the name-matching convention.
 3. `npm run build`, `npm run lint`, `php -l` on changed PHP.
-4. Check the front end at the four breakpoints (`npm run screenshots`) and the editor.
+4. Check the front end at the four breakpoints and the editor.
 5. Update the module README and any affected documentation.

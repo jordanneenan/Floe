@@ -4,11 +4,11 @@ This is the log of choices made where the [build brief](build-brief.md) is silen
 
 Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named phase), **Open** (needs Jordan).
 
-## D1: Build brief lives in `Documentation/`
+## D1: Build brief lives in `documentation/`
 
 - **Date / phase:** 2026-09-25, phase 0
-- **Source:** Judgement (AGENTS.md and CLAUDE.md link to `Documentation/build-brief.md`)
-- **Decision:** The brief arrived at the repository root and was moved to `Documentation/build-brief.md` so the existing links resolve.
+- **Source:** Judgement (AGENTS.md and CLAUDE.md link to `documentation/build-brief.md`)
+- **Decision:** The brief arrived at the repository root and was moved to `documentation/build-brief.md` so the existing links resolve.
 - **Status:** Adopted
 
 ## D2: Running WP-CLI against the LocalWP site
@@ -27,7 +27,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D4: Module enable/disable
 
 - **Source:** Brief 3.3 (Made has no equivalent)
-- **Decision:** Made registers every discovered block unconditionally, so there's no Made pattern to follow. Build the brief's seam: `Config/Modules.php`, the `floe_disabled_modules` option and the `floe_enabled_modules` filter.
+- **Decision:** Made registers every discovered block unconditionally, so there's no Made pattern to follow. Build the brief's seam: `includes/modules.php`, the `floe_disabled_modules` option and the `floe_enabled_modules` filter.
 - **Status:** Adopted (phase 2, 2026-09-26)
 
 ## D5: Allowed blocks built from discovery
@@ -39,7 +39,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D6: Components are discovered, namespaced, escaped and fail soft
 
 - **Source:** Brief 3.2, adapting Made
-- **Decision:** Keep Made's "a component is a function that returns markup" model. Drop Made's hand-written `include_once` lines, global function names, missing escaping and single global stylesheet. Each `Components/<name>/` folder is discovered, and its CSS is compiled and registered on its own. Folder and file naming follows D18.
+- **Decision:** Keep Made's "a component is a function that returns markup" model. Drop Made's hand-written `include_once` lines, global function names, missing escaping and single global stylesheet. Each `components/<name>/` folder is discovered, and its CSS is compiled and registered on its own. Folder and file naming follows D18.
 - **Status:** Adopted (phases 2–3, 2026-09-26)
 
 ## D7: Watch script with BrowserSync live reload
@@ -97,7 +97,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Differences from Made:**
   - Check transparency with Imagick's alpha channel check where it's available, falling back to GD. Made reads every pixel, which is slow on big PNGs.
   - Leave out Made's 2800px resize, which never has an effect (see [Made notes](made-notes.md)).
-  - Put the code in one self-contained file, `Config/Media/Images.php`. The Media component's `sizes` attribute uses these three widths.
+  - Put the code in one self-contained file, `includes/media/images.php`. The Media component's `sizes` attribute uses these three widths.
 - **Note:** The PNG conversion deletes the uploaded PNG, so it can't be undone for that image. That's Made's behaviour and Jordan's choice. The theme applies it to new uploads only; existing media is untouched unless it's regenerated.
 - **Status:** Adopted (phase 3, 2026-09-26)
 
@@ -122,13 +122,13 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D16: Preview imagery comes through the media library
 
 - **Source:** Jordan (2026-09-25)
-- **Decision:** The eight Floe images won't be committed. Jordan will upload them into WordPress once the blocks exist. The phase 6 seed script (brief 7) therefore won't import images from the repository. It will use suitable images already in the media library if there are any, and leave media empty otherwise. The five architectural images in `Assets/PreviewImagery/` are no longer the preview set. Remove them and update the README in phase 6, unless Jordan wants to keep them.
-- **Status:** Adopted
+- **Decision:** The eight Floe images won't be committed. Jordan will upload them into WordPress once the blocks exist. The phase 6 seed script (brief 7) therefore won't import images from the repository. It will use suitable images already in the media library if there are any, and leave media empty otherwise. The five architectural images in `assets/PreviewImagery/` are no longer the preview set. Remove them and update the README in phase 6, unless Jordan wants to keep them.
+- **Status:** Adopted; the preview imagery folder was later removed (D34)
 
-## D17: Admin tweaks live in `Config/Admin/`, one file per tweak
+## D17: Admin tweaks live in `includes/admin/`, one file per tweak
 
 - **Source:** Jordan asked for a single folder holding comments and admin tidy-up, with the name and location left to the build; Judgement for the details
-- **Decision:** Create `Config/Admin/`. Each tweak is one self-contained file: `Comments.php`, `Branding.php` (logo, footer credit, login label, Howdy), `Menu.php` (hidden items, order, Dashboard redirect), `Editor.php` (block directory, sidebar width, tags), `Frontend.php` (emoji, admin bar), `CodeInjection.php` (D10). `Config/Admin/` is loaded by scanning the folder, the same idea as block discovery, so deleting a file removes that tweak and nothing lists them by name. It replaces today's `Config/Comments.php` and `Config/AdminUI.php`. It sits under `Config/` rather than `Components/` because these are site behaviours, not UI pieces.
+- **Decision:** Create `includes/admin/`. Each tweak is one self-contained file: `Comments.php`, `Branding.php` (logo, footer credit, login label, Howdy), `Menu.php` (hidden items, order, Dashboard redirect), `Editor.php` (block directory, sidebar width, tags), `Frontend.php` (emoji, admin bar), `CodeInjection.php` (D10). `includes/admin/` is loaded by scanning the folder, the same idea as block discovery, so deleting a file removes that tweak and nothing lists them by name. It replaces today's `includes/Comments.php` and `includes/AdminUI.php`. It sits under `includes/` rather than `components/` because these are site behaviours, not UI pieces.
 - **Status:** Adopted (phase 1, 2026-09-26)
 
 ## D18: Every module is findable from its class name
@@ -138,7 +138,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** Folder name, wrapper class and file names are all the block's short name (the part after `floe/` in `block.json`):
 
   ```
-  Blocks/page-banner/
+  blocks/page-banner/
     block.json            name "floe/page-banner"
     page-banner.php       render template
     page-banner.scss      styles
@@ -149,10 +149,10 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
   ```
 
   - The block's outer element has the class `page-banner` (exactly the folder name) alongside WordPress's own `wp-block-floe-page-banner`.
-  - Child blocks nest inside their parent in the same style, for example `Blocks/cards/card-item/card-item.php`.
-  - Shared helper folders keep the `_` prefix (`Blocks/_shared/`) so discovery ignores them.
-  - Components follow the same convention: `Components/button/button.php`, `button.scss`, `button.js` and `button-editor.js` if they need them, and the component's root class is `button`. The PHP function stays namespaced (`Floe\Components\button()`, called through `Floe\component( 'button', … )`).
-- **Consequence:** Phase 2 renames the existing `Blocks/PageBanner/`-style folders, renames `render.php` to `<name>.php` and `Assets/` to `assets/`, and splits the editor JS into `<name>-editor.js`. Brief sections 3.1 and 3.2 are updated to show this layout.
+  - Child blocks nest inside their parent in the same style, for example `blocks/cards/card-item/card-item.php`.
+  - Shared helper folders keep the `_` prefix (`blocks/_shared/`) so discovery ignores them.
+  - Components follow the same convention: `components/button/button.php`, `button.scss`, `button.js` and `button-editor.js` if they need them, and the component's root class is `button`. The PHP function stays namespaced (`Floe\Components\button()`, called through `Floe\component( 'button', … )`).
+- **Consequence:** Phase 2 renames the existing `blocks/PageBanner/`-style folders, renames `render.php` to `<name>.php` and `assets/` to `assets/`, and splits the editor JS into `<name>-editor.js`. Brief sections 3.1 and 3.2 are updated to show this layout.
 - **Status:** Adopted (phases 2–5, 2026-09-26)
 
 ## D19: Sections own their padding; Spacing replaces it
@@ -231,7 +231,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Brief 7, D16
 - **Decision:** Brochure pages are block patterns in `patterns/`; the seed script builds pages, posts, menus and settings from them. Patterns find images by file name (`floe-hero` etc.), so any site with the photos uploaded gets the same result. The seed script also sets the site date format to `d M Y` to match the Figma dates, and moves WordPress's "Hello world!" post and "Sample Page" to the trash.
-- **Status:** Adopted (phase 6)
+- **Status:** Superseded by D34 (2026-09-26)
 
 ## D31: Copy written where Figma has none
 
@@ -243,4 +243,46 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** WordPress behaviour
 - **Decision:** WordPress caches a theme's pattern list per theme version outside development mode. The theme version is now 0.2.0; adding a pattern later needs a version bump, `WP_DEVELOPMENT_MODE` set to `theme`, or a run of the seed script.
-- **Status:** Adopted (phase 6)
+- **Status:** Superseded by D34 (2026-09-26): there are no theme patterns
+
+## D33: Lowercase folders and `includes/`
+
+- **Source:** Jordan (2026-09-26)
+- **Decision:** Every folder is lowercase. The top level is `assets/`, `blocks/`, `components/`, `includes/` (was `Config/`; feature files in `includes/admin/` and `includes/media/`, loaded automatically) and `documentation/`, plus WordPress's required files and a root `build.mjs` (like Made's `build.js`). PHP namespaces follow: `Floe\Includes\…`. A block that needs server code keeps it in its own folder as `<name>-server.php`, loaded only while the block is enabled.
+- **Status:** Adopted (phase 8)
+
+## D34: No theme patterns and no scripts folder
+
+- **Source:** Jordan (2026-09-26), overriding brief section 7
+- **Decision:** Pages are built from blocks in the editor; patterns can be made in WordPress if a site needs them. `patterns/`, the seed script, the screenshot script and the preview imagery folder are removed. The existing pages were already stored as blocks, so nothing on the site changed.
+- **Status:** Adopted (phase 8)
+
+## D35: One template; posts are built from blocks
+
+- **Source:** Jordan (2026-09-26)
+- **Decision:** `index.php` is the only template (`singular.php` and `404.php` are gone). Posts are laid out with blocks like pages: new posts start with Page Banner, Article and CTA. The existing journal posts were rebuilt that way (banner with the excerpt and featured image). The H1 fallback stays for anything without a banner.
+- **Status:** Adopted (phase 8)
+
+## D36: 860px left-aligned reading column
+
+- **Source:** Jordan (2026-09-26), overriding the Figma offset column
+- **Decision:** The narrow content width (`contentSize`) is 860px and left-aligned to the content edge everywhere it's used (Article, the reading-column fallback, Image + Copy without media).
+- **Status:** Adopted (phase 8)
+
+## D37: No posts page; Journal is a normal page
+
+- **Source:** Jordan (2026-09-26)
+- **Decision:** WordPress's "posts page" setting is off. Journal is a page built from blocks (Page Banner, Posts, Newsletter), so any listing page can use the full library.
+- **Status:** Adopted (phase 8)
+
+## D38: Posts block does listing, load more and filters itself
+
+- **Source:** Jordan (2026-09-26), following Made's Posts block without the Ajax Load More plugin
+- **Decision:** Sources are Latest (any public post type), Hand-picked and Manual entries (child **Post card** blocks). Latest shows 1–24 or all (capped at 100), with "More posts" set to none, a Load more button, or automatic loading on scroll. Filters are the top-level terms of a chosen taxonomy (categories or a custom taxonomy). Filtering and loading more fetch server-rendered cards from the block's REST route (`floe/v1/posts`) and swap them in place, with no page load and no URL change. The route only returns published posts of public post types, filtered by public taxonomies.
+- **Status:** Adopted (phase 8); **Open**: should filter state go into the URL later so a filtered view can be shared? (Jordan asked for no URL change for now.)
+
+## D39: CTA holds one to three panels
+
+- **Source:** Jordan (2026-09-26), following Made's CTA (a repeater of panels in a row)
+- **Decision:** The CTA block is a container of 1–3 **CTA panel** child blocks, each with eyebrow, heading, body, action, note, optional image and its own surface (Ink, Accent, Tint, Subtle). One panel keeps the wide Figma layout; two or three sit in equal columns with headings stepping down in size. Existing CTAs were converted to one-panel CTAs.
+- **Status:** Adopted (phase 8)

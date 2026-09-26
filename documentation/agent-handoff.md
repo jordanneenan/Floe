@@ -12,21 +12,21 @@ Floe is an open-source, GPL-2.0-or-later WordPress theme (`floe` text domain and
 | --- | --- |
 | Git repository and installed theme | `~/Local Sites/floe/app/public/wp-content/themes/floe` (the only copy); remote `https://github.com/jordanneenan/Floe.git` |
 | LocalWP site | `~/Local Sites/floe/app/public`, `http://floe.local` |
-| Brochure pages | `/`, `/platform/`, `/pricing/`, `/about/`, `/contact/`, `/journal/` (built from `patterns/` by `scripts/seed-preview.php`) |
+| Brochure pages | `/`, `/platform/`, `/pricing/`, `/about/`, `/contact/`, `/journal/`, built from blocks (Journal is a normal page with the Posts block) |
 | Block Preview | `http://floe.local/block-preview/`: every section with sample content |
 | Made reference | Read-only theme beside Floe at `wp-content/themes/made`. See [Made notes](made-notes.md) |
 | Figma | [Floe design file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n); node IDs in the build brief |
-| Preview imagery | Photos are uploaded to the media library (not in git); placeholder logos in `Assets/PreviewImagery/logos/` |
+| Preview imagery | Photos are uploaded to the media library (not in git); placeholder logos in `assets/PreviewImagery/logos/` |
 
-Preview content lives in the local database, but `scripts/seed-preview.php` recreates it on any site (see [workflow](workflow.md#preview-content)).
+Preview content lives in the local database; it isn't in git.
 
 ## Build status (September 2026)
 
-Phases 0–7 of the brief are built, each on its own branch (`phase-0-baseline` … `phase-7-qa-docs`), stacked in order and awaiting Jordan's review before merging to `main`. See the [architecture](architecture.md) and [block library](blocks.md).
+Phases 0–7 of the brief are built, each on its own branch (`phase-0-baseline` … `phase-7-qa-docs`), stacked in order, plus `phase-8-simplify` (Jordan's first review: lowercase layout, `includes/`, no patterns or scripts, 860px left-aligned column, Journal as a normal page, the new Posts block and the multi-panel CTA). All await review before merging to `main`. See the [architecture](architecture.md) and [block library](blocks.md).
 
 Verified on floe.local:
 - `npm run build`, `npm run lint` (JS and SCSS) and `php -l` on every PHP file pass.
-- Every page renders at 375 and 1440 with no console errors, no horizontal scrolling, one H1 and an ordered heading outline; full-page captures at all four breakpoints via `npm run screenshots`.
+- Every page renders at 375 and 1440 with no console errors, no horizontal scrolling, one H1 and an ordered heading outline.
 - Keyboard pass: every tab stop on Home and Platform has a visible focus style; the mobile menu disclosure opens, reports `aria-expanded` and closes on Escape with focus returned.
 - Long-content check (long words, URLs, button labels) at 375 and 1440.
 - Editor: WordPress's real editor scripts rendered the Block Preview content in a standalone test page: all 30 blocks registered, every block (including generated core markup) valid, no JavaScript errors. This was not the logged-in wp-admin editor.
