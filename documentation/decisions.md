@@ -266,7 +266,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D36: 860px left-aligned reading column
 
 - **Source:** Jordan (2026-09-26), overriding the Figma offset column
-- **Decision:** The narrow content width (`contentSize`) is 860px and left-aligned to the content edge everywhere it's used (Article, the reading-column fallback, Image + Copy without media).
+- **Decision:** The narrow content width (the `content.narrow` token, not WordPress's `contentSize`, which would also squeeze sections in the editor) is 860px and left-aligned to the content edge everywhere it's used (Article, the reading-column fallback, Image + Copy without media).
 - **Status:** Adopted (phase 8)
 
 ## D37: No posts page; Journal is a normal page

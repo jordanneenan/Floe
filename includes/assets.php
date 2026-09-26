@@ -13,8 +13,14 @@ function version( string $relative_path ): string {
 	return is_file( $file ) ? (string) filemtime( $file ) : wp_get_theme()->get( 'Version' );
 }
 
+// Registered everywhere (front end and editor) so anything can depend on it.
+function register(): void {
+	wp_register_style( 'floe-base', get_template_directory_uri() . '/assets/css/base.css', array(), version( 'assets/css/base.css' ) );
+}
+add_action( 'init', __NAMESPACE__ . '\\register' );
+
 function enqueue(): void {
-	wp_enqueue_style( 'floe-base', get_template_directory_uri() . '/assets/css/base.css', array(), version( 'assets/css/base.css' ) );
+	wp_enqueue_style( 'floe-base' );
 }
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\\enqueue' );
 

@@ -256,7 +256,7 @@ textarea {
 	@include section-padding;
 
 	> * {
-		max-width: var(--wp--style--global--content-size, 860px);
+		max-width: var(--wp--custom--content--narrow);
 	}
 
 	> * + * {

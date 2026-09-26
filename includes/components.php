@@ -35,7 +35,7 @@ function register_assets(): void {
 	foreach ( Modules\enabled( 'component' ) as $module ) {
 		$css = $module['dir'] . '/assets/' . $module['name'] . '.css';
 		if ( is_file( $css ) ) {
-			wp_register_style( 'floe-' . $module['name'], url( $module, $module['name'] . '.css' ), array( 'floe-base' ), (string) filemtime( $css ) );
+			wp_register_style( 'floe-' . $module['name'], url( $module, $module['name'] . '.css' ), array(), (string) filemtime( $css ) );
 		}
 		$js    = $module['dir'] . '/assets/' . $module['name'] . '.js';
 		$asset = $module['dir'] . '/assets/' . $module['name'] . '.asset.php';

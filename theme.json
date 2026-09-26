@@ -5,8 +5,6 @@
 		"appearanceTools": false,
 		"useRootPaddingAwareAlignments": false,
 		"layout": {
-			"contentSize": "860px",
-			"wideSize": "1248px",
 			"allowEditing": false,
 			"allowCustomContentAndWideSize": false
 		},
@@ -159,6 +157,7 @@
 			},
 			"content": {
 				"width": "1248px",
+				"narrow": "860px",
 				"gutter": "clamp(20px, 6.667vw, 96px)"
 			}
 		},
