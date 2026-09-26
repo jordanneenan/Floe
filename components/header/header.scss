@@ -1,5 +1,8 @@
 // Site header (Figma 30:2): 88px, white, 1px line underneath. Logo left, menu,
 // one Primary action (no arrow) right. Current page in ink, others muted.
+// The menu sits in the bar from 1280px; below that there isn't reliably room
+// for it (the default five items and button need about 820px), so it stays
+// behind the menu button. header.js uses the same width.
 @use "floe" as *;
 
 .site-header {
@@ -75,8 +78,8 @@
 	}
 }
 
-// Mobile/tablet: the panel drops down under the header bar.
-@include below(desktop) {
+// Below 1280px: the panel drops down under the header bar.
+@include below(large) {
 
 	.site-header.has-js .site-header__panel {
 		position: absolute;
@@ -136,7 +139,7 @@
 	}
 }
 
-@include from(desktop) {
+@include from(large) {
 
 	.site-header__toggle {
 		display: none;
@@ -146,17 +149,25 @@
 		display: contents;
 	}
 
+	.site-header__action {
+		white-space: nowrap;
+	}
+
+	// A long menu wraps onto a second row between items rather than squeezing
+	// its labels.
 	.site-header__nav .navigation__list {
-		flex-direction: row;
+		flex-flow: row wrap;
 		align-items: center;
-		gap: 36px;
+		justify-content: flex-end;
+		gap: 0 36px;
 
 		> li {
 			position: relative;
 		}
 
-		a {
+		> li > a {
 			padding: 8px 0;
+			white-space: nowrap;
 		}
 
 		// One level of dropdown.

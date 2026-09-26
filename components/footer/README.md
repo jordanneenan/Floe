@@ -6,7 +6,7 @@ Site footer on the Inverse surface (Figma `30:25`).
 - **Link columns:** the `footer-1`, `footer-2` and `footer-3` menu locations. Each menu's **name** is its column heading (e.g. name the menu "Explore"). Empty locations are left out.
 - **Legal row:** "© <year> <site name>." (year in the site's timezone) followed by the legal line from Appearance → Customize → Footer (default "All rights reserved."), then "Built with Floe" and the [theme toggle](../theme-toggle/README.md) for light and dark mode.
 
-Mobile: the sign-off stacks above the columns, which sit two-up.
+Mobile: the sign-off stacks above the columns, which sit two-up. Wider, the columns sit beside the sign-off only when both fit (about 1090px with three columns) and otherwise wrap underneath; columns wrap onto a new row rather than squeeze, and labels only wrap between words.
 
 ```php
 echo Floe\component( 'footer' );

@@ -24,11 +24,13 @@
 	flex-direction: column;
 	gap: 48px;
 
+	// Side by side only when both fit (from about 1090px with three columns);
+	// otherwise the columns wrap under the sign-off.
 	@include from(desktop) {
-		flex-direction: row;
+		flex-flow: row wrap;
 		align-items: flex-start;
 		justify-content: space-between;
-		gap: 64px;
+		gap: 48px 64px;
 	}
 }
 
@@ -53,7 +55,8 @@
 
 	@include from(tablet) {
 		display: flex;
-		gap: 72px;
+		flex-wrap: wrap;
+		gap: 40px 72px;
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Header component (Figma 30:2): logo, primary menu and one action. Below
- * 768px the menu and action move into a panel opened by a disclosure button.
+ * 1280px the menu and action move into a panel opened by a disclosure button.
  *
  *   echo Floe\component( 'header' );
  */
