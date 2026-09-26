@@ -8,7 +8,8 @@ const toggle = header?.querySelector( '.site-header__toggle' );
 const panel = header?.querySelector( '.site-header__panel' );
 
 if ( header && toggle && panel ) {
-	const desktop = window.matchMedia( '(min-width: 768px)' );
+	// The menu sits in the bar from 1280px (header.scss).
+	const desktop = window.matchMedia( '(min-width: 1280px)' );
 	header.classList.add( 'has-js' );
 
 	const setOpen = ( open, returnFocus = false ) => {
