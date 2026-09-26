@@ -32,8 +32,12 @@
 	}
 
 	.section-header {
-		flex: 0 1 480px;
 		gap: 14px;
+
+		// Widths only apply side by side; in a column they'd become heights.
+		@include from(desktop) {
+			flex: 0 1 480px;
+		}
 	}
 
 	.section-header__intro {
@@ -43,10 +47,13 @@
 
 .newsletter__side {
 	display: flex;
-	flex: 0 1 520px;
 	flex-direction: column;
 	align-items: flex-start;
 	gap: 12px;
+
+	@include from(desktop) {
+		flex: 0 1 520px;
+	}
 }
 
 .newsletter__form {

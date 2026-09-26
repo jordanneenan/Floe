@@ -1,6 +1,6 @@
 # Form
 
-Styles only (Figma "Form field", `42:208`). Floe doesn't ship a form: sites use their own form plugin, and its markup picks up these styles inside a form slot (the `.form-slot` wrapper in Contact and Newsletter) and in the native search form.
+Styles only (Figma "Form field", `42:208`). Floe's own Form block and any form plugin's markup pick up these styles inside a form slot (the `.form-slot` wrapper in Contact and Newsletter), as does the native search form.
 
 - Label: Small, ink, above the field.
 - Field: 52px tall (the Figma description's value; the drawing measures 60), white, 1.5px line border, 16px radius, Body text, muted placeholder at 80%.

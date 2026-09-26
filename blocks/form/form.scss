@@ -1,0 +1,113 @@
+// Floe's built-in form. Field styles come from the Form component (it sits in
+// a form slot); this adds the layout from Figma 44:263 (Contact: first and
+// last name side by side) and 45:363 (Newsletter: field and button on one
+// line), the hidden spam field, and the error and thank-you messages.
+@use "floe" as *;
+
+.form {
+	--form-error: #c2272d;
+}
+
+:root[data-theme="dark"] .form,
+:is(.surface-inverse, .surface-accent) .form {
+	--form-error: #ff9a9e;
+}
+
+// The form slot lays the form out as a flex column, which would otherwise
+// override the hidden attribute.
+.form [hidden] {
+	display: none !important;
+}
+
+// Also set here because the editor preview's form is a div.
+.form__form {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.form__row {
+	display: grid;
+	gap: 24px;
+
+	@include from(tablet) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 20px;
+	}
+}
+
+.form__consent {
+	display: flex;
+	align-items: center;
+	margin: 0;
+	color: var(--surface-text-muted);
+
+	@include type(small);
+}
+
+.form__trap {
+
+	@include visually-hidden;
+}
+
+.form__message {
+	margin: 0;
+	color: var(--form-error);
+
+	@include type(small);
+}
+
+.form__submit {
+	align-self: flex-start;
+
+	&[aria-busy="true"] {
+		opacity: 0.7;
+		cursor: progress;
+	}
+}
+
+.form__success {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	color: var(--surface-text);
+
+	@include type(body-l);
+
+	p {
+		margin: 0;
+	}
+
+	.icon {
+		flex: none;
+		margin-top: 0.3em;
+		color: var(--surface-link);
+	}
+
+	&:focus {
+		outline: none;
+	}
+}
+
+// Newsletter: email field and button on one line from tablet up.
+.form--signup .form__form {
+
+	@include from(tablet) {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) auto;
+		align-items: end;
+		gap: 12px;
+	}
+
+	.form__submit {
+		min-height: 52px;
+
+		@include from(tablet) {
+			align-self: end;
+		}
+	}
+
+	.form__message {
+		grid-column: 1 / -1;
+	}
+}

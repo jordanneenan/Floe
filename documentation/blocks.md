@@ -24,10 +24,12 @@ Every block is a folder under `blocks/` with its own README describing its field
 | Document Download | [document-download](../blocks/document-download/README.md) | File rows from the media library; child **Download**. |
 | Images | [images](../blocks/images/README.md) | Rows of 1–3 media (child **Image row** holding **Media**), fill or natural fit. |
 | Video | [video](../blocks/video/README.md) | YouTube cover and play control; privacy-enhanced player loads on click. |
-| Contact | [contact](../blocks/contact/README.md) | Details, optional map image, form slot. |
-| Newsletter | [newsletter](../blocks/newsletter/README.md) | Tint panel with a form slot, or a slim CTA. |
+| Contact | [contact](../blocks/contact/README.md) | Details, optional map image, form slot (child **Form**, or a form plugin). |
+| Newsletter | [newsletter](../blocks/newsletter/README.md) | Tint panel with a form slot (child **Form**, or a mailing provider), or a slim CTA. |
 | CTA | [cta](../blocks/cta/README.md) | One to three panels side by side (Ink, Accent, Tint or Subtle); child **CTA panel**. |
 | Spacing | [spacing](../blocks/spacing/README.md) | Exact gap between two sections, per breakpoint. |
+
+**Form** (`floe/form`, [README](../blocks/form/README.md)) is Floe's built-in enquiry form and newsletter signup. It's a child of both Contact and Newsletter, so it sits at the top level of `blocks/`.
 
 **Media** (`floe/media`, [README](../blocks/media/README.md)) is the shared child used by Article and Image rows, so it sits at the top level of `blocks/`.
 

@@ -27,6 +27,7 @@ Delete a file to remove that behaviour.
 | `Admin/Editor.php` | No block directory, no tags on posts, wider editor sidebar. |
 | `Admin/Frontend.php` | No emoji scripts; admin bar sits in the page flow. |
 | `Admin/CodeInjection.php` | Customizer → Code injection: Head, Start of body and Footer fields (administrators only; stored as options so they survive a theme change). |
+| `mail/smtp.php` | Sends WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST` (plus `FLOE_SMTP_USER`, `FLOE_SMTP_PASS`, optional `FLOE_SMTP_PORT` and `FLOE_SMTP_FROM`); sender name is the site name instead of "WordPress". |
 | `Media/Images.php` | Made's image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
 
 ## Site settings the theme reads
@@ -42,3 +43,4 @@ Delete a file to remove that behaviour.
 | Footer legal line | Customize → Footer | Text after "© year site name." |
 | Code injection | Customize → Code injection | Scripts in head, body and footer. |
 | Date format | Settings → General | Post card and post dates. |
+| Administration Email Address | Settings → General | Where Form entries are emailed (`floe_form_recipient` filter to change). |

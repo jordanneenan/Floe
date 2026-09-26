@@ -207,7 +207,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Brief 3.2 and 5 (native first; no required plugins)
 - **Decision:** Floe ships form styling, not a form. Contact and Newsletter have form slots that accept any non-Floe block (a form plugin's block or a Shortcode block). Without a form, Contact shows only its details and Newsletter can show a button instead, which is how Figma's "also usable as a slimmer CTA" is provided. The preview site uses a `mailto:` Subscribe button until a form plugin is added.
-- **Status:** Adopted (phase 5); **Open** for Jordan: which form plugin to standardise on (Made used Gravity Forms)?
+- **Status:** Adopted (phase 5); superseded by D42, which adds Floe's own Form block. The slots still accept a form plugin's block.
 
 ## D27: Logo strip tone
 
@@ -299,3 +299,8 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** Every colour change and hover uses `--floe-duration` (0.4s) and `--floe-ease` (`cubic-bezier(0.22, 1, 0.36, 1)`), from `settings.custom.motion`. Scroll reveals are a component (`components/reveal/`) that picks its own targets: the parts of each section, with grid and list items staggered 90ms apart. Only JavaScript hides anything, and only below the fold, so nothing is hidden without it and the first screen never waits; banners have their own CSS load-in instead. Reduced motion turns every animation off. Deleting the Reveal folder switches reveals off.
 - **Status:** Adopted (phase 9)
 
+## D42: Floe has its own form, not a form plugin
+
+- **Source:** Jordan (2026-09-26): no email address shown on the site, and no form plugin
+- **Decision:** A **Form** block (`blocks/form/`) goes in the Contact and Newsletter form slots. It has two types: the Figma enquiry form (first and last name, email, organisation, "How can we help?", consent) and a one-field newsletter signup. It posts to `admin-post.php`, so it works without JavaScript; with JavaScript it sends in the background and shows the thank-you message in place. Each entry is saved as a private **Enquiry** (admin menu, no public URL) before an alert is emailed to the site's administration email address with Reply-To set to the sender, so nothing is lost if email fails. Spam protection is a hidden field, a signed timestamp (sends within two seconds of loading are refused) and five sends per visitor per ten minutes; there is no nonce, so cached pages keep working. `includes/mail/smtp.php` sends all WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST`. Newsletter signups are stored the same way until a mailing provider is chosen.
+- **Status:** Adopted

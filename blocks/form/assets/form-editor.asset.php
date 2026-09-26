@@ -4,11 +4,11 @@
 		'wp-block-editor',
 		'wp-blocks',
 		'wp-components',
+		'wp-compose',
 		'wp-core-data',
 		'wp-data',
 		'wp-element',
-		'wp-i18n',
-		'wp-primitives'
+		'wp-i18n'
 	),
-	'version' => '63a2bf844c1e06377798'
+	'version' => 'ec9509fefb31a72a7634'
 );

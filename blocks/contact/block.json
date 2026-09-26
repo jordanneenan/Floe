@@ -6,7 +6,7 @@
 	"title": "Contact",
 	"category": "floe-sections",
 	"icon": "email",
-	"description": "A heading group, contact details, an optional map image and a slot for your form plugin's form.",
+	"description": "A heading group, contact details, an optional map image and a form slot for Floe's Form block or a form plugin.",
 	"keywords": [ "form", "address", "email", "phone", "map" ],
 	"textdomain": "floe",
 	"attributes": {

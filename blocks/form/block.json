@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/form",
+	"version": "1.0.0",
+	"title": "Form",
+	"category": "floe-parts",
+	"icon": "feedback",
+	"description": "Floe's built-in form: an enquiry form or a newsletter signup. Entries are saved under Enquiries and emailed to the site's administration email address.",
+	"keywords": [ "contact", "enquiry", "signup", "subscribe" ],
+	"textdomain": "floe",
+	"parent": [ "floe/contact", "floe/newsletter" ],
+	"attributes": {
+		"kind": { "type": "string", "enum": [ "", "enquiry", "signup" ], "default": "" },
+		"submitLabel": { "type": "string", "default": "" },
+		"showConsent": { "type": "boolean", "default": true },
+		"consent": { "type": "string", "default": "" },
+		"success": { "type": "string", "default": "" }
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./assets/form-editor.js",
+	"style": "file:./assets/form.css",
+	"viewScript": "file:./assets/form.js",
+	"render": "file:./form.php"
+}

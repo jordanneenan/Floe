@@ -6,7 +6,7 @@
 	"title": "Newsletter",
 	"category": "floe-sections",
 	"icon": "email-alt",
-	"description": "A tint panel with a heading, a short line and your mailing provider's signup form. Without a form it works as a slimmer call to action.",
+	"description": "A tint panel with a heading, a short line and a signup form (Floe's Form block or your mailing provider's). Without a form it works as a slimmer call to action.",
 	"keywords": [ "subscribe", "signup", "mailing list" ],
 	"textdomain": "floe",
 	"attributes": {
