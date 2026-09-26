@@ -1,9 +1,14 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { InspectorControls } from '@wordpress/block-editor';
+import {
+	InnerBlocks,
+	InspectorControls,
+	useInnerBlocksProps,
+} from '@wordpress/block-editor';
 import {
 	PanelBody,
 	SelectControl,
 	RangeControl,
+	ToggleControl,
 	ComboboxControl,
 	Button as WPButton,
 	Flex,
@@ -36,12 +41,9 @@ const trimWords = ( text, words = 22 ) => {
 		: text;
 };
 
-function PostCard( { post, override, headingLevel, categories } ) {
+function PostCard( { post, override, headingLevel, termName } ) {
 	const featured = useMedia(
 		override?.id ? override : { id: post.featured_media || undefined }
-	);
-	const category = categories?.find(
-		( term ) => term.id === post.categories?.[ 0 ]
 	);
 	return (
 		<Card
@@ -59,7 +61,7 @@ function PostCard( { post, override, headingLevel, categories } ) {
 					/>
 				) : null
 			}
-			category={ category ? decodeEntities( category.name ) : '' }
+			category={ termName }
 			date={ dateI18n( getSettings().formats.date, post.date ) }
 			title={
 				<a
@@ -67,34 +69,32 @@ function PostCard( { post, override, headingLevel, categories } ) {
 					href={ post.link }
 					onClick={ ( event ) => event.preventDefault() }
 				>
-					{ decodeEntities( post.title.rendered ) }
+					{ decodeEntities( post.title?.rendered || '' ) }
 				</a>
 			}
-			text={ trimWords( plainText( post.excerpt.rendered ) ) }
+			text={ trimWords( plainText( post.excerpt?.rendered || '' ) ) }
 		/>
 	);
 }
 
-function PostPicker( { selected, onChange } ) {
+function PostPicker( { postType, selected, onChange } ) {
 	const [ search, setSearch ] = useState( '' );
 	const { results, chosen } = useSelect(
 		( select ) => ( {
 			results:
-				select( coreStore ).getEntityRecords( 'postType', 'post', {
+				select( coreStore ).getEntityRecords( 'postType', postType, {
 					search,
 					per_page: 20,
 					status: 'publish',
-					_fields: 'id,title',
 				} ) || [],
 			chosen: selected.length
-				? select( coreStore ).getEntityRecords( 'postType', 'post', {
+				? select( coreStore ).getEntityRecords( 'postType', postType, {
 						include: selected,
-						per_page: 12,
-						_fields: 'id,title',
+						per_page: 24,
 					} ) || []
 				: [],
 		} ),
-		[ search, selected ]
+		[ postType, search, selected ]
 	);
 	const titleOf = ( id ) =>
 		decodeEntities(
@@ -115,7 +115,7 @@ function PostPicker( { selected, onChange } ) {
 				__nextHasNoMarginBottom
 				label={ __( 'Add a post', 'floe' ) }
 				help={ __(
-					'Search by title. Up to 12 posts, in the order listed below.',
+					'Search by title. Up to 24, in the order listed below.',
 					'floe'
 				) }
 				value={ null }
@@ -124,13 +124,13 @@ function PostPicker( { selected, onChange } ) {
 					.map( ( post ) => ( {
 						value: post.id,
 						label:
-							decodeEntities( post.title.rendered ) ||
+							decodeEntities( post.title?.rendered || '' ) ||
 							`#${ post.id }`,
 					} ) ) }
 				onFilterValueChange={ setSearch }
 				onChange={ ( id ) =>
 					id &&
-					selected.length < 12 &&
+					selected.length < 24 &&
 					onChange( [ ...selected, Number( id ) ] )
 				}
 			/>
@@ -174,47 +174,115 @@ function PostPicker( { selected, onChange } ) {
 }
 
 function Edit( { attributes, setAttributes, name } ) {
-	const { source, category, posts, count, headingLevel, mediaOverrides } =
-		attributes;
+	const {
+		source,
+		postType,
+		count,
+		showAll,
+		more,
+		taxonomy,
+		term,
+		showFilters,
+		posts,
+		headingLevel,
+		mediaOverrides,
+	} = attributes;
 	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
 	const currentId = useSelect(
 		( select ) => select( 'core/editor' )?.getCurrentPostId(),
 		[]
 	);
 
-	const { records, categories } = useSelect(
+	const { postTypes, taxonomies, taxonomyObject, terms } = useSelect(
 		( select ) => {
+			const core = select( coreStore );
+			const allTaxonomies = core.getTaxonomies( { per_page: -1 } ) || [];
+			return {
+				postTypes: (
+					core.getPostTypes( { per_page: -1 } ) || []
+				).filter(
+					( type ) => type.viewable && type.slug !== 'attachment'
+				),
+				taxonomies: allTaxonomies.filter(
+					( tax ) =>
+						tax.visibility?.public !== false &&
+						( tax.types || [] ).includes( postType )
+				),
+				taxonomyObject: allTaxonomies.find(
+					( tax ) => tax.slug === taxonomy
+				),
+				terms: taxonomy
+					? core.getEntityRecords( 'taxonomy', taxonomy, {
+							per_page: 100,
+							hide_empty: true,
+						} ) || []
+					: [],
+			};
+		},
+		[ postType, taxonomy ]
+	);
+
+	const records = useSelect(
+		( select ) => {
+			if ( source === 'manual' ) {
+				return [];
+			}
 			const query = {
-				per_page: count,
+				per_page: showAll ? 12 : count,
 				status: 'publish',
-				_fields: 'id,title,excerpt,date,link,featured_media,categories',
 				exclude: currentId ? [ currentId ] : undefined,
 			};
-			if ( source === 'manual' ) {
+			if ( source === 'picker' ) {
 				Object.assign( query, {
 					include: posts.length ? posts : [ 0 ],
 					orderby: 'include',
 					per_page: Math.max( 1, posts.length ),
 					exclude: undefined,
 				} );
-			} else if ( source === 'category' && category ) {
-				query.categories = [ category ];
+			} else if ( taxonomyObject && term && ! showFilters ) {
+				query[ taxonomyObject.rest_base ] = [ term ];
 			}
-			return {
-				records: select( coreStore ).getEntityRecords(
-					'postType',
-					'post',
-					query
-				),
-				categories: select( coreStore ).getEntityRecords(
-					'taxonomy',
-					'category',
-					{ per_page: 100, _fields: 'id,name' }
-				),
-			};
+			return select( coreStore ).getEntityRecords(
+				'postType',
+				postType,
+				query
+			);
 		},
-		[ source, category, posts, count, currentId ]
+		[
+			source,
+			postType,
+			count,
+			showAll,
+			posts,
+			term,
+			showFilters,
+			taxonomyObject,
+			currentId,
+		]
 	);
+
+	const termFor = ( post ) => {
+		const base =
+			taxonomyObject?.rest_base ||
+			( postType === 'post' ? 'categories' : '' );
+		const id = base ? post[ base ]?.[ 0 ] : 0;
+		const found = terms.find( ( item ) => item.id === id );
+		return found ? decodeEntities( found.name ) : '';
+	};
+
+	const innerBlocksProps = useInnerBlocksProps(
+		{ className: 'posts__grid' },
+		{
+			allowedBlocks: metadata.allowedBlocks,
+			template: [
+				[ 'floe/post-item' ],
+				[ 'floe/post-item' ],
+				[ 'floe/post-item' ],
+			],
+			orientation: 'horizontal',
+		}
+	);
+	const topTerms = terms.filter( ( item ) => ! item.parent );
 
 	return (
 		<>
@@ -226,16 +294,13 @@ function Edit( { attributes, setAttributes, name } ) {
 						label={ __( 'Show', 'floe' ) }
 						value={ source }
 						options={ [
+							{ label: __( 'Latest', 'floe' ), value: 'latest' },
 							{
-								label: __( 'Latest posts', 'floe' ),
-								value: 'latest',
+								label: __( 'Hand-picked', 'floe' ),
+								value: 'picker',
 							},
 							{
-								label: __( 'Posts from a category', 'floe' ),
-								value: 'category',
-							},
-							{
-								label: __( 'Hand-picked posts', 'floe' ),
+								label: __( 'Manual entries', 'floe' ),
 								value: 'manual',
 							},
 						] }
@@ -243,46 +308,156 @@ function Edit( { attributes, setAttributes, name } ) {
 							setAttributes( { source: next } )
 						}
 					/>
-					{ source === 'category' && (
+					{ source !== 'manual' && (
 						<SelectControl
 							__next40pxDefaultSize
 							__nextHasNoMarginBottom
-							label={ __( 'Category', 'floe' ) }
-							value={ String( category ) }
-							options={ [
-								{
-									label: __( 'Choose a category', 'floe' ),
-									value: '0',
-								},
-								...( categories || [] ).map( ( term ) => ( {
-									label: decodeEntities( term.name ),
-									value: String( term.id ),
-								} ) ),
-							] }
+							label={ __( 'Post type', 'floe' ) }
+							value={ postType }
+							options={ postTypes.map( ( type ) => ( {
+								label: type.name,
+								value: type.slug,
+							} ) ) }
 							onChange={ ( next ) =>
 								setAttributes( {
-									category: parseInt( next, 10 ),
+									postType: next,
+									taxonomy: '',
+									term: 0,
+									posts: [],
 								} )
 							}
 						/>
 					) }
-					{ source === 'manual' ? (
+					{ source === 'latest' && (
+						<>
+							<ToggleControl
+								__nextHasNoMarginBottom
+								label={ __( 'Show all', 'floe' ) }
+								help={ __(
+									'Every published post (up to 100).',
+									'floe'
+								) }
+								checked={ showAll }
+								onChange={ ( next ) =>
+									setAttributes( { showAll: next } )
+								}
+							/>
+							{ ! showAll && (
+								<>
+									<RangeControl
+										__next40pxDefaultSize
+										__nextHasNoMarginBottom
+										label={ __(
+											'Number of posts',
+											'floe'
+										) }
+										help={ __(
+											'Shown at first, and added each time more load.',
+											'floe'
+										) }
+										min={ 1 }
+										max={ 24 }
+										value={ count }
+										onChange={ ( next ) =>
+											setAttributes( { count: next } )
+										}
+									/>
+									<SelectControl
+										__next40pxDefaultSize
+										__nextHasNoMarginBottom
+										label={ __( 'More posts', 'floe' ) }
+										value={ more }
+										options={ [
+											{
+												label: __( 'None', 'floe' ),
+												value: 'none',
+											},
+											{
+												label: __(
+													'Load more button',
+													'floe'
+												),
+												value: 'button',
+											},
+											{
+												label: __(
+													'Load automatically on scroll',
+													'floe'
+												),
+												value: 'scroll',
+											},
+										] }
+										onChange={ ( next ) =>
+											setAttributes( { more: next } )
+										}
+									/>
+								</>
+							) }
+							<SelectControl
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+								label={ __( 'Taxonomy', 'floe' ) }
+								help={ __(
+									'For filters, the label on each card, and limiting the posts.',
+									'floe'
+								) }
+								value={ taxonomy }
+								options={ [
+									{ label: __( 'None', 'floe' ), value: '' },
+									...taxonomies.map( ( tax ) => ( {
+										label: tax.name,
+										value: tax.slug,
+									} ) ),
+								] }
+								onChange={ ( next ) =>
+									setAttributes( { taxonomy: next, term: 0 } )
+								}
+							/>
+							{ taxonomy && (
+								<ToggleControl
+									__nextHasNoMarginBottom
+									label={ __( 'Show filters', 'floe' ) }
+									help={ __(
+										'Buttons for each top-level term. Clicking one updates the posts without reloading the page.',
+										'floe'
+									) }
+									checked={ showFilters }
+									onChange={ ( next ) =>
+										setAttributes( { showFilters: next } )
+									}
+								/>
+							) }
+							{ taxonomy && ! showFilters && (
+								<SelectControl
+									__next40pxDefaultSize
+									__nextHasNoMarginBottom
+									label={ __( 'Only show', 'floe' ) }
+									value={ String( term ) }
+									options={ [
+										{
+											label: __( 'Everything', 'floe' ),
+											value: '0',
+										},
+										...terms.map( ( item ) => ( {
+											label: decodeEntities( item.name ),
+											value: String( item.id ),
+										} ) ),
+									] }
+									onChange={ ( next ) =>
+										setAttributes( {
+											term: parseInt( next, 10 ),
+										} )
+									}
+								/>
+							) }
+						</>
+					) }
+					{ source === 'picker' && (
 						<PostPicker
+							postType={ postType }
 							selected={ posts }
 							onChange={ ( next ) =>
 								setAttributes( { posts: next } )
-							}
-						/>
-					) : (
-						<RangeControl
-							__next40pxDefaultSize
-							__nextHasNoMarginBottom
-							label={ __( 'Number of posts', 'floe' ) }
-							min={ 1 }
-							max={ 12 }
-							value={ count }
-							onChange={ ( next ) =>
-								setAttributes( { count: next } )
 							}
 						/>
 					) }
@@ -293,7 +468,7 @@ function Edit( { attributes, setAttributes, name } ) {
 						}
 					/>
 				</PanelBody>
-				{ !! records?.length && (
+				{ source !== 'manual' && !! records?.length && (
 					<PanelBody
 						title={ __( 'Card images', 'floe' ) }
 						initialOpen={ false }
@@ -307,7 +482,9 @@ function Edit( { attributes, setAttributes, name } ) {
 						{ records.map( ( post ) => (
 							<div key={ post.id } style={ { marginBottom: 16 } }>
 								<strong>
-									{ decodeEntities( post.title.rendered ) }
+									{ decodeEntities(
+										post.title?.rendered || ''
+									) }
 								</strong>
 								<MediaSlot
 									value={ mediaOverrides[ post.id ] }
@@ -323,7 +500,6 @@ function Edit( { attributes, setAttributes, name } ) {
 										} );
 									} }
 									ratio="4/3"
-									allowVideo
 									label={ __(
 										'Card image override',
 										'floe'
@@ -339,27 +515,54 @@ function Edit( { attributes, setAttributes, name } ) {
 					<EditableSectionHeader
 						attributes={ attributes }
 						setAttributes={ setAttributes }
-						intro={ false }
 						action
 						actionStyle="secondary"
 						placeholders={ {
 							action: __( 'Optional “View all” link', 'floe' ),
 						} }
 					/>
-					{ records === null && (
+					{ source === 'latest' &&
+						taxonomy &&
+						showFilters &&
+						!! topTerms.length && (
+							<ul className="posts__filters">
+								<li>
+									<button
+										type="button"
+										className="posts__filter"
+										aria-pressed="true"
+									>
+										{ __( 'All', 'floe' ) }
+									</button>
+								</li>
+								{ topTerms.map( ( item ) => (
+									<li key={ item.id }>
+										<button
+											type="button"
+											className="posts__filter"
+											aria-pressed="false"
+										>
+											{ decodeEntities( item.name ) }
+										</button>
+									</li>
+								) ) }
+							</ul>
+						) }
+					{ source === 'manual' && <div { ...innerBlocksProps } /> }
+					{ source !== 'manual' && records === null && (
 						<p>{ __( 'Loading posts…', 'floe' ) }</p>
 					) }
-					{ records?.length === 0 && (
+					{ source !== 'manual' && records?.length === 0 && (
 						<p className="floe-slot-hint">
-							{ source === 'manual'
+							{ source === 'picker'
 								? __( 'Choose posts in the sidebar.', 'floe' )
 								: __(
-										'No published posts match. This section is hidden on the site until there are some.',
+										'Nothing published matches yet. This section is hidden on the site until there is.',
 										'floe'
 									) }
 						</p>
 					) }
-					{ !! records?.length && (
+					{ source !== 'manual' && !! records?.length && (
 						<div className="posts__grid">
 							{ records.map( ( post ) => (
 								<PostCard
@@ -370,9 +573,21 @@ function Edit( { attributes, setAttributes, name } ) {
 										4,
 										headingLevel + 1
 									) }
-									categories={ categories }
+									termName={ termFor( post ) }
 								/>
 							) ) }
+						</div>
+					) }
+					{ source === 'latest' && ! showAll && more !== 'none' && (
+						<div className="posts__more">
+							<span className="posts__more-button button button--secondary">
+								{ more === 'scroll'
+									? __(
+											'Load more (automatic on scroll)',
+											'floe'
+										)
+									: __( 'Load more', 'floe' ) }
+							</span>
 						</div>
 					) }
 				</div>
@@ -381,4 +596,7 @@ function Edit( { attributes, setAttributes, name } ) {
 	);
 }
 
-registerBlockType( metadata.name, { edit: Edit, save: () => null } );
+registerBlockType( metadata.name, {
+	edit: Edit,
+	save: () => <InnerBlocks.Content />,
+} );

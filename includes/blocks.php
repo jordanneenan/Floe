@@ -1,6 +1,7 @@
 <?php
 /**
- * Registers every enabled block found by includes/modules.php, and provides the
+ * Registers every enabled block found by includes/modules.php (loading its
+ * optional <name>-server.php first), and provides the
  * helpers block templates share.
  */
 
@@ -12,6 +13,11 @@ defined( 'ABSPATH' ) || exit;
 
 function register(): void {
 	foreach ( Modules\enabled( 'block' ) as $module ) {
+		// Optional server-side code for the block (REST routes, helpers).
+		$server = $module['dir'] . '/' . $module['name'] . '-server.php';
+		if ( is_file( $server ) ) {
+			require_once $server;
+		}
 		register_block_type( $module['dir'] );
 	}
 }

@@ -1,5 +1,5 @@
-// Figma 36:58. Section header with a Secondary "View all" button, 64px, then
-// a three-up grid of Post cards (32px gaps).
+// Figma 36:58. Section header, optional filter pills, then a three-up grid of
+// Post cards (32px gaps), and an optional Load more.
 @use "floe" as *;
 
 .posts {
@@ -19,11 +19,48 @@
 	}
 }
 
+.posts__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: -8px 0 -16px;
+	padding: 0;
+	list-style: none;
+
+	@include from(desktop) {
+		margin: -24px 0 -24px;
+	}
+}
+
+.posts__filter {
+	padding: 9px 16px;
+	border: 1.5px solid var(--surface-line);
+	border-radius: var(--wp--custom--radius--pill);
+	background: transparent;
+	color: var(--surface-text-muted);
+
+	@include type(label);
+	cursor: pointer;
+	transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+
+	&:hover {
+		border-color: var(--surface-text);
+		color: var(--surface-text);
+	}
+
+	&[aria-pressed="true"] {
+		border-color: var(--wp--preset--color--ink);
+		background: var(--wp--preset--color--ink);
+		color: var(--wp--preset--color--white);
+	}
+}
+
 .posts__grid {
 	display: grid;
 	grid-template-columns: minmax(0, 1fr);
 	align-items: start;
 	gap: 40px 24px;
+	transition: opacity 0.2s ease;
 
 	@include from(tablet) {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -33,4 +70,22 @@
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: 48px 32px;
 	}
+}
+
+.posts.is-loading .posts__grid {
+	opacity: 0.5;
+}
+
+.posts__more {
+	display: flex;
+	justify-content: center;
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// Automatic loading: the button stays for keyboard users but reads as status.
+.posts--auto .posts__more-button {
+	opacity: 0.8;
 }
