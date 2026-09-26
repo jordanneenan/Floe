@@ -56,8 +56,12 @@
 	}
 
 	// Opens and closes smoothly where the browser can animate to auto height.
+	// flow-root keeps the answer's top margin inside the animated box; otherwise
+	// it collapses out, appears instantly on open and drops at the end of close,
+	// so the list jumps 14px when the transition finishes.
 
 	&::details-content {
+		display: flow-root;
 		block-size: 0;
 		overflow-y: clip;
 		opacity: 0;
