@@ -23,6 +23,9 @@
 // makes up the difference, so the bar keeps its place in the page and
 // nothing below it moves while it shrinks. Anchors land clear of the shrunk
 // bar (--floe-sticky-top-scrolled); without JavaScript it doesn't shrink.
+// Over the same distance it turns to glass, like the In-page navigation: the
+// background thins to --surface-glass and what scrolls under it blurs. With
+// the menu open it stays solid, to match the panel below it.
 .site-header--sticky {
 	--floe-header-shrink: calc(var(--floe-header-progress, 0) * (var(--floe-header-height) - var(--floe-header-height-scrolled)));
 	position: sticky;
@@ -31,6 +34,16 @@
 
 	.site-header__inner {
 		min-height: calc(var(--floe-header-height) - var(--floe-header-shrink));
+	}
+}
+
+// Two classes, to outrank the background base.scss gives .surface-base.
+.site-header.site-header--sticky {
+	background: color-mix(in srgb, var(--surface-glass) calc(var(--floe-header-progress, 0) * 100%), var(--surface-background));
+	backdrop-filter: blur(calc(var(--floe-header-progress, 0) * 10px));
+
+	&.is-open {
+		background: var(--surface-background);
 	}
 }
 
