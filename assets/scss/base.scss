@@ -274,8 +274,9 @@ dd {
 	margin: 0;
 }
 
-ul[class],
-ol[class] {
+// Lists with a class are a component's to style. :where() keeps this reset
+// at zero specificity, so a component's single-class rule always overrides it.
+:where(ul[class], ol[class]) {
 	margin: 0;
 	padding: 0;
 	list-style: none;

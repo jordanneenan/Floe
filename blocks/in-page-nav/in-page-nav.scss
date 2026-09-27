@@ -72,9 +72,8 @@
 	}
 }
 
-// The links scroll sideways, edge to edge of the screen below 768px. Two
-// classes, so the margin and padding outrank base.scss's ul[class] reset.
-.in-page-nav .in-page-nav__list {
+// The links scroll sideways, edge to edge of the screen below 768px.
+.in-page-nav__list {
 	display: flex;
 	gap: 8px;
 	margin: 0 calc(-1 * var(--wp--custom--content--gutter));

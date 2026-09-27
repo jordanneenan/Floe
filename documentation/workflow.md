@@ -4,7 +4,15 @@
 
 Work at the repository root. The repository is the theme folder inside the LocalWP site, `~/Local Sites/floe/app/public/wp-content/themes/floe`, served at `http://floe.local`. It is the only copy, with no separate checkout and no symlink. `Local Sites` contains a space, so quote paths. Install with `npm ci` using Node.js 20 or newer. PHP and a WordPress site are needed for runtime testing; this repository does not provision them. Production deployments use committed assets and do not run npm.
 
-floe.local runs the `dev` branch. Start each branch (one per phase of the [build brief](build-brief.md) or per feature) from `origin/dev`, push it, open a pull request into `dev`, and stop for Jordan's review. Merging `dev` into `main` is the release: it syncs to the live site, so nothing goes to `main` except from `dev` (D51).
+floe.local runs the `dev` branch, and that's where Jordan reviews work. Start each branch (one per phase of the [build brief](build-brief.md) or per feature) from `origin/dev`. Once the work is built and verified, land it on `dev` yourself, without waiting to be asked (D71):
+
+1. Fetch `origin/dev` and merge it into your branch if it has moved. Rebuild compiled files rather than hand-merging their conflicts, renumber your `D<n>` in `decisions.md` if another branch took it, and verify again.
+2. Push the branch and open a pull request into `dev` saying what changed, how it was verified and what Jordan should check.
+3. Merge the pull request (a merge commit) once GitHub reports it mergeable.
+4. Update floe.local: in the shared checkout, run `git pull --ff-only origin dev` if it's on `dev` with no uncommitted changes. If another session has it on a different branch or has work in progress there, leave it alone and tell Jordan the change is on `dev` but not showing on floe.local yet.
+5. Tell Jordan what to look at on floe.local.
+
+Jordan's review happens on floe.local, and anything he wants changed comes as a new pull request. Hold a pull request open only when Jordan asks you to. Merging `dev` into `main` is different: it's the release, it syncs to the live site, and it happens only when Jordan asks. Nothing goes to `main` except from `dev` (D51).
 
 ### WP-CLI
 
