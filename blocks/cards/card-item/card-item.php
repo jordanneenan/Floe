@@ -1,6 +1,6 @@
 <?php
 /**
- * Card (child of Cards). Feature or Media style comes from the parent.
+ * Card (child of Cards). Feature, Icon or Media style comes from the parent.
  *
  * @var array    $attributes
  * @var WP_Block $block
@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$style = 'media' === ( $block->context['floe/cardStyle'] ?? 'feature' ) ? 'media' : 'feature';
+$style = in_array( $block->context['floe/cardStyle'] ?? '', array( 'icon', 'media' ), true ) ? $block->context['floe/cardStyle'] : 'feature';
 $link  = (array) $attributes['link'];
 
 echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
