@@ -9,6 +9,10 @@
  *   <name>.js           -> assets/<name>.js         (front end)
  *   <name>-editor.js    -> assets/<name>-editor.js  (editor)
  *
+ * except that a component's <name>-editor.js is its React twin, bundled into
+ * the blocks that import it. A component that adds editor behaviour to every
+ * block has a <name>-editor-script.js instead, built like a block's.
+ *
  * plus the global assets/scss/*.scss -> assets/css/*.css and the Geist fonts.
  * No module names are listed anywhere: adding a folder adds it to the build.
  * Folders starting with "_" are ignored.
@@ -180,7 +184,9 @@ function jsEntries( modules ) {
 		// A component's -editor.js is a library that block editor scripts
 		// import through @floe/components/<name>; it isn't a bundle of its own.
 		const suffixes =
-			module.type === 'component' ? [ '' ] : [ '', '-editor' ];
+			module.type === 'component'
+				? [ '', '-editor-script' ]
+				: [ '', '-editor' ];
 		for ( const suffix of suffixes ) {
 			const file = join( module.dir, `${ module.name }${ suffix }.js` );
 			if ( existsSync( file ) ) {
