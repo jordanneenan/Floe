@@ -21,7 +21,7 @@ function header( array $args = array() ): string {
 	$nav    = \Floe\component( 'navigation', array( 'location' => 'primary', 'label' => __( 'Main', 'floe' ), 'class' => 'site-header__nav' ) );
 	$action = $button ? \Floe\component( 'navigation', array( 'location' => 'action', 'as' => 'button', 'class' => 'site-header__action' ) ) : '';
 
-	if ( $nav || $action ) {
+	if ( $nav || $action || $sticky ) {
 		wp_enqueue_script( 'floe-header' );
 	}
 
@@ -70,7 +70,7 @@ function header_customizer( \WP_Customize_Manager $customizer ): void {
 		'floe_header_sticky',
 		array(
 			'label'       => __( 'Sticky header', 'floe' ),
-			'description' => __( 'The header stays at the top of the window while the page scrolls.', 'floe' ),
+			'description' => __( 'The header stays at the top of the window while the page scrolls, getting shorter over the first 300px.', 'floe' ),
 			'section'     => 'floe_header',
 			'type'        => 'checkbox',
 		)
