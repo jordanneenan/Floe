@@ -1,5 +1,5 @@
-// Figma 36:173. Section header, 64px, three-up grid with 32px gaps. Feature
-// cards stretch to equal height.
+// Figma 36:173. Three-up grid with 32px gaps (the heading group above it is
+// an Intro block). Feature cards stretch to equal height.
 @use "floe" as *;
 
 .cards {
@@ -10,13 +10,6 @@
 .cards__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 64px;
-	}
 }
 
 .cards__grid {

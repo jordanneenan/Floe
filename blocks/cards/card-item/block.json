@@ -9,7 +9,7 @@
 	"description": "One card in a Cards section.",
 	"textdomain": "floe",
 	"parent": [ "floe/cards" ],
-	"usesContext": [ "floe/cardStyle", "floe/cardsHeadingLevel" ],
+	"usesContext": [ "floe/cardStyle", "floe/headingLevel" ],
 	"attributes": {
 		"title": { "type": "string", "default": "" },
 		"text": { "type": "string", "default": "" },

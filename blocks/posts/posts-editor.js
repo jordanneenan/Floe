@@ -21,13 +21,7 @@ import { decodeEntities } from '@wordpress/html-entities';
 import { dateI18n, getSettings } from '@wordpress/date';
 import { __ } from '@wordpress/i18n';
 import { chevronUp, chevronDown, close } from '@wordpress/icons';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-	MediaSlot,
-	useMedia,
-} from '@floe/editor';
+import { useFloeBlockProps, MediaSlot, useMedia } from '@floe/editor';
 import { Card } from '@floe/components/card';
 import { Media } from '@floe/components/media';
 import metadata from './block.json';
@@ -173,7 +167,7 @@ function PostPicker( { postType, selected, onChange } ) {
 	);
 }
 
-function Edit( { attributes, setAttributes, name } ) {
+function Edit( { attributes, setAttributes, name, context } ) {
 	const {
 		source,
 		postType,
@@ -184,10 +178,17 @@ function Edit( { attributes, setAttributes, name } ) {
 		term,
 		showFilters,
 		posts,
-		headingLevel,
 		mediaOverrides,
 	} = attributes;
-	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
+	const blockProps = useFloeBlockProps(
+		name,
+		{},
+		{ surface: 'base', context }
+	);
+	const cardLevel = Math.min(
+		4,
+		( context[ 'floe/headingLevel' ] || 2 ) + 1
+	);
 	const currentId = useSelect(
 		( select ) => select( 'core/editor' )?.getCurrentPostId(),
 		[]
@@ -461,12 +462,6 @@ function Edit( { attributes, setAttributes, name } ) {
 							}
 						/>
 					) }
-					<HeadingLevelControl
-						value={ headingLevel }
-						onChange={ ( next ) =>
-							setAttributes( { headingLevel: next } )
-						}
-					/>
 				</PanelBody>
 				{ source !== 'manual' && !! records?.length && (
 					<PanelBody
@@ -512,16 +507,6 @@ function Edit( { attributes, setAttributes, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="posts__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						intro={ false }
-						action
-						actionStyle="secondary"
-						placeholders={ {
-							action: __( 'Optional “View all” link', 'floe' ),
-						} }
-					/>
 					{ source === 'latest' &&
 						taxonomy &&
 						showFilters &&
@@ -570,10 +555,7 @@ function Edit( { attributes, setAttributes, name } ) {
 									key={ post.id }
 									post={ post }
 									override={ mediaOverrides[ post.id ] }
-									headingLevel={ Math.min(
-										4,
-										headingLevel + 1
-									) }
+									headingLevel={ cardLevel }
 									termName={ termFor( post ) }
 								/>
 							) ) }

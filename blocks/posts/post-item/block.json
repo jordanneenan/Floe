@@ -9,7 +9,7 @@
 	"description": "One manually entered card in a Posts section.",
 	"textdomain": "floe",
 	"parent": [ "floe/posts" ],
-	"usesContext": [ "floe/postsHeadingLevel" ],
+	"usesContext": [ "floe/headingLevel" ],
 	"attributes": {
 		"media": { "type": "object", "default": {} },
 		"label": { "type": "string", "default": "" },

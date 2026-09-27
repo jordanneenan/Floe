@@ -39,6 +39,8 @@ git status --short
 
 The preview site's pages, posts and menus live in the LocalWP database and are built from blocks in the editor, like any client site. There are no theme patterns or seed scripts. Pages worth keeping as starting points can be saved as synced or unsynced patterns in WordPress itself.
 
+When a theme change alters how existing content is stored, a one-off migration goes in `scripts/` and is run once on each site after deploying, e.g. `wp eval-file scripts/migrate-to-intro.php` (dry run) then `… apply`. Each script says what it changes and is safe to run twice.
+
 ## Focused verification by change
 
 | Change | Minimum check |
