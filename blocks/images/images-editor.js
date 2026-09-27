@@ -6,11 +6,7 @@ import {
 } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
 const TEMPLATE = [
@@ -18,12 +14,12 @@ const TEMPLATE = [
 	[ 'floe/image-row', {}, [ [ 'floe/media' ], [ 'floe/media' ] ] ],
 ];
 
-function Edit( { attributes, setAttributes, name } ) {
-	const { fit, headingLevel } = attributes;
+function Edit( { attributes, setAttributes, name, context } ) {
+	const { fit } = attributes;
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `images--${ fit }` },
-		{ surface: 'base' }
+		{ surface: 'base', context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'images__rows' },
@@ -52,25 +48,10 @@ function Edit( { attributes, setAttributes, name } ) {
 						] }
 						onChange={ ( next ) => setAttributes( { fit: next } ) }
 					/>
-					<HeadingLevelControl
-						value={ headingLevel }
-						onChange={ ( next ) =>
-							setAttributes( { headingLevel: next } )
-						}
-					/>
 				</PanelBody>
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="images__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						intro={ false }
-						placeholders={ {
-							eyebrow: __( 'Optional eyebrow', 'floe' ),
-							heading: __( 'Optional heading', 'floe' ),
-						} }
-					/>
 					<div { ...innerBlocksProps } />
 				</div>
 			</section>
