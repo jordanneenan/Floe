@@ -3,10 +3,11 @@
 
 // Floe sections fill the whole editor canvas, as they fill the page on the
 // site. WordPress otherwise centres every top-level block at the content
-// width (860px) and adds gaps between them.
+// width (860px) and adds a gap above each one. Only the top margin is
+// cleared: the space below a section is its own margin (base.scss).
 .is-root-container > [data-type^="floe/"] {
 	max-width: none;
-	margin-block: 0;
+	margin-top: 0;
 }
 
 // The page title sits in the same content container as the sections, so it
