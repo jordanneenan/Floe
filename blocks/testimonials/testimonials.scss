@@ -1,12 +1,7 @@
 // Figma 44:221. Quote cards (canvas, radius lg, padding 40/36) 24px apart;
 // three across. A slider has its previous/next controls in a row below the
-// cards, on the right. The heading group above is an Intro block.
+// cards, on the right. The heading group above is a Block intro.
 @use "floe" as *;
-
-.testimonials {
-
-	@include section-padding;
-}
 
 .testimonials__inner {
 

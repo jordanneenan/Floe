@@ -19,7 +19,7 @@ function Edit( { attributes, setAttributes, name, context } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `images--${ fit }` },
-		{ surface: 'base', context }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'images__rows' },

@@ -1,7 +1,6 @@
 <?php
 /**
- * Stats: two to four figures. The heading group comes from an Intro block
- * holding the Stats.
+ * Stats: two to four figures. The heading group is a Block intro above it.
  *
  * @var array    $attributes
  * @var string   $content
@@ -15,8 +14,7 @@ if ( '' === trim( $content ) ) {
 }
 
 $wrapper = array(
-	'surface' => 'base',
-	'class'   => 'stats--count-' . min( 4, count( $block->inner_blocks ) ),
+	'class' => 'stats--count-' . min( 4, count( $block->inner_blocks ) ),
 );
 // stats.js ticks the figures up from zero as they scroll into view.
 if ( ! empty( $attributes['countUp'] ) ) {

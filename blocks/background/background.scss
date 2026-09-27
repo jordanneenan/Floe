@@ -1,0 +1,19 @@
+// A full-width band of colour. Its blocks keep their own bottom margins; the
+// band contains them (flow-root), so the last block's margin is the space at
+// the bottom. Auto spacing adds the same space at the top.
+@use "floe" as *;
+
+// A band opening a page sits right under the header: its own padding is
+// the space.
+.background {
+	display: flow-root;
+	margin-top: 0;
+}
+
+.background--spaced {
+	padding-top: var(--floe-section-space);
+}
+
+.background:not(.background--spaced) > .background__inner > :last-child {
+	margin-bottom: 0;
+}

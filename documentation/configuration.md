@@ -35,6 +35,7 @@ Delete a file to remove that behaviour.
 | --- | --- |
 | `components/hidden-from-visitors/` | Hide from visitors (Block settings → Advanced) on every Floe block: the `hiddenFromVisitors` attribute, not rendering hidden blocks for people who can't edit the page, the marker for those who can, and the `floe_block_visible` filter. [README](../components/hidden-from-visitors/README.md). |
 | `components/reveal/` | Scroll reveals on every front-end page. [README](../components/reveal/README.md). |
+| `components/smooth-scroll/` | Smooth scrolling to anchors on every front-end page, for in-page links and for pages opened with an anchor in the URL. [README](../components/smooth-scroll/README.md). |
 
 ## Site settings the theme reads
 
@@ -46,6 +47,7 @@ Delete a file to remove that behaviour.
 | Header menu | Appearance → Menus, location "Header menu" | Main navigation. |
 | Header and footer button | Menu location of that name | First item becomes the header and footer button. |
 | Footer menus 1–3 | Menu locations | Footer link columns; each menu's name is its heading. |
+| Header options | Customize → Header | Sticky header (on by default; shrinks over the first 300px of scrolling), show the button (on), menu position (Centred or Right). |
 | Footer legal line | Customize → Footer | Text after "© year site name." |
 | Code injection | Customize → Code injection | Scripts in head, body and footer. |
 | Date format | Settings → General | Post card and post dates. |

@@ -1,7 +1,7 @@
 <?php
 /**
- * Spacing: a gap between two sections. The sections either side drop their
- * own padding on that edge, so the gap is exactly the chosen size.
+ * Spacing: a gap below a section. The section before it drops its bottom
+ * margin, so the gap is exactly the chosen size.
  *
  * @var array $attributes
  * @var WP_Block $block

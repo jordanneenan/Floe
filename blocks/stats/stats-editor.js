@@ -19,7 +19,7 @@ function Edit( { attributes, setAttributes, clientId, name, context } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `stats--count-${ Math.min( 4, count ) }` },
-		{ surface: 'base', context }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'stats__list' },

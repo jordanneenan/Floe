@@ -8,19 +8,15 @@ import {
 import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, SurfaceControl } from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
-function Edit( { attributes, setAttributes, clientId, name, context } ) {
+function Edit( { clientId, name, context } ) {
 	const count = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
 	);
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: attributes.surface, context }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'steps__list' },
 		{
@@ -40,12 +36,6 @@ function Edit( { attributes, setAttributes, clientId, name, context } ) {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<SurfaceControl
-						value={ attributes.surface }
-						onChange={ ( surface ) => setAttributes( { surface } ) }
-						options={ [ 'subtle', 'base', 'tint' ] }
-						context={ context }
-					/>
 					<p>
 						{ __(
 							'Three to five steps. They are numbered automatically.',

@@ -1,12 +1,12 @@
 # Team (`floe/team`)
 
-A grid of people (Figma `44:317`). For an eyebrow, heading and intro above them, put the Team in an **Intro** block (layout: heading above).
+A grid of people (Figma `44:317`). For an eyebrow, heading and intro, add a **Block intro** above the Team.
 
 | Field | Notes |
 | --- | --- |
-| People | **Person** blocks: portrait (4:5), name, role. Names are one level below the Intro's heading (H3 by default). |
+| People | **Person** blocks: portrait (4:5), name, role. Names are H3. |
 
-The section is on the Base surface; inside an Intro, the Intro's surface is used instead.
+For a coloured band, put the Team and its Block intro in a **Background** block.
 
 **Responsive:** 4-up from 768px, 2-up on tablet, 1-up on mobile.
 

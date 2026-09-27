@@ -6,7 +6,7 @@
 	"title": "Team",
 	"category": "floe-sections",
 	"icon": "groups",
-	"description": "A grid of people: portrait, name and role. Put it in an Intro for a heading.",
+	"description": "A grid of people: portrait, name and role. Add a Block intro above it for a heading.",
 	"keywords": [ "people", "staff", "about" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/person" ],
@@ -15,8 +15,7 @@
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/person", "attributes": { "name": "Sam Carter", "role": "Lead designer" } }, { "name": "floe/person", "attributes": { "name": "Riley Nguyen", "role": "WordPress developer" } } ] },
 	"editorScript": "file:./assets/team-editor.js",

@@ -6,7 +6,7 @@
 	"title": "Stats",
 	"category": "floe-sections",
 	"icon": "chart-bar",
-	"description": "Two to four figures, each with an optional accent unit and a short label. Put it in an Intro for a heading.",
+	"description": "Two to four figures, each with an optional accent unit and a short label. Add a Block intro above it for a heading.",
 	"keywords": [ "numbers", "figures", "metrics" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/stat" ],
@@ -16,8 +16,7 @@
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/stat", "attributes": { "value": "40", "unit": "+", "label": "Sites launched" } }, { "name": "floe/stat", "attributes": { "value": "6", "unit": "wks", "label": "Brief to launch" } } ] },
 	"editorScript": "file:./assets/stats-editor.js",

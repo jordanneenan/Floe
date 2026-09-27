@@ -8,7 +8,9 @@
 	padding-inline: var(--wp--custom--content--gutter);
 }
 
-// Vertical padding for a full section: 120px on large desktop, scaling down.
+// Vertical padding for the template fallbacks (page title, reading column,
+// archive list): 120px on large desktop, scaling down. Blocks space
+// themselves with a margin below instead (base.scss).
 @mixin section-padding {
 	padding-block: var(--floe-section-space);
 }

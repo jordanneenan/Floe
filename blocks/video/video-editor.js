@@ -2,7 +2,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, MediaSlot, SurfaceControl } from '@floe/editor';
+import { useFloeBlockProps, MediaSlot } from '@floe/editor';
 import { PlayControl } from '@floe/components/play-control';
 import metadata from './block.json';
 
@@ -12,8 +12,8 @@ const hasId = ( url ) =>
 	);
 
 function Edit( { attributes, setAttributes, name, context } ) {
-	const { url, duration, surface } = attributes;
-	const blockProps = useFloeBlockProps( name, {}, { surface, context } );
+	const { url, duration } = attributes;
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const valid = hasId( url );
 
 	return (
@@ -49,14 +49,6 @@ function Edit( { attributes, setAttributes, name, context } ) {
 						onChange={ ( next ) =>
 							setAttributes( { duration: next } )
 						}
-					/>
-					<SurfaceControl
-						value={ surface }
-						onChange={ ( next ) =>
-							setAttributes( { surface: next } )
-						}
-						options={ [ 'inverse', 'base', 'subtle' ] }
-						context={ context }
 					/>
 				</PanelBody>
 			</InspectorControls>

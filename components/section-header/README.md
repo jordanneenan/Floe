@@ -1,6 +1,6 @@
 # Section header
 
-The heading group: eyebrow, heading, optional intro and optional action. The Intro block renders it for the block it holds; Contact and Newsletter use it inside their own layouts.
+The heading group: eyebrow, heading, optional intro and optional action. The Block intro renders it for the block it introduces; Contact and Newsletter use it inside their own layouts.
 
 | Argument | Notes |
 | --- | --- |
@@ -8,7 +8,7 @@ The heading group: eyebrow, heading, optional intro and optional action. The Int
 | `heading_level` | 1–4, default 2. Only banners use 1. |
 | `action` | Button args (see Button), e.g. `[ 'label' => 'View all', 'url' => …, 'style' => 'secondary' ]`. |
 | `aside` | Extra HTML for the right-hand side, such as slider controls. |
-| `layout` | `split` (default): heading group left, intro/action right, bottom-aligned (Intro with the heading above). `stacked`: one column with a Body intro (Intro in two columns, Contact, Newsletter). |
+| `layout` | `split` (default): heading group left, intro/action right, bottom-aligned (a stacked Block intro). `stacked`: one column with a Body intro (a Block intro in two columns, Contact, Newsletter). |
 
 On mobile and tablet the split layout stacks, with the intro/action under the heading.
 

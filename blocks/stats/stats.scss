@@ -1,12 +1,7 @@
 // Figma 43:235. Up to four stats in equal columns with a line on top: Display
 // value, H3 unit in the accent colour, Body label. The heading group above is
-// an Intro block.
+// a Block intro.
 @use "floe" as *;
-
-.stats {
-
-	@include section-padding;
-}
 
 .stats__inner {
 

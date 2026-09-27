@@ -2,7 +2,7 @@
 /**
  * FAQ: a list of core Details items. Optionally only one open at a time
  * (native exclusive <details>), and optional FAQPage structured data. The
- * heading group comes from an Intro block holding the FAQ (usually beside it).
+ * heading group is a Block intro, usually in two columns holding the FAQ.
  *
  * @var array    $attributes
  * @var string   $content
@@ -57,7 +57,7 @@ if ( $attributes['schema'] ) {
 	}
 }
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="faq__inner">
 		<div class="faq__items"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 	</div>

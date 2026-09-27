@@ -1,6 +1,6 @@
 # Testimonials (`floe/testimonials`)
 
-Several short quotes as cards (Figma `44:221`). For one long quote use Testimonial. For an eyebrow and heading above the quotes, put the Testimonials in an **Intro** block (layout: heading above).
+Several short quotes as cards (Figma `44:221`). For one long quote use Testimonial. For an eyebrow and heading, add a **Block intro** above the Testimonials.
 
 | Field | Notes |
 | --- | --- |
@@ -12,6 +12,6 @@ Several short quotes as cards (Figma `44:221`). For one long quote use Testimoni
 
 **Decision:** Figma has the quote touching the attribution; there's a 32px minimum gap here.
 
-The section is on the Base surface; inside an Intro, the Intro's surface is used instead.
+For a coloured band, put the Testimonials and their Block intro in a **Background** block.
 
 **Components used:** Media, Icon.

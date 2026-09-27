@@ -3,7 +3,10 @@
 // intro (Body L, 420) and link bottom-aligned on the right.
 @use "floe" as *;
 
+// Its surface runs edge to edge, so its space is padding inside it; the
+// section margin follows below.
 .page-banner {
+	margin-top: 0;
 	padding-top: calc(var(--floe-section-space) * 0.6);
 	padding-bottom: calc(var(--floe-section-space) * 0.866);
 

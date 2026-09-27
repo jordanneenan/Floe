@@ -26,7 +26,7 @@ $portrait = component(
 	)
 );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => $attributes['surface'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<figure class="testimonial__inner">
 		<span class="testimonial__mark" aria-hidden="true">&ldquo;</span>
 		<blockquote class="testimonial__quote"><p><?php echo wp_kses_post( $quote ); ?></p></blockquote>

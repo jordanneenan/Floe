@@ -1,0 +1,36 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/block-intro",
+	"version": "1.0.0",
+	"title": "Block intro",
+	"category": "floe-sections",
+	"icon": "heading",
+	"description": "An eyebrow, heading, intro and button for the block below it, or beside a block in two columns.",
+	"keywords": [ "heading", "title", "eyebrow", "introduction", "two columns" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"layout": { "type": "string", "enum": [ "stacked", "columns" ], "default": "stacked" }
+	},
+	"providesContext": {
+		"floe/headingLevel": "headingLevel",
+		"floe/heading": "heading",
+		"floe/nested": "layout"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": { "eyebrow": "How we work", "heading": "A simple process, done properly", "intro": "Add the block this introduces below it, or switch to two columns." }
+	},
+	"editorScript": "file:./assets/block-intro-editor.js",
+	"editorStyle": "file:./assets/block-intro-editor.css",
+	"style": "file:./assets/block-intro.css",
+	"render": "file:./block-intro.php"
+}
