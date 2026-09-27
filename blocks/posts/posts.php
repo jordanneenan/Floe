@@ -1,11 +1,14 @@
 <?php
 /**
- * Posts: section header, optional filter buttons, a grid of Post cards and an
- * optional "Load more" (button or automatic on scroll). Sources: the latest
+ * Posts: optional filter buttons, a grid of Post cards and an optional "Load
+ * more" (button or automatic on scroll). Sources: the latest
  * of any post type, hand-picked posts, or manual entries (child blocks).
  * Filtering and loading more swap the cards in place through the block's
  * REST route without reloading the page. The chosen filter is kept in the
  * address (?filter=<term-slug>) so the view can be shared or bookmarked.
+ *
+ * The heading group and "View all" link are a Block intro above it; card
+ * titles are H3 (block context).
  *
  * @var array    $attributes
  * @var string   $content
@@ -18,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 $source  = in_array( $attributes['source'], array( 'latest', 'picker', 'manual' ), true ) ? $attributes['source'] : 'latest';
 $type    = Posts\valid_post_type( (string) $attributes['postType'] ) ? (string) $attributes['postType'] : 'post';
-$level   = min( 4, (int) $attributes['headingLevel'] + 1 );
+$level   = min( 4, (int) ( $block->context['floe/headingLevel'] ?? 2 ) + 1 );
 $current = get_the_ID();
 $cards   = '';
 $more    = false;
@@ -113,20 +116,9 @@ $data      = 'latest' === $source && ( $load_more || $filters )
 	)
 	: array();
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) + ( $data ? array( 'data-posts' => wp_json_encode( $data ) ) : array() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array() + ( $data ? array( 'data-posts' => wp_json_encode( $data ) ) : array() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="posts__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'action'        => Floe\Components\button_args_from_link( $attributes['action'], array( 'style' => 'secondary' ) ),
-			)
-		);
-		echo $filters; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-		?>
+		<?php echo $filters; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<div class="posts__grid" aria-live="polite" aria-busy="false"><?php echo $cards; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 		<?php if ( $load_more ) : ?>
 			<div class="posts__more"<?php echo $more ? '' : ' hidden'; ?>>

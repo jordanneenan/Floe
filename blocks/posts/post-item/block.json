@@ -6,10 +6,10 @@
 	"title": "Post card",
 	"category": "floe-parts",
 	"icon": "text-page",
-	"description": "One manually entered card in a Posts section.",
+	"description": "One manually entered card in a Posts block.",
 	"textdomain": "floe",
 	"parent": [ "floe/posts" ],
-	"usesContext": [ "floe/postsHeadingLevel" ],
+	"usesContext": [ "floe/headingLevel" ],
 	"attributes": {
 		"media": { "type": "object", "default": {} },
 		"label": { "type": "string", "default": "" },

@@ -1,15 +1,15 @@
 # FAQ (`floe/faq`)
 
-A heading group beside a list of questions (Figma `43:183`). Each question is WordPress's own **Details** block (native `<details>`/`<summary>`), so it works with the keyboard and without JavaScript.
+A list of questions (Figma `43:183`). Each question is WordPress's own **Details** block (native `<details>`/`<summary>`), so it works with the keyboard and without JavaScript. For the eyebrow, heading, intro and link (e.g. "Contact us"), put the FAQ in a **Block intro** set to Two columns (heading beside the questions), as in Figma. A stacked Block intro above the FAQ also works.
 
 | Field | Notes |
 | --- | --- |
-| Eyebrow, Heading, Intro | Stacked heading group on the left. |
-| Link | Optional text link under the intro (e.g. "Contact us"). |
 | Questions | Details blocks: the summary is the question, the content is the answer (paragraphs or lists). Tick "Open by default" on a Details block to start it open. |
 | Only one answer open at a time | Opening one question closes the others (native `name` attribute on `<details>`). |
 | Add FAQ structured data | Outputs FAQPage JSON-LD from the questions and answers. |
 
-**Responsive:** below 768px the questions sit under the heading group.
+The list is up to 760px wide with a line on top; in a two-column Block intro it fills the right-hand column. For a coloured band, put the Block intro (with the FAQ) in a **Background** block.
 
-**Components used:** Section header, Button, Accordion (styles).
+**Responsive:** below 768px a two-column Block intro puts the questions under its heading group.
+
+**Components used:** Accordion (styles).

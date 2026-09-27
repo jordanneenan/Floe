@@ -25,7 +25,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ) > 0,
 		[ clientId ]
 	);
-	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
+	const blockProps = useFloeBlockProps( name );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'newsletter__form form-slot' },
 		{

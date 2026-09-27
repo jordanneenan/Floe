@@ -19,6 +19,7 @@
 		"surface": { "type": "string", "enum": [ "tint", "subtle", "base", "inverse" ], "default": "tint" }
 	},
 	"supports": {
+		"floeBackground": false,
 		"html": false,
 		"anchor": true
 	},

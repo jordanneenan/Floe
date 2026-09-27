@@ -1,16 +1,46 @@
 // Figma 45:345. Sticky 72px bar, white at 90% with a blur, lines above and
 // below. Mono label, pill links (active: ink with white text), optional
-// Primary action without an arrow. Links scroll sideways on mobile.
+// action without an arrow (Outline button, Jordan). Links scroll sideways on
+// mobile. It sticks below the header when the header is sticky
+// (--floe-sticky-top, base.scss).
+
+// Once it sticks, it shrinks to the shrunk header's height over the next
+// 150px of scrolling: in-page-nav.js takes --in-page-nav-progress from 0 to
+// 1. Its bottom margin grows by what it loses, so nothing below it moves.
 @use "floe" as *;
 
 .in-page-nav {
+	--in-page-nav-height: 64px;
+	--in-page-nav-shrink: calc(var(--in-page-nav-progress, 0) * (var(--in-page-nav-height) - var(--floe-header-height-scrolled)));
 	position: sticky;
-	top: 0;
+	top: var(--floe-sticky-top);
 	z-index: 40;
+	margin-bottom: calc(var(--floe-section-space) + var(--in-page-nav-shrink));
 	border-block: 1px solid var(--surface-line);
 	background: var(--surface-glass);
 	color: var(--surface-text);
 	backdrop-filter: blur(10px);
+
+	@include from(desktop) {
+		--in-page-nav-height: 72px;
+	}
+}
+
+// Anchors land clear of the shrunk bar, close enough that in-page-nav.js
+// highlights the link that was clicked (it looks 24px below the bar).
+:root:has(.in-page-nav) {
+	scroll-padding-top: calc(var(--floe-sticky-top-scrolled) + var(--floe-header-height-scrolled) + 16px);
+}
+
+// The bar sits right under the block before it (usually the banner) and has
+// the section margin below it (it isn't a floe-section), which a Spacing
+// block after it replaces, as for any block.
+.floe-section:has(+ .in-page-nav) {
+	margin-bottom: 0;
+}
+
+.in-page-nav:has(+ .spacing) {
+	margin-bottom: var(--in-page-nav-shrink);
 }
 
 .in-page-nav__inner {
@@ -20,11 +50,7 @@
 	align-items: center;
 	justify-content: space-between;
 	gap: 16px;
-	min-height: 64px;
-
-	@include from(desktop) {
-		min-height: 72px;
-	}
+	min-height: calc(var(--in-page-nav-height) - var(--in-page-nav-shrink));
 }
 
 .in-page-nav__links {
@@ -46,22 +72,29 @@
 	}
 }
 
-.in-page-nav__list {
+// The links scroll sideways, edge to edge of the screen below 768px. Two
+// classes, so the margin and padding outrank base.scss's ul[class] reset.
+.in-page-nav .in-page-nav__list {
 	display: flex;
 	gap: 8px;
 	margin: 0 calc(-1 * var(--wp--custom--content--gutter));
-	padding: 12px var(--wp--custom--content--gutter);
+	// Room for the focus ring, which the sideways scrolling would clip, and
+	// no more, so the bar can shrink.
+	padding: 6px var(--wp--custom--content--gutter);
 	overflow-x: auto;
 	list-style: none;
 	scrollbar-width: none;
+	// Fades at the edges where there's more to scroll to; in-page-nav.js sets
+	// their widths (0 to 48px) as the list scrolls.
+	mask-image: linear-gradient(to right, transparent, #000 var(--in-page-nav-fade-start, 0px), #000 calc(100% - var(--in-page-nav-fade-end, 0px)), transparent);
 
 	&::-webkit-scrollbar {
 		display: none;
 	}
 
 	@include from(desktop) {
-		margin: 0;
-		padding: 0;
+		margin: 0 -6px;
+		padding: 6px;
 	}
 }
 
@@ -87,10 +120,11 @@
 	}
 }
 
+// Below 768px the bar is too short for a button and the links need the room.
 .in-page-nav__action {
 	flex: none;
 
-	@include below(tablet) {
+	@include below(desktop) {
 		display: none;
 	}
 }

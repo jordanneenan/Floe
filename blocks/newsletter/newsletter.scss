@@ -1,11 +1,7 @@
-// Figma 45:363. White section with 96px padding; tint panel (radius xl,
+// Figma 45:363. A tint panel (radius xl,
 // padding 64): copy (480) on the left, form (520) on the right with a small
 // privacy note. Email field and button sit on one line.
 @use "floe" as *;
-
-.newsletter {
-	padding-block: calc(var(--floe-section-space) * 0.8);
-}
 
 .newsletter__inner {
 

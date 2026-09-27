@@ -1,21 +1,17 @@
-// Figma 44:221. Header with slider controls, 64px, then quote cards (canvas,
-// radius lg, padding 40/36) 24px apart; three across.
+// Figma 44:221. Quote cards (canvas, radius lg, padding 40/36) 24px apart;
+// three across. A slider has its previous/next controls in a row below the
+// cards, on the right. The heading group above is a Block intro.
 @use "floe" as *;
-
-.testimonials {
-
-	@include section-padding;
-}
 
 .testimonials__inner {
 
 	@include container;
 	display: flex;
 	flex-direction: column;
-	gap: 40px;
+	gap: 24px;
 
 	@include from(desktop) {
-		gap: 64px;
+		gap: 32px;
 	}
 }
 
@@ -69,6 +65,7 @@
 
 .testimonials__controls {
 	display: flex;
+	justify-content: flex-end;
 	gap: 12px;
 
 	button {

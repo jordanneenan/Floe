@@ -46,7 +46,7 @@ if ( '' === $items ) {
 }
 $label = trim( (string) $attributes['label'] );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="logo-strip__inner">
 		<?php if ( $label ) : ?>
 			<p class="logo-strip__label"><?php echo wp_kses_post( $label ); ?></p>

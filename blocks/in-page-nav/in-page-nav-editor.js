@@ -17,25 +17,30 @@ import { close } from '@wordpress/icons';
 import { useText, LinkButton, plain } from '@floe/editor';
 import metadata from './block.json';
 
+// Anchored Floe blocks in page order, including those inside other blocks
+// (a Background), as the server lists them.
+const anchored = ( blocks ) =>
+	blocks
+		.filter( ( block ) => block.name.startsWith( 'floe/' ) )
+		.flatMap( ( block ) => [
+			...( block.attributes.anchor ? [ block ] : [] ),
+			...anchored( block.innerBlocks ),
+		] );
+
 function Edit( { attributes, setAttributes } ) {
 	const { items } = attributes;
 	const text = useText( attributes, setAttributes );
 	const auto = useSelect(
 		( select ) =>
-			select( blockEditorStore )
-				.getBlocks()
-				.filter(
-					( block ) =>
-						block.name.startsWith( 'floe/' ) &&
-						block.attributes.anchor
-				)
-				.map( ( block ) => ( {
+			anchored( select( blockEditorStore ).getBlocks() ).map(
+				( block ) => ( {
 					anchor: block.attributes.anchor,
 					label:
 						plain( block.attributes.eyebrow || '' ) ||
 						plain( block.attributes.heading || '' ) ||
 						block.attributes.anchor,
-				} ) ),
+				} )
+			),
 		[]
 	);
 	const shown = items.length ? items : auto;
@@ -160,6 +165,7 @@ function Edit( { attributes, setAttributes } ) {
 							onChange={ ( action ) =>
 								setAttributes( { action } )
 							}
+							style="outline"
 							arrow={ false }
 							placeholder={ __( 'Optional action', 'floe' ) }
 						/>

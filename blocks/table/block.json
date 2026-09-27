@@ -6,24 +6,21 @@
 	"title": "Table",
 	"category": "floe-sections",
 	"icon": "editor-table",
-	"description": "A heading group and a comparison table built with WordPress's own Table block, with an optional highlighted column.",
+	"description": "A comparison table built with WordPress's own Table block, with an optional highlighted column. Add a Block intro above it for a heading.",
 	"keywords": [ "comparison", "pricing", "plans" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "core/table" ],
 	"attributes": {
-		"eyebrow": { "type": "string", "default": "" },
-		"heading": { "type": "string", "default": "" },
-		"headingLevel": { "type": "number", "default": 2 },
-		"intro": { "type": "string", "default": "" },
 		"highlight": { "type": "number", "default": 0 },
 		"badge": { "type": "string", "default": "" },
 		"emphasiseLastRow": { "type": "boolean", "default": false }
 	},
+	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
 		"anchor": true
 	},
-	"example": { "attributes": { "eyebrow": "Compare", "heading": "Choose the right starting point" } },
+	"example": { "attributes": { "highlight": 1, "badge": "Popular" } },
 	"editorScript": "file:./assets/table-editor.js",
 	"style": "file:./assets/table.css",
 	"render": "file:./table.php"

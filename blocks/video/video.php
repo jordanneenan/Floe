@@ -1,7 +1,10 @@
 <?php
 /**
- * Video: section header, then a YouTube cover with the Play control. The
- * privacy-enhanced (youtube-nocookie.com) iframe is created only on click.
+ * Video: a YouTube cover with the Play control. The privacy-enhanced
+ * (youtube-nocookie.com) iframe is created only on click. The heading group
+ * is a Block intro, above it or beside it in two columns. In two columns the
+ * Block intro's heading (block context "floe/heading") names the video for
+ * screen readers.
  *
  * @var array    $attributes
  * @var WP_Block $block
@@ -20,7 +23,7 @@ $floe_video_id = static function ( string $url ): string {
 };
 
 $video_id = $floe_video_id( (string) $attributes['url'] );
-$title    = trim( wp_strip_all_tags( (string) $attributes['heading'] ) );
+$title    = trim( wp_strip_all_tags( (string) ( $block->context['floe/heading'] ?? '' ) ) );
 $cover    = component(
 	'media',
 	(array) $attributes['cover'] + array(
@@ -32,19 +35,8 @@ $cover    = component(
 	)
 );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => $attributes['surface'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="video__inner">
-		<?php
-		echo component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-			)
-		);
-		?>
 		<div class="video__player"<?php echo $video_id ? ' data-video-id="' . esc_attr( $video_id ) . '" data-video-title="' . esc_attr( $title ?: __( 'Video', 'floe' ) ) . '"' : ''; ?>>
 			<?php echo $cover; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php if ( $video_id ) : ?>

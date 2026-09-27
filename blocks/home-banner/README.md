@@ -11,6 +11,8 @@ The home page opener (Figma `33:11`). Owns the page's H1.
 | Second action | Optional Secondary button, no arrow. |
 | Media | Image or silent looping MP4, full width, 1248×600 at 1440 (radius 32). Optional. |
 
+**Spacing:** its own space below the header (96px at 1440), then the usual block margin below it. It can't go in a Background block.
+
 **Responsive:** below 1280px the supporting copy and actions stack under the headline. Below 768px the media becomes 4:3 so it doesn't turn into a thin strip.
 
 **Components used:** Eyebrow, Button, Media.

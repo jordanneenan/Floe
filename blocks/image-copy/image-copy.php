@@ -23,7 +23,7 @@ $media  = component(
 );
 $classes = array( 'image-copy--media-' . ( 'right' === $attributes['mediaPosition'] ? 'right' : 'left' ), $media ? 'has-media' : 'no-media' );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => $attributes['surface'], 'class' => $classes ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array( 'class' => $classes ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="image-copy__inner">
 		<?php echo $media; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<div class="image-copy__copy">

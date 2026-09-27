@@ -1,25 +1,13 @@
 // Figma 45:255. Rounded, bordered table: header row on the subtle surface,
 // 420px label column, row dividers, optional highlighted column (blue 4%)
 // with a "Popular" badge, check and dash icons. Scrolls sideways on small
-// screens inside its own frame.
+// screens inside its own frame. The heading group above is a Block intro.
 @use "sass:math";
 @use "floe" as *;
-
-.table {
-
-	@include section-padding;
-}
 
 .table__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 64px;
-	}
 }
 
 .table__frame {

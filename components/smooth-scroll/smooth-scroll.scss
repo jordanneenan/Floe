@@ -1,0 +1,6 @@
+// In-page links glide to their section rather than jumping. Front end only:
+// the block editor's canvas and admin screens keep instant scrolling.
+// Reduced motion turns it off (base.scss).
+html:not(.block-editor-iframe__html, .wp-toolbar) {
+	scroll-behavior: smooth;
+}

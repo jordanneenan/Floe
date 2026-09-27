@@ -1,27 +1,10 @@
-// Figma 37:201. Ink section, header then a 16:9 cover (radius xl) 56px below,
-// Play control centred.
+// Figma 37:201 (on an Inverse Background block). A 16:9 cover (radius xl)
+// with the Play control centred. The heading group above it is a Block intro.
 @use "floe" as *;
-
-.video {
-
-	@include section-padding;
-}
 
 .video__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 56px;
-	}
-
-	.section-header__intro {
-
-		@include type(body);
-	}
 }
 
 .video__player {

@@ -7,4 +7,4 @@ One manually entered card in **Posts** (when "Show" is set to Manual entries), l
 | Image | Image or MP4, 4:3. |
 | Label | Optional chip, e.g. "Case study". |
 | Date or detail | Optional mono line, e.g. "12 Jun 2026" or "Brisbane". |
-| Title, Text | The title is the link (toolbar link button) and covers the card. |
+| Title, Text | The title is the link (toolbar link button) and covers the card. It's H3. |

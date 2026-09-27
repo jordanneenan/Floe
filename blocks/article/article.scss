@@ -3,11 +3,6 @@
 // 24px rhythm, 64px above headings, 72px around quotes and figures.
 @use "floe" as *;
 
-.article {
-
-	@include section-padding;
-}
-
 .article__inner {
 
 	@include container;

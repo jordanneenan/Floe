@@ -9,19 +9,16 @@ import {
 	LinkButton,
 	MediaSlot,
 	HeadingLevelControl,
-	SurfaceControl,
 } from '@floe/editor';
 import { Eyebrow } from '@floe/components/eyebrow';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, name } ) {
-	const { mediaPosition, headingLevel, surface } = attributes;
+	const { mediaPosition, headingLevel } = attributes;
 	const text = useText( attributes, setAttributes );
-	const blockProps = useFloeBlockProps(
-		name,
-		{ className: `image-copy--media-${ mediaPosition } has-media` },
-		{ surface }
-	);
+	const blockProps = useFloeBlockProps( name, {
+		className: `image-copy--media-${ mediaPosition } has-media`,
+	} );
 
 	return (
 		<>
@@ -47,13 +44,6 @@ function Edit( { attributes, setAttributes, name } ) {
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<SurfaceControl
-						value={ surface }
-						onChange={ ( next ) =>
-							setAttributes( { surface: next } )
-						}
-						options={ [ 'base', 'subtle', 'tint' ] }
-					/>
 					<HeadingLevelControl
 						value={ headingLevel }
 						onChange={ ( next ) =>
