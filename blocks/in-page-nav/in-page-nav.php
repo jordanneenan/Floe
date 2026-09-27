@@ -2,7 +2,8 @@
 /**
  * In-page navigation: a sticky bar of links to the page's sections. Items
  * come from the top-level sections that have an HTML anchor (label: the
- * section's eyebrow, else its heading), unless entered by hand.
+ * section's eyebrow, else its heading), unless entered by hand. Sections the
+ * viewer won't see are left out.
  *
  * @var array    $attributes
  * @var WP_Block $block
@@ -10,27 +11,48 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$items = array();
+// The page's anchored sections, and the anchors of those this viewer won't
+// see: hidden with WordPress's own Hide option, or by a module (such as
+// Hidden from visitors).
+$sections = array();
+$hidden   = array();
+foreach ( get_post() ? parse_blocks( get_post()->post_content ) : array() as $section ) {
+	$anchor = sanitize_title( (string) ( $section['attrs']['anchor'] ?? '' ) );
+	if ( ! $anchor || ! str_starts_with( (string) $section['blockName'], 'floe/' ) ) {
+		continue;
+	}
+	/**
+	 * Filters whether a block will show to the current viewer.
+	 *
+	 * @param bool  $visible Whether the block shows. Default true.
+	 * @param array $section The parsed block.
+	 */
+	if ( false === ( $section['attrs']['metadata']['blockVisibility'] ?? null ) || ! apply_filters( 'floe_block_visible', true, $section ) ) {
+		$hidden[ $anchor ] = true;
+		continue;
+	}
+	$label = trim( wp_strip_all_tags( (string) ( $section['attrs']['eyebrow'] ?? '' ) ) );
+	if ( '' === $label ) {
+		$label = trim( wp_strip_all_tags( (string) ( $section['attrs']['heading'] ?? '' ) ) );
+	}
+	$sections[] = array( $anchor, '' !== $label ? $label : ucwords( str_replace( '-', ' ', $anchor ) ) );
+}
+
+// Links set by hand, leaving out any to a hidden section; else automatic.
+$items  = array();
+$manual = false;
 foreach ( (array) $attributes['items'] as $item ) {
 	$anchor = sanitize_title( (string) ( $item['anchor'] ?? '' ) );
 	$label  = trim( wp_strip_all_tags( (string) ( $item['label'] ?? '' ) ) );
 	if ( $anchor && $label ) {
-		$items[] = array( $anchor, $label );
+		$manual = true;
+		if ( ! isset( $hidden[ $anchor ] ) ) {
+			$items[] = array( $anchor, $label );
+		}
 	}
 }
-
-if ( ! $items && get_post() ) {
-	foreach ( parse_blocks( get_post()->post_content ) as $section ) {
-		$anchor = sanitize_title( (string) ( $section['attrs']['anchor'] ?? '' ) );
-		if ( ! $anchor || ! str_starts_with( (string) $section['blockName'], 'floe/' ) ) {
-			continue;
-		}
-		$label = trim( wp_strip_all_tags( (string) ( $section['attrs']['eyebrow'] ?? '' ) ) );
-		if ( '' === $label ) {
-			$label = trim( wp_strip_all_tags( (string) ( $section['attrs']['heading'] ?? '' ) ) );
-		}
-		$items[] = array( $anchor, '' !== $label ? $label : ucwords( str_replace( '-', ' ', $anchor ) ) );
-	}
+if ( ! $manual ) {
+	$items = $sections;
 }
 
 if ( ! $items ) {
