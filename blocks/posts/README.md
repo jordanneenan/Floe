@@ -1,6 +1,6 @@
 # Posts (`floe/posts`)
 
-A heading group and a grid of post cards (Figma `36:58`), with everything Made's Posts block and the Ajax Load More plugin did, built in.
+A heading group and a grid of post cards (Figma `36:58`), with listing, filters and load more built in (no plugin needed).
 
 | Field | Notes |
 | --- | --- |

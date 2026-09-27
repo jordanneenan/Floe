@@ -1,6 +1,6 @@
 <?php
 /**
- * Comments and pingbacks are switched off site-wide (following Made).
+ * Comments and pingbacks are switched off site-wide.
  * Delete this file to allow comments again.
  */
 

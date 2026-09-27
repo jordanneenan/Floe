@@ -1,6 +1,6 @@
 <?php
 /**
- * Front-end housekeeping, following Made: no emoji scripts, and the admin bar
+ * Front-end housekeeping: no emoji scripts, and the admin bar
  * sits in the page flow at the bottom of the page instead of over the header.
  */
 

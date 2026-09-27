@@ -1,6 +1,6 @@
 # Floe block and component design brief
 
-**Status:** superseded as the working brief by [build-brief.md](build-brief.md); kept for the original product rationale. The blocks are now built against the approved Figma designs. Use [the Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) for visual exploration and [the block contract](blocks.md) for implemented behaviour. Made 4 is a reference for use cases, not a source to copy or a definition of current best practice.
+**Status:** superseded as the working brief by [build-brief.md](build-brief.md); kept for the original product rationale. The blocks are now built against the approved Figma designs. Use [the Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) for visual exploration and [the block contract](blocks.md) for implemented behaviour.
 
 ## Figma design progress
 
@@ -33,7 +33,7 @@ The following ten sections are the first design set. Home Banner and Page Banner
 | **Posts** | A section fed by WordPress content. Define latest/filtered/selected modes, count, and shared card presentation during design. | Dynamic content source; manual entries belong in Cards. |
 | **Cards** | Manually entered card items with title, copy, optional action, and a visual media slot. | Reuse the card presentation component from Posts while keeping the data source separate. |
 | **Document Download** | Introductory copy if needed, followed by named downloadable files. | File action and metadata presentation are shared components. |
-| **Images** | Repeatable rows. Each row chooses an approved layout and contains image or looping MP4 slots. | Reference Made's one-, two-, and three-column row choices, image aspect-ratio/fill choice, and optional removal of internal grid spacing. Reassess the exact variants in wireframes. |
+| **Images** | Repeatable rows. Each row chooses an approved layout and contains image or looping MP4 slots. | Offer one-, two-, and three-column row choices, an image aspect-ratio/fill choice, and optional removal of internal grid spacing. Reassess the exact variants in wireframes. |
 | **Video** | YouTube video with a cover image and clear play control. The player is opened/loaded after the visitor acts. | This is distinct from a silent looping MP4 used in a visual media slot. |
 
 ### Article contract
@@ -42,7 +42,7 @@ Article is intentionally the flexible exception in the section library. The cont
 
 ### Images contract
 
-Use the name **Images**, not Image Grid. An Images section can contain multiple rows, and each row can use an approved layout. Made's Images block is the behavioural reference for one-, two-, and three-column rows, a choice between filling the container and retaining a source aspect ratio, and optional internal grid spacing. Each media slot can hold an image or a self-hosted looping MP4. The exact set of layouts and editor controls must be confirmed from neutral wireframes before implementation.
+Use the name **Images**, not Image Grid. An Images section can contain multiple rows, and each row can use an approved layout. The behaviour covers one-, two-, and three-column rows, a choice between filling the container and retaining a source aspect ratio, and optional internal grid spacing. Each media slot can hold an image or a self-hosted looping MP4. The exact set of layouts and editor controls must be confirmed from neutral wireframes before implementation.
 
 ## Shared visual media contract
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Code injection (following Made, built natively): Appearance → Customize →
+ * Code injection, built natively: Appearance → Customize →
  * Code injection has Head, Start of body and Footer fields for tracking and
  * chat scripts. Stored as site options so they survive a theme change.
  * Only users who can post unfiltered HTML (administrators) see the fields.

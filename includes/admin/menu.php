@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin menu, following Made: Dashboard hidden, content first. Appearance and
+ * Admin menu: Dashboard hidden, content first. Appearance and
  * Customize are never hidden. Also turns off the periodic admin-email check.
  */
 
