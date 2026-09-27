@@ -8,24 +8,15 @@ import {
 import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-	SurfaceControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
-function Edit( { attributes, setAttributes, clientId, name } ) {
+function Edit( { clientId, name, context } ) {
 	const count = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
 	);
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: attributes.surface }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'steps__list' },
 		{
@@ -45,17 +36,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<SurfaceControl
-						value={ attributes.surface }
-						onChange={ ( surface ) => setAttributes( { surface } ) }
-						options={ [ 'subtle', 'base', 'tint' ] }
-					/>
-					<HeadingLevelControl
-						value={ attributes.headingLevel }
-						onChange={ ( headingLevel ) =>
-							setAttributes( { headingLevel } )
-						}
-					/>
 					<p>
 						{ __(
 							'Three to five steps. They are numbered automatically.',
@@ -66,13 +46,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="steps__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						intro={ false }
-						action
-						actionStyle="secondary"
-					/>
 					<ol { ...innerBlocksProps } />
 				</div>
 			</section>

@@ -1,0 +1,395 @@
+#!/bin/bash
+# floe-sync: moves Floe's content (the database and wp-content/uploads) between
+# the local site (http://floe.local, in Local) and the live site
+# (https://floewp.com, on the TrueNAS box). Theme code never goes through here:
+# feature PRs merge into dev, and merging dev into main is a release, which
+# the live server deploys by itself.
+#
+# Guide: documentation/live-site.md
+#
+#   bin/floe-sync status                   what differs between local and live
+#   bin/floe-sync pull [--force]           replace local content with live's
+#   bin/floe-sync push [--yes] [--force]   replace live content with local's
+#   bin/floe-sync backups                  list database backups on both sides
+#   bin/floe-sync restore local <backup>   put a local backup back
+#   bin/floe-sync restore live <backup> [--yes]   put a live backup back
+#
+# Live is the source of truth. Pull whenever you start work; push only what
+# you've made locally, and only after Jordan has seen the plan it prints.
+set -euo pipefail
+
+LOCAL_WP=${FLOE_LOCAL_WP:-$HOME/Local Sites/floe/app/public}
+LOCAL_DOMAIN=${FLOE_LOCAL_DOMAIN:-floe.local}
+SYNC_DIR=${FLOE_SYNC_DIR:-$HOME/Local Sites/floe/sync}
+REMOTE=${FLOE_REMOTE:-truenas}
+REMOTE_SYNC=/mnt/ssd_pool/apps/floe/sync
+REMOTE_ENV=${FLOE_REMOTE_ENV:-}
+WP_CLI=/opt/Local/resources/extraResources/bin/wp-cli/wp-cli.phar
+LIB=$(cd "$(dirname "${BASH_SOURCE[0]}")/sync" && pwd)
+BASELINE=$SYNC_DIR/state/last-sync.json
+KEEP_BACKUPS=60
+
+say() { printf '%s\n' "$*"; }
+step() { printf '\n==> %s\n' "$*"; }
+die() { printf 'floe-sync: %s\n' "$*" >&2; exit 1; }
+stamp() { date +%Y%m%d-%H%M%S; }
+
+# --- Local (Local's own PHP, MySQL client and wp-cli) ------------------------
+
+local_setup() {
+	local sites=$HOME/.config/Local/sites.json id php mysql
+	command -v jq >/dev/null || die "jq is needed to read Local's site list"
+	id=$(jq -r --arg d "$LOCAL_DOMAIN" 'to_entries[] | select(.value.domain == $d) | .key' "$sites")
+	[ -n "$id" ] || die "no site called $LOCAL_DOMAIN in Local"
+	php=$(jq -r --arg id "$id" '.[$id].services.php.version' "$sites")
+	mysql=$(jq -r --arg id "$id" '.[$id].services.mysql.version' "$sites")
+	PHP_DIR=$(ls -d "$HOME/.config/Local/lightning-services/php-$php+"*/bin/linux 2>/dev/null | tail -1)
+	MYSQL_BIN=$(ls -d "$HOME/.config/Local/lightning-services/mysql-$mysql+"*/bin/linux/bin 2>/dev/null | tail -1)
+	[ -n "$PHP_DIR" ] && [ -n "$MYSQL_BIN" ] || die "couldn't find Local's PHP $php or MySQL $mysql"
+	PHP_INI=$HOME/.config/Local/run/$id/conf/php/php.ini
+	export MYSQL_UNIX_PORT=$HOME/.config/Local/run/$id/mysql/mysqld.sock
+	export PATH="$MYSQL_BIN:$PATH"
+	[ -S "$MYSQL_UNIX_PORT" ] || die "$LOCAL_DOMAIN isn't running. Start it in Local, then try again."
+	LOCAL_UPLOADS=$LOCAL_WP/wp-content/uploads
+	mkdir -p "$SYNC_DIR/backups" "$SYNC_DIR/state"
+	exec 9>"$SYNC_DIR/.lock"
+	flock -n 9 || die "another floe-sync is already running"
+}
+
+# Local's PHP needs its bundled libraries, but the mysql client wp-cli starts
+# must not inherit them, so they're given to the loader instead of exported.
+php_local() {
+	/lib64/ld-linux-x86-64.so.2 --library-path "$PHP_DIR/shared-libs" "$PHP_DIR/bin/php" -c "$PHP_INI" "$@"
+}
+wp_local() { php_local "$WP_CLI" --path="$LOCAL_WP" "$@"; }
+
+replace_urls_local() { # same rewrite as remote.sh replace_urls
+	local from_host=$1 to=$2 scheme
+	for scheme in http https; do
+		wp_local search-replace "$scheme://$from_host" "$to" --skip-columns=guid --report-changed-only
+		wp_local search-replace "$scheme:\\/\\/$from_host" "${to//\//\\/}" --skip-columns=guid --report-changed-only
+	done
+}
+
+flush_local() {
+	wp_local cache flush
+	wp_local transient delete --all
+	wp_local rewrite flush
+}
+
+# --- Live (over ssh) ---------------------------------------------------------
+
+remote() { ssh -n "$REMOTE" "sudo env $REMOTE_ENV bash $REMOTE_SYNC/lib/remote.sh $(printf '%q ' "$@")"; }
+
+remote_setup() {
+	ssh -n -o ConnectTimeout=10 "$REMOTE" \
+		"sudo install -d -o \$(id -un) -m 755 $REMOTE_SYNC $REMOTE_SYNC/lib && sudo install -d -o \$(id -un) -m 700 $REMOTE_SYNC/incoming" \
+		|| die "can't reach the live server over ssh ($REMOTE)"
+	rsync -a --delete --chmod=D755,F644 "$LIB/" "$REMOTE:$REMOTE_SYNC/lib/"
+	local line
+	while IFS= read -r line; do
+		case $line in
+			uploads=*) LIVE_UPLOADS=${line#uploads=} ;;
+			backups=*) LIVE_BACKUPS=${line#backups=} ;;
+			theme=*) LIVE_THEME=${line#theme=} ;;
+		esac
+	done < <(remote paths)
+	[ -n "${LIVE_UPLOADS:-}" ] || die "couldn't read the live site's paths"
+}
+
+# --- Fingerprints -------------------------------------------------------------
+
+fingerprints() { # writes $TMP/local.json and $TMP/live.json
+	TMP=$(mktemp -d)
+	trap 'rm -rf "$TMP"' EXIT
+	wp_local eval-file "$LIB/fingerprint.php" > "$TMP/local.json"
+	remote fingerprint > "$TMP/live.json"
+	jq -e .home "$TMP/local.json" >/dev/null || die "couldn't fingerprint the local site"
+	jq -e .home "$TMP/live.json" >/dev/null || die "couldn't fingerprint the live site"
+	LOCAL_HOME=$(jq -r .home "$TMP/local.json")
+	LIVE_HOME=$(jq -r .home "$TMP/live.json")
+}
+
+# compare <from.json> <to.json> [<other.json>]: prints the differences (see
+# compare.php) and succeeds only if there are some.
+compare() {
+	local rc=0
+	php_local "$LIB/compare.php" "$@" || rc=$?
+	[ "$rc" -le 1 ] || die "couldn't compare the two sites"
+	[ "$rc" = 1 ]
+}
+
+# rsync_listed <rsync args…>: runs rsync, then lists the files it copied.
+rsync_listed() {
+	rsync --out-format='%n' "$@" > "$TMP/rsync.log"
+	grep -v '/$' "$TMP/rsync.log" || true
+}
+
+# rsync_summary <rsync args…>: runs rsync and says how many files it copied.
+rsync_summary() {
+	local files
+	files=$(rsync_listed "$@")
+	if [ -z "$files" ]; then
+		say "  No files needed copying."
+	else
+		sed 's/^/  /' <<< "$files" | head -15
+		[ "$(wc -l <<< "$files")" -le 15 ] || say "  … $(wc -l <<< "$files") files in all"
+	fi
+}
+
+show() { # show <heading> <from.json> <to.json>
+	say "$1"
+	compare "$2" "$3" || say "  (nothing)"
+}
+
+save_baseline() { # save_baseline <fingerprint> <what happened>
+	cp "$1" "$BASELINE"
+	say "$(date '+%Y-%m-%d %H:%M') $2" > "$SYNC_DIR/state/last-sync.txt"
+}
+
+upload_changes() { # upload_changes push|pull: file paths a sync would copy
+	local src dst
+	if [ "$1" = push ]; then src="$LOCAL_UPLOADS/" dst="$REMOTE:$LIVE_UPLOADS/"; else src="$REMOTE:$LIVE_UPLOADS/" dst="$LOCAL_UPLOADS/"; fi
+	rsync_listed -a --dry-run --rsync-path="sudo rsync" "$src" "$dst"
+}
+
+# floe.local runs the dev branch; live runs whatever main last deployed. Lists
+# theme commits floe.local has that live doesn't, since content built with
+# them may not display on live until they're released.
+theme_check() {
+	local theme="$LOCAL_WP/wp-content/themes/floe" ahead
+	[ -d "$theme/.git" ] || [ -f "$theme/.git" ] || return 0
+	if [ -z "${LIVE_THEME:-}" ] || ! git -C "$theme" cat-file -e "$LIVE_THEME^{commit}" 2>/dev/null; then
+		say "  Couldn't compare themes: live's commit (${LIVE_THEME:-unknown}) isn't in the local checkout. Run git fetch there."
+		return 0
+	fi
+	ahead=$(git -C "$theme" log --oneline --no-merges "$LIVE_THEME..HEAD")
+	if [ -n "$ahead" ]; then
+		say "Theme: floe.local ($(git -C "$theme" branch --show-current)) has $(wc -l <<< "$ahead") commit(s) live hasn't released yet:"
+		sed 's/^/  /' <<< "$ahead" | head -15
+		say "  If this content uses any of them, release first (merge dev into main and wait for the deploy)."
+	else
+		say "Theme: live runs everything floe.local does."
+	fi
+}
+
+prune_local_backups() {
+	ls -1t "$SYNC_DIR"/backups/*.sql.gz 2>/dev/null | tail -n +$((KEEP_BACKUPS + 1)) | xargs -r rm -f
+	ls -1dt "$SYNC_DIR"/backups/uploads-replaced-* 2>/dev/null | tail -n +11 | xargs -r rm -rf
+}
+
+# --- Commands -----------------------------------------------------------------
+
+cmd_status() {
+	local_setup
+	remote_setup
+	fingerprints
+	say "Local: $LOCAL_HOME    Live: $LIVE_HOME"
+	if [ -f "$BASELINE" ]; then
+		say "Last sync: $(cat "$SYNC_DIR/state/last-sync.txt")"
+		say
+		show "Changed on live since the last sync:" "$BASELINE" "$TMP/live.json"
+		show "Changed on local since the last sync:" "$BASELINE" "$TMP/local.json"
+	else
+		say "No sync recorded yet, so it can't tell which side made each change."
+	fi
+	say
+	show "Local compared with live (+ only on local, ~ different, - only on live):" "$TMP/live.json" "$TMP/local.json"
+	say
+	say "Upload files a push would send: $(upload_changes push | wc -l)"
+	say "Upload files a pull would fetch: $(upload_changes pull | wc -l)"
+	say
+	theme_check
+}
+
+cmd_pull() {
+	local force= arg ts live_dump users
+	for arg in "$@"; do
+		case $arg in --force) force=1 ;; *) die "unknown option $arg" ;; esac
+	done
+	local_setup
+	remote_setup
+	fingerprints
+
+	if [ -f "$BASELINE" ]; then
+		if [ -z "$force" ] && compare "$BASELINE" "$TMP/local.json" "$TMP/live.json" > "$TMP/unpushed"; then
+			say "Local has changes that haven't been pushed. A pull would throw them away:"
+			cat "$TMP/unpushed"
+			die "push them first, or re-run with --force to discard them"
+		fi
+	elif [ -z "$force" ] && compare "$TMP/live.json" "$TMP/local.json" > "$TMP/diff"; then
+		say "No sync recorded yet, and local differs from live. A pull would replace these local differences:"
+		cat "$TMP/diff"
+		die "if that's fine, re-run with --force"
+	fi
+
+	ts=$(stamp)
+	step "Backing up the local database"
+	wp_local db export - | gzip > "$SYNC_DIR/backups/local-pre-pull-$ts.sql.gz"
+	say "  $SYNC_DIR/backups/local-pre-pull-$ts.sql.gz"
+	users="$TMP/local-users.sql"
+	wp_local db export "$users" --tables="$(wp_local db prefix)users,$(wp_local db prefix)usermeta" >/dev/null
+
+	step "Downloading the live database"
+	live_dump="$SYNC_DIR/backups/live-$ts.sql.gz"
+	remote export > "$live_dump"
+	gunzip -t "$live_dump" || die "the live database download is damaged; nothing was changed"
+	say "  $live_dump ($(du -h --apparent-size "$live_dump" | cut -f1))"
+
+	step "Downloading uploads"
+	rsync_summary -a --rsync-path="sudo rsync" --backup --backup-dir="$SYNC_DIR/backups/uploads-replaced-$ts" \
+		"$REMOTE:$LIVE_UPLOADS/" "$LOCAL_UPLOADS/"
+
+	step "Importing into $LOCAL_DOMAIN"
+	# MariaDB's dumps open with a line MySQL doesn't understand.
+	gunzip -c "$live_dump" | sed '1{/enable the sandbox mode/d}' | wp_local db import -
+	wp_local db import "$users" >/dev/null
+	replace_urls_local "$(sed -E 's#^https?://##; s#/.*##' <<< "$LIVE_HOME")" "$LOCAL_HOME"
+	wp_local eval-file "$LIB/enquiries.php" purge
+	flush_local
+
+	step "Checking"
+	wp_local eval-file "$LIB/fingerprint.php" > "$TMP/after.json"
+	if compare "$TMP/live.json" "$TMP/after.json" > "$TMP/left"; then
+		say "Local still differs from live here (check these):"
+		cat "$TMP/left"
+	else
+		say "Local now matches live."
+	fi
+	save_baseline "$TMP/live.json" "pull from $LIVE_HOME"
+	prune_local_backups
+}
+
+cmd_push() {
+	local yes= force= dry= arg ts dump uploads drift=
+	for arg in "$@"; do
+		case $arg in
+			--yes) yes=1 ;;
+			--force) force=1 ;;
+			--dry-run) dry=1 ;;
+			*) die "unknown option $arg" ;;
+		esac
+	done
+	local_setup
+	remote_setup
+	fingerprints
+
+	uploads=$(upload_changes push)
+	if ! compare "$TMP/live.json" "$TMP/local.json" > "$TMP/plan" && [ -z "$uploads" ]; then
+		say "Live already matches local; nothing to push."
+		save_baseline "$TMP/live.json" "push (nothing to send)"
+		return
+	fi
+
+	say "Pushing $LOCAL_HOME → $LIVE_HOME will change live like this:"
+	[ -s "$TMP/plan" ] && cat "$TMP/plan" || say "  (no content changes)"
+	say "  and upload $(grep -c . <<< "$uploads") media file(s)."
+	say
+	theme_check
+
+	if [ -f "$BASELINE" ]; then
+		if compare "$BASELINE" "$TMP/live.json" "$TMP/local.json" > "$TMP/drift"; then
+			say
+			say "Live has changed since the last sync ($(cat "$SYNC_DIR/state/last-sync.txt")). Pushing overwrites these live changes:"
+			cat "$TMP/drift"
+			drift=1
+		fi
+	else
+		say
+		say "No sync recorded yet, so it can't tell whether anything above was changed on live."
+		drift=1
+	fi
+	if [ -n "$drift" ] && [ -z "$force" ]; then
+		if [ -f "$BASELINE" ] && ! compare "$BASELINE" "$TMP/local.json" "$TMP/live.json" >/dev/null; then
+			die "not pushed. Local has nothing new since the last sync, so run pull to bring live's changes down instead."
+		fi
+		die "not pushed. Either pull (which discards the local changes, to be redone) or, once Jordan agrees live's changes can be lost, re-run with --force."
+	fi
+
+	if [ -n "$dry" ]; then
+		say
+		say "Dry run: nothing was pushed."
+		return
+	fi
+	if [ -z "$yes" ]; then
+		if [ -t 0 ]; then
+			read -r -p "Push to live? [y/N] " arg
+			[[ $arg =~ ^[Yy] ]] || die "not pushed"
+		else
+			say
+			say "Not pushed: re-run with --yes to push."
+			return
+		fi
+	fi
+
+	ts=$(stamp)
+	step "Uploading media"
+	rsync_summary -a --chown=33:33 --rsync-path="sudo rsync" --backup --backup-dir="$LIVE_BACKUPS/uploads-replaced-$ts" \
+		"$LOCAL_UPLOADS/" "$REMOTE:$LIVE_UPLOADS/"
+
+	step "Sending the local database"
+	dump="$SYNC_DIR/backups/local-pushed-$ts.sql.gz"
+	# User accounts stay as they are on each site.
+	wp_local db export - --exclude_tables="$(wp_local db prefix)users,$(wp_local db prefix)usermeta" | gzip > "$dump"
+	rsync -a "$dump" "$REMOTE:$REMOTE_SYNC/incoming/push-$ts.sql.gz"
+
+	step "Importing on live"
+	remote import "push-$ts.sql.gz" "$LOCAL_HOME"
+
+	step "Checking"
+	remote fingerprint > "$TMP/after.json"
+	if compare "$TMP/local.json" "$TMP/after.json" > "$TMP/left"; then
+		say "Live still differs from local here (check these):"
+		cat "$TMP/left"
+	else
+		say "Live now matches local."
+	fi
+	save_baseline "$TMP/after.json" "push to $LIVE_HOME"
+	prune_local_backups
+}
+
+cmd_backups() {
+	say "Local ($SYNC_DIR/backups):"
+	ls -lht --time-style=+'%Y-%m-%d %H:%M' "$SYNC_DIR/backups" 2>/dev/null | tail -n +2 || true
+	say
+	remote_setup
+	say "Live ($LIVE_BACKUPS):"
+	remote backups
+}
+
+cmd_restore() {
+	local side=${1:-} name=${2:-} file ts
+	[ -n "$name" ] || die "usage: floe-sync restore local|live <backup> [--yes]"
+	case $side in
+		local)
+			local_setup
+			file="$SYNC_DIR/backups/$(basename "$name")"
+			[ -f "$file" ] || die "no such backup: $file"
+			[[ $(basename "$file") == local-* ]] || die "restore local takes a local-… backup; to bring live content down, use pull"
+			ts=$(stamp)
+			wp_local db export - | gzip > "$SYNC_DIR/backups/local-pre-restore-$ts.sql.gz"
+			say "Backed up the current local database: local-pre-restore-$ts.sql.gz"
+			gunzip -c "$file" | wp_local db import -
+			flush_local
+			say "Restored $(basename "$file") on $LOCAL_DOMAIN."
+			;;
+		live)
+			[ "${3:-}" = --yes ] || die "restoring live replaces the live database; re-run with --yes once Jordan has agreed"
+			remote_setup
+			remote restore "$name"
+			;;
+		*) die "usage: floe-sync restore local|live <backup> [--yes]" ;;
+	esac
+}
+
+cmd=${1:-help}
+shift || true
+case $cmd in
+	status) cmd_status "$@" ;;
+	pull) cmd_pull "$@" ;;
+	push) cmd_push "$@" ;;
+	backups) cmd_backups "$@" ;;
+	restore) cmd_restore "$@" ;;
+	help | -h | --help) sed -n '2,/^set -e/p' "$0" | sed '$d; s/^# \{0,1\}//' ;;
+	*) die "unknown command '$cmd' (try: status, pull, push, backups, restore)" ;;
+esac

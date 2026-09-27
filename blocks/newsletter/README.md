@@ -9,6 +9,8 @@ A tint panel with a signup form (Figma `45:363`).
 | Button | Only when the form slot is empty: turns the panel into a **slimmer CTA** (as the Figma description suggests). |
 | Note | Optional small line, e.g. a privacy note. |
 
+The tint panel keeps its own colour: it's part of the design.
+
 **Responsive:** below 768px the form sits under the copy.
 
 **Components used:** Section header, Button, Form (styles).

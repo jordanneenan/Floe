@@ -1,22 +1,11 @@
-// Figma 44:317. Header, 64px, then people in a 4-up grid (24px gaps; 2-up
-// tablet, 1-up mobile). Portrait 4:5, 26px to the H4 name, Small role.
+// Figma 44:317. People in a 4-up grid (24px gaps; 2-up tablet, 1-up mobile).
+// Portrait 4:5, 26px to the H4 name, Small role. The heading group above is
+// a Block intro.
 @use "floe" as *;
-
-.team {
-
-	@include section-padding;
-}
 
 .team__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 64px;
-	}
 }
 
 .team__grid {

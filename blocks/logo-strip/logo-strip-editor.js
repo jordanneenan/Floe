@@ -58,7 +58,7 @@ function Logo( { id } ) {
 function Edit( { attributes, setAttributes, name } ) {
 	const { logos } = attributes;
 	const text = useText( attributes, setAttributes );
-	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
+	const blockProps = useFloeBlockProps( name );
 	const onSelect = ( items ) =>
 		setAttributes( {
 			logos: items.slice( 0, 8 ).map( ( item ) => ( { id: item.id } ) ),

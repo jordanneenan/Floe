@@ -8,7 +8,7 @@ One to three call-to-action panels in a row (Figma `35:75`, extended to multiple
 | 2 | Two equal columns; each panel stacks its content with the button at the bottom. |
 | 3 | Three equal columns; headings drop to H3 size. |
 
-Each panel has its own settings (see [cta-panel](cta-panel/README.md)).
+Each panel has its own settings (see [cta-panel](cta-panel/README.md)). The panels keep their own colours: they're part of the design.
 
 **Responsive:** panels stack below 768px, and a single panel's button moves under its copy.
 

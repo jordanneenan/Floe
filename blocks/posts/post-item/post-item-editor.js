@@ -17,10 +17,7 @@ function Edit( { attributes, setAttributes, context } ) {
 	const [ isOpen, setOpen ] = useState( false );
 	const text = useText( attributes, setAttributes );
 	const link = attributes.link || {};
-	const level = Math.min(
-		4,
-		( context[ 'floe/postsHeadingLevel' ] || 2 ) + 1
-	);
+	const level = Math.min( 4, ( context[ 'floe/headingLevel' ] || 2 ) + 1 );
 	const blockProps = useBlockProps( {
 		className: 'post-item',
 		ref: setAnchor,

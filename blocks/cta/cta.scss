@@ -1,9 +1,5 @@
-// Figma 35:75. White section with 96px padding holding one to three panels.
+// Figma 35:75. One to three panels side by side.
 @use "floe" as *;
-
-.cta {
-	padding-block: calc(var(--floe-section-space) * 0.8);
-}
 
 .cta__inner {
 

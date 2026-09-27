@@ -1,0 +1,8 @@
+// Editor only: room for the "add a block" button in an empty right column.
+.block-intro__block > .block-list-appender:only-child {
+	display: grid;
+	place-items: center;
+	min-height: 120px;
+	border: 1.5px dashed var(--surface-line);
+	border-radius: var(--wp--custom--radius--lg);
+}

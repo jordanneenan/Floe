@@ -35,18 +35,26 @@ import { SectionHeader } from '@floe/components/section-header';
  * top-level sections "floe-section" and an optional surface class, matching
  * Floe\block_attributes().
  *
+ * A section held inside another (its block context has "floe/nested", set
+ * by a two-column Block intro) gets neither, like the server.
+ *
  * @param {string}  name            Block name, e.g. "floe/cta".
  * @param {Object}  extra           Extra props for useBlockProps.
  * @param {Object}  options         Options.
  * @param {boolean} options.section Add "floe-section" (top-level sections).
  * @param {string}  options.surface Surface slug for a "surface-*" class.
+ * @param {Object}  options.context The block's context, to detect nesting.
  * @return {Object} Block wrapper props.
  */
 export function useFloeBlockProps(
 	name,
 	extra = {},
-	{ section = true, surface = '' } = {}
+	{ section = true, surface = '', context = {} } = {}
 ) {
+	if ( context?.[ 'floe/nested' ] ) {
+		section = false;
+		surface = '';
+	}
 	const slug = name.split( '/' )[ 1 ];
 	const className = [
 		slug,
@@ -456,7 +464,17 @@ export function HeadingLevelControl( {
 	);
 }
 
-export function SurfaceControl( { value, onChange, options } ) {
+export function SurfaceControl( { value, onChange, options, context = {} } ) {
+	if ( context?.[ 'floe/nested' ] ) {
+		return (
+			<p>
+				{ __(
+					'The background comes from the Block intro this block sits in.',
+					'floe'
+				) }
+			</p>
+		);
+	}
 	const labels = {
 		base: __( 'Base (white)', 'floe' ),
 		subtle: __( 'Subtle (grey)', 'floe' ),

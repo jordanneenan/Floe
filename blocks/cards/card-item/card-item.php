@@ -22,6 +22,6 @@ echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEs
 		'new_tab'       => ! empty( $link['newTab'] ),
 		'link_label'    => ! empty( $link['label'] ) ? $link['label'] : __( 'Learn more', 'floe' ),
 		'media'         => (array) $attributes['media'],
-		'heading_level' => min( 4, (int) ( $block->context['floe/cardsHeadingLevel'] ?? 2 ) + 1 ),
+		'heading_level' => min( 4, (int) ( $block->context['floe/headingLevel'] ?? 2 ) + 1 ),
 	)
 );

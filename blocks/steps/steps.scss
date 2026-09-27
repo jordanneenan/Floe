@@ -1,24 +1,13 @@
-// Figma 43:263. Canvas surface. Numbered 44px markers joined by a 1.5px line
-// (the first is filled blue), text columns 28px below. Markers line up with
-// their text column (Figma drifts by up to 24px; aligned here on purpose).
-// Mobile: vertical, with the line running down the left.
+// Figma 43:263 (on a Subtle Background block). Numbered 44px markers joined
+// by a 1.5px line (the first is filled blue), text columns 28px below. Markers
+// line up with their text column (Figma drifts by up to 24px; aligned here on
+// purpose). Mobile: vertical, with the line running down the left. The
+// heading group above is a Block intro.
 @use "floe" as *;
-
-.steps {
-
-	@include section-padding;
-}
 
 .steps__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 64px;
-	}
 }
 
 .steps__list {

@@ -1,12 +1,7 @@
 import { registerBlockType, registerBlockStyle } from '@wordpress/blocks';
-import {
-	InnerBlocks,
-	InspectorControls,
-	useInnerBlocksProps,
-} from '@wordpress/block-editor';
-import { PanelBody } from '@wordpress/components';
+import { InnerBlocks, useInnerBlocksProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, LinkButton, SurfaceControl } from '@floe/editor';
+import { useFloeBlockProps, LinkButton } from '@floe/editor';
 import metadata from './block.json';
 
 // "Lead" paragraph style (Body L, ink) for the opening paragraph.
@@ -27,8 +22,7 @@ const TEMPLATE = [
 ];
 
 function Edit( { attributes, setAttributes, name } ) {
-	const { surface } = attributes;
-	const blockProps = useFloeBlockProps( name, {}, { surface } );
+	const blockProps = useFloeBlockProps( name );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'article__content' },
 		{ allowedBlocks: metadata.allowedBlocks, template: TEMPLATE }
@@ -36,17 +30,6 @@ function Edit( { attributes, setAttributes, name } ) {
 
 	return (
 		<>
-			<InspectorControls>
-				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<SurfaceControl
-						value={ surface }
-						onChange={ ( next ) =>
-							setAttributes( { surface: next } )
-						}
-						options={ [ 'base', 'subtle' ] }
-					/>
-				</PanelBody>
-			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="article__inner">
 					<div { ...innerBlocksProps } />

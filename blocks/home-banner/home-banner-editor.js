@@ -11,7 +11,7 @@ import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, name } ) {
 	const text = useText( attributes, setAttributes );
-	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
+	const blockProps = useFloeBlockProps( name );
 
 	return (
 		<section { ...blockProps }>

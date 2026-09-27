@@ -18,22 +18,37 @@ const STAGGER = 90;
 const MAX_STAGGER = 6;
 const REVEAL_MS = 900; // --floe-reveal
 
+// Sections inside another block (blocks in a Background, a block in a Block
+// intro's column) reveal their own parts in turn rather than arriving as one
+// piece.
+const isHost = ( part ) =>
+	part.matches( '[class*="__block"]' ) &&
+	part.querySelector( ':scope > * > [class*="__inner"]' );
+
+const collect = ( section, found ) => {
+	const inner =
+		section.querySelector( ':scope > [class*="__inner"]' ) || section;
+	const parts = inner.matches( GROUPS ) ? [ inner ] : [ ...inner.children ];
+	parts.forEach( ( part ) => {
+		if ( part.matches( '.floe-section' ) ) {
+			collect( part, found );
+		} else if ( part.matches( GROUPS ) && part.children.length > 1 ) {
+			found.push( ...part.children );
+		} else if ( isHost( part ) ) {
+			[ ...part.children ].forEach( ( nested ) =>
+				collect( nested, found )
+			);
+		} else if ( ! part.matches( '.screen-reader-text' ) ) {
+			found.push( part );
+		}
+	} );
+};
+
 const targets = () => {
 	const found = [];
-	document.querySelectorAll( SECTIONS ).forEach( ( section ) => {
-		const inner =
-			section.querySelector( ':scope > [class*="__inner"]' ) || section;
-		const parts = inner.matches( GROUPS )
-			? [ inner ]
-			: [ ...inner.children ];
-		parts.forEach( ( part ) => {
-			if ( part.matches( GROUPS ) && part.children.length > 1 ) {
-				found.push( ...part.children );
-			} else if ( ! part.matches( '.screen-reader-text' ) ) {
-				found.push( part );
-			}
-		} );
-	} );
+	document
+		.querySelectorAll( SECTIONS )
+		.forEach( ( section ) => collect( section, found ) );
 	return found;
 };
 

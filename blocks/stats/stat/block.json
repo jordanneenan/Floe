@@ -6,7 +6,7 @@
 	"title": "Stat",
 	"category": "floe-parts",
 	"icon": "chart-line",
-	"description": "One figure in a Stats section.",
+	"description": "One figure in a Stats block.",
 	"textdomain": "floe",
 	"parent": [ "floe/stats" ],
 	"usesContext": [ "floe/headingLevel" ],

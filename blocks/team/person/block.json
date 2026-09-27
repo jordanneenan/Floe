@@ -6,7 +6,7 @@
 	"title": "Person",
 	"category": "floe-parts",
 	"icon": "admin-users",
-	"description": "One person in a Team section.",
+	"description": "One person in a Team block.",
 	"textdomain": "floe",
 	"parent": [ "floe/team" ],
 	"usesContext": [ "floe/headingLevel" ],

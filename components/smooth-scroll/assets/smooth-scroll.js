@@ -1,0 +1,1 @@
+(()=>{const e=document.documentElement,t=e.dataset.scrollTo;if(t){delete e.dataset.scrollTo;const o=()=>{window.scrollY>0?window.history.replaceState(window.history.state,"",t):window.location.replace(t)};"complete"===document.readyState?o():window.addEventListener("load",o,{once:!0})}})();

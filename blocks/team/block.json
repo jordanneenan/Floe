@@ -6,24 +6,18 @@
 	"title": "Team",
 	"category": "floe-sections",
 	"icon": "groups",
-	"description": "A heading group and a grid of people: portrait, name and role.",
+	"description": "A grid of people: portrait, name and role. Add a Block intro above it for a heading.",
 	"keywords": [ "people", "staff", "about" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/person" ],
 	"attributes": {
-		"eyebrow": { "type": "string", "default": "" },
-		"heading": { "type": "string", "default": "" },
-		"headingLevel": { "type": "number", "default": 2 },
-		"intro": { "type": "string", "default": "" }
 	},
-	"providesContext": {
-		"floe/headingLevel": "headingLevel"
-	},
+	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
 		"anchor": true
 	},
-	"example": { "attributes": { "eyebrow": "Our team", "heading": "The people behind the platform" }, "innerBlocks": [ { "name": "floe/person", "attributes": { "name": "Sam Carter", "role": "Lead designer" } }, { "name": "floe/person", "attributes": { "name": "Riley Nguyen", "role": "WordPress developer" } } ] },
+	"example": { "innerBlocks": [ { "name": "floe/person", "attributes": { "name": "Sam Carter", "role": "Lead designer" } }, { "name": "floe/person", "attributes": { "name": "Riley Nguyen", "role": "WordPress developer" } } ] },
 	"editorScript": "file:./assets/team-editor.js",
 	"style": "file:./assets/team.css",
 	"render": "file:./team.php"

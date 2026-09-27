@@ -6,6 +6,7 @@ Every button on the site: pill shape, 48px tall, Label type. From Figma componen
 | --- | --- |
 | `primary` | The main action. On Inverse and Accent surfaces it automatically takes the white Inverse look. |
 | `secondary` | Alongside a primary (outlined). |
+| `outline` | A secondary action on its own: accent outline (blue), filled with the surface colour (white), ink text. The In-page navigation's action. |
 | `inverse` | Force the white look. |
 | `link` | Tertiary text action (blue text and arrow). |
 
@@ -27,4 +28,4 @@ The stylesheet also styles core Button blocks (inside Article) and native submit
 
 Editor: `import { Button } from '@floe/components/button';` renders the same markup, with the label passed in as a node.
 
-Hover: Primary darkens to blue-deep (Figma notes blue-deep as the action hover); the arrow nudges right. Secondary's border darkens. Focus uses the global focus ring.
+Hover: Primary darkens to blue-deep (Figma notes blue-deep as the action hover); the arrow nudges right. Secondary's border darkens; Outline fills with a light blue tint. Focus uses the global focus ring.

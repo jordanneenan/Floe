@@ -4,7 +4,7 @@
 
 Work at the repository root. The repository is the theme folder inside the LocalWP site, `~/Local Sites/floe/app/public/wp-content/themes/floe`, served at `http://floe.local`. It is the only copy, with no separate checkout and no symlink. `Local Sites` contains a space, so quote paths. Install with `npm ci` using Node.js 20 or newer. PHP and a WordPress site are needed for runtime testing; this repository does not provision them. Production deployments use committed assets and do not run npm.
 
-Work on one branch per phase of the [build brief](build-brief.md) (`phase-1-foundations`, …), push it, and stop for Jordan's review before merging to `main`.
+floe.local runs the `dev` branch. Start each branch (one per phase of the [build brief](build-brief.md) or per feature) from `origin/dev`, push it, open a pull request into `dev`, and stop for Jordan's review. Merging `dev` into `main` is the release: it syncs to the live site, so nothing goes to `main` except from `dev` (D51).
 
 ### WP-CLI
 
@@ -38,6 +38,10 @@ git status --short
 ## Preview content
 
 The preview site's pages, posts and menus live in the LocalWP database and are built from blocks in the editor, like any client site. There are no theme patterns or seed scripts. Pages worth keeping as starting points can be saved as synced or unsynced patterns in WordPress itself.
+
+When a theme change alters how existing content is stored, a one-off migration goes in `scripts/` and is run once on each site after deploying, e.g. `wp eval-file scripts/migrate-to-block-intro.php` (dry run) then `… apply`. Each script says what it changes and is safe to run twice.
+
+Content moves between floe.local and the live site (floewp.com) with `bin/floe-sync`, never by hand. See [Live site](live-site.md).
 
 ## Focused verification by change
 

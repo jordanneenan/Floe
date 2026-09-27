@@ -1,12 +1,15 @@
-// Figma 33:11. 96px padding at 1440; intro row (heading group 820 left,
-// supporting 380 right, bottom-aligned), 72px gap, 1248×600 media (radius xl).
+// Figma 33:11. 96px below the header at 1440; intro row (heading group 820
+// left, supporting 380 right, bottom-aligned), 72px gap, 1248×600 media
+// (radius xl).
 @use "floe" as *;
 
+// The opener: space below the header here; the section margin below.
 .home-banner {
-	padding-block: calc(var(--floe-section-space) * 0.6) calc(var(--floe-section-space) * 0.8);
+	margin-top: 0;
+	padding-top: calc(var(--floe-section-space) * 0.6);
 
 	@include from(desktop) {
-		padding-block: calc(var(--floe-section-space) * 0.8);
+		padding-top: calc(var(--floe-section-space) * 0.8);
 	}
 }
 

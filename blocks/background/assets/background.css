@@ -1,0 +1,1 @@
+.background{display:flow-root;margin-top:0}.background--spaced{padding-top:var(--floe-section-space)}.background:not(.background--spaced)>.background__inner>:last-child{margin-bottom:0}

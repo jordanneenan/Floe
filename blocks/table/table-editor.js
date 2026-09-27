@@ -11,18 +11,14 @@ import {
 	ToggleControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
 const TEMPLATE = [ [ 'core/table', { hasFixedLayout: false } ] ];
 
-function Edit( { attributes, setAttributes, name } ) {
-	const { highlight, badge, emphasiseLastRow, headingLevel } = attributes;
-	const blockProps = useFloeBlockProps( name, {}, { surface: 'base' } );
+function Edit( { attributes, setAttributes, name, context } ) {
+	const { highlight, badge, emphasiseLastRow } = attributes;
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const frame = {
 		className: `table__frame${ emphasiseLastRow ? ' table--emphasise-last' : '' }`,
 		'data-highlight': highlight || undefined,
@@ -86,20 +82,10 @@ function Edit( { attributes, setAttributes, name } ) {
 							'floe'
 						) }
 					</p>
-					<HeadingLevelControl
-						value={ headingLevel }
-						onChange={ ( next ) =>
-							setAttributes( { headingLevel: next } )
-						}
-					/>
 				</PanelBody>
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="table__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-					/>
 					<div { ...innerBlocksProps } />
 				</div>
 			</section>

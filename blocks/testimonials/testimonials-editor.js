@@ -8,15 +8,11 @@ import {
 import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import { Icon } from '@floe/components/icon';
 import metadata from './block.json';
 
-function Edit( { attributes, setAttributes, clientId, name } ) {
+function Edit( { clientId, name, context } ) {
 	const count = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
@@ -26,7 +22,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: 'testimonials--grid' },
-		{ surface: 'base' }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'testimonials__track floe-editor-wrap' },
@@ -51,12 +47,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<HeadingLevelControl
-						value={ attributes.headingLevel }
-						onChange={ ( headingLevel ) =>
-							setAttributes( { headingLevel } )
-						}
-					/>
 					<p>
 						{ __(
 							'Up to three quotes show as a grid. With four or more, the page shows them as a slider with previous and next buttons.',
@@ -67,13 +57,8 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="testimonials__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						intro={ false }
-						aside={ controls }
-					/>
 					<div { ...innerBlocksProps } />
+					{ controls }
 				</div>
 			</section>
 		</>

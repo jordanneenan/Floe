@@ -6,12 +6,7 @@ import {
 } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-	SurfaceControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
 const TEMPLATE = [
@@ -20,12 +15,12 @@ const TEMPLATE = [
 	[ 'floe/card-item' ],
 ];
 
-function Edit( { attributes, setAttributes, name } ) {
-	const { style, headingLevel, surface } = attributes;
+function Edit( { attributes, setAttributes, name, context } ) {
+	const { style } = attributes;
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `cards--${ style }` },
-		{ surface }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'cards__grid' },
@@ -60,27 +55,10 @@ function Edit( { attributes, setAttributes, name } ) {
 							setAttributes( { style: next } )
 						}
 					/>
-					<SurfaceControl
-						value={ surface }
-						onChange={ ( next ) =>
-							setAttributes( { surface: next } )
-						}
-						options={ [ 'base', 'subtle', 'tint' ] }
-					/>
-					<HeadingLevelControl
-						value={ headingLevel }
-						onChange={ ( next ) =>
-							setAttributes( { headingLevel: next } )
-						}
-					/>
 				</PanelBody>
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="cards__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-					/>
 					<div { ...innerBlocksProps } />
 				</div>
 			</section>

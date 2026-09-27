@@ -18,7 +18,8 @@ blocks/<name>/            one block: block.json, <name>.php, <name>.scss,
                           <name>-server.php, README.md, assets/
 blocks/<parent>/<child>/  child blocks live inside their parent
 components/<name>/        one UI piece: <name>.php, <name>.scss, optional
-                          <name>-editor.js (editor twin) and <name>.js, README.md
+                          <name>-editor.js (editor twin), <name>.js and
+                          <name>-editor-script.js (editor behaviour), README.md
 assets/                   global SCSS, fonts, shared editor helpers, brand files
 includes/                 theme setup; includes/admin/ and includes/media/ hold
                           self-contained feature files
@@ -41,7 +42,7 @@ npm run lint           # JS and SCSS lint
 
 ## Library
 
-Sections: Home Banner, Page Banner, In-page navigation, Article, Image + Copy, Cards, Posts (latest of any post type with load more and filters, hand-picked or manual), Stats, Steps, Logo strip, Testimonial, Testimonials, Team, Table, FAQ, Document Download, Images, Video, Contact, Newsletter, CTA (one to three panels) and Spacing. Each block's README describes its fields and responsive behaviour.
+Sections: Home Banner, Page Banner, In-page navigation, Block intro, Background, Article, Image + Copy, Cards, Posts (latest of any post type with load more and filters, hand-picked or manual), Stats, Steps, Logo strip, Testimonial, Testimonials, Team, Table, FAQ, Document Download, Images, Video, Contact, Newsletter, CTA (one to three panels) and Spacing. Each block's README describes its fields and responsive behaviour.
 
 Components: Button, Eyebrow, Section header, Media, Card, File row, Play control, Icon, Breadcrumb, Logo, Navigation, Header, Footer, plus Form and Accordion styles.
 
