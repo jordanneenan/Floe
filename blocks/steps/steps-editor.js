@@ -8,15 +8,10 @@ import {
 import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-	SurfaceControl,
-} from '@floe/editor';
+import { useFloeBlockProps, SurfaceControl } from '@floe/editor';
 import metadata from './block.json';
 
-function Edit( { attributes, setAttributes, clientId, name } ) {
+function Edit( { attributes, setAttributes, clientId, name, context } ) {
 	const count = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
@@ -24,7 +19,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{},
-		{ surface: attributes.surface }
+		{ surface: attributes.surface, context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'steps__list' },
@@ -49,12 +44,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 						value={ attributes.surface }
 						onChange={ ( surface ) => setAttributes( { surface } ) }
 						options={ [ 'subtle', 'base', 'tint' ] }
-					/>
-					<HeadingLevelControl
-						value={ attributes.headingLevel }
-						onChange={ ( headingLevel ) =>
-							setAttributes( { headingLevel } )
-						}
+						context={ context }
 					/>
 					<p>
 						{ __(
@@ -66,13 +56,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="steps__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						intro={ false }
-						action
-						actionStyle="secondary"
-					/>
 					<ol { ...innerBlocksProps } />
 				</div>
 			</section>
