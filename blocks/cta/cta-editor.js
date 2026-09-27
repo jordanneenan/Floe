@@ -14,7 +14,7 @@ function Edit( { clientId, name } ) {
 		[ clientId ]
 	);
 	const blockProps = useFloeBlockProps( name, {
-		className: `cta--count-${ Math.min( 3, Math.max( 1, count ) ) }`,
+		className: `cta--count-${ Math.min( 4, Math.max( 1, count ) ) }`,
 	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'cta__inner' },
@@ -22,7 +22,7 @@ function Edit( { clientId, name } ) {
 			allowedBlocks: metadata.allowedBlocks,
 			template: [ [ 'floe/cta-panel' ] ],
 			orientation: 'horizontal',
-			renderAppender: count < 3 ? InnerBlocks.ButtonBlockAppender : false,
+			renderAppender: count < 4 ? InnerBlocks.ButtonBlockAppender : false,
 		}
 	);
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * CTA: one to three CTA panels in a row. The column count follows the number
+ * CTA: one to four CTA panels in a row. The column count follows the number
  * of panels; a single panel lays out as a wide banner.
  *
  * @var array    $attributes
@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$count = min( 3, count( $block->inner_blocks ) );
+$count = min( 4, count( $block->inner_blocks ) );
 if ( ! $count || '' === trim( $content ) ) {
 	return;
 }
