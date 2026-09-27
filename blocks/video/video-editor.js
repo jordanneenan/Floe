@@ -2,13 +2,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	MediaSlot,
-	HeadingLevelControl,
-	SurfaceControl,
-} from '@floe/editor';
+import { useFloeBlockProps, MediaSlot, SurfaceControl } from '@floe/editor';
 import { PlayControl } from '@floe/components/play-control';
 import metadata from './block.json';
 
@@ -17,9 +11,9 @@ const hasId = ( url ) =>
 		url
 	);
 
-function Edit( { attributes, setAttributes, name } ) {
-	const { url, duration, surface, headingLevel } = attributes;
-	const blockProps = useFloeBlockProps( name, {}, { surface } );
+function Edit( { attributes, setAttributes, name, context } ) {
+	const { url, duration, surface } = attributes;
+	const blockProps = useFloeBlockProps( name, {}, { surface, context } );
 	const valid = hasId( url );
 
 	return (
@@ -62,21 +56,12 @@ function Edit( { attributes, setAttributes, name } ) {
 							setAttributes( { surface: next } )
 						}
 						options={ [ 'inverse', 'base', 'subtle' ] }
-					/>
-					<HeadingLevelControl
-						value={ headingLevel }
-						onChange={ ( next ) =>
-							setAttributes( { headingLevel: next } )
-						}
+						context={ context }
 					/>
 				</PanelBody>
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="video__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-					/>
 					<div className="video__player">
 						<MediaSlot
 							value={ attributes.cover }
