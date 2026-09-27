@@ -253,7 +253,7 @@ These come from the code review of the current repo:
 ## 7. Preview content and imagery
 
 - **Imagery.** Put the eight Floe images (`floe-hero`, `-dawn`, `-drift`, `-seam`, `-blue`, `-giant`, `-pack-teal`, `-dusk`; Jordan has the files) in `assets/PreviewImagery/`, replacing the architectural set, and update its README. They're placeholders, not client content.
-- **Brochure pages as patterns.** Build Home, Platform, Pricing, About and Contact as theme patterns in `patterns/`. WordPress registers them from the file header, so this is native. Use the copy from the Figma brochure pages.
+- **Brochure pages as patterns.** Build Home, Platform, Pricing, About and Contact as theme patterns in `patterns/`. WordPress registers them from the file header, so this is native.
 - **Seed script.** Add `scripts/seed-preview.php`, run with `wp eval-file`. It imports the preview imagery, creates a "Block Preview" page with every block, creates the five brochure pages from the patterns, sets Home as the front page and builds the menus. It must be safe to run repeatedly. This makes the preview reproducible on any machine, instead of living only in one LocalWP database.
 
 ## 8. Phases
@@ -274,14 +274,13 @@ At the end of each phase, merge it into `dev`, update floe.local and stop for Jo
 
 ## 9. Figma reference
 
-The file key is `F43LfH93WZls4WkgIo5e3n`. There are three pages: `01 / Wireframes`, `02 / Block Designs + Components` and `03 / Brochure Site`. If a Figma MCP connection is available, pull design context by node ID. If not, the values in this brief are enough to build from.
+The file key is `F43LfH93WZls4WkgIo5e3n`. There are two pages: `01 / Wireframes` and `02 / Block Designs + Components`. If a Figma MCP connection is available, pull design context by node ID. If not, the values in this brief are enough to build from.
 
 | Area | Node IDs |
 | --- | --- |
 | Foundations | Board `38:181` |
 | Components | Button `29:18`, Eyebrow `29:25`, Media `29:38`, Content card `30:88`, File row `30:89`, Play control `30:98`, Accordion item `42:196`, Form field `42:208`, Header `30:2`, Footer `30:25` |
 | Blocks | Home Banner `33:11`, Page Banner `33:65`, Article `34:28`, Image + Copy `34:94`, CTA `35:75`, Testimonial `35:76`, Posts `36:58`, Cards `36:173`, Document Download `37:130`, Images `37:174`, Video `37:201`, FAQ `43:183`, Logo strip `43:226`, Stats `43:235`, Steps `43:263`, Testimonials `44:221`, Contact `44:263`, Team `44:317`, Table `45:255`, In-page navigation `45:345`, Newsletter `45:363` |
-| Brochure pages | Home `47:4`, Platform `49:389`, Pricing `49:786`, About `49:1071`, Contact `49:1313` |
 
 ## 10. Out of scope for now
 

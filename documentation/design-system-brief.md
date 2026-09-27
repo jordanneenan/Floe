@@ -6,7 +6,7 @@
 
 The file now has reusable desktop wireframe and designed components for all ten initial sections, plus the separate Video section. Home Banner is a large split composition; Page Banner is a compact interior-page introduction. The designed library also contains shared Button, inverse Button, Navigation, Header, Footer, Media slot, Content card, File action, and Video play control components. Posts and Cards use instances of the same Content card; the Images rows use instances of the Media slot. Editing those main components updates their Figma instances.
 
-These are first-pass layouts for reviewing the section hierarchy and visual rhythm. The typography and dark green action colour are provisional neutral defaults, not Floe brand rules. The current Figma components show representative content at 1440px. Mobile/tablet/large-desktop layouts, absent optional fields, long-content stress cases, accessibility states, and the final approved variant controls still need design review. Media slots are intentionally placeholders until each site supplies its imagery or MP4. The Brochure Site page remains reserved for the later full-page design phase.
+These are first-pass layouts for reviewing the section hierarchy and visual rhythm. The typography and dark green action colour are provisional neutral defaults, not Floe brand rules. The current Figma components show representative content at 1440px. Mobile/tablet/large-desktop layouts, absent optional fields, long-content stress cases, accessibility states, and the final approved variant controls still need design review. Media slots are intentionally placeholders until each site supplies its imagery or MP4.
 
 The corresponding Gutenberg blocks now have a first implementation in Floe. Their current fields and responsive rules are documented in [the block contract](blocks.md). WordPress code will still need revision when the remaining Figma variants are approved.
 
@@ -16,7 +16,7 @@ The corresponding Gutenberg blocks now have a first implementation in Floe. Thei
 - Base block designs should be visually neutral. A site's typography, colour, imagery, graphics, and selected variants provide its identity. Controls should expose meaningful choices without requiring the editor to design the section.
 - A Figma block has a wireframe, a designed component, an eventual WordPress block, and a client-facing usage entry under the same name. A change to a Figma main component updates its Figma instances. Updating the running WordPress site still requires a reviewed code change.
 - Shared pieces that are not page sections belong in the component library: header, navigation, footer, buttons, card presentation, media presentation, and video play control. They can be nested in block designs and page designs as Figma instances.
-- Complete the block and component library before designing the Floe brochure site. The file has three primary pages: **Block Wireframes**, **Block Designs + Components**, and **Brochure Site**.
+- The file has two pages: **Wireframes** and **Block Designs + Components**. Full pages are built from blocks in WordPress rather than drawn in Figma.
 
 ## Section catalogue
 
@@ -68,7 +68,7 @@ This behaviour is implemented in the theme. See [the block contract](blocks.md) 
 2. Wireframe each section, including absent optional content, long content, and the four responsive ranges. Create separate Home Banner and Page Banner wireframes.
 3. Create designed Figma components from the approved wireframes. Use instances wherever a section or shared component appears in another design.
 4. Translate approved sections to Floe blocks. Keep field names, variants, media rules, and client documentation aligned with the Figma component. Review and test code before updating the live site.
-5. Design the Floe brochure site using the approved Figma instances. Its proposed content is a clear introduction, block examples, editing model, documentation, and repository link.
+5. Build the Floe site's pages from the finished blocks in WordPress. Its proposed content is a clear introduction, block examples, editing model, documentation, and repository link.
 
 ## Decisions still open
 

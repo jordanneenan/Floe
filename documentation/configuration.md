@@ -20,7 +20,7 @@ Delete a file to remove that behaviour.
 
 | File | Behaviour |
 | --- | --- |
-| `admin/comments.php` | Comments and pingbacks off site-wide (front end and admin), comment screens redirected, menu/toolbar/dashboard items removed, no comment feed or `X-Pingback`. |
+| `admin/comments.php` | Comments and pingbacks off site-wide (front end and admin), comment screens and Settings → Discussion redirected, menu/toolbar/dashboard items removed, no comment feed or `X-Pingback`. |
 | `admin/branding.php` | No WordPress logo (toolbar, login), "Howdy" removed, login label "Email", footer credit "Built with Floe." |
 | `admin/menu.php` | Dashboard hidden, menu order Pages, Posts, Media, Plugins, Users, Settings; logins and the dashboard go to Pages; no admin-email check. Appearance and Customize are never hidden. |
 | `admin/editor.php` | No block directory, no tags on posts, wider editor sidebar. |

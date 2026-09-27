@@ -19,6 +19,6 @@ Card titles are H3. For a coloured band, put the Posts and their Block intro in 
 
 The block renders nothing when there's nothing to show.
 
-**Responsive:** three-up from 768px, two-up on tablet, one-up on mobile; filter buttons wrap. The filters sit 24px above the cards (40px from 768px), closer than the gap above them.
+**Responsive:** three-up from 768px, two-up on tablet, one-up on mobile; filter buttons wrap. The filters sit 32px above the cards (48px from 768px), closer than the gap above them.
 
 **Components used:** Button, Card, Media.
