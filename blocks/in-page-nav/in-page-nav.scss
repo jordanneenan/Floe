@@ -18,10 +18,10 @@
 // Anchors land clear of the bar, close enough that in-page-nav.js highlights
 // the link that was clicked (it looks 24px below the bar).
 :root:has(.in-page-nav) {
-	scroll-padding-top: calc(var(--floe-sticky-top) + 64px + 16px);
+	scroll-padding-top: calc(var(--floe-sticky-top-scrolled) + 64px + 16px);
 
 	@include from(desktop) {
-		scroll-padding-top: calc(var(--floe-sticky-top) + 72px + 16px);
+		scroll-padding-top: calc(var(--floe-sticky-top-scrolled) + 72px + 16px);
 	}
 }
 
