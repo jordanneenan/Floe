@@ -75,6 +75,27 @@ function restrict_to_slots(): void {
 }
 add_action( 'init', __NAMESPACE__ . '\\restrict_to_slots', PHP_INT_MAX );
 
+/**
+ * Floe sections go on the page itself or in a Floe block's slot (Background,
+ * a two-column Block intro), never inside a core block such as an FAQ's
+ * Details or an Article's Quote. block.json can't say "top level or these
+ * parents", so the editor's insert check does it: a Floe block without a
+ * parent is refused when the block it would go into isn't a Floe block.
+ */
+function section_placement(): void {
+	wp_add_inline_script(
+		'wp-block-editor',
+		"wp.hooks.addFilter( 'blockEditor.__unstableCanInsertBlockType', 'floe/section-placement', function ( canInsert, blockType, rootClientId, select ) {
+			if ( ! canInsert || ! rootClientId || ! blockType.name.startsWith( 'floe/' ) || ( blockType.parent || [] ).length ) {
+				return canInsert;
+			}
+			var root = select.getBlock( rootClientId );
+			return ! root || root.name.startsWith( 'floe/' );
+		} );"
+	);
+}
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\section_placement' );
+
 // Posts are built from blocks like pages: new posts start with a Page Banner,
 // an Article for the writing, and a CTA. Blocks that are switched off are
 // left out of the starting layout.

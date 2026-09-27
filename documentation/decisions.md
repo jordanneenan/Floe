@@ -451,3 +451,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-27)
 - **Decision:** The Shortcode block can go directly on a page. `includes/editor.php` exempts blocks named by a new `floe_top_level_blocks` filter from the Floe-only `ancestor`, and `includes/content/shortcode.php` adds the Shortcode block and wraps a top-level one in the content width with a section's spacing (a `render_block_data` flag marks blocks with no parent). Columns stay out until needed. On short pages the footer sits at the bottom of the window: `body` is a flex column at least `100dvh` tall and `.site-main` grows, scoped with `:has(> .site-main)` so the editor canvas (which also loads base.css) isn't affected.
 - **Status:** Adopted
+
+## D67: Floe sections stay out of core blocks
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27). The brief says Floe sections are the top-level items and core blocks go in slots; the editor still let a Home Banner, CTA or any other section be inserted inside an FAQ's Details or an Article's Quote.
+- **Decision:** A Floe block without a `parent` can be inserted only at the top level or into a Floe block (Background, a two-column Block intro, or any Floe slot that lists it). `block.json` can't express "top level or these parents", so `includes/editor.php` adds this check to the editor's `blockEditor.__unstableCanInsertBlockType` filter. The filter's name is marked unstable; if WordPress renames or drops it, the fallback is `allowedBlocks` on the Details items in FAQ's template.
+- **Status:** Adopted
