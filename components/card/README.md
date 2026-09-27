@@ -1,5 +1,7 @@
 # Card
 
+**Figma:** design [30:88](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=30-88) · dark [91:369](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-369)
+
 Figma "Content card" (`30:88`). Variants:
 
 | Variant | Contents | Used by |

@@ -15,17 +15,17 @@
 }
 
 // The filters sit closer to the cards they filter than the gap above them:
-// 24px, and 40px from desktop. The block's top edge stays where it is.
+// 32px, and 48px from desktop. The block's top edge stays where it is.
 .posts__filters {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin: 0 0 -16px;
+	margin: 0 0 -8px;
 	padding: 0;
 	list-style: none;
 
 	@include from(desktop) {
-		margin-bottom: -24px;
+		margin-bottom: -16px;
 	}
 }
 

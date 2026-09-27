@@ -1,5 +1,7 @@
 # Testimonials (`floe/testimonials`)
 
+**Figma:** design [44:221](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=44-221), [102:1229](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1229) · dark [91:904](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-904) · wireframe [46:1096](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1096)
+
 Several short quotes as cards (Figma `44:221`). For one long quote use Testimonial. For an eyebrow and heading, add a **Block intro** above the Testimonials.
 
 | Field | Notes |

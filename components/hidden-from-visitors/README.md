@@ -1,5 +1,7 @@
 # Hidden from visitors
 
+**Figma:** none (editor/visibility behaviour only)
+
 Keeps a block off the public site until it's ready, while the people working on the page still see it. Every Floe block, sections and the blocks inside them, has the switch.
 
 - **In the editor:** select the block, open **Block settings → Advanced** and turn on **Hide from visitors** ("Only people who can edit this page will see this block, tagged “Hidden from visitors”. Use it for anything that isn't ready to go live."). The block stays in the editor with the same marker it has on the site.

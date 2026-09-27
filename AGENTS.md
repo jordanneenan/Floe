@@ -11,6 +11,7 @@ Project rules:
 - Keep `functions.php` as a loader, with theme configuration in `includes/`.
 - Commit source and generated build output together, and keep `block.json` asset paths aligned with the compiled files.
 - Work on a branch per phase or feature, started from `origin/dev`, and make small focused commits. Once it's built and verified, open a pull request into `dev`, merge it yourself and update floe.local's checkout, without being asked: Jordan reviews on floe.local ([workflow](documentation/workflow.md)). floe.local runs `dev`; merging `dev` into `main` is the release to the live site, and happens only when Jordan asks.
+- **Figma stays in step with the code.** Each module's README has a `**Figma:**` line (design, dark copy, wireframe). A visual or option change updates those nodes in the same piece of work, and the pull request's `## Design sync` section accounts for every changed module. See [documentation/design-sync.md](documentation/design-sync.md).
 - **Content goes live with `bin/floe-sync`, code with a release.** Live (floewp.com) is the source of truth for content. See [documentation/live-site.md](documentation/live-site.md) for the rules: `status` first, `pull` before content work, `push` only after Jordan approves the printed plan.
 - Update the relevant `documentation/` page when changing an architecture rule or public editing behaviour.
 

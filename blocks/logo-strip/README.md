@@ -1,5 +1,7 @@
 # Logo strip (`floe/logo-strip`)
 
+**Figma:** design [43:226](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=43-226), [108:2966](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=108-2966) · dark [91:826](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-826), [113:3597](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3597) · wireframe [46:274](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-274), [113:3275](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3275)
+
 A short label and four to eight logos in a row (Figma `43:226`), or any number up to 24 scrolling past as a ticker.
 
 | Field | Notes |

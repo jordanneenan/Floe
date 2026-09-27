@@ -1,5 +1,7 @@
 # Reveal
 
+**Figma:** none (scroll animation behaviour only)
+
 Content fades gently up into place (0.9s, a 28px rise) as it scrolls into view. It has no markup: `reveal.php` loads `reveal.js` on every front-end page and the script picks its own targets.
 
 - **What moves:** in each section of the page, the direct parts of the section's inner container. Grids and lists (`__grid`, `__list`, `__items`, `__logos`, `__files`, `__rows` and the CTA panels) reveal their items one after another, 90ms apart. The Steps connectors draw themselves in.

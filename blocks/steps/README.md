@@ -1,5 +1,7 @@
 # Steps (`floe/steps`)
 
+**Figma:** design [43:263](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=43-263), [102:1174](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1174) · dark [91:863](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-863) · wireframe [46:887](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-887)
+
 A numbered, connected sequence of three to five steps (Figma `43:263`). For an eyebrow, heading and button (e.g. "See the full process", a Secondary button on the right), add a **Block intro** above the Steps.
 
 | Field | Notes |

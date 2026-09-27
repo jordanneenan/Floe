@@ -1,5 +1,7 @@
 # Icon
 
+**Figma:** design [128:2088](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=128-2088) · dark [128:2091](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=128-2091)
+
 Inline SVG icons in `currentColor`, from the Figma component set: `arrow`, `arrow-left`, `download`, `play`, `plus`, `minus`, `check`, `dash`, plus `menu`, `close`, `chevron`, `pause` and `play-small` for header and media controls.
 
 ```php

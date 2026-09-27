@@ -1,5 +1,7 @@
 # In-page navigation (`floe/in-page-nav`)
 
+**Figma:** design [45:345](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=45-345) · dark [91:1118](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-1118) · wireframe [46:99](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-99)
+
 A sticky bar of links to the blocks on a long page (Figma `45:345`). Place it after the banner. It can't go in a Background block.
 
 | Field | Notes |

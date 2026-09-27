@@ -30,7 +30,7 @@ add_filter( 'wp_headers', __NAMESPACE__ . '\\remove_pingback_header' );
 function admin_screens(): void {
 	global $pagenow;
 
-	if ( in_array( $pagenow, array( 'edit-comments.php', 'comment.php' ), true ) ) {
+	if ( in_array( $pagenow, array( 'edit-comments.php', 'comment.php', 'options-discussion.php' ), true ) ) {
 		wp_safe_redirect( admin_url() );
 		exit;
 	}
@@ -41,6 +41,7 @@ add_action( 'admin_init', __NAMESPACE__ . '\\admin_screens' );
 
 function remove_menu(): void {
 	remove_menu_page( 'edit-comments.php' );
+	remove_submenu_page( 'options-general.php', 'options-discussion.php' );
 }
 add_action( 'admin_menu', __NAMESPACE__ . '\\remove_menu' );
 

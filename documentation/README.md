@@ -22,6 +22,7 @@
 | Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
 | Write or edit site copy, block examples or posts | [Content ethos](content-ethos.md) | LocalWP database, block `example` in `block.json` |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `build.mjs` |
+| Keep Figma in step with a change, audit Figma, check everything is in step | [Design sync](design-sync.md) | `bin/design-sync`, `bin/floe-status`, each module's README |
 | Deploy code, push or pull content between floe.local and floewp.com | [Live site](live-site.md) | `bin/floe-sync`, `bin/sync/` |
 | Older review context | [Review handoff](agent-handoff.md) | |
 

@@ -1,5 +1,7 @@
 # Document Download (`floe/document-download`)
 
+**Figma:** design [37:130](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=37-130), [101:1209](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=101-1209), [102:1501](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1501) · dark [91:666](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-666) · wireframe [46:1851](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1851)
+
 A list of downloadable files (Figma `37:130`). For the eyebrow, heading and intro, put it in a **Block intro** set to Two columns (heading beside the list), as in Figma. A stacked Block intro above it also works.
 
 | Field | Notes |

@@ -1,5 +1,7 @@
 # Carousel
 
+**Figma:** design [107:1560](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=107-1560) · dark [113:3664](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3664)
+
 Floe's own carousel, with no third-party library. Every carousel on the site uses it: Testimonials, Image carousel, the Logo strip's ticker and the lightbox slideshow.
 
 ```php

@@ -1,5 +1,7 @@
 # Section header
 
+**Figma:** design [100:1117](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=100-1117) · dark [102:2705](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-2705) · wireframe [103:28](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=103-28)
+
 The heading group: eyebrow, heading, optional intro and optional action. The Block intro renders it for the block it introduces; Contact and Newsletter use it inside their own layouts.
 
 | Argument | Notes |

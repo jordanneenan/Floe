@@ -1,5 +1,7 @@
 # Team (`floe/team`)
 
+**Figma:** design [44:317](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=44-317), [102:1319](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1319) · dark [91:995](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-995) · wireframe [46:1344](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1344)
+
 A grid of people (Figma `44:317`). For an eyebrow, heading and intro, add a **Block intro** above the Team.
 
 | Field | Notes |
