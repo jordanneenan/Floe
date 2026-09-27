@@ -11,6 +11,7 @@
 	"parent": [ "floe/stats" ],
 	"usesContext": [ "floe/headingLevel" ],
 	"attributes": {
+		"prefix": { "type": "string", "default": "" },
 		"value": { "type": "string", "default": "" },
 		"unit": { "type": "string", "default": "" },
 		"label": { "type": "string", "default": "" }

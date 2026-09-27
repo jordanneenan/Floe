@@ -4,7 +4,7 @@ Two to four figures (Figma `43:235`). For an eyebrow, heading and intro, add a *
 
 | Field | Notes |
 | --- | --- |
-| Stats | Two to four **Stat** blocks: value (Display), optional unit in the accent colour (e.g. `+`, `%`, `wks`), label. |
+| Stats | Two to four **Stat** blocks: optional prefix (e.g. `£`, `$`, set in the Stat's block settings), value (Display), optional unit in the accent colour (e.g. `+`, `%`, `wks`), label. |
 
 For a coloured band, put the Stats and their Block intro in a **Background** block.
 
