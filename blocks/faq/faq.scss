@@ -1,12 +1,7 @@
 // Figma 43:183. A list of Details items up to 760px wide with a line on top.
-// The heading group is an Intro block, usually beside the list (400px left
+// The heading group is a Block intro, usually beside the list (400px left
 // column, the list filling the 760px right column).
 @use "floe" as *;
-
-.faq {
-
-	@include section-padding;
-}
 
 .faq__inner {
 
