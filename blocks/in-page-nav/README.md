@@ -6,8 +6,8 @@ A sticky bar of links to the blocks on a long page (Figma `45:345`). Place it af
 | --- | --- |
 | Label | e.g. "On this page" (mono). Also the bar's accessible name. Hidden below 768px. |
 | Links | **Automatic** by default: every Floe block on the page with an HTML anchor (Block settings → Advanced → HTML anchor) gets a link, labelled with its eyebrow (or heading). That includes blocks inside other blocks, such as a Background. **By hand**: "Set links by hand" in the sidebar, then edit labels and anchors. Either way, a block the viewer won't see (or one inside a block they won't see) gets no link: one hidden with WordPress's Hide, or one another module hides through the `floe_block_visible` filter ([Hidden from visitors](../../components/hidden-from-visitors/README.md)). |
-| Action | Optional Primary button without an arrow. Hidden below 550px. |
+| Action | Optional Outline button (blue outline, white fill) without an arrow. Hidden below 768px, where the bar is too short for it. |
 
-**Behaviour:** sticks below the header while scrolling, or to the top of the window when the header isn't sticky (Customize → Header). Anchors land just below it. The link for the block in view is highlighted (ink pill, `aria-current`). Below 768px the links scroll sideways and the active one scrolls into view. Nothing renders if there are no links.
+**Behaviour:** sticks below the header while scrolling, or to the top of the window when the header isn't sticky (Customize → Header). Once it sticks it shrinks with the scroll over the next 150px, from 72px to the shrunk header's height (64px; 64px to 52px below 768px), so the two bars match. Its bottom margin grows by what it loses, so nothing below it moves. Anchors land just below the shrunk bar. The link for the block in view is highlighted (ink pill, `aria-current`). Below 768px the links scroll sideways and the active one scrolls into view. Nothing renders if there are no links.
 
 **Components used:** Button.

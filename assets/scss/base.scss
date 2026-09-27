@@ -9,7 +9,7 @@
 :root {
 	--floe-section-space: 64px;
 	--floe-header-height: 72px;
-	--floe-header-height-scrolled: 56px;
+	--floe-header-height-scrolled: 52px;
 	// How much of the top of the window something sticky covers: 0 unless the
 	// header sticks (header.scss). Sticky bars sit below it, and anchors land
 	// clear of it once it has shrunk (the -scrolled value).

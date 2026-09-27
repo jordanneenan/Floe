@@ -165,6 +165,7 @@ function Edit( { attributes, setAttributes } ) {
 							onChange={ ( action ) =>
 								setAttributes( { action } )
 							}
+							style="outline"
 							arrow={ false }
 							placeholder={ __( 'Optional action', 'floe' ) }
 						/>

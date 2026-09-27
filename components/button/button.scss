@@ -80,6 +80,15 @@
 	--button-border: var(--surface-line-strong);
 }
 
+// A secondary action outlined in the accent colour, filled with the surface's
+// own colour (white on light surfaces), for example the In-page navigation's.
+.button--outline {
+	--button-bg: var(--surface-background);
+	--button-text: var(--surface-text);
+	--button-border: var(--surface-accent);
+	--button-bg-hover: var(--surface-tile);
+}
+
 .button--link {
 	--button-bg: transparent;
 	--button-bg-hover: transparent;

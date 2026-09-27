@@ -65,7 +65,7 @@ if ( ! $items ) {
 }
 
 $label  = trim( wp_strip_all_tags( (string) $attributes['label'] ) );
-$action = Floe\component( 'button', Floe\Components\button_args_from_link( $attributes['action'], array( 'arrow' => false ) ) );
+$action = Floe\component( 'button', Floe\Components\button_args_from_link( $attributes['action'], array( 'style' => 'outline', 'arrow' => false ) ) );
 ?>
 <nav <?php echo Floe\block_attributes( $block, array( 'aria-label' => '' !== $label ? $label : __( 'On this page', 'floe' ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="in-page-nav__inner">
