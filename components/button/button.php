@@ -6,7 +6,7 @@
  *   Floe\component( 'button', array(
  *       'label'   => 'Get started',
  *       'url'     => '/contact/',
- *       'style'   => 'primary',   // primary | secondary | inverse | link
+ *       'style'   => 'primary',   // primary | secondary | outline | inverse | link
  *       'arrow'   => true,
  *       'new_tab' => false,
  *   ) );
@@ -22,7 +22,7 @@ namespace Floe\Components;
 
 defined( 'ABSPATH' ) || exit;
 
-const BUTTON_STYLES = array( 'primary', 'secondary', 'inverse', 'link' );
+const BUTTON_STYLES = array( 'primary', 'secondary', 'outline', 'inverse', 'link' );
 
 /**
  * Normalise a stored link attribute ({label,url,newTab}) into button args.

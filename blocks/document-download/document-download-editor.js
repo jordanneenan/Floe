@@ -4,11 +4,7 @@ import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { name, context } ) {
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: 'base', context }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'document-download__files' },
 		{

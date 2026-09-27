@@ -7,8 +7,8 @@
  * REST route without reloading the page. The chosen filter is kept in the
  * address (?filter=<term-slug>) so the view can be shared or bookmarked.
  *
- * The heading group and "View all" link come from an Intro block holding the
- * Posts; card titles are one level below its heading (block context).
+ * The heading group and "View all" link are a Block intro above it; card
+ * titles are H3 (block context).
  *
  * @var array    $attributes
  * @var string   $content
@@ -116,7 +116,7 @@ $data      = 'latest' === $source && ( $load_more || $filters )
 	)
 	: array();
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) + ( $data ? array( 'data-posts' => wp_json_encode( $data ) ) : array() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array() + ( $data ? array( 'data-posts' => wp_json_encode( $data ) ) : array() ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="posts__inner">
 		<?php echo $filters; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<div class="posts__grid" aria-live="polite" aria-busy="false"><?php echo $cards; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>

@@ -33,9 +33,9 @@ namespace Floe;
  * a surface class ('surface' => 'tint' gives "surface-tint"), and any extra
  * classes and attributes.
  *
- * A section placed inside another section (a block in an Intro's slot, which
+ * A section held inside another (the block in a two-column Block intro, which
  * receives the "floe/nested" context) is part of its host: it gets neither
- * "floe-section" nor a surface, so it takes the host's padding and colours.
+ * "floe-section" nor a surface, so it takes the host's spacing and colours.
  *
  * @param \WP_Block|null $block Current block instance (the $block variable in render templates).
  */

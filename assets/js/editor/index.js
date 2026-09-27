@@ -35,8 +35,8 @@ import { SectionHeader } from '@floe/components/section-header';
  * top-level sections "floe-section" and an optional surface class, matching
  * Floe\block_attributes().
  *
- * A section inside another section's slot (its block context has
- * "floe/nested", set by Intro) gets neither, like the server.
+ * A section held inside another (its block context has "floe/nested", set
+ * by a two-column Block intro) gets neither, like the server.
  *
  * @param {string}  name            Block name, e.g. "floe/cta".
  * @param {Object}  extra           Extra props for useBlockProps.
@@ -469,7 +469,7 @@ export function SurfaceControl( { value, onChange, options, context = {} } ) {
 		return (
 			<p>
 				{ __(
-					'The background comes from the Intro this block sits in.',
+					'The background comes from the Block intro this block sits in.',
 					'floe'
 				) }
 			</p>

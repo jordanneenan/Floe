@@ -12,6 +12,37 @@
 	background: var(--surface-background);
 }
 
+// Sticky (Customizer → Header, on by default). --floe-sticky-top tells sticky
+// bars further down (In-page navigation) how much of the window the header
+// covers: the bar's height, so a bar below it tucks its top line under the
+// header's. header.js keeps it at the bar's real height.
+
+// Over the first 300px of scrolling, header.js takes --floe-header-progress
+// from 0 to 1 and the bar's padding shrinks with it, from
+// --floe-header-height to --floe-header-height-scrolled. A bottom margin
+// makes up the difference, so the bar keeps its place in the page and
+// nothing below it moves while it shrinks. Anchors land clear of the shrunk
+// bar (--floe-sticky-top-scrolled); without JavaScript it doesn't shrink.
+.site-header--sticky {
+	--floe-header-shrink: calc(var(--floe-header-progress, 0) * (var(--floe-header-height) - var(--floe-header-height-scrolled)));
+	position: sticky;
+	top: 0;
+	margin-bottom: var(--floe-header-shrink);
+
+	.site-header__inner {
+		min-height: calc(var(--floe-header-height) - var(--floe-header-shrink));
+	}
+}
+
+:root:has(.site-header--sticky) {
+	--floe-sticky-top: var(--floe-header-height);
+	--floe-sticky-top-scrolled: var(--floe-header-height);
+}
+
+:root:has(.site-header--sticky.has-js) {
+	--floe-sticky-top-scrolled: var(--floe-header-height-scrolled);
+}
+
 .site-header__inner {
 
 	@include container;
@@ -137,6 +168,17 @@
 			padding-bottom: 20px;
 		}
 	}
+
+	// A sticky header with the menu open would fill a phone's screen, so
+	// without JavaScript it scrolls away instead.
+	.site-header--sticky:not(.has-js):has(.site-header__toggle) {
+		position: relative;
+	}
+
+	:root:has(.site-header--sticky:not(.has-js) .site-header__toggle) {
+		--floe-sticky-top: 0px;
+		--floe-sticky-top-scrolled: 0px;
+	}
 }
 
 @include from(large) {
@@ -151,6 +193,36 @@
 
 	.site-header__action {
 		white-space: nowrap;
+	}
+
+	// Menu position (Customizer → Header): centred on the bar, with or without
+	// the button, or on the right beside the button. The logo and button
+	// columns never shrink below their content, so a long menu wraps instead.
+	.site-header--menu-center {
+
+		.site-header__inner {
+			display: grid;
+			grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+		}
+
+		.site-header__logo {
+			justify-self: start;
+		}
+
+		.site-header__action {
+			justify-self: end;
+		}
+	}
+
+	.site-header--menu-right {
+
+		.site-header__nav {
+			margin-left: auto;
+		}
+
+		.site-header__action {
+			margin-left: 16px;
+		}
 	}
 
 	// A long menu wraps onto a second row between items rather than squeezing

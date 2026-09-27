@@ -13,11 +13,9 @@ function Edit( { clientId, name } ) {
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
 	);
-	const blockProps = useFloeBlockProps(
-		name,
-		{ className: `cta--count-${ Math.min( 3, Math.max( 1, count ) ) }` },
-		{ surface: 'base' }
-	);
+	const blockProps = useFloeBlockProps( name, {
+		className: `cta--count-${ Math.min( 3, Math.max( 1, count ) ) }`,
+	} );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'cta__inner' },
 		{

@@ -6,7 +6,7 @@
 	"title": "Document Download",
 	"category": "floe-sections",
 	"icon": "download",
-	"description": "A list of downloadable files. Type and size come from the media library. Put it in an Intro for a heading.",
+	"description": "A list of downloadable files. Type and size come from the media library. Put it in a two-column Block intro for a heading beside it.",
 	"keywords": [ "files", "pdf", "documents", "resources" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/download" ],
@@ -14,7 +14,7 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"floeIntro": [ "beside", "above" ]
+		"floeBlockIntro": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/download", "attributes": { "title": "Annual report" } } ] },
 	"editorScript": "file:./assets/document-download-editor.js",

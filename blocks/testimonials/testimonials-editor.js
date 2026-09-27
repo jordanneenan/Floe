@@ -22,7 +22,7 @@ function Edit( { clientId, name, context } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: 'testimonials--grid' },
-		{ surface: 'base', context }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'testimonials__track floe-editor-wrap' },

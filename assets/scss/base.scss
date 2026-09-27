@@ -9,6 +9,12 @@
 :root {
 	--floe-section-space: 64px;
 	--floe-header-height: 72px;
+	--floe-header-height-scrolled: 52px;
+	// How much of the top of the window something sticky covers: 0 unless the
+	// header sticks (header.scss). Sticky bars sit below it, and anchors land
+	// clear of it once it has shrunk (the -scrolled value).
+	--floe-sticky-top: 0px;
+	--floe-sticky-top-scrolled: 0px;
 	--floe-focus: var(--wp--preset--color--blue);
 
 	@include from(tablet) {
@@ -18,6 +24,7 @@
 	@include from(desktop) {
 		--floe-section-space: 96px;
 		--floe-header-height: 88px;
+		--floe-header-height-scrolled: 64px;
 	}
 
 	@include from(large) {
@@ -35,7 +42,7 @@
 }
 
 // ---------------------------------------------------------------------------
-// Surfaces. Put a surface class on a section and everything inside picks up
+// Surfaces. Put a surface class on an element and everything inside picks up
 // the right text, eyebrow, link, button, field and chip colours. Components
 // only ever read these variables, so dark mode just redefines them.
 // ---------------------------------------------------------------------------
@@ -75,20 +82,22 @@
 	--surface-raised: var(--wp--preset--color--white);
 }
 
-.surface-inverse {
-	--surface-background: var(--wp--preset--color--ink);
+// Light text: Inverse's text, lines and controls. A Background block's
+// "Force light text" adds .force-light-text to use them on any colour.
+.surface-inverse,
+.force-light-text {
 	--surface-text: var(--wp--preset--color--white);
 	--surface-text-muted: var(--wp--preset--color--on-dark-muted);
 	--surface-accent: var(--wp--preset--color--on-dark-accent);
 	--surface-line: rgb(255 255 255 / 0.12);
 	--surface-line-strong: rgb(255 255 255 / 0.32);
-	--surface-raised: var(--wp--preset--color--ink-raised);
+	--surface-raised: rgb(255 255 255 / 0.08);
 	--surface-eyebrow: var(--wp--preset--color--on-dark-muted);
 	--surface-eyebrow-dot: var(--wp--preset--color--on-dark-accent);
 	--surface-link: var(--wp--preset--color--on-dark-accent);
 	--surface-strong: var(--wp--preset--color--white);
 	--surface-on-strong: var(--wp--preset--color--ink);
-	--surface-field: var(--wp--preset--color--ink-raised);
+	--surface-field: rgb(255 255 255 / 0.08);
 	--surface-chip: rgb(169 188 255 / 0.14);
 	--surface-chip-text: var(--wp--preset--color--on-dark-accent);
 	--surface-tile: rgb(169 188 255 / 0.1);
@@ -96,6 +105,12 @@
 	--surface-glass: rgb(11 18 32 / 0.88);
 	--surface-placeholder: linear-gradient(126.87deg, #1d2a44 7.14%, #111a2c 78.57%);
 	--floe-focus: var(--wp--preset--color--on-dark-accent);
+}
+
+.surface-inverse {
+	--surface-background: var(--wp--preset--color--ink);
+	--surface-raised: var(--wp--preset--color--ink-raised);
+	--surface-field: var(--wp--preset--color--ink-raised);
 }
 
 .surface-accent {
@@ -173,6 +188,18 @@
 	}
 }
 
+// Section rhythm: every section spaces itself from the next
+// with a margin below it, never space above. A Spacing block replaces the
+// margin of the section before it. A page that doesn't open with a banner
+// gets the same space below the header (banners set their own).
+.floe-section {
+	margin-bottom: var(--floe-section-gap, var(--floe-section-space));
+}
+
+:where(.site-main > .floe-section:first-child) {
+	margin-top: var(--floe-section-space);
+}
+
 body,
 .surface-base,
 .surface-subtle,
@@ -212,7 +239,10 @@ body,
 html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
-	scroll-padding-top: calc(var(--floe-header-height) + 16px);
+	// No grey or blue flash over links and buttons when tapped on phones;
+	// :focus-visible still shows keyboard focus.
+	-webkit-tap-highlight-color: transparent;
+	scroll-padding-top: calc(var(--floe-sticky-top-scrolled) + 16px);
 }
 
 body {

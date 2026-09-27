@@ -10,29 +10,15 @@ When sources disagree, use this order:
 
 1. **Jordan's current instruction** in the session.
 2. **This brief.**
-3. **What Made does.** Made is Jordan's previous platform. If this brief doesn't cover something, find how Made handles it and do the same. Record the decision in `documentation/decisions.md` (create it) so it can be revisited. Made isn't perfect, but following it by default beats inventing a new pattern.
-4. **Your own judgement**, recorded in `decisions.md` the same way.
+3. **Your own judgement.** If this brief doesn't cover something, decide and record the decision in `documentation/decisions.md` (create it) so it can be revisited.
 
-One rule outranks Made: **native WordPress first.** If WordPress has a native way to do something, use it: core blocks, menus, the media library, `theme.json`, patterns, native search, the custom logo, the site icon, WP-CLI. If it can't be native, it goes in the theme. If it can't reasonably live in the theme, it becomes a small plugin that Jordan owns, but ask first. There's no ACF, and no third-party plugin is required for the theme to work.
-
-### Where Made lives
-
-Made is installed as a reference-only theme in the same WordPress site, beside Floe: `~/Local Sites/floe/app/public/wp-content/themes/` (the Made folder, likely `made` or `made-4`; list the directory to confirm). Read it for architecture: how modules are discovered, registered, built, named and styled, and how components are called. Don't copy code wholesale; use the patterns.
-
-Made is outside the Floe repository and must stay untouched:
-
-- Never edit it.
-- Never activate it.
-- Never commit it.
-- Never import from it at runtime. Floe must not reference Made's files, functions or assets.
-
-If you can't find Made, tell Jordan rather than guessing.
+One rule outranks judgement: **native WordPress first.** If WordPress has a native way to do something, use it: core blocks, menus, the media library, `theme.json`, patterns, native search, the custom logo, the site icon, WP-CLI. If it can't be native, it goes in the theme. If it can't reasonably live in the theme, it becomes a small plugin that Jordan owns, but ask first. There's no ACF, and no third-party plugin is required for the theme to work.
 
 ## 2. Environment
 
 | Item | Value |
 | --- | --- |
-| Repository | `~/Local Sites/floe/app/public/wp-content/themes/floe`, remote `https://github.com/jordanneenan/Floe.git`, branch `main`. This is the **only** copy of the project: there is no `~/Projects/Floe` and no symlink. |
+| Repository | `~/Local Sites/floe/app/public/wp-content/themes/floe`, remote `https://github.com/jordanneenan/Floe.git`, branches `dev` (floe.local) and `main` (the live site). This is the **only** copy of the project: there is no `~/Projects/Floe` and no symlink. |
 | Local site | LocalWP site "floe" at `~/Local Sites/floe/app/public`, URL `http://floe.local`. The theme folder *is* the repository, so edits show up at `floe.local` immediately. |
 | Paths | `Local Sites` contains a space. Quote every path in shell commands and scripts (`"$HOME/Local Sites/floe/..."`), and never assume the repo sits at a fixed absolute path; resolve it relative to the script. |
 | Figma | `https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n` (see section 9 for node IDs) |
@@ -53,12 +39,14 @@ If you can't find Made, tell Jordan rather than guessing.
 
 **Git workflow.** Build it like a proper project:
 
-- Work on a branch per phase (`phase-1-foundations`, `phase-2-modules`, …). Never commit straight to `main`, and never force-push `main`.
+- Work on a branch per phase (`phase-1-foundations`, `phase-2-modules`, …), started from `origin/dev`. Never commit straight to `dev` or `main`, and never force-push them.
 - Make small, focused commits with imperative messages ("Add Button component", "Rebuild Home Banner against v2 design").
 - Commit source **and** generated build output. The theme must work without Node on a server.
-- Push the branch. If the `gh` CLI is authenticated, open a pull request describing what changed, how it was verified and what still needs Jordan's eye. Otherwise tell Jordan the branch is pushed.
+- Push the branch. If the `gh` CLI is authenticated, open a pull request into `dev` describing what changed, how it was verified and what still needs Jordan's eye. Otherwise tell Jordan the branch is pushed.
 - Stop at the end of each phase for Jordan's review before merging.
 - Keep `node_modules/`, `.screenshots/`, and any local database or export out of git.
+
+*Changed 2026-09-27 ([D51](decisions.md#d51-a-dev-branch-between-feature-branches-and-live)):* there's now a `dev` branch between feature branches and the live site. floe.local runs `dev`, pull requests target `dev`, and merging `dev` into `main` is the release.
 
 ## 3. Architecture: everything is a module
 
@@ -66,7 +54,7 @@ This is the core requirement. **Adding a folder adds a feature; deleting a folde
 
 ### 3.1 Blocks (`blocks/`)
 
-Each block is one self-contained folder. **The folder name, the block's wrapper class and its file names are all the block's short name**, so you can inspect a page, read the class and go straight to the files, the way Made works (Jordan, see `decisions.md` D18):
+Each block is one self-contained folder. **The folder name, the block's wrapper class and its file names are all the block's short name**, so you can inspect a page, read the class and go straight to the files (Jordan, see `decisions.md` D18):
 
 ```
 blocks/home-banner/
@@ -133,7 +121,6 @@ Jordan will later want to switch modules on and off. Build the seam for this now
 - Enabled state comes from a `floe_disabled_modules` option (empty by default), passed through a `floe_enabled_modules` filter.
 - A disabled module isn't registered, isn't enqueued and doesn't appear in the inserter.
 - Adding an admin screen later should only require writing that option.
-- If Made has its own approach to module activation, follow it.
 
 ## 4. Design system (from Figma "Floe / Foundations")
 
@@ -254,7 +241,7 @@ These come from the code review of the current repo:
 - **Base CSS path.** Load it with `get_template_directory_uri()`, not `get_stylesheet_uri()` (which breaks child themes).
 - **Menu fallback lists every page.**
 - **No H1 on singular templates** that have no banner.
-- **Comments are only partly disabled.** This is site behaviour, so check how Made handles it. If it belongs in a plugin, flag it to Jordan rather than building the plugin unprompted.
+- **Comments are only partly disabled.** This is site behaviour. If it belongs in a plugin, flag it to Jordan rather than building the plugin unprompted.
 - **Component props.** Add `__next40pxDefaultSize` and `__nextHasNoMarginBottom` to components that need them. Use `LinkControl` (with internal page search) instead of plain URL text fields.
 - **Inconsistent breakpoints.** Posts and Cards use 900/600; switch them to the system breakpoints.
 - **Full-width sections overflow.** They use a `100vw` breakout with `overflow-x: clip`; use a layout that doesn't overflow.
@@ -271,7 +258,7 @@ These come from the code review of the current repo:
 
 Stop for Jordan's review at the end of each phase.
 
-0. **Baseline.** Verify the environment (section 2). Read Made's architecture and write `documentation/made-notes.md`: what Made does for module discovery, registration, the build, components, header/footer and settings, and what Floe will adopt. Create `decisions.md`. Update any existing docs (`agent-handoff.md`, `workflow.md`, `README.md` and others) that still describe `~/Projects/Floe` or a symlink, so they match the single-location setup. No behaviour changes yet.
+0. **Baseline.** Verify the environment (section 2). Create `decisions.md`. Update any existing docs (`agent-handoff.md`, `workflow.md`, `README.md` and others) that still describe `~/Projects/Floe` or a symlink, so they match the single-location setup. No behaviour changes yet.
 1. **Foundations.** `theme.json` tokens and fonts, editor lockdown, base styles, breakpoint mixins, surfaces, the `includes/` fixes from section 6.
 2. **Module system.** Block and component discovery (runtime and build), the component helper, the `Modules.php` seam, docs. **Acceptance test:** duplicate a block folder under a new name and rename it in `block.json`; after a build it appears in the inserter. Delete it, and it's gone with no errors. Do the same for a component. Show Jordan both.
 3. **Components.** Everything in 3.2, including header, navigation and footer, verified at all four breakpoints.

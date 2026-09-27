@@ -18,6 +18,7 @@
 		"media": { "type": "object", "default": {} }
 	},
 	"supports": {
+		"floeBackground": false,
 		"html": false,
 		"anchor": true
 	},

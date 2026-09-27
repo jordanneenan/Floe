@@ -18,11 +18,7 @@ const TEMPLATE = [ [ 'core/table', { hasFixedLayout: false } ] ];
 
 function Edit( { attributes, setAttributes, name, context } ) {
 	const { highlight, badge, emphasiseLastRow } = attributes;
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: 'base', context }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const frame = {
 		className: `table__frame${ emphasiseLastRow ? ' table--emphasise-last' : '' }`,
 		'data-highlight': highlight || undefined,

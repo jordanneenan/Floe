@@ -17,11 +17,7 @@
 	}
 }
 
-// The gap replaces the padding on the facing edges of the sections either side.
+// The gap replaces the bottom margin of the section before it.
 .floe-section:has(+ .spacing) {
-	padding-bottom: 0;
-}
-
-.spacing + .floe-section {
-	padding-top: 0;
+	margin-bottom: 0;
 }

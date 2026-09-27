@@ -1,6 +1,6 @@
 # Posts (`floe/posts`)
 
-A grid of post cards (Figma `36:58`), with everything Made's Posts block and the Ajax Load More plugin did, built in. For an eyebrow, heading and "View all" link (a Secondary button on the right), put the Posts in an **Intro** block (layout: heading above).
+A grid of post cards (Figma `36:58`), with listing, filters and load more built in (no plugin needed). For an eyebrow, heading and "View all" link (a Secondary button on the right), add a **Block intro** above the Posts.
 
 | Field | Notes |
 | --- | --- |
@@ -13,11 +13,11 @@ A grid of post cards (Figma `36:58`), with everything Made's Posts block and the
 | Only show | Limit to one term (when filters are off). |
 | Card images | The featured image by default; override per post for this section only. |
 
-Card titles are one level below the Intro's heading (H3 by default). The section is on the Base surface; inside an Intro, the Intro's surface is used instead.
+Card titles are H3. For a coloured band, put the Posts and their Block intro in a **Background** block.
 
 **How it works:** the first cards are rendered on the server. Filters and "Load more" fetch more cards from the block's own REST route (`/wp-json/floe/v1/posts`, in `posts-server.php`), which only returns published, public content. Results are announced to screen readers, focus moves to the first new card after "Load more", and the automatic mode keeps the button as a fallback for keyboard users. The current post is always excluded and no total count is queried.
 
-The section renders nothing when there's nothing to show.
+The block renders nothing when there's nothing to show.
 
 **Responsive:** three-up from 768px, two-up on tablet, one-up on mobile; filter buttons wrap.
 

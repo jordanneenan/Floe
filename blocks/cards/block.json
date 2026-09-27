@@ -6,13 +6,12 @@
 	"title": "Cards",
 	"category": "floe-sections",
 	"icon": "screenoptions",
-	"description": "A grid of cards: numbered Feature cards, or Media cards with an image each. Put it in an Intro for a heading.",
+	"description": "A grid of cards: numbered Feature cards, or Media cards with an image each. Add a Block intro above it for a heading.",
 	"keywords": [ "grid", "services", "features", "benefits" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/card-item" ],
 	"attributes": {
-		"style": { "type": "string", "enum": [ "feature", "media" ], "default": "feature" },
-		"surface": { "type": "string", "enum": [ "base", "subtle", "tint" ], "default": "base" }
+		"style": { "type": "string", "enum": [ "feature", "media" ], "default": "feature" }
 	},
 	"providesContext": {
 		"floe/cardStyle": "style"
@@ -20,8 +19,7 @@
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": {
 		"innerBlocks": [

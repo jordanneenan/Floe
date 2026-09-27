@@ -3,11 +3,6 @@
 // right: canvas, radius xl, padding 48.
 @use "floe" as *;
 
-.contact {
-
-	@include section-padding;
-}
-
 .contact__inner {
 
 	@include container;

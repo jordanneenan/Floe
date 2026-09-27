@@ -1,11 +1,6 @@
-// Figma 34:94. 120px vertical padding; media 624 (39:35) + 96 gap + copy 528,
+// Figma 34:94. Media 624 (39:35) + 96 gap + copy 528,
 // copy vertically centred; copy gap 28, 8 extra above the action.
 @use "floe" as *;
-
-.image-copy {
-
-	@include section-padding;
-}
 
 .image-copy__inner {
 

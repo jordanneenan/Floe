@@ -5,7 +5,7 @@
 ## Read in this order
 
 1. [Build brief](build-brief.md): the working brief and phase plan for building Floe from the Figma designs.
-2. [Decisions](decisions.md) for choices made where the brief is silent, and [Made notes](made-notes.md) for how Made (the default reference) works.
+2. [Decisions](decisions.md) for choices made where the brief is silent.
 3. This page for project identity and task routing.
 4. [Architecture](architecture.md) for the module system, assets, styling and editor model.
 5. The task-specific page below, the module's own README, and the source files before editing. If documentation and code differ, treat code as the current behaviour and correct the documentation in the same change.
@@ -19,23 +19,24 @@
 | Change editor lockdown or allowed blocks | [Configuration map](configuration.md) | `includes/editor.php`, block `allowedBlocks` |
 | Change admin behaviour or site-wide tweaks | [Configuration map](configuration.md) | `includes/admin/`, `includes/media/` |
 | Change the template or page titles | [Architecture](architecture.md#templates) | `index.php`, `includes/templates.php` |
-| Follow or port a Made pattern | [Made notes](made-notes.md), [Decisions](decisions.md), [Migration](migration.md) | `../made/` (read-only reference theme) |
 | Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
+| Write or edit site copy, block examples or posts | [Content ethos](content-ethos.md) | LocalWP database, block `example` in `block.json` |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `build.mjs` |
+| Deploy code, push or pull content between floe.local and floewp.com | [Live site](live-site.md) | `bin/floe-sync`, `bin/sync/` |
 | Older review context | [Review handoff](agent-handoff.md) | |
 
 ## Project facts
 
 - Name: **Floe**. Theme text domain and block namespace: `floe`.
-- Repository: `https://github.com/jordanneenan/Floe`; default branch `main`; one branch per phase.
+- Repository: `https://github.com/jordanneenan/Floe`. `main` is the live site; `dev` is what floe.local runs. Feature branches start from `origin/dev` and pull requests target `dev`; merging `dev` into `main` is the release ([Workflow](workflow.md), D51).
 - Type: classic WordPress theme with block editor support and `theme.json`, not a full-site-editing block theme.
 - Minimum: WordPress 7.1, PHP 8.0, Node.js 20 for development. Production uses committed built assets and doesn't need Node.
 - License: GPL-2.0-or-later.
-- 23 sections plus 11 child blocks and 18 components. No required plugins and no ACF.
+- 24 sections plus 11 child blocks and 18 components. No required plugins and no ACF.
 
 ## Source-of-truth order
 
-For implementation facts, use: **current code and `block.json` → package scripts / WordPress metadata → module READMEs → these docs → root README**. For what to build, use: **Jordan's current instruction → the build brief → what Made does → judgement**, with native WordPress first, and record the last two in [decisions](decisions.md).
+For implementation facts, use: **current code and `block.json` → package scripts / WordPress metadata → module READMEs → these docs → root README**. For what to build, use: **Jordan's current instruction → the build brief → judgement**, with native WordPress first, and record judgement calls in [decisions](decisions.md).
 
 ## Change checklist
 

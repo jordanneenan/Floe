@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/background",
+	"version": "1.0.0",
+	"title": "Background",
+	"category": "floe-sections",
+	"icon": "art",
+	"description": "A full-width band of colour behind the blocks you put inside it.",
+	"keywords": [ "colour", "color", "band", "section", "dark", "grey" ],
+	"textdomain": "floe",
+	"attributes": {
+		"surface": { "type": "string", "enum": [ "subtle", "tint", "inverse", "accent" ], "default": "subtle" },
+		"lightText": { "type": "boolean", "default": false },
+		"autoSpacing": { "type": "boolean", "default": true }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"floeBackground": false
+	},
+	"example": {
+		"attributes": { "surface": "tint" },
+		"innerBlocks": [
+			{ "name": "floe/block-intro", "attributes": { "eyebrow": "Process", "heading": "From brief to launch" } }
+		]
+	},
+	"editorScript": "file:./assets/background-editor.js",
+	"editorStyle": "file:./assets/background-editor.css",
+	"style": "file:./assets/background.css",
+	"render": "file:./background.php"
+}

@@ -6,7 +6,7 @@
 	"title": "Card",
 	"category": "floe-parts",
 	"icon": "id",
-	"description": "One card in a Cards section.",
+	"description": "One card in a Cards block.",
 	"textdomain": "floe",
 	"parent": [ "floe/cards" ],
 	"usesContext": [ "floe/cardStyle", "floe/headingLevel" ],

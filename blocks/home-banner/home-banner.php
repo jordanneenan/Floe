@@ -25,7 +25,7 @@ $media   = component(
 	)
 );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="home-banner__inner">
 		<div class="home-banner__intro">
 			<div class="home-banner__heading-group">

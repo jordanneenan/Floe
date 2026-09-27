@@ -24,7 +24,7 @@ function setup(): void {
 	add_theme_support( 'editor-styles' );
 	add_editor_style( array( 'assets/css/base.css', 'assets/css/editor.css' ) );
 
-	// Core's generic patterns don't fit the system (Made removes them too).
+	// Core's generic patterns don't fit the system.
 	remove_theme_support( 'core-block-patterns' );
 
 	register_nav_menus(

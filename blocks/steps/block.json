@@ -6,18 +6,16 @@
 	"title": "Steps",
 	"category": "floe-sections",
 	"icon": "editor-ol",
-	"description": "Three to five numbered, connected steps. Put it in an Intro for a heading.",
+	"description": "Three to five numbered, connected steps. Add a Block intro above it for a heading.",
 	"keywords": [ "process", "timeline", "how it works" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/step" ],
 	"attributes": {
-		"surface": { "type": "string", "enum": [ "subtle", "base", "tint" ], "default": "subtle" }
 	},
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/step", "attributes": { "title": "Discover", "text": "We agree goals and audiences." } }, { "name": "floe/step", "attributes": { "title": "Design", "text": "Brand tokens are applied." } }, { "name": "floe/step", "attributes": { "title": "Launch", "text": "The site goes live." } } ] },
 	"editorScript": "file:./assets/steps-editor.js",

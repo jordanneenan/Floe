@@ -1,6 +1,6 @@
 # Table (`floe/table`)
 
-A comparison table (Figma `45:255`). The table itself is WordPress's own **Table** block, styled by Floe. For an eyebrow, heading and intro above it, put the Table in an **Intro** block (layout: heading above).
+A comparison table (Figma `45:255`). The table itself is WordPress's own **Table** block, styled by Floe. For an eyebrow, heading and intro, add a **Block intro** above the Table.
 
 | Field | Notes |
 | --- | --- |
@@ -10,7 +10,7 @@ A comparison table (Figma `45:255`). The table itself is WordPress's own **Table
 | Badge | Optional label on the highlighted column's header, e.g. "Popular". |
 | Emphasise the last row | Shows the last row's values in H4 (for prices or totals). |
 
-The section is on the Base surface; inside an Intro, the Intro's surface is used instead.
+For a coloured band, put the Table and its Block intro in a **Background** block.
 
 **Responsive:** the table keeps a 640px minimum width and scrolls sideways inside its rounded frame on small screens.
 

@@ -16,8 +16,7 @@
 		"body": { "type": "string", "default": "" },
 		"action": { "type": "object", "default": {} },
 		"media": { "type": "object", "default": {} },
-		"mediaPosition": { "type": "string", "enum": [ "left", "right" ], "default": "left" },
-		"surface": { "type": "string", "enum": [ "base", "subtle", "tint" ], "default": "base" }
+		"mediaPosition": { "type": "string", "enum": [ "left", "right" ], "default": "left" }
 	},
 	"supports": {
 		"html": false,
