@@ -390,10 +390,18 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-27): on mobile the In-page navigation's links were cut off, clipping the first pill; fade them out at the left and right so it's obvious they scroll, especially on the right.
 - **Decision:** The link list fades out over up to 48px at either edge where there's more to scroll to (`mask-image`). `in-page-nav.js` sets each fade's width from how far there is to scroll, so a fade grows in as the list moves off an end rather than switching on. The active link now scrolls to the middle of the list, measured on screen, so it stays clear of the fades; the old `offsetLeft - 16` measured from the nav, not the list. The clipping itself came from base.scss's `ul[class]` reset outranking `.in-page-nav__list`, so the list's edge-to-edge margin and its padding never applied and the links stopped at the content edge. The list's selector now has two classes. The reset also overrides margins on core List blocks and the Posts filters; that is left for a separate change.
-- **Status:** Adopted
+- **Status:** Adopted; the reset is fixed at the root and the list's selector is back to one class (D58).
 
 ## D57: The sticky header turns to glass as it shrinks
 
 - **Source:** Jordan (2026-09-27): as the header scrolls and shrinks it should become slightly see-through with the blur behind it, the same as the In-page navigation.
 - **Decision:** The sticky header's background mixes from `--surface-background` to `--surface-glass` (the In-page navigation's 90% white, or its dark-mode value) and its `backdrop-filter` blur goes from 0 to 10px, both driven by `--floe-header-progress`, so the glass comes in over the same first 300px as the shrink. While the mobile menu is open the bar stays solid, matching the panel under it. Without JavaScript it stays solid.
+- **Status:** Adopted
+
+## D58: Resets have zero specificity
+
+- **Source:** D56 left base.scss's `ul[class], ol[class]` reset overriding list margins in components. Its specificity (0,1,1) beat every single-class rule (0,1,0), so a component's list margin and padding silently didn't apply.
+- **Decision:** The reset is now `:where(ul[class], ol[class])`, which has zero specificity, so any component rule overrides it and lists with no rules of their own are still reset. The In-page navigation's list selector is back to one class, `.in-page-nav__list`, with no change in how it looks. The editor gets the same fix, because WordPress adds editor styles to the iframed canvas unprefixed. Testing every published page at 375px and 1440px found two other lists whose styles change:
+  - **Core List blocks in Article** now have the 24px space above them that `.article__content > * + *` sets for every block. Figma 34:28 has 24px between the heading and the list, but the list had been sitting right under the heading or paragraph before it. This is the intended look, so Article's styles are unchanged.
+  - **Posts filters.** The filters' negative margins were written when the Posts heading sat inside `.posts__inner` above them. They brought the filters 8px (24px from desktop) closer to the heading and 16px (24px) closer to the cards. Since the heading moved into a Block intro, the top margin would pull the filters out of the block, toward whatever is above (a banner, a Block intro, or a Spacing block set to none, which it would overlap), so it's removed. The bottom margin stays: the filters now sit 24px above the cards (40px from desktop) instead of 40px (64px), so they read as part of the grid they filter.
 - **Status:** Adopted
