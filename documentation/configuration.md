@@ -35,6 +35,7 @@ Delete a file to remove that behaviour.
 | --- | --- |
 | `components/hidden-from-visitors/` | Hide from visitors (Block settings → Advanced) on every Floe block: the `hiddenFromVisitors` attribute, not rendering hidden blocks for people who can't edit the page, the marker for those who can, and the `floe_block_visible` filter. [README](../components/hidden-from-visitors/README.md). |
 | `components/reveal/` | Scroll reveals on every front-end page. [README](../components/reveal/README.md). |
+| `components/smooth-scroll/` | Smooth scrolling to anchors on every front-end page, for in-page links and for pages opened with an anchor in the URL. [README](../components/smooth-scroll/README.md). |
 
 ## Site settings the theme reads
 

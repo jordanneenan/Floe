@@ -232,6 +232,9 @@ body,
 html {
 	-webkit-text-size-adjust: 100%;
 	text-size-adjust: 100%;
+	// No grey or blue flash over links and buttons when tapped on phones;
+	// :focus-visible still shows keyboard focus.
+	-webkit-tap-highlight-color: transparent;
 	scroll-padding-top: calc(var(--floe-header-height) + 16px);
 }
 
