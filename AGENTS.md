@@ -11,6 +11,7 @@ Project rules:
 - Keep `functions.php` as a loader, with theme configuration in `includes/`.
 - Commit source and generated build output together, and keep `block.json` asset paths aligned with the compiled files.
 - Work on a branch per phase, make small focused commits, and stop for Jordan's review before merging to `main`.
+- **Content goes live with `bin/floe-sync`, code with a merged PR.** Live (floewp.com) is the source of truth for content. See [documentation/live-site.md](documentation/live-site.md) for the rules: `status` first, `pull` before content work, `push` only after Jordan approves the printed plan.
 - Update the relevant `documentation/` page when changing an architecture rule or public editing behaviour.
 
 These instructions supplement the user's current request. Current source code is the authority for how the implementation actually behaves.

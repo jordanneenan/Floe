@@ -41,6 +41,8 @@ The preview site's pages, posts and menus live in the LocalWP database and are b
 
 When a theme change alters how existing content is stored, a one-off migration goes in `scripts/` and is run once on each site after deploying, e.g. `wp eval-file scripts/migrate-to-intro.php` (dry run) then `… apply`. Each script says what it changes and is safe to run twice.
 
+Content moves between floe.local and the live site (floewp.com) with `bin/floe-sync`, never by hand. See [Live site](live-site.md).
+
 ## Focused verification by change
 
 | Change | Minimum check |

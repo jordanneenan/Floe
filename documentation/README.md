@@ -22,6 +22,7 @@
 | Follow or port a Made pattern | [Made notes](made-notes.md), [Decisions](decisions.md), [Migration](migration.md) | `../made/` (read-only reference theme) |
 | Record a choice the brief doesn't cover | [Decisions](decisions.md) | |
 | Build, verify, or release | [Workflow](workflow.md) | `package.json`, `build.mjs` |
+| Deploy code, push or pull content between floe.local and floewp.com | [Live site](live-site.md) | `bin/floe-sync`, `bin/sync/` |
 | Older review context | [Review handoff](agent-handoff.md) | |
 
 ## Project facts
