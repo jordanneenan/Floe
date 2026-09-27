@@ -1,0 +1,92 @@
+#!/bin/bash
+# floe-status: one read-only check that code, live, content and Figma agree.
+# Run it at the end of a busy day, or before telling Jordan everything's in
+# step. It changes nothing.
+#
+# Guide: documentation/design-sync.md#alignment-check
+#
+#   bin/floe-status            everything
+#   bin/floe-status --no-live  skip the checks that need ssh truenas
+set -uo pipefail
+
+REPO=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+SHARED=${FLOE_SHARED_CHECKOUT:-$HOME/Local Sites/floe/app/public/wp-content/themes/floe}
+GITHUB_REPO=jordanneenan/Floe
+DEPLOY_LOG=/mnt/ssd_pool/apps/floe/deploy/deploy.log
+LIVE=1
+[ "${1:-}" = "--no-live" ] && LIVE=0
+
+step() { printf '\n==> %s\n' "$*"; }
+ok() { printf '  ok    %s\n' "$*"; }
+todo() { printf '  TODO  %s\n' "$*"; TODOS=$((TODOS + 1)); }
+note() { printf '        %s\n' "$*"; }
+TODOS=0
+g() { git -C "$REPO" "$@"; }
+
+g fetch --quiet --prune origin || todo "couldn't fetch from GitHub"
+
+step "Code"
+branch=$(git -C "$SHARED" branch --show-current 2>/dev/null)
+dirty=$(git -C "$SHARED" status --porcelain 2>/dev/null | grep -vc '^??')
+if [ "$branch" = dev ] && [ "$dirty" = 0 ]; then
+	behind=$(git -C "$SHARED" rev-list --count HEAD..origin/dev)
+	if [ "$behind" = 0 ]; then ok "floe.local runs dev, up to date"
+	else todo "floe.local is $behind commit(s) behind origin/dev: git pull --ff-only origin dev"; fi
+else
+	todo "floe.local's checkout is on '${branch:-?}' with $dirty changed file(s); another session may be working there"
+fi
+
+unreleased=$(g log --oneline --no-merges origin/main..origin/dev)
+if [ -z "$unreleased" ]; then ok "dev and main match: live has every change"
+else
+	todo "dev has changes live doesn't (a release needs Jordan's ask):"
+	printf '%s\n' "$unreleased" | sed 's/^/          /'
+fi
+
+prs=$(curl -fsS "https://api.github.com/repos/$GITHUB_REPO/pulls?state=open&per_page=50" 2>/dev/null |
+	jq -r '.[] | "#\(.number) \(.head.ref) → \(.base.ref): \(.title)"' 2>/dev/null)
+if [ -z "$prs" ]; then ok "no open pull requests"
+else todo "open pull requests:"; printf '%s\n' "$prs" | sed 's/^/          /'; fi
+
+stray=""
+for b in $(g for-each-ref --format='%(refname:short)' refs/remotes/origin | grep -v -e '^origin$' -e '/HEAD$' -e '/main$' -e '/dev$'); do
+	# Only commits whose changes aren't already on dev (git cherry marks those "+").
+	n=$(g cherry origin/dev "$b" 2>/dev/null | grep -c '^+')
+	[ "$n" -gt 0 ] && stray+="$b ($n commit(s), $(g log -1 --format=%cr "$b"))"$'\n'
+done
+if [ -z "$stray" ]; then ok "every branch's changes are on dev"
+else todo "branches with changes that aren't on dev:"; printf '%s' "$stray" | sed 's/^/          /'; fi
+
+if [ "$LIVE" = 1 ]; then
+	step "Live deploy"
+	deployed=$(ssh -o ConnectTimeout=10 truenas "grep ' deployed ' $DEPLOY_LOG | tail -1" 2>/dev/null)
+	main=$(g rev-parse --short origin/main)
+	if [ -z "$deployed" ]; then todo "couldn't read the deploy log over ssh truenas"
+	elif [[ "$deployed" == *" deployed $main"* ]]; then ok "floewp.com runs main ($main)"
+	else todo "floewp.com hasn't deployed main ($main) yet; last: ${deployed#* }"; fi
+
+	step "Content"
+	status=$("$REPO/bin/floe-sync" status 2>&1)
+	if printf '%s' "$status" | grep -q -e 'floe.local isn' -e "can't reach"; then
+		todo "floe-sync status couldn't run:"; printf '%s\n' "$status" | tail -3 | sed 's/^/          /'
+	elif printf '%s' "$status" | sed -n '/Local compared with live/,/^$/p' | grep -q '(nothing)' &&
+		printf '%s' "$status" | grep -q 'would send: 0' && printf '%s' "$status" | grep -q 'would fetch: 0'; then
+		ok "floe.local and floewp.com have the same content"
+	else
+		todo "content differs between floe.local and floewp.com (bin/floe-sync status):"
+		printf '%s\n' "$status" | sed -n '/Changed on live/,/would fetch/p' | sed 's/^/          /'
+	fi
+fi
+
+step "Figma"
+if "$REPO/bin/design-sync" check >/dev/null 2>&1; then ok "every module README maps to Figma"
+else todo "READMEs without a Figma line: $("$REPO/bin/design-sync" check 2>&1 | tail -n +2 | tr -s " \n" " ")"; fi
+audit=$("$REPO/bin/design-sync" audit 2>&1)
+if printf '%s' "$audit" | grep -q 'nothing that Figma draws'; then ok "nothing has changed since the last full Figma audit"
+else
+	note "changed since the last full Figma audit (each PR should have synced these;"
+	note "a full audit re-checks them and resets the marker):"
+	printf '%s\n' "$audit" | sed -n '/^  [a-z]/p' | grep -v '^    ' | sed 's/^  /          /'
+fi
+
+printf '\n%s\n' "$([ "$TODOS" = 0 ] && echo 'Everything is in step.' || echo "$TODOS thing(s) to look at.")"

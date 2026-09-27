@@ -1,5 +1,7 @@
 # Testimonial (`floe/testimonial`)
 
+**Figma:** design [35:76](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=35-76), [102:1219](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1219) · dark [91:554](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-554) · wireframe [46:996](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-996)
+
 One long quote (Figma `35:76`). For several short quotes use Testimonials.
 
 | Field | Notes |

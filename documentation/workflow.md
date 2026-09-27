@@ -6,11 +6,12 @@ Work at the repository root. The repository is the theme folder inside the Local
 
 floe.local runs the `dev` branch, and that's where Jordan reviews work. Start each branch (one per phase of the [build brief](build-brief.md) or per feature) from `origin/dev`. Once the work is built and verified, land it on `dev` yourself, without waiting to be asked (D71):
 
-1. Fetch `origin/dev` and merge it into your branch if it has moved. Rebuild compiled files rather than hand-merging their conflicts, renumber your `D<n>` in `decisions.md` if another branch took it, and verify again.
-2. Push the branch and open a pull request into `dev` saying what changed, how it was verified and what Jordan should check.
-3. Merge the pull request (a merge commit) once GitHub reports it mergeable.
-4. Update floe.local: in the shared checkout, run `git pull --ff-only origin dev` if it's on `dev` with no uncommitted changes. If another session has it on a different branch or has work in progress there, leave it alone and tell Jordan the change is on `dev` but not showing on floe.local yet.
-5. Tell Jordan what to look at on floe.local.
+1. Update Figma for anything visitors will see differently: the design, its dark copy and the wireframe. `bin/design-sync changed` lists what your branch touched ([Design sync](design-sync.md)).
+2. Fetch `origin/dev` and merge it into your branch if it has moved. Rebuild compiled files rather than hand-merging their conflicts, renumber your `D<n>` in `decisions.md` if another branch took it, and verify again.
+3. Push the branch and open a pull request into `dev` saying what changed, how it was verified and what Jordan should check, with a `## Design sync` section (`.github/pull_request_template.md` has the layout; pull requests opened through the API don't get it filled in).
+4. Merge the pull request (a merge commit) once GitHub reports it mergeable and the **Design sync** check has passed (`mergeable_state` is `clean`). If the check fails, fix the description or Figma rather than merging past it.
+5. Update floe.local: in the shared checkout, run `git pull --ff-only origin dev` if it's on `dev` with no uncommitted changes. If another session has it on a different branch or has work in progress there, leave it alone and tell Jordan the change is on `dev` but not showing on floe.local yet.
+6. Tell Jordan what to look at on floe.local.
 
 Jordan's review happens on floe.local, and anything he wants changed comes as a new pull request. Hold a pull request open only when Jordan asks you to. Merging `dev` into `main` is different: it's the release, it syncs to the live site, and it happens only when Jordan asks. Nothing goes to `main` except from `dev` (D51).
 
@@ -36,7 +37,9 @@ npm run build         # every module, global CSS and fonts
 npm run build:css     # styles only
 npm run build:js      # scripts only
 npm run start         # build, watch, recompile on save, live-reload through BrowserSync
-npm run lint          # lint:js (WordPress ESLint rules) and lint:css (stylelint)
+npm run lint          # lint:js (WordPress ESLint), lint:css (stylelint), lint:design (every module maps to Figma)
+bin/design-sync changed   # modules this branch changed, with their Figma nodes
+bin/floe-status       # code, live deploy, content and Figma all in step?
 git diff --check
 git status --short
 ```
@@ -59,6 +62,7 @@ Content moves between floe.local and the live site (floewp.com) with `bin/floe-s
 | SCSS or JS | `npm run build`; inspect the `assets/` diff and `block.json` paths. |
 | PHP | `php -l` on changed files (see WP-CLI above for Local's PHP); inspect hooks, escaping and template output. |
 | Block behavior | Build, then insert/edit/render the block in WordPress. Check the editor and the front end at 375, 600, 1024 and 1440. |
+| Anything visitors see differently | Figma design, dark copy and wireframe updated and screenshotted; `## Design sync` filled in ([Design sync](design-sync.md)). |
 | `theme.json` | Parse JSON, then inspect editor settings in WordPress when available. |
 
 Do not report a live WordPress or browser test unless it actually ran. A JavaScript asset build and static PHP parse cannot prove WordPress registration or UI behavior.

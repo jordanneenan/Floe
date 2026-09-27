@@ -1,5 +1,7 @@
 # Image + Copy (`floe/image-copy`)
 
+**Figma:** design [34:94](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=34-94) · dark [91:494](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-494) · wireframe [46:458](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-458)
+
 Media beside a short story (Figma `34:94`).
 
 | Field | Notes |

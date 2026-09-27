@@ -1,5 +1,7 @@
 # Smooth scroll
 
+**Figma:** none (scroll behaviour only)
+
 In-page links glide to their section instead of jumping, and a page opened with an anchor in its URL (`/about/#team`) loads at the top and then glides down to it. It has no markup: `smooth-scroll.php` loads it on every front-end page.
 
 - **Clicks:** native CSS, `scroll-behavior: smooth` on the page. Any same-page link works: In-page navigation, buttons linking to `#section`, the skip link. Sections stop below the sticky header and the In-page navigation (`scroll-padding-top` in `base.scss` and `in-page-nav.scss`).

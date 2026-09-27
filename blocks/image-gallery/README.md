@@ -1,5 +1,7 @@
 # Gallery (`floe/image-gallery`)
 
+**Figma:** design [107:2783](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=107-2783) · dark [108:3060](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=108-3060) · wireframe [113:3335](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3335)
+
 Images chosen from the media library, laid out as an even grid, a mosaic or a masonry layout. Clicking an image opens it full screen in the [Lightbox](../../components/lightbox/README.md), where visitors can step through the whole gallery. For a heading, add a **Block intro** above it, or put the gallery in a two-column Block intro.
 
 | Field | Notes |

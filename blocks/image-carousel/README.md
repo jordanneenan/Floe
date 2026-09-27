@@ -1,5 +1,7 @@
 # Image carousel (`floe/image-carousel`)
 
+**Figma:** design [107:2688](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=107-2688) · dark [108:3042](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=108-3042) · wireframe [113:3302](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3302)
+
 Large images or looping MP4s shown one at a time, each with an optional caption. For a heading, add a **Block intro** above it, or put the carousel in a two-column Block intro.
 
 | Field | Notes |

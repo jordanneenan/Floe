@@ -1,5 +1,7 @@
 # Table (`floe/table`)
 
+**Figma:** design [45:255](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=45-255), [102:1359](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1359) · dark [91:1028](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-1028) · wireframe [46:1531](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1531)
+
 A comparison table (Figma `45:255`). The table itself is WordPress's own **Table** block, styled by Floe. For an eyebrow, heading and intro, add a **Block intro** above the Table.
 
 | Field | Notes |

@@ -1,5 +1,7 @@
 # Images (`floe/images`)
 
+**Figma:** design [37:174](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=37-174), [102:1551](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1551) · dark [91:710](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-710) · wireframe [46:1930](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1930)
+
 Rows of one, two or three images or looping MP4s (Figma `37:174`). For an eyebrow and heading, add a **Block intro** above the Images, or put the Images in a Block intro set to Two columns for a narrow set of images beside the heading.
 
 | Field | Notes |

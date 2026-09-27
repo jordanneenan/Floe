@@ -1,5 +1,7 @@
 # Lightbox
 
+**Figma:** design [107:2784](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=107-2784) · dark [113:3544](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3544) · wireframe [113:3474](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3474)
+
 Wraps an image in a link that opens it large, in a full-screen viewer. Every image in the same group becomes a slide, so visitors can step through a whole gallery. The slideshow is the [Carousel](../carousel/README.md) component. Used by the Gallery block.
 
 ```php

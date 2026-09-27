@@ -1,5 +1,7 @@
 # Theme toggle
 
+**Figma:** design [113:3201](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3201) · dark [113:3510](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3510)
+
 A round button that switches the site between light and dark. It sits in the footer's bottom row.
 
 - **Default:** follows the visitor's device (`prefers-color-scheme`), and keeps following it live, until they press the button. Their choice is then remembered in `localStorage` (`floe-theme`).
