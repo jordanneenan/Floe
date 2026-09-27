@@ -12,7 +12,7 @@ Find a behaviour here before adding another hook.
 | `editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level, "Floe sections" / "Floe parts" categories, Page Banner + Article + CTA template for new posts, no Openverse. |
 | `templates.php` | Page title H1 when the content has none; reading-column wrapper for non-section content. |
 | `blocks.php` | Registers enabled blocks; `Floe\block_attributes()`. |
-| `components.php` | Loads enabled components, registers their CSS/JS; `Floe\component()` and `Floe\icon()`. |
+| `components.php` | Loads enabled components, registers their CSS/JS and loads any component editor script in the block editor; `Floe\component()` and `Floe\icon()`. |
 
 ## Feature files (auto-loaded from `includes/*/`)
 
@@ -28,6 +28,13 @@ Delete a file to remove that behaviour.
 | `admin/code-injection.php` | Customizer → Code injection: Head, Start of body and Footer fields (administrators only; stored as options so they survive a theme change). |
 | `mail/smtp.php` | Sends WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST` (plus `FLOE_SMTP_USER`, `FLOE_SMTP_PASS`, optional `FLOE_SMTP_PORT` and `FLOE_SMTP_FROM`); sender name is the site name instead of "WordPress". |
 | `media/images.php` | Made's image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
+
+## Behaviour that lives in a component
+
+| Folder | Behaviour |
+| --- | --- |
+| `components/hidden-from-visitors/` | Hide from visitors (Block settings → Advanced) on every Floe block: the `hiddenFromVisitors` attribute, not rendering hidden blocks for people who can't edit the page, the marker for those who can, and the `floe_block_visible` filter. [README](../components/hidden-from-visitors/README.md). |
+| `components/reveal/` | Scroll reveals on every front-end page. [README](../components/reveal/README.md). |
 
 ## Site settings the theme reads
 

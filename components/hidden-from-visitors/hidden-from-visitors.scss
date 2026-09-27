@@ -1,0 +1,38 @@
+// Hidden from visitors: the marker on a hidden block, for the people who can
+// still see it (on the site and in the editor). A dashed outline shows the
+// block's edges and a pill in its top corner says why; the label comes from
+// data-hidden-label so it can be translated. Colours come from the surface,
+// so the tag reads on every surface and in dark mode. The tag fades while
+// the pointer is over the block, so it never covers what's underneath.
+@use "floe" as *;
+
+// Anchors the tag without overriding blocks that set their own position
+// (the sticky In-page navigation).
+:where(.hidden-from-visitors) {
+	position: relative;
+}
+
+.hidden-from-visitors {
+	outline: 2px dashed var(--surface-line-strong);
+	outline-offset: -2px;
+
+	&::before {
+		content: attr(data-hidden-label);
+		position: absolute;
+		top: 12px;
+		left: 12px;
+		z-index: 5;
+		padding: 4px 8px;
+		border-radius: var(--wp--custom--radius--pill);
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
+		pointer-events: none;
+		transition: opacity var(--floe-duration) var(--floe-ease);
+
+		@include type(eyebrow);
+	}
+
+	&:hover::before {
+		opacity: 0.12;
+	}
+}
