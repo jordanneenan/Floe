@@ -33,12 +33,20 @@ namespace Floe;
  * a surface class ('surface' => 'tint' gives "surface-tint"), and any extra
  * classes and attributes.
  *
+ * A section placed inside another section (a block in an Intro's slot, which
+ * receives the "floe/nested" context) is part of its host: it gets neither
+ * "floe-section" nor a surface, so it takes the host's padding and colours.
+ *
  * @param \WP_Block|null $block Current block instance (the $block variable in render templates).
  */
 function block_attributes( $block, array $extra = array() ): string {
 	$name    = $block instanceof \WP_Block ? (string) $block->name : '';
 	$type    = $block instanceof \WP_Block ? $block->block_type : null;
-	$section = $type && 'floe-sections' === $type->category && false !== ( $type->supports['floeSection'] ?? true );
+	$nested  = $block instanceof \WP_Block && ! empty( $block->context['floe/nested'] );
+	$section = ! $nested && $type && 'floe-sections' === $type->category && false !== ( $type->supports['floeSection'] ?? true );
+	if ( $nested ) {
+		unset( $extra['surface'] );
+	}
 	$classes = array_filter(
 		array_merge(
 			array( substr( $name, (int) strpos( $name, '/' ) + 1 ), $section ? 'floe-section' : '' ),
