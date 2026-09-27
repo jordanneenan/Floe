@@ -391,3 +391,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-27): on mobile the In-page navigation's links were cut off, clipping the first pill; fade them out at the left and right so it's obvious they scroll, especially on the right.
 - **Decision:** The link list fades out over up to 48px at either edge where there's more to scroll to (`mask-image`). `in-page-nav.js` sets each fade's width from how far there is to scroll, so a fade grows in as the list moves off an end rather than switching on. The active link now scrolls to the middle of the list, measured on screen, so it stays clear of the fades; the old `offsetLeft - 16` measured from the nav, not the list. The clipping itself came from base.scss's `ul[class]` reset outranking `.in-page-nav__list`, so the list's edge-to-edge margin and its padding never applied and the links stopped at the content edge. The list's selector now has two classes. The reset also overrides margins on core List blocks and the Posts filters; that is left for a separate change.
 - **Status:** Adopted
+
+## D57: The sticky header turns to glass as it shrinks
+
+- **Source:** Jordan (2026-09-27): as the header scrolls and shrinks it should become slightly see-through with the blur behind it, the same as the In-page navigation.
+- **Decision:** The sticky header's background mixes from `--surface-background` to `--surface-glass` (the In-page navigation's 90% white, or its dark-mode value) and its `backdrop-filter` blur goes from 0 to 10px, both driven by `--floe-header-progress`, so the glass comes in over the same first 300px as the shrink. While the mobile menu is open the bar stays solid, matching the panel under it. Without JavaScript it stays solid.
+- **Status:** Adopted
