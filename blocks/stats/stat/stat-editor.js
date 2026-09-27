@@ -1,5 +1,6 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useText } from '@floe/editor';
 import metadata from './block.json';
@@ -9,7 +10,25 @@ function Edit( { attributes, setAttributes } ) {
 	const blockProps = useBlockProps( { className: 'stat' } );
 	return (
 		<div { ...blockProps }>
+			<InspectorControls>
+				<PanelBody title={ __( 'Stat', 'floe' ) }>
+					<TextControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						label={ __( 'Prefix', 'floe' ) }
+						help={ __(
+							'Shown before the number at the same size, e.g. £, $ or ~. Count up only animates the number.',
+							'floe'
+						) }
+						value={ attributes.prefix }
+						onChange={ ( prefix ) => setAttributes( { prefix } ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
 			<p className="stat__figure">
+				{ attributes.prefix && (
+					<span className="stat__prefix">{ attributes.prefix }</span>
+				) }
 				{ text( 'value', '40', { allowedFormats: [] } )( {
 					tagName: 'span',
 					className: 'stat__value',

@@ -6,7 +6,7 @@
 	"title": "CTA",
 	"category": "floe-sections",
 	"icon": "megaphone",
-	"description": "One to three call to action panels side by side. A single panel is a wide banner; two or three sit in columns.",
+	"description": "One to four call to action panels side by side. A single panel is a wide banner; two to four sit in columns.",
 	"keywords": [ "call to action", "contact", "panel", "columns" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/cta-panel" ],

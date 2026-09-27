@@ -56,15 +56,18 @@ add_filter( 'allowed_block_types_all', __NAMESPACE__ . '\\allowed_blocks', 10, 2
 
 /**
  * Keep non-Floe blocks out of the top level: they may only appear inside a
- * Floe block. Blocks that already declare a parent or ancestor keep theirs.
+ * Floe block. Blocks that already declare a parent or ancestor keep theirs,
+ * and blocks named by the floe_top_level_blocks filter (e.g. the Shortcode
+ * block, see includes/content/shortcode.php) may also go directly on a page.
  */
 function restrict_to_slots(): void {
 	$floe = floe_block_names();
 	if ( ! $floe ) {
 		return;
 	}
+	$top_level = (array) apply_filters( 'floe_top_level_blocks', array() );
 	foreach ( \WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $type ) {
-		if ( str_starts_with( $name, 'floe/' ) || ! empty( $type->parent ) || ! empty( $type->ancestor ) ) {
+		if ( str_starts_with( $name, 'floe/' ) || in_array( $name, $top_level, true ) || ! empty( $type->parent ) || ! empty( $type->ancestor ) ) {
 			continue;
 		}
 		$type->ancestor = $floe;

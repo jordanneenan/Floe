@@ -1,0 +1,158 @@
+// Lightbox: a link that zooms in, and a full-screen viewer on the Inverse
+// surface. The image is as large as the screen allows, with its caption
+// below; the count and close button sit in a bar at the top and the
+// Carousel's buttons at the bottom.
+@use "floe" as *;
+
+.lightbox-link {
+	display: block;
+	height: 100%;
+	color: inherit;
+	cursor: zoom-in;
+
+	.media {
+		transition: opacity var(--floe-duration) var(--floe-ease);
+	}
+
+	&:hover .media {
+		opacity: 0.88;
+	}
+
+	&:focus-visible {
+		outline: 0;
+
+		.media {
+
+			@include focus-ring;
+		}
+	}
+}
+
+.lightbox-open {
+	overflow: hidden;
+}
+
+.lightbox {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	max-width: none;
+	height: 100%;
+	max-height: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	background: var(--surface-background);
+	color: var(--surface-text);
+	opacity: 0;
+	transition: opacity var(--floe-duration) var(--floe-ease), overlay var(--floe-duration) allow-discrete, display var(--floe-duration) allow-discrete;
+
+	&[open] {
+		display: flex;
+		flex-direction: column;
+		opacity: 1;
+
+		@starting-style {
+			opacity: 0;
+		}
+	}
+
+	&::backdrop {
+		background: transparent;
+	}
+}
+
+.lightbox__bar {
+	display: flex;
+	flex: none;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	padding: 16px 20px;
+
+	@include from(desktop) {
+		padding: 24px 32px;
+	}
+}
+
+.lightbox__count {
+	margin: 0;
+	color: var(--surface-text-muted);
+
+	@include type(eyebrow);
+}
+
+.lightbox__close {
+	display: grid;
+	place-items: center;
+	width: 44px;
+	height: 44px;
+	margin-left: auto;
+	padding: 0;
+	border: 1.5px solid var(--surface-line);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--surface-text);
+	cursor: pointer;
+	transition: border-color var(--floe-duration) var(--floe-ease);
+
+	&:hover {
+		border-color: var(--surface-strong);
+	}
+
+	&:focus-visible {
+
+		@include focus-ring;
+	}
+}
+
+.lightbox .lightbox__carousel {
+	flex: 1;
+	min-height: 0;
+	padding: 0 20px 20px;
+
+	@include from(desktop) {
+		padding: 0 32px 32px;
+	}
+
+	.carousel__track {
+		flex: 1;
+		min-height: 0;
+		--carousel-gap: 32px;
+	}
+
+	.carousel__controls {
+		justify-content: center;
+	}
+}
+
+.lightbox__slide {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 12px;
+	min-height: 0;
+	margin: 0;
+
+	img {
+		display: block;
+		flex: 0 1 auto;
+		width: auto;
+		max-width: 100%;
+		height: auto;
+		min-height: 0;
+		max-height: 100%;
+		border-radius: var(--wp--custom--radius--md);
+		object-fit: contain;
+	}
+
+	figcaption {
+		flex: none;
+		max-width: 70ch;
+		color: var(--surface-text-muted);
+		text-align: center;
+
+		@include type(small);
+	}
+}

@@ -10,7 +10,16 @@
 
 .article__content,
 .article__action {
-	max-width: var(--wp--custom--content--narrow);
+	max-width: var(--article-width, var(--wp--custom--content--narrow));
+}
+
+// Advanced → Full width: the whole content width.
+.article--full {
+
+	.article__content,
+	.article__action {
+		max-width: none;
+	}
 }
 
 .article__action {

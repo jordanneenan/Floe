@@ -36,6 +36,11 @@ Every slot except Article media has a fixed shape and fills it (`object-fit: cov
 | Cards (media style) | 4:3 | 395 × 296 (4:3) | 4:3 | 4:3 | Nothing |
 | Images, 2 or 3 per row (Fill) | 4:3 | 612 × 456 / 400 × 300 | 4:3 | 4:3 | Nothing |
 | Article media | 4:3 | 860 wide, own shape | own shape | own shape | Nothing: shown uncropped |
+| Image carousel | 16:9 (or the carousel's Shape) | 1248 wide at the chosen Shape (3:2 by default) | same | same | 3:2 loses 16% of the width of a 16:9 upload; 16:9 loses nothing |
+| Gallery, Grid | 4:3 | 4:3 tiles, 2–4 across | 4:3 | 4:3 | Nothing |
+| Gallery, Mosaic | 4:3 | large 2:1-ish, small about 4:3 (rows are a fixed height) | | | Varies: keep the subject central |
+| Gallery, Masonry, and the lightbox | any | own shape | own shape | own shape | Nothing: shown uncropped |
+| Cards (icon style) | square icon, transparent PNG or SVG | 56 × 56, shown whole | | | Nothing |
 | Posts (cards) | 16:9 featured image | 395 × 296 (4:3) | 4:3 | 4:3 | 25% of the width |
 | Post banner | 16:9 featured image | as Page Banner | | | as Page Banner |
 | Team person | 4:5 | 294 × 368 (4:5) | 4:5 | 4:5 | Nothing |

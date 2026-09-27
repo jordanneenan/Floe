@@ -1,0 +1,218 @@
+// Carousel: slides that scroll sideways with previous/next buttons below on
+// the right (the Testimonials design, Figma 44:221), or a ticker that
+// scrolls continuously. Colours come from the surface, so both work on any
+// Background and in the lightbox.
+@use "floe" as *;
+
+// ---------------------------------------------------------------------------
+// Slides
+// ---------------------------------------------------------------------------
+.carousel--slides {
+	--carousel-gap: 16px;
+	--carousel-view: var(--carousel-mobile, 1);
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	@include from(tablet) {
+		--carousel-gap: 24px;
+		--carousel-view: var(--carousel-tablet, var(--carousel-mobile, 1));
+	}
+
+	@include from(desktop) {
+		--carousel-view: var(--carousel-desktop, var(--carousel-tablet, var(--carousel-mobile, 1)));
+		gap: 32px;
+	}
+
+	.carousel__track {
+		display: grid;
+		grid-auto-columns: calc((100% - (var(--carousel-view) - 1) * var(--carousel-gap)) / var(--carousel-view));
+		grid-auto-flow: column;
+		gap: var(--carousel-gap);
+		margin: 0;
+		padding: 0;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		list-style: none;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+
+		> * {
+			min-width: 0;
+			scroll-snap-align: start;
+		}
+
+		&:focus-visible {
+			outline-offset: 6px;
+			border-radius: var(--wp--custom--radius--lg);
+		}
+	}
+}
+
+// Everything fits: no buttons.
+.carousel--static .carousel__controls {
+	display: none;
+}
+
+.carousel__controls {
+	display: flex;
+	justify-content: flex-end;
+	gap: 12px;
+
+	button {
+		display: grid;
+		place-items: center;
+		width: 52px;
+		height: 52px;
+		padding: 0;
+		border: 1.5px solid var(--surface-line);
+		border-radius: 50%;
+		background: transparent;
+		color: var(--surface-text);
+		cursor: pointer;
+		transition: background-color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), opacity var(--floe-duration) var(--floe-ease);
+
+		&:disabled {
+			opacity: 0.4;
+			cursor: default;
+		}
+
+		&:not(:disabled):hover {
+			border-color: var(--surface-strong);
+		}
+
+		&:focus-visible {
+
+			@include focus-ring;
+		}
+	}
+
+	.carousel__next {
+		border-color: var(--surface-strong);
+		background: var(--surface-strong);
+		color: var(--surface-on-strong);
+	}
+}
+
+// ---------------------------------------------------------------------------
+// Ticker
+// ---------------------------------------------------------------------------
+.carousel--ticker {
+	position: relative;
+	width: 100%;
+
+	.carousel__track {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: var(--carousel-gap-y, 28px) var(--carousel-gap-x, 56px);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	// Running: one long row sliding left, fading out at both edges.
+	&.is-running {
+
+		.carousel__viewport {
+			overflow: hidden;
+			mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+		}
+
+		.carousel__track {
+			flex-wrap: nowrap;
+			justify-content: flex-start;
+			width: max-content;
+			animation: carousel-ticker var(--carousel-duration, 30s) linear infinite;
+
+			> * {
+				flex: none;
+			}
+		}
+	}
+
+	&.is-running:is(:hover, :focus-within, .is-paused) .carousel__track {
+		animation-play-state: paused;
+	}
+}
+
+@keyframes carousel-ticker {
+
+	to {
+		transform: translateX(var(--carousel-distance, -50%));
+	}
+}
+
+.carousel__pause {
+	position: absolute;
+	right: 0;
+	bottom: calc(100% + 8px);
+	display: grid;
+	place-items: center;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+	border: 1.5px solid var(--surface-line);
+	border-radius: 50%;
+	background: transparent;
+	color: var(--surface-text-muted);
+	opacity: 0;
+	cursor: pointer;
+	transition: opacity var(--floe-duration) var(--floe-ease), color var(--floe-duration) var(--floe-ease), border-color var(--floe-duration) var(--floe-ease);
+
+	svg {
+		width: 12px;
+		height: 12px;
+	}
+
+	&:hover {
+		border-color: var(--surface-strong);
+		color: var(--surface-text);
+	}
+
+	&:focus-visible {
+		opacity: 1;
+
+		@include focus-ring;
+	}
+
+	&[hidden] {
+		display: none;
+	}
+}
+
+// The button shows while the ticker is hovered or focused, and stays once
+// it has paused it; on touch screens (no hover) it's always there.
+.carousel--ticker:is(:hover, :focus-within) .carousel__pause,
+.carousel__pause[aria-pressed="true"] {
+	opacity: 1;
+}
+
+@media (hover: none) {
+
+	.carousel__pause {
+		opacity: 1;
+	}
+}
+
+// Scoped to the button so they win over the Icon component's display.
+.carousel__pause .carousel__icon-play,
+.carousel__pause[aria-pressed="true"] .carousel__icon-pause {
+	display: none;
+}
+
+.carousel__pause[aria-pressed="true"] .carousel__icon-play {
+	display: block;
+}
+
+@include reduced-motion {
+
+	.carousel--ticker .carousel__track {
+		animation: none;
+	}
+}
