@@ -1,6 +1,6 @@
 # Post card (`floe/post-item`)
 
-One manually entered card in **Posts** (when "Show" is set to Manual entries), like Made's manual entry. It looks exactly like a real post's card.
+One manually entered card in **Posts** (when "Show" is set to Manual entries). It looks exactly like a real post's card.
 
 | Field | Notes |
 | --- | --- |

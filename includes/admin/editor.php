@@ -1,6 +1,6 @@
 <?php
 /**
- * Editor tidy-up, following Made: no block directory, no tags on posts and a
+ * Editor tidy-up: no block directory, no tags on posts and a
  * wider settings sidebar.
  */
 

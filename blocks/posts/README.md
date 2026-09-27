@@ -1,6 +1,6 @@
 # Posts (`floe/posts`)
 
-A grid of post cards (Figma `36:58`), with everything Made's Posts block and the Ajax Load More plugin did, built in. For an eyebrow, heading and "View all" link (a Secondary button on the right), add a **Block intro** above the Posts.
+A grid of post cards (Figma `36:58`), with listing, filters and load more built in (no plugin needed). For an eyebrow, heading and "View all" link (a Secondary button on the right), add a **Block intro** above the Posts.
 
 | Field | Notes |
 | --- | --- |

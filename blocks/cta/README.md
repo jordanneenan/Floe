@@ -1,6 +1,6 @@
 # CTA (`floe/cta`)
 
-One to three call-to-action panels in a row (Figma `35:75`, with Made's multi-column CTA). Add **CTA panel** blocks inside it; the columns follow the number of panels.
+One to three call-to-action panels in a row (Figma `35:75`, extended to multiple columns). Add **CTA panel** blocks inside it; the columns follow the number of panels.
 
 | Panels | Layout |
 | --- | --- |

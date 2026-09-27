@@ -4,7 +4,7 @@ This is the starting point for reviewing Floe without the original conversation.
 
 ## Project and intent
 
-Floe is an open-source, GPL-2.0-or-later WordPress theme (`floe` text domain and block namespace), the successor to Jordan's Made platform. It is a library of complete, designed page sections: an editor chooses a section, enters content and gets a controlled layout. Article is the exception, offering native blocks within a designed section. Each client site re-brands through `theme.json` tokens.
+Floe is an open-source, GPL-2.0-or-later WordPress theme (`floe` text domain and block namespace). It is a library of complete, designed page sections: an editor chooses a section, enters content and gets a controlled layout. Article is the exception, offering native blocks within a designed section. Each client site re-brands through `theme.json` tokens.
 
 ## Where things are
 
@@ -14,7 +14,6 @@ Floe is an open-source, GPL-2.0-or-later WordPress theme (`floe` text domain and
 | LocalWP site | `~/Local Sites/floe/app/public`, `http://floe.local` |
 | Brochure pages | `/`, `/platform/`, `/pricing/`, `/about/`, `/contact/`, `/journal/`, built from blocks (Journal is a normal page with the Posts block) |
 | Block Preview | `http://floe.local/block-preview/`: every section with sample content |
-| Made reference | Read-only theme beside Floe at `wp-content/themes/made`. See [Made notes](made-notes.md) |
 | Figma | [Floe design file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n); node IDs in the build brief |
 | Preview imagery | Photos are uploaded to the media library (not in git); placeholder logos in `assets/PreviewImagery/logos/` |
 

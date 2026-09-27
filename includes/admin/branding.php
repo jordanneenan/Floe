@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin branding, following Made: no WordPress logo, a Floe footer credit,
+ * Admin branding: no WordPress logo, a Floe footer credit,
  * "Howdy" removed and a simpler login label.
  */
 
