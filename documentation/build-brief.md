@@ -42,11 +42,13 @@ One rule outranks judgement: **native WordPress first.** If WordPress has a nati
 - Work on a branch per phase (`phase-1-foundations`, `phase-2-modules`, …), started from `origin/dev`. Never commit straight to `dev` or `main`, and never force-push them.
 - Make small, focused commits with imperative messages ("Add Button component", "Rebuild Home Banner against v2 design").
 - Commit source **and** generated build output. The theme must work without Node on a server.
-- Push the branch. If the `gh` CLI is authenticated, open a pull request into `dev` describing what changed, how it was verified and what still needs Jordan's eye. Otherwise tell Jordan the branch is pushed.
-- Stop at the end of each phase for Jordan's review before merging.
+- Push the branch and open a pull request into `dev` describing what changed, how it was verified and what still needs Jordan's eye.
+- Merge the pull request into `dev` yourself and update floe.local, following [workflow](workflow.md). Jordan reviews there. Stop at the end of each phase for that review before starting the next.
 - Keep `node_modules/`, `.screenshots/`, and any local database or export out of git.
 
 *Changed 2026-09-27 ([D51](decisions.md#d51-a-dev-branch-between-feature-branches-and-live)):* there's now a `dev` branch between feature branches and the live site. floe.local runs `dev`, pull requests target `dev`, and merging `dev` into `main` is the release.
+
+*Changed 2026-09-27 ([D71](decisions.md#d71-agents-merge-their-own-pull-requests-into-dev)):* agents merge their own pull requests into `dev` and update floe.local, so Jordan reviews there instead of on the pull request.
 
 ## 3. Architecture: everything is a module
 
@@ -256,7 +258,7 @@ These come from the code review of the current repo:
 
 ## 8. Phases
 
-Stop for Jordan's review at the end of each phase.
+At the end of each phase, merge it into `dev`, update floe.local and stop for Jordan's review.
 
 0. **Baseline.** Verify the environment (section 2). Create `decisions.md`. Update any existing docs (`agent-handoff.md`, `workflow.md`, `README.md` and others) that still describe `~/Projects/Floe` or a symlink, so they match the single-location setup. No behaviour changes yet.
 1. **Foundations.** `theme.json` tokens and fonts, editor lockdown, base styles, breakpoint mixins, surfaces, the `includes/` fixes from section 6.
