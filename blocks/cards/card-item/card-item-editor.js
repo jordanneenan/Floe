@@ -19,10 +19,7 @@ import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, context } ) {
 	const style = context[ 'floe/cardStyle' ] === 'media' ? 'media' : 'feature';
-	const level = Math.min(
-		4,
-		( context[ 'floe/cardsHeadingLevel' ] || 2 ) + 1
-	);
+	const level = Math.min( 4, ( context[ 'floe/headingLevel' ] || 2 ) + 1 );
 	const [ anchor, setAnchor ] = useState();
 	const [ isOpen, setOpen ] = useState( false );
 	const text = useText( attributes, setAttributes );
