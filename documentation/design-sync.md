@@ -1,6 +1,6 @@
 # Design sync: keeping Figma, wireframes and code in step
 
-Floe exists in three places that must agree: the [Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) (block designs with their dark copies, and the wireframes), this repository, and the two sites (floe.local and floewp.com). The code and live sites are kept in step by the [workflow](workflow.md) and [floe-sync](live-site.md). This page covers Figma (D72).
+Floe exists in three places that must agree: the [Figma file](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n) (wireframes, block designs with their dark copies, and full-page designs of the site), this repository, and the two sites (floe.local and floewp.com). The code and live sites are kept in step by the [workflow](workflow.md) and [floe-sync](live-site.md). This page covers Figma (D72).
 
 **The rule:** a change to how a block or component looks, or to the options it offers, updates Figma in the same piece of work, before its pull request merges into `dev`. A change made in Figma first is followed in code the same way. Nobody fixes drift later. The fixing happens as part of the change.
 
@@ -22,6 +22,18 @@ Each block and component README has a line that links it to Figma:
 - A module with nothing to draw says so: `**Figma:** none (editor-only: it only adds space between sections)`.
 
 In the other direction, each Figma component's description ends with `Code: blocks/<name>` or `Code: components/<name>`. The map lives only in the module folders, like everything else about a module, so adding or deleting a folder adds or removes its entry. `bin/design-sync check` (part of `npm run lint`) fails if a README has no Figma line.
+
+## Page designs
+
+`03 / Brochure Site` (page `2:31`) has a 1440px frame for each page in the site's menus, built from instances of the block designs: Home `47:4`, Platform `49:389`, Pricing `49:786`, About `49:1071`, Contact `49:1313`, Journal `132:3328` and Blocks `132:3592`. Each frame shows that page as it is on floe.local: the same blocks in the same order, the same gaps between sections, the same copy and images. The Figma MCP's page list sometimes leaves this page out, so open it by ID (`figma.getNodeByIdAsync('2:31')` in `use_figma`) rather than assuming it's missing.
+
+Page content lives in the database, not in pull requests, so it has its own trigger:
+
+- **Content work** that changes a page's blocks, order, copy or images updates that page's frame before the content is pushed to live. Include "Figma page updated" when showing Jordan the push plan.
+- **A code change** that changes a block's height or spacing (for example a new default gap) can shift every page that uses it. Check the page frames that use the block and re-flow them, and say so in `## Design sync`.
+- **A new page** in the site's menus gets a new frame, labelled like the others, 1640px to the right of the last one.
+
+Match the frames to the site by measuring it: each section's top and height at 1440 in headless Chrome, and a full-page screenshot to compare against.
 
 ## When code changes
 
@@ -55,8 +67,8 @@ When Jordan changes a design in Figma and asks for it on the site:
 Pull requests keep things in step one change at a time. A full audit is the safety net for anything missed: a change without a module (for example in `includes/`), something done in the editor, or a Figma edit made without a code change.
 
 - `bin/design-sync audit` lists modules changed since the last full audit, the commit on this page.
-- To audit, compare every module and the foundations with Figma (design, dark and wireframe), fix what differs, and then set **Last full audit** above to today's date and the `dev` commit you checked. That setting goes in the pull request with the fixes.
-- Do one after a busy stretch of work, or when `bin/floe-status` shows a long list.
+- To audit, compare every module and the foundations with Figma (design, dark and wireframe), and every page frame with its page on floe.local, fix what differs, and then set **Last full audit** above to today's date and the `dev` commit you checked. That setting goes in the pull request with the fixes.
+- Do one after a busy stretch of work, or when `bin/floe-status` shows a long list. A scheduled task ("Weekly Floe alignment audit", Sundays at 8pm on Jordan's machine) runs a read-only version every week and reports what's out of step.
 
 ## Alignment check
 
