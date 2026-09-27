@@ -58,6 +58,7 @@ Images set to **Natural** fit keep their own shape and are never cropped.
 
 - **JPEG** for photographs. Floe re-encodes at quality 70 and generates 800, 1440 and 2400px-wide copies ([D12](decisions.md#d12-image-sizes-and-processing-mades-pipeline)), so upload a high-quality JPEG (quality 85–90) and let WordPress do the rest. WebP uploads work too.
 - **PNG** only when the image needs transparency. Opaque PNGs are converted to JPEG on upload and the PNG is deleted.
+- **SVG** for logos and icons. Administrators and editors can upload them. Floe cleans each file as it's uploaded: scripts, links, animation, editor data and anything that loads another file are removed, so export a plain SVG (in Illustrator, Export As → SVG; in Figma, Export → SVG) with the artwork trimmed tight. A file Floe can't read safely is refused with a message. SVGs have no sizes to generate and can't be cropped or edited in WordPress; when you set one as the site logo, choose **Skip cropping**. Use a PNG for the Site Icon, which WordPress has to crop.
 - Anything over 2560px is scaled down by WordPress, so there's nothing to gain from bigger files.
 - sRGB colour, no embedded text, no borders or rounded corners (slots add their own radius).
 - File names describe the picture in lower case with hyphens (`studio-team-review.jpg`), because they become the URL and the default title.

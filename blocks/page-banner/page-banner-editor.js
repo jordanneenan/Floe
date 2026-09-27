@@ -10,6 +10,9 @@ import {
 	LinkButton,
 	MediaSlot,
 	SurfaceControl,
+	useIsEditing,
+	hasText,
+	hasLink,
 } from '@floe/editor';
 import { Breadcrumb } from '@floe/components/breadcrumb';
 import metadata from './block.json';
@@ -17,6 +20,9 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, name } ) {
 	const { showBreadcrumb, showMedia, surface } = attributes;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
+	const showIntro = editing || hasText( attributes.intro );
+	const showLink = editing || hasLink( attributes.link );
 	const title = useSelect(
 		( select ) => select( editorStore )?.getEditedPostAttribute( 'title' ),
 		[]
@@ -71,22 +77,28 @@ function Edit( { attributes, setAttributes, name } ) {
 							tagName: 'h1',
 							className: 'page-banner__heading',
 						} ) }
-						<div className="page-banner__supporting">
-							{ text( 'intro', __( 'Intro', 'floe' ), {
-								disableLineBreaks: false,
-							} )( {
-								tagName: 'p',
-								className: 'page-banner__intro',
-							} ) }
-							<LinkButton
-								value={ attributes.link }
-								onChange={ ( link ) =>
-									setAttributes( { link } )
-								}
-								style="link"
-								placeholder={ __( 'Optional link', 'floe' ) }
-							/>
-						</div>
+						{ ( showIntro || showLink ) && (
+							<div className="page-banner__supporting">
+								{ showIntro &&
+									text( 'intro', __( 'Intro', 'floe' ), {
+										disableLineBreaks: false,
+									} )( {
+										tagName: 'p',
+										className: 'page-banner__intro',
+									} ) }
+								<LinkButton
+									value={ attributes.link }
+									onChange={ ( link ) =>
+										setAttributes( { link } )
+									}
+									style="link"
+									placeholder={ __(
+										'Optional link',
+										'floe'
+									) }
+								/>
+							</div>
+						) }
 					</div>
 					{ showMedia && (
 						<MediaSlot

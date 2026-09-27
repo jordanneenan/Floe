@@ -3,10 +3,11 @@
 
 // Floe sections fill the whole editor canvas, as they fill the page on the
 // site. WordPress otherwise centres every top-level block at the content
-// width (860px) and adds gaps between them.
+// width (860px) and adds a gap above each one. Only the top margin is
+// cleared: the space below a section is its own margin (base.scss).
 .is-root-container > [data-type^="floe/"] {
 	max-width: none;
-	margin-block: 0;
+	margin-top: 0;
 }
 
 // The page title sits in the same content container as the sections, so it
@@ -32,7 +33,17 @@
 	}
 }
 
+// The link control sits on the button's corner, out of the layout, so
+// buttons line up and wrap exactly as they do on the page.
 .floe-link-button__edit.components-button {
+	position: absolute;
+	top: -12px;
+	right: -12px;
+	z-index: 1;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 1px 4px rgb(0 0 0 / 0.25);
+	color: #1e1e1e;
 	opacity: 0;
 	transition: opacity 0.15s ease;
 }

@@ -1,0 +1,6 @@
+// Editor only. A header cell's text is a block-level editable here, which
+// would push the highlighted column's badge (th::after) onto its own line.
+// Inline, the badge sits beside the text as it does on the page.
+.table__frame thead th > .block-editor-rich-text__editable {
+	display: inline-block;
+}

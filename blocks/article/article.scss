@@ -111,7 +111,10 @@
 		font-weight: 600;
 	}
 
-	:is(ul, ol):not([class*="wp-block-"][class*="__"]) {
+	// Lists from the List block (wp-block-list, on the page and in the editor)
+	// or plain HTML, not lists that belong to other markup such as a
+	// shortcode's output.
+	:is(ul, ol):is(.wp-block-list, :not([class])) {
 		display: flex;
 		flex-direction: column;
 		gap: 12px;
@@ -133,7 +136,7 @@
 		}
 	}
 
-	ul:not([class*="wp-block-"][class*="__"]) > li::before {
+	ul:is(.wp-block-list, :not([class])) > li::before {
 		content: "";
 		position: absolute;
 		top: 13px;
@@ -143,7 +146,7 @@
 		background: var(--surface-accent);
 	}
 
-	ol:not([class*="wp-block-"][class*="__"]) {
+	ol:is(.wp-block-list, :not([class])) {
 		counter-reset: article-list;
 
 		> li {

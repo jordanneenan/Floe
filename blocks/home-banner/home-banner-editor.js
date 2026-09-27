@@ -5,12 +5,16 @@ import {
 	useText,
 	LinkButton,
 	MediaSlot,
+	useIsEditing,
+	hasText,
+	hasLink,
 } from '@floe/editor';
 import { Eyebrow } from '@floe/components/eyebrow';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, name } ) {
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name );
 
 	return (
@@ -18,11 +22,13 @@ function Edit( { attributes, setAttributes, name } ) {
 			<div className="home-banner__inner">
 				<div className="home-banner__intro">
 					<div className="home-banner__heading-group">
-						<Eyebrow>
-							{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
-								allowedFormats: [],
-							} )( { tagName: 'span' } ) }
-						</Eyebrow>
+						{ ( editing || hasText( attributes.eyebrow ) ) && (
+							<Eyebrow>
+								{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
+									allowedFormats: [],
+								} )( { tagName: 'span' } ) }
+							</Eyebrow>
+						) }
 						{ text(
 							'heading',
 							__(
@@ -41,28 +47,35 @@ function Edit( { attributes, setAttributes, name } ) {
 							tagName: 'p',
 							className: 'home-banner__body',
 						} ) }
-						<div className="home-banner__actions">
-							<LinkButton
-								value={ attributes.primaryAction }
-								onChange={ ( primaryAction ) =>
-									setAttributes( { primaryAction } )
-								}
-								style="primary"
-								placeholder={ __( 'Primary action', 'floe' ) }
-							/>
-							<LinkButton
-								value={ attributes.secondaryAction }
-								onChange={ ( secondaryAction ) =>
-									setAttributes( { secondaryAction } )
-								}
-								style="secondary"
-								arrow={ false }
-								placeholder={ __(
-									'Optional second action',
-									'floe'
-								) }
-							/>
-						</div>
+						{ ( editing ||
+							hasLink( attributes.primaryAction ) ||
+							hasLink( attributes.secondaryAction ) ) && (
+							<div className="home-banner__actions">
+								<LinkButton
+									value={ attributes.primaryAction }
+									onChange={ ( primaryAction ) =>
+										setAttributes( { primaryAction } )
+									}
+									style="primary"
+									placeholder={ __(
+										'Primary action',
+										'floe'
+									) }
+								/>
+								<LinkButton
+									value={ attributes.secondaryAction }
+									onChange={ ( secondaryAction ) =>
+										setAttributes( { secondaryAction } )
+									}
+									style="secondary"
+									arrow={ false }
+									placeholder={ __(
+										'Optional second action',
+										'floe'
+									) }
+								/>
+							</div>
+						) }
 					</div>
 				</div>
 				<MediaSlot

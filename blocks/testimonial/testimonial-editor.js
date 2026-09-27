@@ -2,12 +2,19 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, useText, MediaSlot } from '@floe/editor';
+import {
+	useFloeBlockProps,
+	useText,
+	MediaSlot,
+	useIsEditing,
+	hasText,
+} from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, name, isSelected } ) {
 	const { portrait } = attributes;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name );
 
 	return (
@@ -58,14 +65,15 @@ function Edit( { attributes, setAttributes, name, isSelected } ) {
 								tagName: 'span',
 								className: 'testimonial__name',
 							} ) }
-							{ text(
-								'role',
-								__( 'Role, organisation', 'floe' ),
-								{ allowedFormats: [] }
-							)( {
-								tagName: 'span',
-								className: 'testimonial__role',
-							} ) }
+							{ ( editing || hasText( attributes.role ) ) &&
+								text(
+									'role',
+									__( 'Role, organisation', 'floe' ),
+									{ allowedFormats: [] }
+								)( {
+									tagName: 'span',
+									className: 'testimonial__role',
+								} ) }
 						</span>
 					</figcaption>
 				</figure>

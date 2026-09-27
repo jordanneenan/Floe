@@ -451,3 +451,21 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-27)
 - **Decision:** The Shortcode block can go directly on a page. `includes/editor.php` exempts blocks named by a new `floe_top_level_blocks` filter from the Floe-only `ancestor`, and `includes/content/shortcode.php` adds the Shortcode block and wraps a top-level one in the content width with a section's spacing (a `render_block_data` flag marks blocks with no parent). Columns stay out until needed. On short pages the footer sits at the bottom of the window: `body` is a flex column at least `100dvh` tall and `.site-main` grows, scoped with `:has(> .site-main)` so the editor canvas (which also loads base.css) isn't affected.
 - **Status:** Adopted
+
+## D67: Floe sections stay out of core blocks
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27). The brief says Floe sections are the top-level items and core blocks go in slots; the editor still let a Home Banner, CTA or any other section be inserted inside an FAQ's Details or an Article's Quote.
+- **Decision:** A Floe block without a `parent` can be inserted only at the top level or into a Floe block (Background, a two-column Block intro, or any Floe slot that lists it). `block.json` can't express "top level or these parents", so `includes/editor.php` adds this check to the editor's `blockEditor.__unstableCanInsertBlockType` filter. The filter's name is marked unstable; if WordPress renames or drops it, the fallback is `allowedBlocks` on the Details items in FAQ's template.
+- **Status:** Adopted
+
+## D68: Empty optional parts show only while a block is edited
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27), after Jordan saw spacing in the editor that didn't match the page. Every empty optional part showed its placeholder in the editor (a Block intro's "Optional button", a Page Banner's intro, a CTA panel's note) but renders nothing on the page, so unselected blocks were up to 112px taller in the editor and the spacing looked wrong.
+- **Decision:** An empty optional part, and a wrapper left with nothing in it, shows only while its block, or a block inside it, is selected, as core does with captions (Media and Slide already did this for theirs). Headings, body text and names always show, so a new block never collapses to nothing. A button with a label but no link stays visible, outlined, because it won't appear on the page until it's linked. `@floe/editor` provides `useIsEditing()`, `hasText()` and `hasLink()`, and `LinkButton` and `EditableSectionHeader` apply the rule themselves.
+- **Status:** Adopted
+
+## D69: SVG uploads, cleaned in the theme
+
+- **Source:** Jordan (2026-09-27): add SVG support securely, in the platform rather than as a plugin. Logo strip, Icon grid cards and the logo already expected SVGs, but WordPress refused them.
+- **Decision:** `includes/media/svg.php` accepts `.svg` uploads from people who can upload files and are trusted with unfiltered HTML (administrators and editors on a single site; the `floe_svg_uploads` filter changes who). A sanitiser failure then gives nobody more power than they already have. Every SVG is rebuilt from an allowlist before WordPress stores it, whoever uploads it: drawing elements and their attributes only; `href` and CSS `url()` only to an `#id` in the file, plus embedded PNG, JPEG, GIF or WebP data in `<image>`; CSS that could fetch a file (`@import`, `image-set()` and similar) or hide something behind an escape is dropped; links are unwrapped. A file that isn't well-formed SVG, or whose DOCTYPE declares entities, is refused, and the parser never reads from the network. An `.svg` only passes WordPress's file type check once it's clean, and `wp_upload_bits()` (XML-RPC, importers), which skips the upload filters, can't write SVGs at all. The SVG's width and height are saved as attachment metadata, so core treats it as an image everywhere. SVGs never reach the image editor or the Customizer's cropper, and the media modal hides **Edit Image** for them. Written in the theme with PHP's DOM rather than bundling a sanitiser library, because Floe has no Composer dependencies. Compressed `.svgz` files aren't accepted.
+- **Status:** Adopted

@@ -325,8 +325,27 @@ function row_actions( array $actions, \WP_Post $post ): array {
 add_filter( 'post_row_actions', __NAMESPACE__ . '\\row_actions', 10, 2 );
 add_filter( 'page_row_actions', __NAMESPACE__ . '\\row_actions', 10, 2 );
 
-// "Enquiry" and "Newsletter" views above the list.
+// Every enquiry is stored as private, so WordPress's "— Private" after each
+// name says nothing.
+function post_states( array $states, \WP_Post $post ): array {
+	if ( POST_TYPE === $post->post_type ) {
+		unset( $states['private'] );
+	}
+	return $states;
+}
+add_filter( 'display_post_states', __NAMESPACE__ . '\\post_states', 10, 2 );
+
+// The Received column shows when the enquiry arrived; WordPress would label
+// that date "Last Modified" because the post isn't published.
+function date_status( string $status, \WP_Post $post ): string {
+	return POST_TYPE === $post->post_type ? '' : $status;
+}
+add_filter( 'post_date_column_status', __NAMESPACE__ . '\\date_status', 10, 2 );
+
+// "Enquiry" and "Newsletter" views above the list, in place of "Private"
+// (every enquiry is private, so it only repeats "All").
 function views( array $views ): array {
+	unset( $views['private'] );
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	$current = isset( $_GET['floe_kind'] ) ? sanitize_key( $_GET['floe_kind'] ) : '';
 	foreach ( KINDS as $kind ) {
