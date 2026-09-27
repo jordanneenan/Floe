@@ -115,8 +115,8 @@
 	}
 }
 
-// Three columns: a size down for the heading.
-.cta--count-3 .cta-panel__heading {
+// Three or four columns: a size down for the heading.
+:is(.cta--count-3, .cta--count-4) .cta-panel__heading {
 
 	@include from(desktop) {
 

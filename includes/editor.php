@@ -56,21 +56,45 @@ add_filter( 'allowed_block_types_all', __NAMESPACE__ . '\\allowed_blocks', 10, 2
 
 /**
  * Keep non-Floe blocks out of the top level: they may only appear inside a
- * Floe block. Blocks that already declare a parent or ancestor keep theirs.
+ * Floe block. Blocks that already declare a parent or ancestor keep theirs,
+ * and blocks named by the floe_top_level_blocks filter (e.g. the Shortcode
+ * block, see includes/content/shortcode.php) may also go directly on a page.
  */
 function restrict_to_slots(): void {
 	$floe = floe_block_names();
 	if ( ! $floe ) {
 		return;
 	}
+	$top_level = (array) apply_filters( 'floe_top_level_blocks', array() );
 	foreach ( \WP_Block_Type_Registry::get_instance()->get_all_registered() as $name => $type ) {
-		if ( str_starts_with( $name, 'floe/' ) || ! empty( $type->parent ) || ! empty( $type->ancestor ) ) {
+		if ( str_starts_with( $name, 'floe/' ) || in_array( $name, $top_level, true ) || ! empty( $type->parent ) || ! empty( $type->ancestor ) ) {
 			continue;
 		}
 		$type->ancestor = $floe;
 	}
 }
 add_action( 'init', __NAMESPACE__ . '\\restrict_to_slots', PHP_INT_MAX );
+
+/**
+ * Floe sections go on the page itself or in a Floe block's slot (Background,
+ * a two-column Block intro), never inside a core block such as an FAQ's
+ * Details or an Article's Quote. block.json can't say "top level or these
+ * parents", so the editor's insert check does it: a Floe block without a
+ * parent is refused when the block it would go into isn't a Floe block.
+ */
+function section_placement(): void {
+	wp_add_inline_script(
+		'wp-block-editor',
+		"wp.hooks.addFilter( 'blockEditor.__unstableCanInsertBlockType', 'floe/section-placement', function ( canInsert, blockType, rootClientId, select ) {
+			if ( ! canInsert || ! rootClientId || ! blockType.name.startsWith( 'floe/' ) || ( blockType.parent || [] ).length ) {
+				return canInsert;
+			}
+			var root = select.getBlock( rootClientId );
+			return ! root || root.name.startsWith( 'floe/' );
+		} );"
+	);
+}
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\\section_placement' );
 
 // Posts are built from blocks like pages: new posts start with a Page Banner,
 // an Article for the writing, and a CTA. Blocks that are switched off are

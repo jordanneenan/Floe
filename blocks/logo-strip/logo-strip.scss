@@ -40,14 +40,23 @@
 	}
 }
 
+// Ticker: the Carousel component scrolls the logos; they keep their size.
+.logo-strip__ticker {
+	--carousel-gap-y: 28px;
+	--carousel-gap-x: 64px;
+}
+
 .logo-strip__item {
 	display: flex;
 	flex: 0 1 auto;
 	justify-content: center;
 	min-width: 0;
 
-	@include below(tablet) {
-		flex-basis: calc(33.333% - 27px);
+	.logo-strip__logos > & {
+
+		@include below(tablet) {
+			flex-basis: calc(33.333% - 27px);
+		}
 	}
 }
 

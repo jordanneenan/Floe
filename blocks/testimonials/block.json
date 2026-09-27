@@ -19,6 +19,5 @@
 	"editorScript": "file:./assets/testimonials-editor.js",
 	"editorStyle": "file:./assets/testimonials-editor.css",
 	"style": "file:./assets/testimonials.css",
-	"viewScript": "file:./assets/testimonials.js",
 	"render": "file:./testimonials.php"
 }

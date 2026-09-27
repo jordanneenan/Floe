@@ -9,6 +9,9 @@ import {
 	MediaSlot,
 	HeadingLevelControl,
 	SurfaceControl,
+	useIsEditing,
+	hasText,
+	hasLink,
 } from '@floe/editor';
 import { Eyebrow } from '@floe/components/eyebrow';
 import metadata from './block.json';
@@ -16,6 +19,8 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, name } ) {
 	const { surface, headingLevel, media } = attributes;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
+	const showNote = editing || hasText( attributes.note );
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: media?.id ? 'has-media' : '' },
@@ -62,11 +67,13 @@ function Edit( { attributes, setAttributes, name } ) {
 					/>
 				) }
 				<div className="cta-panel__copy">
-					<Eyebrow>
-						{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
-							allowedFormats: [],
-						} )( { tagName: 'span' } ) }
-					</Eyebrow>
+					{ ( editing || hasText( attributes.eyebrow ) ) && (
+						<Eyebrow>
+							{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
+								allowedFormats: [],
+							} )( { tagName: 'span' } ) }
+						</Eyebrow>
+					) }
 					{ text(
 						'heading',
 						__( 'Heading', 'floe' )
@@ -82,17 +89,28 @@ function Edit( { attributes, setAttributes, name } ) {
 						className: 'cta-panel__body',
 					} ) }
 				</div>
-				<div className="cta-panel__actions">
-					<LinkButton
-						value={ attributes.action }
-						onChange={ ( action ) => setAttributes( { action } ) }
-						placeholder={ __( 'Action', 'floe' ) }
-					/>
-					{ text(
-						'note',
-						__( 'Optional note, e.g. or email hello@…', 'floe' )
-					)( { tagName: 'p', className: 'cta-panel__note' } ) }
-				</div>
+				{ ( showNote || hasLink( attributes.action ) ) && (
+					<div className="cta-panel__actions">
+						<LinkButton
+							value={ attributes.action }
+							onChange={ ( action ) =>
+								setAttributes( { action } )
+							}
+							placeholder={ __( 'Action', 'floe' ) }
+						/>
+						{ showNote &&
+							text(
+								'note',
+								__(
+									'Optional note, e.g. or email hello@…',
+									'floe'
+								)
+							)( {
+								tagName: 'p',
+								className: 'cta-panel__note',
+							} ) }
+					</div>
+				) }
 			</div>
 		</>
 	);

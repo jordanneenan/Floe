@@ -1,4 +1,5 @@
-// Figma 35:75. One to three panels side by side.
+// Figma 35:75. One to four panels side by side. Four sit two by two until
+// there's room for four across (1280px).
 @use "floe" as *;
 
 .cta__inner {
@@ -23,5 +24,16 @@
 
 	@include from(desktop) {
 		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+.cta--count-4 .cta__inner {
+
+	@include from(desktop) {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	@include from(large) {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
 	}
 }

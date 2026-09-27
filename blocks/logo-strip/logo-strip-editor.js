@@ -4,12 +4,24 @@ import {
 	MediaUpload,
 	MediaUploadCheck,
 	BlockControls,
+	InspectorControls,
 } from '@wordpress/block-editor';
-import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import {
+	PanelBody,
+	ToggleControl,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, useText } from '@floe/editor';
+import {
+	useFloeBlockProps,
+	useText,
+	useIsEditing,
+	hasText,
+} from '@floe/editor';
+import { Carousel } from '@floe/components/carousel';
 import metadata from './block.json';
 
 const MASKED = [ 'image/png', 'image/webp', 'image/gif', 'image/svg+xml' ];
@@ -56,14 +68,17 @@ function Logo( { id } ) {
 }
 
 function Edit( { attributes, setAttributes, name } ) {
-	const { logos } = attributes;
+	const { logos, ticker } = attributes;
+	const limit = ticker ? 24 : 8;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name );
 	const onSelect = ( items ) =>
 		setAttributes( {
-			logos: items.slice( 0, 8 ).map( ( item ) => ( { id: item.id } ) ),
+			logos: items.slice( 0, 24 ).map( ( item ) => ( { id: item.id } ) ),
 		} );
-	const ids = logos.map( ( logo ) => logo.id );
+	const ids = logos.slice( 0, limit ).map( ( logo ) => logo.id );
+	const list = ids.map( ( id ) => <Logo key={ id } id={ id } /> );
 
 	return (
 		<>
@@ -88,25 +103,66 @@ function Edit( { attributes, setAttributes, name } ) {
 					</MediaUploadCheck>
 				</BlockControls>
 			) }
+			<InspectorControls>
+				<PanelBody title={ __( 'Settings', 'floe' ) }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Scroll as a ticker', 'floe' ) }
+						help={
+							ticker
+								? __(
+										'The logos scroll past continuously (up to 24). Visitors can pause it, and it stays still for anyone who prefers reduced motion.',
+										'floe'
+									)
+								: __(
+										'Four to eight logos in one row. Turn this on to show more, scrolling past continuously.',
+										'floe'
+									)
+						}
+						checked={ ticker }
+						onChange={ ( next ) =>
+							setAttributes( { ticker: next } )
+						}
+					/>
+					{ logos.length > limit && (
+						<p>
+							{ __(
+								'Only the first eight logos show in a row. Turn on the ticker to show them all.',
+								'floe'
+							) }
+						</p>
+					) }
+				</PanelBody>
+			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="logo-strip__inner">
-					{ text(
-						'label',
-						__( 'Short label, e.g. Trusted by teams at', 'floe' ),
-						{ allowedFormats: [] }
-					)( { tagName: 'p', className: 'logo-strip__label' } ) }
-					{ logos.length ? (
-						<ul className="logo-strip__logos">
-							{ ids.map( ( id ) => (
-								<Logo key={ id } id={ id } />
-							) ) }
-						</ul>
-					) : (
+					{ ( editing || hasText( attributes.label ) ) &&
+						text(
+							'label',
+							__(
+								'Short label, e.g. Trusted by teams at',
+								'floe'
+							),
+							{ allowedFormats: [] }
+						)( { tagName: 'p', className: 'logo-strip__label' } ) }
+					{ logos.length && ticker ? (
+						<Carousel
+							mode="ticker"
+							list
+							className="logo-strip__ticker"
+						>
+							{ list }
+						</Carousel>
+					) : null }
+					{ logos.length && ! ticker ? (
+						<ul className="logo-strip__logos">{ list }</ul>
+					) : null }
+					{ ! logos.length && (
 						<MediaPlaceholder
 							labels={ {
 								title: __( 'Logos', 'floe' ),
 								instructions: __(
-									'Choose four to eight logos. Transparent PNG or WebP files work best: they’re shown in one muted colour.',
+									'Choose four to eight logos, or up to 24 for a ticker. Transparent PNG or WebP files work best: they’re shown in one muted colour.',
 									'floe'
 								),
 							} }

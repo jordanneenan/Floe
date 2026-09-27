@@ -2,11 +2,12 @@ import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useText, MediaSlot } from '@floe/editor';
+import { useText, MediaSlot, useIsEditing, hasText } from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes } ) {
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useBlockProps( { className: 'quote' } );
 	return (
 		<>
@@ -46,9 +47,13 @@ function Edit( { attributes, setAttributes } ) {
 						{ text( 'name', __( 'Name', 'floe' ), {
 							allowedFormats: [],
 						} )( { tagName: 'span', className: 'quote__name' } ) }
-						{ text( 'role', __( 'Role, organisation', 'floe' ), {
-							allowedFormats: [],
-						} )( { tagName: 'span', className: 'quote__role' } ) }
+						{ ( editing || hasText( attributes.role ) ) &&
+							text( 'role', __( 'Role, organisation', 'floe' ), {
+								allowedFormats: [],
+							} )( {
+								tagName: 'span',
+								className: 'quote__role',
+							} ) }
 					</span>
 				</figcaption>
 			</figure>

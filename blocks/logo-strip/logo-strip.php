@@ -1,8 +1,9 @@
 <?php
 /**
- * Logo strip: a label plus 4–8 logos from the media library in one muted
- * tone. Logos with transparency (PNG, WebP, GIF, SVG) are recoloured to the
- * muted ink with a CSS mask; other files are shown in greyscale.
+ * Logo strip: a label plus logos from the media library in one muted tone.
+ * Logos with transparency (PNG, WebP, GIF, SVG) are recoloured to the muted
+ * ink with a CSS mask; other files are shown in greyscale. Four to eight sit
+ * in a row; as a ticker (the Carousel component) up to 24 scroll past.
  *
  * @var array    $attributes
  * @var WP_Block $block
@@ -10,8 +11,9 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$items = '';
-foreach ( array_slice( (array) $attributes['logos'], 0, 8 ) as $logo ) {
+$ticker = ! empty( $attributes['ticker'] );
+$items  = '';
+foreach ( array_slice( (array) $attributes['logos'], 0, $ticker ? 24 : 8 ) as $logo ) {
 	$id  = absint( $logo['id'] ?? 0 );
 	$src = $id ? wp_get_attachment_image_src( $id, 'mobile' ) : false;
 	if ( ! $src ) {
@@ -45,12 +47,26 @@ if ( '' === $items ) {
 	return;
 }
 $label = trim( (string) $attributes['label'] );
+$logos = $ticker ? Floe\component(
+	'carousel',
+	array(
+		'mode'    => 'ticker',
+		'list'    => true,
+		'content' => $items,
+		'label'   => $label ? wp_strip_all_tags( $label ) : __( 'Logos', 'floe' ),
+		'class'   => 'logo-strip__ticker',
+	)
+) : '';
 ?>
 <section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="logo-strip__inner">
 		<?php if ( $label ) : ?>
 			<p class="logo-strip__label"><?php echo wp_kses_post( $label ); ?></p>
 		<?php endif; ?>
-		<ul class="logo-strip__logos"><?php echo $items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></ul>
+		<?php if ( $logos ) : ?>
+			<?php echo $logos; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- component output. ?>
+		<?php else : ?>
+			<ul class="logo-strip__logos"><?php echo $items; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></ul>
+		<?php endif; ?>
 	</div>
 </section>

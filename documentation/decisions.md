@@ -34,7 +34,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Brief 4, judgement on the mechanism
 - **Decision:** The top-level allowlist (`allowed_block_types_all`) is built from discovered blocks, so there's never a hand-written list. Core blocks are only offered inside designated slots (Article and other blocks' inner-block areas). Shortcodes, columns and plugin blocks are not allowed at the top level; form plugin blocks go in the Contact and Newsletter form slots instead.
-- **Status:** Adopted (phases 1–2, 2026-09-26)
+- **Status:** Adopted (phases 1–2, 2026-09-26). 2026-09-27: the Shortcode block may now also go at the top level (D66).
 
 ## D6: Components are discovered, namespaced, escaped and fail soft
 
@@ -285,7 +285,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-26)
 - **Decision:** The CTA block is a container of 1–3 **CTA panel** child blocks, each with eyebrow, heading, body, action, note, optional image and its own surface (Ink, Accent, Tint, Subtle). One panel keeps the wide Figma layout; two or three sit in equal columns with headings stepping down in size. Existing CTAs were converted to one-panel CTAs.
-- **Status:** Adopted (phase 8)
+- **Status:** Adopted (phase 8). 2026-09-27: up to four panels (D63).
 
 ## D40: Dark mode follows the device until the visitor chooses
 
@@ -390,7 +390,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-27): on mobile the In-page navigation's links were cut off, clipping the first pill; fade them out at the left and right so it's obvious they scroll, especially on the right.
 - **Decision:** The link list fades out over up to 48px at either edge where there's more to scroll to (`mask-image`). `in-page-nav.js` sets each fade's width from how far there is to scroll, so a fade grows in as the list moves off an end rather than switching on. The active link now scrolls to the middle of the list, measured on screen, so it stays clear of the fades; the old `offsetLeft - 16` measured from the nav, not the list. The clipping itself came from base.scss's `ul[class]` reset outranking `.in-page-nav__list`, so the list's edge-to-edge margin and its padding never applied and the links stopped at the content edge. The list's selector now has two classes. The reset also overrides margins on core List blocks and the Posts filters; that is left for a separate change.
-- **Status:** Adopted; the reset is fixed at the root and the list's selector is back to one class (D58).
+- **Status:** Adopted; the reset is fixed at the root and the list's selector is back to one class (D70).
 
 ## D57: The sticky header turns to glass as it shrinks
 
@@ -398,7 +398,79 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** The sticky header's background mixes from `--surface-background` to `--surface-glass` (the In-page navigation's 90% white, or its dark-mode value) and its `backdrop-filter` blur goes from 0 to 10px, both driven by `--floe-header-progress`, so the glass comes in over the same first 300px as the shrink. While the mobile menu is open the bar stays solid, matching the panel under it. Without JavaScript it stays solid.
 - **Status:** Adopted
 
-## D58: Resets have zero specificity
+## D58: Floe's own carousel, used by every carousel
+
+- **Source:** Jordan (2026-09-27): no third-party carousel plugin; build one that every carousel uses.
+- **Decision:** A **Carousel** component (`components/carousel/`) with two modes. *Slides* is a CSS scroll-snap track, so swipe, trackpad and keyboard scrolling work without script; `carousel.js` adds previous/next buttons that step one slide (hidden when everything fits), arrow/Home/End keys, "2 of 6" slide labels and a `floe:carousel` event. *Ticker* repeats the items until one run fills the width, then slides a second identical run into place on a CSS animation whose duration comes from a pixels-per-second speed, so the loop never shows a join and the speed is the same at any width. The ticker pauses on hover or focus and has a pause button (WCAG 2.2.2); with reduced motion or no JavaScript its items sit still in a wrapping row, and the copies are `aria-hidden` and `inert`. Scripts that build a carousel later call `window.floe.carousel.init()`. Testimonials now uses it (its own slider script is gone) and falls back to its grid if the component is switched off.
+- **Status:** Adopted
+
+## D59: Image carousel block
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** **Image carousel** holds **Slide** child blocks (image or MP4, optional caption), so slides are reordered with the block movers; **Add images** in the toolbar adds several at once. One slide across the content width from 768px, with a sliver of the next below that. Every slide is cropped to one Shape (16:9, 3:2 default, 4:3, 1:1) so the height doesn't jump.
+- **Status:** Adopted
+
+## D60: Gallery with a lightbox
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** **Gallery** (`floe/image-gallery`) takes images picked in bulk from the media library and lays them out as Grid (even 4:3), Mosaic (a large image beside two small ones, alternating sides, the pattern repeating every six) or Masonry (own proportions, CSS columns), with 2–4 columns. Clicking an image opens the **Lightbox** component: a modal `<dialog>` on the Inverse surface whose slideshow is the Carousel, with the library's alt text and caption, a count, arrow keys and Escape. The Lightbox is a component so other blocks can use it later. The block is named `image-gallery`, not `gallery`, because WordPress's own `[gallery]` shortcode, and plugins that style it, use the class `gallery`.
+- **Status:** Adopted
+
+## D61: Icon grid is a Cards style, offered as a variation
+
+- **Source:** Jordan (2026-09-27): an icon grid with icon, copy and a link, two to four columns.
+- **Decision:** Rather than a new block, Cards gets an **Icon** style (the Feature panel with a 56px icon in place of the number, any image or SVG, decorative) and a **Columns** setting (2–4; four only from 1280px, two by two below). A block variation named **Icon grid** puts it in the inserter under that name.
+- **Status:** Adopted
+
+## D62: Article width in Advanced
+
+- **Source:** Jordan (2026-09-27): Article is where edge cases go, so it needs a width setting and a full-width option.
+- **Decision:** Block settings → Advanced has **Full width** (the whole 1248px content width, not the browser edge) and **Maximum width** (320–1248px; reset returns to the 860px column), stored as `fullWidth` and `width` and applied through `--article-width`. Article also accepts the Shortcode block.
+- **Status:** Adopted
+
+## D63: CTA holds up to four panels
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** Four panels sit in one row from 1280px and two by two between 768 and 1279px; headings drop to H3 size as with three. Per-panel text colour isn't added: each panel's surface sets it.
+- **Status:** Adopted
+
+## D64: Logo strip ticker
+
+- **Source:** Jordan (2026-09-27): a logo carousel that scrolls past continuously, like a ticker.
+- **Decision:** A **Scroll as a ticker** option on Logo strip (up to 24 logos) rather than a second logo block, using the Carousel component's ticker mode. Without it the strip is unchanged (four to eight in a row).
+- **Status:** Adopted
+
+## D65: Image + Copy "Switch side", Stat prefix
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** Image + Copy gets a **Switch side** checkbox in its settings (image right, text left), stored in the existing `mediaPosition`, so stacked blocks can alternate; the toolbar buttons stay. Stat gets a **Prefix** (£, $, ~) in its settings, shown before the value at the value's size and colour and kept outside it so Count up only ticks the number.
+- **Status:** Adopted
+
+## D66: Shortcodes at the top level; the footer at the bottom of short pages
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** The Shortcode block can go directly on a page. `includes/editor.php` exempts blocks named by a new `floe_top_level_blocks` filter from the Floe-only `ancestor`, and `includes/content/shortcode.php` adds the Shortcode block and wraps a top-level one in the content width with a section's spacing (a `render_block_data` flag marks blocks with no parent). Columns stay out until needed. On short pages the footer sits at the bottom of the window: `body` is a flex column at least `100dvh` tall and `.site-main` grows, scoped with `:has(> .site-main)` so the editor canvas (which also loads base.css) isn't affected.
+- **Status:** Adopted
+
+## D67: Floe sections stay out of core blocks
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27). The brief says Floe sections are the top-level items and core blocks go in slots; the editor still let a Home Banner, CTA or any other section be inserted inside an FAQ's Details or an Article's Quote.
+- **Decision:** A Floe block without a `parent` can be inserted only at the top level or into a Floe block (Background, a two-column Block intro, or any Floe slot that lists it). `block.json` can't express "top level or these parents", so `includes/editor.php` adds this check to the editor's `blockEditor.__unstableCanInsertBlockType` filter. The filter's name is marked unstable; if WordPress renames or drops it, the fallback is `allowedBlocks` on the Details items in FAQ's template.
+- **Status:** Adopted
+
+## D68: Empty optional parts show only while a block is edited
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27), after Jordan saw spacing in the editor that didn't match the page. Every empty optional part showed its placeholder in the editor (a Block intro's "Optional button", a Page Banner's intro, a CTA panel's note) but renders nothing on the page, so unselected blocks were up to 112px taller in the editor and the spacing looked wrong.
+- **Decision:** An empty optional part, and a wrapper left with nothing in it, shows only while its block, or a block inside it, is selected, as core does with captions (Media and Slide already did this for theirs). Headings, body text and names always show, so a new block never collapses to nothing. A button with a label but no link stays visible, outlined, because it won't appear on the page until it's linked. `@floe/editor` provides `useIsEditing()`, `hasText()` and `hasLink()`, and `LinkButton` and `EditableSectionHeader` apply the rule themselves.
+- **Status:** Adopted
+
+## D69: SVG uploads, cleaned in the theme
+
+- **Source:** Jordan (2026-09-27): add SVG support securely, in the platform rather than as a plugin. Logo strip, Icon grid cards and the logo already expected SVGs, but WordPress refused them.
+- **Decision:** `includes/media/svg.php` accepts `.svg` uploads from people who can upload files and are trusted with unfiltered HTML (administrators and editors on a single site; the `floe_svg_uploads` filter changes who). A sanitiser failure then gives nobody more power than they already have. Every SVG is rebuilt from an allowlist before WordPress stores it, whoever uploads it: drawing elements and their attributes only; `href` and CSS `url()` only to an `#id` in the file, plus embedded PNG, JPEG, GIF or WebP data in `<image>`; CSS that could fetch a file (`@import`, `image-set()` and similar) or hide something behind an escape is dropped; links are unwrapped. A file that isn't well-formed SVG, or whose DOCTYPE declares entities, is refused, and the parser never reads from the network. An `.svg` only passes WordPress's file type check once it's clean, and `wp_upload_bits()` (XML-RPC, importers), which skips the upload filters, can't write SVGs at all. The SVG's width and height are saved as attachment metadata, so core treats it as an image everywhere. SVGs never reach the image editor or the Customizer's cropper, and the media modal hides **Edit Image** for them. Written in the theme with PHP's DOM rather than bundling a sanitiser library, because Floe has no Composer dependencies. Compressed `.svgz` files aren't accepted.
+- **Status:** Adopted
+
+## D70: Resets have zero specificity
 
 - **Source:** D56 left base.scss's `ul[class], ol[class]` reset overriding list margins in components. Its specificity (0,1,1) beat every single-class rule (0,1,0), so a component's list margin and padding silently didn't apply.
 - **Decision:** The reset is now `:where(ul[class], ol[class])`, which has zero specificity, so any component rule overrides it and lists with no rules of their own are still reset. The In-page navigation's list selector is back to one class, `.in-page-nav__list`, with no change in how it looks. The editor gets the same fix, because WordPress adds editor styles to the iframed canvas unprefixed. Testing every published page at 375px and 1440px found two other lists whose styles change:

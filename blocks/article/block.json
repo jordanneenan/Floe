@@ -9,9 +9,11 @@
 	"description": "A reading column for long-form content written with WordPress's own blocks: headings, paragraphs, lists, quotes, images, tables and buttons.",
 	"keywords": [ "text", "content", "prose", "copy" ],
 	"textdomain": "floe",
-	"allowedBlocks": [ "core/heading", "core/paragraph", "core/list", "core/list-item", "core/quote", "core/pullquote", "core/image", "floe/media", "core/table", "core/separator", "core/buttons", "core/button", "core/embed" ],
+	"allowedBlocks": [ "core/heading", "core/paragraph", "core/list", "core/list-item", "core/quote", "core/pullquote", "core/image", "floe/media", "core/table", "core/separator", "core/buttons", "core/button", "core/embed", "core/shortcode" ],
 	"attributes": {
-		"action": { "type": "object", "default": {} }
+		"action": { "type": "object", "default": {} },
+		"fullWidth": { "type": "boolean", "default": false },
+		"width": { "type": "number", "default": 0 }
 	},
 	"supports": {
 		"html": false,

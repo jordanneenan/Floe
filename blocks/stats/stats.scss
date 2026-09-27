@@ -42,9 +42,15 @@
 	margin: 0;
 }
 
+.stat__prefix,
 .stat__value {
 
 	@include type(display);
+}
+
+// The prefix sits tight against the number, inside the figure's gap.
+.stat__prefix {
+	margin-right: -4px;
 }
 
 .stat__unit {

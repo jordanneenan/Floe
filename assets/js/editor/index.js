@@ -15,6 +15,8 @@ import {
 	MediaUploadCheck,
 	MediaPlaceholder,
 	LinkControl,
+	useBlockEditContext,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import {
 	Button as WPButton,
@@ -68,6 +70,28 @@ export function useFloeBlockProps(
 }
 
 /**
+ * Whether the block being edited is selected or holds the selected block.
+ * Empty optional parts (an eyebrow, intro, note or button) show only then,
+ * so a block that isn't being edited looks as it will on the page, where
+ * empty parts aren't rendered.
+ *
+ * @return {boolean} True while the block is being edited.
+ */
+export function useIsEditing() {
+	const { clientId } = useBlockEditContext();
+	return useSelect(
+		( select ) => {
+			const store = select( blockEditorStore );
+			return (
+				store.isBlockSelected( clientId ) ||
+				store.hasSelectedInnerBlock( clientId, true )
+			);
+		},
+		[ clientId ]
+	);
+}
+
+/**
  * Returns a render function for a RichText bound to an attribute, for the
  * { tagName, className } parts accepted by component twins.
  *
@@ -115,7 +139,14 @@ export function LinkButton( {
 } ) {
 	const [ isOpen, setOpen ] = useState( false );
 	const anchor = useRef();
+	const editing = useIsEditing();
 	const current = value || {};
+
+	// Empty, it shows only while its block is edited. With a label but no
+	// link it stays, outlined, as the page won't show it until it's linked.
+	if ( ! editing && ! hasLink( current ) ) {
+		return null;
+	}
 
 	return (
 		<span
@@ -397,21 +428,26 @@ export function EditableSectionHeader( {
 	placeholders = {},
 } ) {
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	return (
 		<SectionHeader
 			layout={ layout }
 			headingLevel={ attributes.headingLevel || 2 }
-			eyebrow={ text(
-				'eyebrow',
-				placeholders.eyebrow || __( 'Eyebrow', 'floe' ),
-				{ allowedFormats: [] }
-			) }
+			eyebrow={
+				editing || hasText( attributes.eyebrow )
+					? text(
+							'eyebrow',
+							placeholders.eyebrow || __( 'Eyebrow', 'floe' ),
+							{ allowedFormats: [] }
+						)
+					: null
+			}
 			heading={ text(
 				'heading',
 				placeholders.heading || __( 'Section heading', 'floe' )
 			) }
 			intro={
-				intro
+				intro && ( editing || hasText( attributes.intro ) )
 					? text(
 							'intro',
 							placeholders.intro ||
@@ -420,7 +456,7 @@ export function EditableSectionHeader( {
 					: null
 			}
 			action={
-				action ? (
+				action && ( editing || hasLink( attributes.action ) ) ? (
 					<LinkButton
 						value={ attributes.action }
 						onChange={ ( value ) =>
@@ -526,3 +562,20 @@ export function useFormSlotBlocks( name ) {
  * @return {string} Plain text.
  */
 export const plain = ( html = '' ) => html.replace( /<[^>]+>/g, '' ).trim();
+
+/**
+ * Whether a text attribute has visible text, as the PHP templates check
+ * before rendering a part.
+ *
+ * @param {string} html Attribute value.
+ * @return {boolean} True when there is text.
+ */
+export const hasText = ( html ) => plain( html || '' ) !== '';
+
+/**
+ * Whether a link attribute ({ label, url, newTab }) holds anything yet.
+ *
+ * @param {Object} link Attribute value.
+ * @return {boolean} True when it has a label or a URL.
+ */
+export const hasLink = ( link ) => !! ( link?.label || link?.url );

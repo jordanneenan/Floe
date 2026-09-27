@@ -36,6 +36,11 @@ Every slot except Article media has a fixed shape and fills it (`object-fit: cov
 | Cards (media style) | 4:3 | 395 × 296 (4:3) | 4:3 | 4:3 | Nothing |
 | Images, 2 or 3 per row (Fill) | 4:3 | 612 × 456 / 400 × 300 | 4:3 | 4:3 | Nothing |
 | Article media | 4:3 | 860 wide, own shape | own shape | own shape | Nothing: shown uncropped |
+| Image carousel | 16:9 (or the carousel's Shape) | 1248 wide at the chosen Shape (3:2 by default) | same | same | 3:2 loses 16% of the width of a 16:9 upload; 16:9 loses nothing |
+| Gallery, Grid | 4:3 | 4:3 tiles, 2–4 across | 4:3 | 4:3 | Nothing |
+| Gallery, Mosaic | 4:3 | large 2:1-ish, small about 4:3 (rows are a fixed height) | | | Varies: keep the subject central |
+| Gallery, Masonry, and the lightbox | any | own shape | own shape | own shape | Nothing: shown uncropped |
+| Cards (icon style) | square icon, transparent PNG or SVG | 56 × 56, shown whole | | | Nothing |
 | Posts (cards) | 16:9 featured image | 395 × 296 (4:3) | 4:3 | 4:3 | 25% of the width |
 | Post banner | 16:9 featured image | as Page Banner | | | as Page Banner |
 | Team person | 4:5 | 294 × 368 (4:5) | 4:5 | 4:5 | Nothing |
@@ -53,6 +58,7 @@ Images set to **Natural** fit keep their own shape and are never cropped.
 
 - **JPEG** for photographs. Floe re-encodes at quality 70 and generates 800, 1440 and 2400px-wide copies ([D12](decisions.md#d12-image-sizes-and-processing-mades-pipeline)), so upload a high-quality JPEG (quality 85–90) and let WordPress do the rest. WebP uploads work too.
 - **PNG** only when the image needs transparency. Opaque PNGs are converted to JPEG on upload and the PNG is deleted.
+- **SVG** for logos and icons. Administrators and editors can upload them. Floe cleans each file as it's uploaded: scripts, links, animation, editor data and anything that loads another file are removed, so export a plain SVG (in Illustrator, Export As → SVG; in Figma, Export → SVG) with the artwork trimmed tight. A file Floe can't read safely is refused with a message. SVGs have no sizes to generate and can't be cropped or edited in WordPress; when you set one as the site logo, choose **Skip cropping**. Use a PNG for the Site Icon, which WordPress has to crop.
 - Anything over 2560px is scaled down by WordPress, so there's nothing to gain from bigger files.
 - sRGB colour, no embedded text, no borders or rounded corners (slots add their own radius).
 - File names describe the picture in lower case with hyphens (`studio-team-review.jpg`), because they become the URL and the default title.

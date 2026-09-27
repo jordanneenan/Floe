@@ -81,8 +81,10 @@
 	@include type(eyebrow);
 }
 
-// Feature card: tinted panel, number, 104px down to the title.
-.card--feature {
+// Feature card: tinted panel, number, 104px down to the title. The Icon
+// card is the same panel with an icon in place of the number.
+.card--feature,
+.card--icon {
 	gap: 16px;
 	height: 100%;
 	padding: 32px 28px;
@@ -117,6 +119,35 @@
 	pointer-events: none;
 }
 
-.card--feature:hover .card__more .button__icon {
+.card__icon {
+	width: 56px;
+	height: 56px;
+	margin-bottom: 32px;
+
+	@include from(desktop) {
+		margin-bottom: 48px;
+	}
+
+	img,
+	.media__image {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
+	.media {
+		height: 100%;
+		background: transparent;
+	}
+
+	// Editor: an empty icon slot needs room for the upload buttons.
+	&.is-empty {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.card--feature:hover .card__more .button__icon,
+.card--icon:hover .card__more .button__icon {
 	transform: translateX(2px);
 }

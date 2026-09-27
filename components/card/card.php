@@ -1,9 +1,10 @@
 <?php
 /**
- * Card component (Figma "Content card"). Three variants:
+ * Card component (Figma "Content card"). Four variants:
  *
  *   post    media, category chip, date, title, excerpt (Posts section)
  *   feature number, title, text, "Learn more" (Cards section, Feature style)
+ *   icon    icon, title, text, "Learn more" (Cards section, Icon style)
  *   media   media, title, text (Cards section, Media style)
  *
  * The title is the link and covers the whole card, so there is no repeated
@@ -15,7 +16,7 @@
  *       'title'         => 'A considered approach',
  *       'text'          => 'Excerpt…',
  *       'url'           => get_permalink(),
- *       'media'         => array( 'id' => 12 ),   // Media component args
+ *       'media'         => array( 'id' => 12 ),   // Media component args (the icon image for 'icon')
  *       'category'      => 'Insights',
  *       'date'          => '12 Jun 2026',
  *       'datetime'      => '2026-06-12',
@@ -30,7 +31,7 @@ namespace Floe\Components;
 defined( 'ABSPATH' ) || exit;
 
 function card( array $args ): string {
-	$variant = in_array( $args['variant'] ?? 'post', array( 'post', 'feature', 'media' ), true ) ? ( $args['variant'] ?? 'post' ) : 'post';
+	$variant = in_array( $args['variant'] ?? 'post', array( 'post', 'feature', 'icon', 'media' ), true ) ? ( $args['variant'] ?? 'post' ) : 'post';
 	$level   = max( 2, min( 4, (int) ( $args['heading_level'] ?? 3 ) ) );
 	$title   = trim( (string) ( $args['title'] ?? '' ) );
 	$url     = (string) ( $args['url'] ?? '' );
@@ -58,6 +59,8 @@ function card( array $args ): string {
 		} elseif ( ! empty( $args['number'] ) ) {
 			$parts[] = '<p class="card__number">' . esc_html( (string) $args['number'] ) . '</p>';
 		}
+	} elseif ( 'icon' === $variant ) {
+		$parts[] = card_icon( absint( $args['media']['id'] ?? 0 ) );
 	} else {
 		$media_args = (array) ( $args['media'] ?? array() );
 		$parts[]    = \Floe\component(
@@ -92,10 +95,25 @@ function card( array $args ): string {
 	if ( '' !== $text ) {
 		$parts[] = '<p class="card__text">' . wp_kses_post( $text ) . '</p>';
 	}
-	if ( 'feature' === $variant && '' !== $url && ! empty( $args['link_label'] ) ) {
+	if ( in_array( $variant, array( 'feature', 'icon' ), true ) && '' !== $url && ! empty( $args['link_label'] ) ) {
 		$parts[] = '<span class="card__more button button--link" aria-hidden="true"><span class="button__label">' . esc_html( (string) $args['link_label'] ) . '</span>' . \Floe\icon( 'arrow', array( 'class' => 'button__icon' ) ) . '</span>';
 	}
 
 	$classes = 'card card--' . $variant . ( '' !== $url ? ' card--linked' : '' );
 	return '<article class="' . esc_attr( $classes ) . '">' . implode( '', array_filter( $parts ) ) . '</article>';
+}
+
+/**
+ * An Icon card's icon: any image from the media library, SVG included, shown
+ * whole at 56px. It's decorative (empty alt): the title says what it means.
+ */
+function card_icon( int $id ): string {
+	if ( ! $id ) {
+		return '';
+	}
+	$url = 'image/svg+xml' === get_post_mime_type( $id ) ? wp_get_attachment_url( $id ) : wp_get_attachment_image_url( $id, 'mobile' );
+	if ( ! $url ) {
+		return '';
+	}
+	return '<div class="card__icon"><img src="' . esc_url( $url ) . '" alt="" width="56" height="56" loading="lazy" decoding="async"></div>';
 }

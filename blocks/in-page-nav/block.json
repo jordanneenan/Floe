@@ -23,6 +23,7 @@
 	"example": { "attributes": { "label": "On this page", "items": [ { "label": "Overview", "anchor": "overview" }, { "label": "Process", "anchor": "process" } ] } },
 	"editorScript": "file:./assets/in-page-nav-editor.js",
 	"style": "file:./assets/in-page-nav.css",
+	"editorStyle": "file:./assets/in-page-nav-editor.css",
 	"viewScript": "file:./assets/in-page-nav.js",
 	"render": "file:./in-page-nav.php"
 }

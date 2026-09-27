@@ -9,7 +9,7 @@ Find a behaviour here before adding another hook.
 | `modules.php` | Discovers blocks and components; enabled state from `floe_disabled_modules` + `floe_enabled_modules` filter. |
 | `theme.php` | Theme supports (title tag, thumbnails, custom logo, responsive embeds, HTML5, editor styles), removes core block patterns, disables remote patterns, registers menu locations. |
 | `assets.php` | Enqueues `assets/css/base.css`; turns on per-block, on-demand asset loading. |
-| `editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level, "Floe sections" / "Floe parts" categories, Page Banner + Article + CTA template for new posts, no Openverse. |
+| `editor.php` | Allowed blocks (Floe + the core slot blocks + any third-party block), keeps non-Floe blocks out of the top level and Floe sections out of core blocks (D67), "Floe sections" / "Floe parts" categories, Page Banner + Article + CTA template for new posts, no Openverse. |
 | `templates.php` | Page title H1 when the content has none; reading-column wrapper for non-section content. |
 | `blocks.php` | Registers enabled blocks; `Floe\block_attributes()`. |
 | `components.php` | Loads enabled components, registers their CSS/JS and loads any component editor script in the block editor; `Floe\component()` and `Floe\icon()`. |
@@ -26,8 +26,10 @@ Delete a file to remove that behaviour.
 | `admin/editor.php` | No block directory, no tags on posts, wider editor sidebar. |
 | `admin/frontend.php` | No emoji scripts; admin bar sits in the page flow. |
 | `admin/code-injection.php` | Customizer → Code injection: Head, Start of body and Footer fields (administrators only; stored as options so they survive a theme change). |
+| `content/shortcode.php` | Shortcode blocks may go directly on a page between sections (through the `floe_top_level_blocks` filter in `editor.php`); there they sit in the content width with a section's spacing below. |
 | `mail/smtp.php` | Sends WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST` (plus `FLOE_SMTP_USER`, `FLOE_SMTP_PASS`, optional `FLOE_SMTP_PORT` and `FLOE_SMTP_FROM`); sender name is the site name instead of "WordPress". |
 | `media/images.php` | Image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
+| `media/svg.php` | SVG uploads for administrators and editors (`floe_svg_uploads` filter to change who). Every SVG is rebuilt from an allowlist on upload (no scripts, event handlers, external references or entities), and its width and height are saved so it works as an image everywhere. SVGs don't go to the image editor or cropper ([D69](decisions.md#d69-svg-uploads-cleaned-in-the-theme)). |
 
 ## Behaviour that lives in a component
 
