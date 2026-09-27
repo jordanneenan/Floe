@@ -66,4 +66,4 @@ Every module can be switched off without deleting it: the `floe_disabled_modules
 
 - Floe is a theme. Behaviour that must survive a theme change belongs in a small plugin Jordan owns (ask first). Flagged candidates: a Team content type, and anything client-specific.
 - Floe doesn't ship a form. Contact and Newsletter have form slots for the site's form plugin.
-- The repository doesn't provision WordPress or ship content: pages live in the site's database.
+- The repository doesn't provision WordPress or ship content: pages live in the site's database, and `bin/floe-sync` moves them between floe.local and floewp.com ([live site](live-site.md)).
