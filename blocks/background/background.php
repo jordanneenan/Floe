@@ -1,11 +1,11 @@
 <?php
 /**
- * Background: a full-width band of colour behind the blocks inside it (Made's
- * Background colour block). Text, links and buttons switch to their light
- * versions on dark colours by themselves; "Force light text" makes them light
- * on any colour. With Auto spacing (on by default) the band has the section
- * space above its first block, and its last block's margin gives the same
- * below. Turn it off to set the space with Spacing blocks inside instead.
+ * Background: a full-width band of colour behind the blocks inside it. Text,
+ * links and buttons switch to their light versions on dark colours by
+ * themselves; "Force light text" makes them light on any colour. With Auto
+ * spacing (on by default) the band has the section space above its first
+ * block, and its last block's margin gives the same below. Turn it off to set
+ * the space with Spacing blocks inside instead.
  *
  * @var array    $attributes
  * @var string   $content
