@@ -26,6 +26,7 @@ Delete a file to remove that behaviour.
 | `admin/editor.php` | No block directory, no tags on posts, wider editor sidebar. |
 | `admin/frontend.php` | No emoji scripts; admin bar sits in the page flow. |
 | `admin/code-injection.php` | Customizer → Code injection: Head, Start of body and Footer fields (administrators only; stored as options so they survive a theme change). |
+| `content/shortcode.php` | Shortcode blocks may go directly on a page between sections (through the `floe_top_level_blocks` filter in `editor.php`); there they sit in the content width with a section's spacing below. |
 | `mail/smtp.php` | Sends WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST` (plus `FLOE_SMTP_USER`, `FLOE_SMTP_PASS`, optional `FLOE_SMTP_PORT` and `FLOE_SMTP_FROM`); sender name is the site name instead of "WordPress". |
 | `media/images.php` | Image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
 

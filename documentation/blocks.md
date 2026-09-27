@@ -11,24 +11,26 @@ Every block is a folder under `blocks/` with its own README describing its field
 | In-page navigation | [in-page-nav](../blocks/in-page-nav/README.md) | Sticky bar of section anchors (automatic or by hand), active item highlighted. |
 | Block intro | [block-intro](../blocks/block-intro/README.md) | Eyebrow, heading, intro and button for the block below it (stacked), or beside one block in two columns. |
 | Background | [background](../blocks/background/README.md) | Full-width band of colour (Subtle, Tint, Inverse or Accent) behind the blocks inside it; Force light text, Auto spacing. |
-| Article | [article](../blocks/article/README.md) | Core blocks in an 860px left-aligned reading column, optional button. |
-| Image + Copy | [image-copy](../blocks/image-copy/README.md) | Media left or right, eyebrow, heading, body, action. |
-| Cards | [cards](../blocks/cards/README.md) | Feature (numbered) or Media cards; child **Card**. Block intro above. |
+| Article | [article](../blocks/article/README.md) | Core blocks (Shortcode included) in an 860px left-aligned reading column, optional button; width or full width in Advanced. |
+| Image + Copy | [image-copy](../blocks/image-copy/README.md) | Media left, or right with Switch side; eyebrow, heading, body, action. |
+| Cards | [cards](../blocks/cards/README.md) | Feature (numbered), Icon or Media cards, 2–4 across; child **Card**. Also in the inserter as **Icon grid**. Block intro above. |
 | Posts | [posts](../blocks/posts/README.md) | Latest of any post type (a number or all, load more by button or scroll, instant filters), hand-picked posts, or manual entries; child **Post card**. Block intro above. |
-| Stats | [stats](../blocks/stats/README.md) | 2–4 figures with accent units; child **Stat**. Block intro above. |
+| Stats | [stats](../blocks/stats/README.md) | 2–4 figures with optional prefixes and accent units; child **Stat**. Block intro above. |
 | Steps | [steps](../blocks/steps/README.md) | 3–5 numbered, connected steps; child **Step**. Block intro above. |
-| Logo strip | [logo-strip](../blocks/logo-strip/README.md) | Label and 4–8 logos in one muted tone. |
+| Logo strip | [logo-strip](../blocks/logo-strip/README.md) | Label and 4–8 logos in one muted tone, or up to 24 scrolling past as a ticker. |
 | Testimonial | [testimonial](../blocks/testimonial/README.md) | One long quote with optional portrait. |
 | Testimonials | [testimonials](../blocks/testimonials/README.md) | Quote cards: grid up to three, slider beyond; child **Quote card**. Block intro above. |
 | Team | [team](../blocks/team/README.md) | People (portrait, name, role); child **Person**. Block intro above. |
 | Table | [table](../blocks/table/README.md) | Core Table with Floe styling, highlighted column, ✓/— icons. Block intro above. |
 | FAQ | [faq](../blocks/faq/README.md) | Core Details items, one-open option, FAQPage structured data. In a two-column Block intro. |
 | Document Download | [document-download](../blocks/document-download/README.md) | File rows from the media library; child **Download**. In a two-column Block intro. |
+| Image carousel | [image-carousel](../blocks/image-carousel/README.md) | Images or MP4s one at a time with captions, previous/next buttons, swipe; child **Slide**. Optional Block intro above, or in two columns. |
+| Gallery | [image-gallery](../blocks/image-gallery/README.md) | Images from the library as a grid, mosaic or masonry; each opens in a full-screen lightbox slideshow. Optional Block intro above, or in two columns. |
 | Images | [images](../blocks/images/README.md) | Rows of 1–3 media (child **Image row** holding **Media**), fill or natural fit. Optional Block intro above, or in two columns. |
 | Video | [video](../blocks/video/README.md) | YouTube cover and play control; privacy-enhanced player loads on click. Block intro above, or in two columns. |
 | Contact | [contact](../blocks/contact/README.md) | Details, optional map image, form slot (child **Form**, or a form plugin). |
 | Newsletter | [newsletter](../blocks/newsletter/README.md) | Tint panel with a form slot (child **Form**, or a mailing provider), or a slim CTA. |
-| CTA | [cta](../blocks/cta/README.md) | One to three panels side by side (Ink, Accent, Tint or Subtle); child **CTA panel**. |
+| CTA | [cta](../blocks/cta/README.md) | One to four panels side by side (Ink, Accent, Tint or Subtle); child **CTA panel**. |
 | Spacing | [spacing](../blocks/spacing/README.md) | Exact gap below a block, per breakpoint, in place of its margin. |
 
 **Form** (`floe/form`, [README](../blocks/form/README.md)) is Floe's built-in enquiry form and newsletter signup. It's a child of both Contact and Newsletter, so it sits at the top level of `blocks/`.
