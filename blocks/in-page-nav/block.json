@@ -6,7 +6,7 @@
 	"title": "In-page navigation",
 	"category": "floe-sections",
 	"icon": "list-view",
-	"description": "A sticky bar linking to the sections on a long page. Built automatically from section anchors, with a manual override.",
+	"description": "A sticky bar linking to the blocks on a long page. Built automatically from block anchors, with a manual override.",
 	"keywords": [ "anchors", "jump links", "table of contents", "sticky" ],
 	"textdomain": "floe",
 	"attributes": {
@@ -15,6 +15,7 @@
 		"action": { "type": "object", "default": {} }
 	},
 	"supports": {
+		"floeBackground": false,
 		"html": false,
 		"anchor": false,
 		"floeSection": false

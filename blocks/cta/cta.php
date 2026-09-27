@@ -15,7 +15,7 @@ if ( ! $count || '' === trim( $content ) ) {
 	return;
 }
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base', 'class' => 'cta--count-' . $count ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array( 'class' => 'cta--count-' . $count ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="cta__inner">
 		<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</div>

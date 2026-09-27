@@ -6,20 +6,19 @@
 	"title": "Video",
 	"category": "floe-sections",
 	"icon": "video-alt3",
-	"description": "A YouTube video behind a cover image and play button. The player loads only when a visitor presses play. Put it in an Intro for a heading.",
+	"description": "A YouTube video behind a cover image and play button. The player loads only when a visitor presses play. Add a Block intro above it for a heading, or put it in a two-column one.",
 	"keywords": [ "youtube", "film", "embed" ],
 	"textdomain": "floe",
 	"attributes": {
 		"url": { "type": "string", "default": "" },
 		"cover": { "type": "object", "default": {} },
-		"duration": { "type": "string", "default": "" },
-		"surface": { "type": "string", "enum": [ "inverse", "base", "subtle" ], "default": "inverse" }
+		"duration": { "type": "string", "default": "" }
 	},
 	"usesContext": [ "floe/nested", "floe/heading" ],
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"floeIntro": [ "above", "beside" ]
+		"floeBlockIntro": true
 	},
 	"example": { "attributes": { "duration": "2:14" } },
 	"editorScript": "file:./assets/video-editor.js",

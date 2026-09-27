@@ -6,7 +6,7 @@ import {
 } from '@wordpress/block-editor';
 import { PanelBody, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, SurfaceControl } from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
 const TEMPLATE = [
@@ -16,11 +16,11 @@ const TEMPLATE = [
 ];
 
 function Edit( { attributes, setAttributes, name, context } ) {
-	const { style, surface } = attributes;
+	const { style } = attributes;
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `cards--${ style }` },
-		{ surface, context }
+		{ context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'cards__grid' },
@@ -54,14 +54,6 @@ function Edit( { attributes, setAttributes, name, context } ) {
 						onChange={ ( next ) =>
 							setAttributes( { style: next } )
 						}
-					/>
-					<SurfaceControl
-						value={ surface }
-						onChange={ ( next ) =>
-							setAttributes( { surface: next } )
-						}
-						options={ [ 'base', 'subtle', 'tint' ] }
-						context={ context }
 					/>
 				</PanelBody>
 			</InspectorControls>

@@ -6,7 +6,7 @@
 	"title": "Images",
 	"category": "floe-sections",
 	"icon": "format-gallery",
-	"description": "Rows of one, two or three images or looping MP4s. Put it in an Intro for a heading.",
+	"description": "Rows of one, two or three images or looping MP4s. Add a Block intro above it for a heading, or put it in a two-column one.",
 	"keywords": [ "gallery", "grid", "photos" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/image-row" ],
@@ -20,7 +20,7 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"floeIntro": [ "above", "beside" ]
+		"floeBlockIntro": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/image-row", "innerBlocks": [ { "name": "floe/media" }, { "name": "floe/media" } ] } ] },
 	"editorScript": "file:./assets/images-editor.js",

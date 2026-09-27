@@ -1,7 +1,7 @@
 <?php
 /**
- * Cards: a grid of Feature or Media cards. The heading group comes from an
- * Intro block holding the Cards.
+ * Cards: a grid of Feature or Media cards. The heading group is a Block intro
+ * above it.
  *
  * @var array    $attributes
  * @var string   $content
@@ -15,7 +15,7 @@ if ( '' === trim( $content ) ) {
 }
 $style = 'media' === $attributes['style'] ? 'media' : 'feature';
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => $attributes['surface'], 'class' => 'cards--' . $style ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array( 'class' => 'cards--' . $style ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="cards__inner">
 		<div class="cards__grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 	</div>

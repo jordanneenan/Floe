@@ -9,14 +9,21 @@ const globals = require( 'globals' );
 module.exports = [
 	...wpConfig,
 	{
-		ignores: [ 'blocks/**/assets/**', 'components/**/assets/**', 'assets/js/build/**' ],
+		ignores: [
+			'blocks/**/assets/**',
+			'components/**/assets/**',
+			'assets/js/build/**',
+		],
 	},
 	{
 		languageOptions: {
 			globals: { ...globals.browser },
 		},
 		rules: {
-			'import/no-unresolved': [ 'error', { ignore: [ '^@floe/', '^@wordpress/' ] } ],
+			'import/no-unresolved': [
+				'error',
+				{ ignore: [ '^@floe/', '^@wordpress/' ] },
+			],
 			'import/no-extraneous-dependencies': 'off',
 		},
 	},

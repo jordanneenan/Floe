@@ -6,7 +6,7 @@
 	"title": "Table",
 	"category": "floe-sections",
 	"icon": "editor-table",
-	"description": "A comparison table built with WordPress's own Table block, with an optional highlighted column. Put it in an Intro for a heading.",
+	"description": "A comparison table built with WordPress's own Table block, with an optional highlighted column. Add a Block intro above it for a heading.",
 	"keywords": [ "comparison", "pricing", "plans" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "core/table" ],
@@ -18,8 +18,7 @@
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": { "attributes": { "highlight": 1, "badge": "Popular" } },
 	"editorScript": "file:./assets/table-editor.js",

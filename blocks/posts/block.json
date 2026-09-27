@@ -6,7 +6,7 @@
 	"title": "Posts",
 	"category": "floe-sections",
 	"icon": "grid-view",
-	"description": "A grid of post cards: the latest of any post type (a set number or all, with load more and filters), hand-picked posts, or manual entries. Put it in an Intro for a heading.",
+	"description": "A grid of post cards: the latest of any post type (a set number or all, with load more and filters), hand-picked posts, or manual entries. Add a Block intro above it for a heading.",
 	"keywords": [
 		"news",
 		"blog",
@@ -81,10 +81,7 @@
 	],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [
-			"above"
-		]
+		"anchor": true
 	},
 	"example": {},
 	"editorScript": "file:./assets/posts-editor.js",

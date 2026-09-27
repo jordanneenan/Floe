@@ -6,7 +6,7 @@
 	"title": "Quote card",
 	"category": "floe-parts",
 	"icon": "format-quote",
-	"description": "One short quote in a Testimonials section.",
+	"description": "One short quote in a Testimonials block.",
 	"textdomain": "floe",
 	"parent": [ "floe/testimonials" ],
 	"attributes": {

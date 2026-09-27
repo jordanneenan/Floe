@@ -6,15 +6,14 @@
 	"title": "Testimonials",
 	"category": "floe-sections",
 	"icon": "format-quote",
-	"description": "Several short quotes as cards: a grid for up to three, a slider with previous and next buttons for more. Put it in an Intro for a heading.",
+	"description": "Several short quotes as cards: a grid for up to three, a slider with previous and next buttons for more. Add a Block intro above it for a heading.",
 	"keywords": [ "quotes", "reviews", "slider" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/quote" ],
 	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true,
-		"floeIntro": [ "above" ]
+		"anchor": true
 	},
 	"example": { "innerBlocks": [ { "name": "floe/quote", "attributes": { "quote": "“We publish weekly now.”", "name": "Priya Shah", "role": "Marketing lead" } }, { "name": "floe/quote", "attributes": { "quote": "“Nothing looks off even when we move fast.”", "name": "Tom Reeves", "role": "Communications" } } ] },
 	"editorScript": "file:./assets/testimonials-editor.js",
