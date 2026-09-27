@@ -32,7 +32,7 @@ If you can't find Made, tell Jordan rather than guessing.
 
 | Item | Value |
 | --- | --- |
-| Repository | `~/Local Sites/floe/app/public/wp-content/themes/floe`, remote `https://github.com/jordanneenan/Floe.git`, branch `main`. This is the **only** copy of the project: there is no `~/Projects/Floe` and no symlink. |
+| Repository | `~/Local Sites/floe/app/public/wp-content/themes/floe`, remote `https://github.com/jordanneenan/Floe.git`, branches `dev` (floe.local) and `main` (the live site). This is the **only** copy of the project: there is no `~/Projects/Floe` and no symlink. |
 | Local site | LocalWP site "floe" at `~/Local Sites/floe/app/public`, URL `http://floe.local`. The theme folder *is* the repository, so edits show up at `floe.local` immediately. |
 | Paths | `Local Sites` contains a space. Quote every path in shell commands and scripts (`"$HOME/Local Sites/floe/..."`), and never assume the repo sits at a fixed absolute path; resolve it relative to the script. |
 | Figma | `https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n` (see section 9 for node IDs) |
@@ -53,12 +53,14 @@ If you can't find Made, tell Jordan rather than guessing.
 
 **Git workflow.** Build it like a proper project:
 
-- Work on a branch per phase (`phase-1-foundations`, `phase-2-modules`, …). Never commit straight to `main`, and never force-push `main`.
+- Work on a branch per phase (`phase-1-foundations`, `phase-2-modules`, …), started from `origin/dev`. Never commit straight to `dev` or `main`, and never force-push them.
 - Make small, focused commits with imperative messages ("Add Button component", "Rebuild Home Banner against v2 design").
 - Commit source **and** generated build output. The theme must work without Node on a server.
-- Push the branch. If the `gh` CLI is authenticated, open a pull request describing what changed, how it was verified and what still needs Jordan's eye. Otherwise tell Jordan the branch is pushed.
+- Push the branch. If the `gh` CLI is authenticated, open a pull request into `dev` describing what changed, how it was verified and what still needs Jordan's eye. Otherwise tell Jordan the branch is pushed.
 - Stop at the end of each phase for Jordan's review before merging.
 - Keep `node_modules/`, `.screenshots/`, and any local database or export out of git.
+
+*Changed 2026-09-27 ([D51](decisions.md#d51-a-dev-branch-between-feature-branches-and-live)):* there's now a `dev` branch between feature branches and the live site. floe.local runs `dev`, pull requests target `dev`, and merging `dev` into `main` is the release.
 
 ## 3. Architecture: everything is a module
 

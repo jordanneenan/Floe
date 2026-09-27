@@ -159,7 +159,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Figma (every block frame includes its own padding), adapting Made's section gaps
 - **Decision:** Each section pads itself top and bottom (`--floe-section-space`: 120 large desktop, 96 desktop, 80 tablet, 64 mobile; banners, CTA, Newsletter and Logo strip use the fractions drawn in Figma). Two adjacent sections therefore sit 240px apart at 1440, as the brochure frames show. A Spacing block between two sections removes the padding on the facing edges, so the gap is exactly its value. Spacing's presets and ÷1.4/÷1.8 ratios are unchanged.
-- **Status:** Adopted (phase 2)
+- **Status:** Superseded by D49
 
 ## D20: Editor lockdown through `ancestor`
 
@@ -321,6 +321,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-27): "make that block a separate block so you can put it on top of any block", with an option for two columns and the block on the right (as FAQ has), without letting editors break their layouts; chose to replace the built-in headings rather than keep both
 - **Decision:** A new **Intro** block holds the eyebrow, heading, intro and button, and one block in a slot: above it (the split header Cards, Posts and others used) or beside it (the two-column FAQ and Document Download layout). Cards, Posts, Stats, Steps, Table, Team, Testimonials, FAQ, Document Download, Images and Video lose their own heading fields. Blocks opt in with `supports.floeIntro` in `block.json`, listing the layouts they suit, so the Intro's choices come from the blocks themselves (no central list) and two columns only offers blocks that work in a 760px column. Blocks whose heading is part of a composed design keep theirs: the banners, Image + Copy, CTA, Contact, Newsletter, Testimonial and Logo strip. The held block takes the Intro's surface, padding and heading level through block context, so the page looks exactly as before. Testimonials' slider buttons move from the header to below the cards. Existing content is converted by `scripts/migrate-to-intro.php` (run once per site with `wp eval-file`), which is the only script in the theme; Made has no equivalent because its sections keep their own titles.
+- **Status:** Superseded by D48
 
 ## D47: Hide from visitors is a Floe setting beside WordPress's Hide
 
@@ -328,4 +329,29 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Why not WordPress's Hide:** since 6.9, WordPress can hide any block (⋮ options menu → Hide, saved as `metadata.blockVisibility`), but it hides the block from everyone: it's gone from the site for editors too and collapses to a List View entry in the editor. Jordan wants the team to keep seeing and reviewing the block while visitors don't, which WordPress doesn't do natively. Both stay available; the [README](../components/hidden-from-visitors/README.md) says when to use which.
 - **Decision:** Every `floe/*` block gets a **Hide from visitors** switch in Block settings → Advanced, saved as a `hiddenFromVisitors` attribute. A hidden block renders only for people who can edit the post being viewed (`edit_post`; with no post, editors and administrators), with a dashed outline and a "Hidden from visitors" tag drawn from the surface's strong colours, and the same marker in the editor. For everyone else it isn't rendered, its assets don't load, and hidden children are removed before their parent renders so counts and columns stay right. In-page navigation drops links to sections the viewer can't see (hidden either way) through a `floe_block_visible` filter, so it doesn't depend on this feature being installed. It's page-level only, not a way to keep text secret (search still indexes the saved content), and page caches are fine because they skip logged-in users.
 - **Where it lives:** `components/hidden-from-visitors/`, one self-contained folder like Reveal: it has no markup, but its CSS must load on every page and in the editor canvas, which is exactly what components get, and deleting the folder removes the feature (hidden blocks then show to everyone). It needs an editor script on every block editor screen, and a component's `<name>-editor.js` is already its React twin, so the build and `includes/components.php` gained one generic convention: a component's `<name>-editor-script.js` is built like a block's editor script and enqueued in the block editor. `includes/` feature files were the other option, but they have no asset pipeline. Nothing lists block names; the attribute is added to every block whose name starts with `floe/`.
+- **Status:** Adopted
+
+## D48: Block intro stacks above its block; only two columns holds one
+
+- **Source:** Jordan (2026-09-27): wanted it called Block intro, and a block nested inside it only when the heading sits on the left-hand side, "otherwise they can just stack", because that's easier for editors to control and navigate
+- **Decision:** The Intro becomes the **Block intro** (`floe/block-intro`, `blocks/block-intro/`). **Stacked** (the default) is a heading group on its own: the block it introduces is the next block, not nested, and the Block intro has a smaller bottom margin (64 on desktop, 40 below 768) so the heading sits close to it. **Two columns** holds one block on the right. Only blocks with `"supports": { "floeBlockIntro": true }` can go there (FAQ, Document Download, Images, Video); the old `supports.floeIntro` key is gone. Switching layout in the editor moves the block in or out. A held block gets the `floe/nested` context (no `floe-section` class, zero gutter) and `floe/headingLevel` and `floe/heading`. Titles inside Cards, Posts, Steps and Team read `floe/headingLevel` (default 2, plus one), so they're H3 unless the block is held in a two-column Block intro. Contact keeps its own heading. `scripts/migrate-to-block-intro.php` replaces `migrate-to-intro.php` and converts content from either older format.
+- **Tradeoffs accepted:** a stacked Block intro can't hide itself when its block shows nothing (it stays, and it's visible in the editor), and titles in the following block are always H3, whatever the Block intro's heading level.
+- **Status:** Adopted; supersedes D46
+
+## D49: Spacing is a margin below each block, as in Made
+
+- **Source:** Jordan (2026-09-27)
+- **Decision:** Every section has only a bottom margin, `var(--floe-section-space)` (120 large desktop, 96 desktop, 80 tablet, 64 mobile), set on `.floe-section` in `assets/scss/base.scss`, like Made's `.block`. Blocks no longer have top and bottom padding; the `section-padding` mixin stays only for template fallbacks. A page that doesn't open with a banner gets the section space above its first block. Home Banner keeps padding at the top only (its space below the header), and Page Banner keeps padding top and bottom because its colour runs edge to edge. A Spacing block replaces the bottom margin of the block above it, instead of the padding on both sides. Gaps between blocks halve compared with the padding model: 120 rather than about 240 between two blocks on large screens. The single token `--floe-section-space` in base.scss sets it (Jordan may raise it to 140).
+- **Status:** Adopted; supersedes D19
+
+## D50: Background colours come from a Background block
+
+- **Source:** Jordan (2026-09-27), following Made's Background colour block (`bgc1`: start and end markers with a colour, "Force light text" and "Auto spacing")
+- **Decision:** Blocks no longer have a background colour of their own. The `surface` attribute and control are gone from Cards, Article, Image + Copy, Steps, Testimonial and Video, and the fixed Base surface class from every other block. A **Background** block (`blocks/background/`) wraps any blocks in a full-width band: Subtle (default), Tint, Inverse or Accent. Floe nests the blocks inside one block instead of using start and end markers. Text colour stays automatic from the surface; **Force light text** (`.force-light-text`, beside `.surface-inverse` in base.scss, also read by buttons, forms and accordions) is an extra for a colour that needs it. **Auto spacing** (on by default) gives the band the section space at the top, and its last block's margin gives the space at the bottom; turned off, Spacing blocks inside set it. Blocks opt out of going in a Background with `"supports": { "floeBackground": false }` (Home Banner, Page Banner, In-page navigation, Background). Page Banner, CTA panels and the Newsletter panel keep their own colours, as part of their design. The migration script (D48) moves blocks that had a colour into Backgrounds.
+- **Status:** Adopted
+
+## D51: A dev branch between feature branches and live
+
+- **Source:** Jordan (2026-09-27): merging to `main` was pushing straight to the live site
+- **Decision:** `dev` is what floe.local runs. Feature branches start from `origin/dev` and pull requests target `dev`. Merging `dev` into `main` is the release, which syncs to the live site. [Workflow](workflow.md) has the steps.
 - **Status:** Adopted

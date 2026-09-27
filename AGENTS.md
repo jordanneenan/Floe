@@ -10,7 +10,7 @@ Project rules:
 - **Made is the default reference.** Where the build brief doesn't specify something, follow how Made (Jordan's previous platform) does it and record the choice in `documentation/decisions.md`. Adapt its patterns rather than copying code wholesale.
 - Keep `functions.php` as a loader, with theme configuration in `includes/`.
 - Commit source and generated build output together, and keep `block.json` asset paths aligned with the compiled files.
-- Work on a branch per phase, make small focused commits, and stop for Jordan's review before merging to `main`.
+- Work on a branch per phase or feature, started from `origin/dev`, make small focused commits, and open a pull request into `dev`; stop for Jordan's review before merging. floe.local runs `dev`; merging `dev` into `main` is the release to the live site.
 - Update the relevant `documentation/` page when changing an architecture rule or public editing behaviour.
 
 These instructions supplement the user's current request. Current source code is the authority for how the implementation actually behaves.

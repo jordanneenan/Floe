@@ -27,11 +27,11 @@
 ## Project facts
 
 - Name: **Floe**. Theme text domain and block namespace: `floe`.
-- Repository: `https://github.com/jordanneenan/Floe`; default branch `main`; one branch per phase.
+- Repository: `https://github.com/jordanneenan/Floe`. `main` is the live site; `dev` is what floe.local runs. Feature branches start from `origin/dev` and pull requests target `dev`; merging `dev` into `main` is the release ([Workflow](workflow.md), D51).
 - Type: classic WordPress theme with block editor support and `theme.json`, not a full-site-editing block theme.
 - Minimum: WordPress 7.1, PHP 8.0, Node.js 20 for development. Production uses committed built assets and doesn't need Node.
 - License: GPL-2.0-or-later.
-- 23 sections plus 11 child blocks and 18 components. No required plugins and no ACF.
+- 24 sections plus 11 child blocks and 18 components. No required plugins and no ACF.
 
 ## Source-of-truth order
 
