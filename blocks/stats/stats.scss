@@ -1,5 +1,6 @@
-// Figma 43:235. Header, 64px, then up to four stats in equal columns with a
-// line on top: Display value, H3 unit in the accent colour, Body label.
+// Figma 43:235. Up to four stats in equal columns with a line on top: Display
+// value, H3 unit in the accent colour, Body label. The heading group above is
+// an Intro block.
 @use "floe" as *;
 
 .stats {
@@ -10,13 +11,6 @@
 .stats__inner {
 
 	@include container;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-
-	@include from(desktop) {
-		gap: 64px;
-	}
 }
 
 .stats__list {

@@ -1,6 +1,7 @@
 <?php
 /**
- * Stats: section header plus two to four figures.
+ * Stats: two to four figures. The heading group comes from an Intro block
+ * holding the Stats.
  *
  * @var array    $attributes
  * @var string   $content
@@ -24,17 +25,6 @@ if ( ! empty( $attributes['countUp'] ) ) {
 ?>
 <section <?php echo Floe\block_attributes( $block, $wrapper ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="stats__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-			)
-		);
-		?>
 		<div class="stats__list"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 	</div>
 </section>

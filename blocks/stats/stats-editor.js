@@ -8,14 +8,10 @@ import {
 import { PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import {
-	useFloeBlockProps,
-	EditableSectionHeader,
-	HeadingLevelControl,
-} from '@floe/editor';
+import { useFloeBlockProps } from '@floe/editor';
 import metadata from './block.json';
 
-function Edit( { attributes, setAttributes, clientId, name } ) {
+function Edit( { attributes, setAttributes, clientId, name, context } ) {
 	const count = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ),
 		[ clientId ]
@@ -23,7 +19,7 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 	const blockProps = useFloeBlockProps(
 		name,
 		{ className: `stats--count-${ Math.min( 4, count ) }` },
-		{ surface: 'base' }
+		{ surface: 'base', context }
 	);
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'stats__list' },
@@ -39,12 +35,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 		<>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
-					<HeadingLevelControl
-						value={ attributes.headingLevel }
-						onChange={ ( headingLevel ) =>
-							setAttributes( { headingLevel } )
-						}
-					/>
 					<ToggleControl
 						__nextHasNoMarginBottom
 						label={ __(
@@ -63,10 +53,6 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="stats__inner">
-					<EditableSectionHeader
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-					/>
 					<div { ...innerBlocksProps } />
 				</div>
 			</section>
