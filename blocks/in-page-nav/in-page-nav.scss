@@ -1,17 +1,28 @@
 // Figma 45:345. Sticky 72px bar, white at 90% with a blur, lines above and
 // below. Mono label, pill links (active: ink with white text), optional
-// Primary action without an arrow. Links scroll sideways on mobile.
+// Primary action without an arrow. Links scroll sideways on mobile. It sticks
+// below the header when the header is sticky (--floe-sticky-top, base.scss).
 @use "floe" as *;
 
 .in-page-nav {
 	position: sticky;
-	top: 0;
+	top: var(--floe-sticky-top);
 	z-index: 40;
 	margin-bottom: var(--floe-section-space);
 	border-block: 1px solid var(--surface-line);
 	background: var(--surface-glass);
 	color: var(--surface-text);
 	backdrop-filter: blur(10px);
+}
+
+// Anchors land clear of the bar, close enough that in-page-nav.js highlights
+// the link that was clicked (it looks 24px below the bar).
+:root:has(.in-page-nav) {
+	scroll-padding-top: calc(var(--floe-sticky-top) + 64px + 16px);
+
+	@include from(desktop) {
+		scroll-padding-top: calc(var(--floe-sticky-top) + 72px + 16px);
+	}
 }
 
 // The bar sits right under the block before it (usually the banner) and has
