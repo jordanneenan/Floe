@@ -1,0 +1,1 @@
+.background__inner:has(>.block-list-appender:only-child){display:grid;place-items:center;min-height:160px}
