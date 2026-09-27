@@ -29,6 +29,7 @@ Delete a file to remove that behaviour.
 | `content/shortcode.php` | Shortcode blocks may go directly on a page between sections (through the `floe_top_level_blocks` filter in `editor.php`); there they sit in the content width with a section's spacing below. |
 | `mail/smtp.php` | Sends WordPress email through SMTP when `wp-config.php` defines `FLOE_SMTP_HOST` (plus `FLOE_SMTP_USER`, `FLOE_SMTP_PASS`, optional `FLOE_SMTP_PORT` and `FLOE_SMTP_FROM`); sender name is the site name instead of "WordPress". |
 | `media/images.php` | Image pipeline: `mobile` 800, `laptop` 1440, `desktop` 2400 sizes only (plus thumbnail), JPEG quality 70, opaque PNG uploads converted to JPEG. |
+| `media/svg.php` | SVG uploads for administrators and editors (`floe_svg_uploads` filter to change who). Every SVG is rebuilt from an allowlist on upload (no scripts, event handlers, external references or entities), and its width and height are saved so it works as an image everywhere. SVGs don't go to the image editor or cropper ([D69](decisions.md#d69-svg-uploads-cleaned-in-the-theme)). |
 
 ## Behaviour that lives in a component
 
