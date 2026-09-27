@@ -190,30 +190,49 @@ function Edit( { attributes, setAttributes, name, context } ) {
 		[]
 	);
 
-	const { postTypes, taxonomies, taxonomyObject, terms } = useSelect(
+	const {
+		postTypes,
+		taxonomies,
+		taxonomyObject,
+		terms,
+		chipTaxonomy,
+		chipTerms,
+	} = useSelect(
 		( select ) => {
 			const core = select( coreStore );
 			const allTaxonomies = core.getTaxonomies( { per_page: -1 } ) || [];
+			const typeTaxonomies = allTaxonomies.filter(
+				( tax ) =>
+					tax.visibility?.public !== false &&
+					( tax.types || [] ).includes( postType )
+			);
+			// The card chip shows a term from the chosen taxonomy, or from
+			// Categories when none is chosen, as posts-server.php does.
+			const chip =
+				typeTaxonomies.find( ( tax ) => tax.slug === taxonomy ) ||
+				allTaxonomies.find(
+					( tax ) =>
+						tax.slug === 'category' &&
+						( tax.types || [] ).includes( postType )
+				);
+			const termsOf = ( slug ) =>
+				core.getEntityRecords( 'taxonomy', slug, {
+					per_page: 100,
+					hide_empty: true,
+				} ) || [];
 			return {
 				postTypes: (
 					core.getPostTypes( { per_page: -1 } ) || []
 				).filter(
 					( type ) => type.viewable && type.slug !== 'attachment'
 				),
-				taxonomies: allTaxonomies.filter(
-					( tax ) =>
-						tax.visibility?.public !== false &&
-						( tax.types || [] ).includes( postType )
-				),
+				taxonomies: typeTaxonomies,
 				taxonomyObject: allTaxonomies.find(
 					( tax ) => tax.slug === taxonomy
 				),
-				terms: taxonomy
-					? core.getEntityRecords( 'taxonomy', taxonomy, {
-							per_page: 100,
-							hide_empty: true,
-						} ) || []
-					: [],
+				terms: taxonomy ? termsOf( taxonomy ) : [],
+				chipTaxonomy: chip,
+				chipTerms: chip ? termsOf( chip.slug ) : [],
 			};
 		},
 		[ postType, taxonomy ]
@@ -259,11 +278,8 @@ function Edit( { attributes, setAttributes, name, context } ) {
 	);
 
 	const termFor = ( post ) => {
-		const base =
-			taxonomyObject?.rest_base ||
-			( postType === 'post' ? 'categories' : '' );
-		const id = base ? post[ base ]?.[ 0 ] : 0;
-		const found = terms.find( ( item ) => item.id === id );
+		const id = chipTaxonomy ? post[ chipTaxonomy.rest_base ]?.[ 0 ] : 0;
+		const found = chipTerms.find( ( item ) => item.id === id );
 		return found ? decodeEntities( found.name ) : '';
 	};
 
