@@ -360,7 +360,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-27): merging to `main` was pushing straight to the live site
 - **Decision:** `dev` is what floe.local runs. Feature branches start from `origin/dev` and pull requests target `dev`. Merging `dev` into `main` is the release, which syncs to the live site. [Workflow](workflow.md) has the steps.
-- **Status:** Adopted
+- **Status:** Adopted; agents now merge their own pull requests into `dev` (D71).
 
 ## D52: Anchors scroll smoothly, and taps don't flash
 
@@ -476,4 +476,10 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** The reset is now `:where(ul[class], ol[class])`, which has zero specificity, so any component rule overrides it and lists with no rules of their own are still reset. The In-page navigation's list selector is back to one class, `.in-page-nav__list`, with no change in how it looks. The editor gets the same fix, because WordPress adds editor styles to the iframed canvas unprefixed. Testing every published page at 375px and 1440px found two other lists whose styles change:
   - **Core List blocks in Article** now have the 24px space above them that `.article__content > * + *` sets for every block. Figma 34:28 has 24px between the heading and the list, but the list had been sitting right under the heading or paragraph before it. This is the intended look, so Article's styles are unchanged.
   - **Posts filters.** The filters' negative margins were written when the Posts heading sat inside `.posts__inner` above them. They brought the filters 8px (24px from desktop) closer to the heading and 16px (24px) closer to the cards. Since the heading moved into a Block intro, the top margin would pull the filters out of the block, toward whatever is above (a banner, a Block intro, or a Spacing block set to none, which it would overlap), so it's removed. The bottom margin stays: the filters now sit 24px above the cards (40px from desktop) instead of 40px (64px), so they read as part of the grid they filter.
+- **Status:** Adopted
+
+## D71: Agents merge their own pull requests into dev
+
+- **Source:** Jordan (2026-09-27): always merge work into `dev` so he can see it on floe.local, without having to tell each agent.
+- **Decision:** Replaces D51's "stop for review before merging". Once a branch is built and verified, the agent opens its pull request into `dev`, merges it, and fast-forwards the shared checkout so floe.local shows it. Jordan reviews on floe.local, and changes he asks for come as new pull requests. Pull requests stay, rather than pushing straight to `dev`, because they record what changed and how it was checked. If another session has the shared checkout on another branch or has uncommitted work there, the agent leaves it and says so. `main` is unchanged: merging `dev` into `main` is the release and waits for Jordan to ask. [Workflow](workflow.md) has the steps.
 - **Status:** Adopted
