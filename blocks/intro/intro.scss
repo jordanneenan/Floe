@@ -1,0 +1,49 @@
+// The heading group for another block. Above: the split section header, 64px
+// to the block (Cards, Posts, Stats… in Figma). Beside: a 400px stacked header
+// on the left and a 760px column on the right (FAQ, Document Download).
+@use "floe" as *;
+
+.intro {
+
+	@include section-padding;
+}
+
+.intro__inner {
+
+	@include container;
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		gap: 64px;
+	}
+}
+
+// The held block sits in the Intro's padding and container: zero its own.
+.intro__block {
+	--floe-section-space: 0px;
+	--wp--custom--content--gutter: 0px;
+	min-width: 0;
+}
+
+.intro--beside .intro__inner {
+
+	@include from(desktop) {
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 48px;
+
+		> .section-header {
+			flex: 0 1 400px;
+		}
+	}
+}
+
+.intro--beside .intro__block {
+
+	@include from(desktop) {
+		flex: 0 1 760px;
+	}
+}

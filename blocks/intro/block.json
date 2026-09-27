@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/intro",
+	"version": "1.0.0",
+	"title": "Intro",
+	"category": "floe-sections",
+	"icon": "heading",
+	"description": "An eyebrow, heading, intro and button for the block it introduces: above the block, or beside it in two columns.",
+	"keywords": [ "heading", "title", "eyebrow", "introduction", "two columns" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"heading": { "type": "string", "default": "" },
+		"headingLevel": { "type": "number", "default": 2 },
+		"intro": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"layout": { "type": "string", "enum": [ "above", "beside" ], "default": "above" },
+		"surface": { "type": "string", "enum": [ "base", "subtle", "tint", "inverse" ], "default": "base" }
+	},
+	"providesContext": {
+		"floe/heading": "heading",
+		"floe/headingLevel": "headingLevel",
+		"floe/nested": "layout"
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": { "eyebrow": "How we work", "heading": "A simple process, done properly", "intro": "Choose a block to sit below this heading, or switch to two columns." }
+	},
+	"editorScript": "file:./assets/intro-editor.js",
+	"editorStyle": "file:./assets/intro-editor.css",
+	"style": "file:./assets/intro.css",
+	"render": "file:./intro.php"
+}
