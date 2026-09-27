@@ -1,0 +1,47 @@
+// Statement: eyebrow, one big line (H1 size, up to 1080 wide) and an optional
+// button, left-aligned. Bold words take the surface's accent colour.
+@use "floe" as *;
+
+.statement__inner {
+
+	@include container;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 24px;
+
+	@include from(desktop) {
+		gap: 40px;
+	}
+}
+
+.statement__text {
+
+	@include type(h1);
+	max-width: 1080px;
+	margin: 0;
+	color: var(--surface-text);
+	text-wrap: pretty;
+
+	strong,
+	b {
+		color: var(--surface-accent);
+		font-weight: inherit;
+	}
+}
+
+// Light up as you scroll (statement.js): each word goes from dim to full as
+// --statement-fill (how many words are lit, fractional) passes its index.
+// Only words statement.js has wrapped are dimmed, so without JavaScript, or
+// with reduced motion, the statement is simply shown.
+.statement__word {
+	--statement-dim: 0.18;
+	opacity: calc(var(--statement-dim) + (1 - var(--statement-dim)) * clamp(0, var(--statement-fill, 0) - var(--i, 0), 1));
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+	.statement__word {
+		opacity: 1;
+	}
+}
