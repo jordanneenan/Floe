@@ -1,0 +1,10 @@
+// Editor only. The canvas loads WordPress's layout rule for top-level blocks
+// (margin-block: 24px 0) after this block's stylesheet, which would cancel
+// the section margin below the bar. The canvas root in the selector keeps it.
+.is-root-container > .in-page-nav {
+	margin-bottom: var(--floe-section-space);
+}
+
+.is-root-container > .in-page-nav:has(+ .spacing) {
+	margin-bottom: 0;
+}
