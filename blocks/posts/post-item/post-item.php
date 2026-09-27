@@ -22,6 +22,6 @@ echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEs
 		'media'         => (array) $attributes['media'],
 		'category'      => wp_strip_all_tags( (string) $attributes['label'] ),
 		'date'          => wp_strip_all_tags( (string) $attributes['date'] ),
-		'heading_level' => min( 4, (int) ( $block->context['floe/postsHeadingLevel'] ?? 2 ) + 1 ),
+		'heading_level' => min( 4, (int) ( $block->context['floe/headingLevel'] ?? 2 ) + 1 ),
 	)
 );
