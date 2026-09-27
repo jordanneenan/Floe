@@ -1,7 +1,8 @@
 <?php
 /**
- * FAQ: heading group plus core Details items. Optionally only one open at a
- * time (native exclusive <details>), and optional FAQPage structured data.
+ * FAQ: a list of core Details items. Optionally only one open at a time
+ * (native exclusive <details>), and optional FAQPage structured data. The
+ * heading group comes from an Intro block holding the FAQ (usually beside it).
  *
  * @var array    $attributes
  * @var string   $content
@@ -58,19 +59,6 @@ if ( $attributes['schema'] ) {
 ?>
 <section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="faq__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'layout'        => 'stacked',
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-				'action'        => Floe\Components\button_args_from_link( $attributes['action'], array( 'style' => 'link' ) ),
-			)
-		);
-		?>
 		<div class="faq__items"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
 	</div>
 	<?php echo $schema; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON encoded with JSON_HEX_TAG. ?>
