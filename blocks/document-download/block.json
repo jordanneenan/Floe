@@ -6,21 +6,17 @@
 	"title": "Document Download",
 	"category": "floe-sections",
 	"icon": "download",
-	"description": "A heading group beside a list of downloadable files. Type and size come from the media library.",
+	"description": "A list of downloadable files. Type and size come from the media library. Put it in an Intro for a heading.",
 	"keywords": [ "files", "pdf", "documents", "resources" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/download" ],
-	"attributes": {
-		"eyebrow": { "type": "string", "default": "" },
-		"heading": { "type": "string", "default": "" },
-		"headingLevel": { "type": "number", "default": 2 },
-		"intro": { "type": "string", "default": "" }
-	},
+	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true
+		"anchor": true,
+		"floeIntro": [ "beside", "above" ]
 	},
-	"example": { "attributes": { "eyebrow": "Resources", "heading": "Documents to take away", "intro": "Reports, guides and forms, ready to download." } },
+	"example": { "innerBlocks": [ { "name": "floe/download", "attributes": { "title": "Annual report" } } ] },
 	"editorScript": "file:./assets/document-download-editor.js",
 	"style": "file:./assets/document-download.css",
 	"render": "file:./document-download.php"

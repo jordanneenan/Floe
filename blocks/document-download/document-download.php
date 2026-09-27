@@ -1,6 +1,7 @@
 <?php
 /**
- * Document Download: heading group on the left, file rows on the right.
+ * Document Download: a list of file rows. The heading group comes from an
+ * Intro block holding the list (usually beside it).
  *
  * @var array    $attributes
  * @var string   $content
@@ -15,18 +16,6 @@ if ( '' === trim( $content ) ) {
 ?>
 <section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="document-download__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'layout'        => 'stacked',
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-			)
-		);
-		?>
 		<ul class="document-download__files"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></ul>
 	</div>
 </section>
