@@ -1,12 +1,15 @@
 /*
  * Highlight the in-page link for the section currently in view, and keep the
- * active pill scrolled into view on narrow screens.
+ * active pill in the middle of the list when the links scroll sideways. The
+ * list's edges fade where there's more to scroll to: each fade deepens over
+ * the first FADE pixels, so it follows the scrolling.
  *
  * Once the bar sticks, it shrinks over the next SHRINK_OVER pixels of
  * scrolling: --in-page-nav-progress goes from 0 to 1 and in-page-nav.scss
  * turns it into padding.
  */
 const SHRINK_OVER = 150;
+const FADE = 48;
 
 document.querySelectorAll( '.in-page-nav' ).forEach( ( nav ) => {
 	const links = [ ...nav.querySelectorAll( '.in-page-nav__link' ) ];
@@ -27,8 +30,14 @@ document.querySelectorAll( '.in-page-nav' ).forEach( ( nav ) => {
 			if ( active ) {
 				link.setAttribute( 'aria-current', 'true' );
 				if ( list && list.scrollWidth > list.clientWidth ) {
+					const box = list.getBoundingClientRect();
+					const pill = link.getBoundingClientRect();
 					list.scrollTo( {
-						left: link.offsetLeft - 16,
+						left:
+							list.scrollLeft +
+							pill.left -
+							box.left -
+							( box.width - pill.width ) / 2,
 						behavior: 'smooth',
 					} );
 				}
@@ -88,4 +97,22 @@ document.querySelectorAll( '.in-page-nav' ).forEach( ( nav ) => {
 	);
 	window.addEventListener( 'resize', update );
 	update();
+
+	if ( list ) {
+		const fade = () => {
+			const hidden = list.scrollWidth - list.clientWidth;
+			list.style.setProperty(
+				'--in-page-nav-fade-start',
+				`${ Math.min( list.scrollLeft, FADE ) }px`
+			);
+			list.style.setProperty(
+				'--in-page-nav-fade-end',
+				`${ Math.min( Math.max( hidden - list.scrollLeft, 0 ), FADE ) }px`
+			);
+		};
+		list.addEventListener( 'scroll', fade, { passive: true } );
+		window.addEventListener( 'resize', fade );
+		window.addEventListener( 'load', fade );
+		fade();
+	}
 } );

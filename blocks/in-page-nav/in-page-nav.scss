@@ -72,7 +72,9 @@
 	}
 }
 
-.in-page-nav__list {
+// The links scroll sideways, edge to edge of the screen below 768px. Two
+// classes, so the margin and padding outrank base.scss's ul[class] reset.
+.in-page-nav .in-page-nav__list {
 	display: flex;
 	gap: 8px;
 	margin: 0 calc(-1 * var(--wp--custom--content--gutter));
@@ -82,14 +84,17 @@
 	overflow-x: auto;
 	list-style: none;
 	scrollbar-width: none;
+	// Fades at the edges where there's more to scroll to; in-page-nav.js sets
+	// their widths (0 to 48px) as the list scrolls.
+	mask-image: linear-gradient(to right, transparent, #000 var(--in-page-nav-fade-start, 0px), #000 calc(100% - var(--in-page-nav-fade-end, 0px)), transparent);
 
 	&::-webkit-scrollbar {
 		display: none;
 	}
 
 	@include from(desktop) {
-		margin: 0;
-		padding: 0;
+		margin: 0 -6px;
+		padding: 6px;
 	}
 }
 
