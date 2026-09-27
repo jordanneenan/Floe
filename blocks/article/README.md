@@ -2,7 +2,7 @@
 
 Long-form content written with WordPress's own blocks, in an 860px reading column, left-aligned with the other sections (Figma `34:28`, widened). New posts start with an Article.
 
-**Allowed inside:** Heading, Paragraph, List, Quote, Pullquote, Image, Media (Floe), Table, Separator, Buttons, Embed. Floe sections can't be nested inside.
+**Allowed inside:** Heading, Paragraph, List, Quote, Pullquote, Image, Media (Floe), Table, Separator, Buttons, Embed, Shortcode. Floe sections can't be nested inside.
 
 | Styling | |
 | --- | --- |
@@ -17,9 +17,11 @@ Long-form content written with WordPress's own blocks, in an 860px reading colum
 | Field | Notes |
 | --- | --- |
 | Optional button | Primary button under the content (hidden until it has a link). |
+| Full width (Advanced) | Uses the whole content width (1248px) instead of the reading column. For the odd wide image, embed or shortcode that doesn't need a section of its own. |
+| Maximum width (Advanced) | Any width from 320 to 1248px. Reset returns to the 860px reading column. Hidden while Full width is on. |
 
 For a coloured band, put it in a **Background** block.
 
-**Responsive:** the column is up to 860px wide and always starts at the content's left edge, so headings line up with the sections above and below. The width is the `content.narrow` token in `theme.json` (`--wp--custom--content--narrow`). The block renders nothing if it's empty.
+**Responsive:** the column is up to 860px wide (or the width chosen in Advanced) and always starts at the content's left edge, so headings line up with the sections above and below. The width is the `content.narrow` token in `theme.json` (`--wp--custom--content--narrow`). The block renders nothing if it's empty.
 
 **Components used:** Button (Media via the Media block).

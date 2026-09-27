@@ -54,7 +54,7 @@ export function Card( {
 			) }
 			{ part( title, `h${ headingLevel }`, 'card__title' ) }
 			{ part( text, 'p', 'card__text' ) }
-			{ variant === 'feature' && linkLabel && (
+			{ ( variant === 'feature' || variant === 'icon' ) && linkLabel && (
 				<span
 					className="card__more button button--link"
 					aria-hidden="true"

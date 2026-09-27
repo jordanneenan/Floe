@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/image-carousel",
+	"version": "1.0.0",
+	"title": "Image carousel",
+	"category": "floe-sections",
+	"icon": "slides",
+	"description": "Large images or looping MP4s one at a time, each with an optional caption, with previous and next buttons. Swipeable on phones.",
+	"keywords": [ "slider", "slideshow", "gallery", "photos", "carousel" ],
+	"textdomain": "floe",
+	"allowedBlocks": [ "floe/slide" ],
+	"attributes": {
+		"ratio": { "type": "string", "enum": [ "16/9", "3/2", "4/3", "1/1" ], "default": "3/2" }
+	},
+	"providesContext": {
+		"floe/carouselRatio": "ratio"
+	},
+	"usesContext": [ "floe/nested" ],
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"floeBlockIntro": true
+	},
+	"example": { "innerBlocks": [ { "name": "floe/slide", "attributes": { "caption": "The studio in the morning" } }, { "name": "floe/slide" } ] },
+	"editorScript": "file:./assets/image-carousel-editor.js",
+	"style": "file:./assets/image-carousel.css",
+	"render": "file:./image-carousel.php"
+}

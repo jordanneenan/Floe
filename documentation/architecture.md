@@ -54,13 +54,13 @@ Every module can be switched off without deleting it: the `floe_disabled_modules
 
 ## Editor model
 
-- Floe sections (category "Floe sections") are the only top-level blocks. Pages and posts are both built from sections; new posts start with Page Banner, Article and CTA. `includes/editor.php` gives every non-Floe block an `ancestor` of the Floe blocks, so core blocks only appear inside Floe slots, and removes core blocks Floe doesn't use from the inserter. Each Floe block's `allowedBlocks` decides what its slot accepts (Article: headings, paragraphs, lists, quotes, images, Media, table, separator, buttons, embed).
+- Floe sections (category "Floe sections") are the only top-level blocks, apart from the Shortcode block (`includes/content/shortcode.php`, through the `floe_top_level_blocks` filter). Pages and posts are both built from sections; new posts start with Page Banner, Article and CTA. `includes/editor.php` gives every non-Floe block an `ancestor` of the Floe blocks, so core blocks only appear inside Floe slots, and removes core blocks Floe doesn't use from the inserter. Each Floe block's `allowedBlocks` decides what its slot accepts (Article: headings, paragraphs, lists, quotes, images, Media, table, separator, buttons, embed).
 - Custom colours, font sizes, spacing and the default palette are off. New posts start with an Article.
 - Editor and front end share markup: blocks render on the server, and editor previews use each component's React twin with the same classes.
 
 ## Templates
 
-`index.php` is the only template. For pages and posts it calls `Floe\Includes\Templates\the_content()`: if the content has no `<h1>` (no banner), it prints the title as the H1; content that isn't made of Floe sections is wrapped in a reading column. 404s, archives and search results use the same page-title pattern. There's no posts page: listings are built with the Posts block on a normal page (e.g. Journal).
+`index.php` is the only template. On short pages the footer sits at the bottom of the window: `body` is a column at least as tall as the viewport and `.site-main` takes the slack (base.scss, front end only). For pages and posts it calls `Floe\Includes\Templates\the_content()`: if the content has no `<h1>` (no banner), it prints the title as the H1; content that isn't made of Floe sections is wrapped in a reading column. 404s, archives and search results use the same page-title pattern. There's no posts page: listings are built with the Posts block on a normal page (e.g. Journal).
 
 ## Boundaries
 

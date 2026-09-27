@@ -1,12 +1,13 @@
 # CTA (`floe/cta`)
 
-One to three call-to-action panels in a row (Figma `35:75`, extended to multiple columns). Add **CTA panel** blocks inside it; the columns follow the number of panels.
+One to four call-to-action panels in a row (Figma `35:75`, extended to multiple columns). Add **CTA panel** blocks inside it; the columns follow the number of panels.
 
 | Panels | Layout |
 | --- | --- |
 | 1 | The wide Figma banner: copy on the left (H1-sized heading), button and note on the right. |
 | 2 | Two equal columns; each panel stacks its content with the button at the bottom. |
 | 3 | Three equal columns; headings drop to H3 size. |
+| 4 | Four equal columns from 1280px, two by two between 768 and 1279px; headings drop to H3 size. |
 
 Each panel has its own settings (see [cta-panel](cta-panel/README.md)). The panels keep their own colours: they're part of the design.
 

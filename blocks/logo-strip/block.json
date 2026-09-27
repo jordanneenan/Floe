@@ -6,12 +6,13 @@
 	"title": "Logo strip",
 	"category": "floe-sections",
 	"icon": "awards",
-	"description": "A short label and four to eight client or partner logos, shown in one muted tone.",
-	"keywords": [ "clients", "partners", "brands", "trusted by" ],
+	"description": "A short label and client or partner logos in one muted tone: four to eight in a row, or any number scrolling past as a ticker.",
+	"keywords": [ "clients", "partners", "brands", "trusted by", "ticker", "carousel", "marquee" ],
 	"textdomain": "floe",
 	"attributes": {
 		"label": { "type": "string", "default": "" },
-		"logos": { "type": "array", "default": [], "items": { "type": "object" } }
+		"logos": { "type": "array", "default": [], "items": { "type": "object" } },
+		"ticker": { "type": "boolean", "default": false }
 	},
 	"supports": {
 		"html": false,

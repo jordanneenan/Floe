@@ -1,0 +1,16 @@
+// Image carousel: one slide at a time across the content width (a little of
+// the next one shows below 768px, so it reads as swipeable). The Carousel
+// component lays out the track and the buttons.
+@use "floe" as *;
+
+.image-carousel__inner {
+
+	@include container;
+}
+
+.slide {
+
+	.media-figure__caption {
+		margin-top: 12px;
+	}
+}

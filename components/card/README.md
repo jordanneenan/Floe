@@ -6,6 +6,7 @@ Figma "Content card" (`30:88`). Variants:
 | --- | --- | --- |
 | `post` | Media (4:3), category chip, date, title (H3), excerpt | Posts |
 | `feature` | Number, title, text, "Learn more" cue, on the raised surface colour | Cards (Feature style) |
+| `icon` | Icon (any image, SVG included, shown whole at 56px and decorative), title, text, "Learn more" cue, on the raised surface colour | Cards (Icon style, "Icon grid" in the inserter) |
 | `media` | Media (4:3, neutral placeholder if empty), title, text | Cards (Media style) |
 
 The title is the link, and the link covers the whole card, so each card is one link with the title as its name (no repeated "Read more"). The Feature card's "Learn more" is a visual cue only (`aria-hidden`).

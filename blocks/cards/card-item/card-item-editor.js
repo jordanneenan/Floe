@@ -18,7 +18,9 @@ import { Card } from '@floe/components/card';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, context } ) {
-	const style = context[ 'floe/cardStyle' ] === 'media' ? 'media' : 'feature';
+	const style = [ 'icon', 'media' ].includes( context[ 'floe/cardStyle' ] )
+		? context[ 'floe/cardStyle' ]
+		: 'feature';
 	const level = Math.min( 4, ( context[ 'floe/headingLevel' ] || 2 ) + 1 );
 	const [ anchor, setAnchor ] = useState();
 	const [ isOpen, setOpen ] = useState( false );
@@ -65,7 +67,7 @@ function Edit( { attributes, setAttributes, context } ) {
 							setAttributes( { link: { ...link, url: '' } } )
 						}
 					/>
-					{ style === 'feature' && (
+					{ style !== 'media' && (
 						<div style={ { padding: '0 16px 16px' } }>
 							<TextControl
 								__next40pxDefaultSize
@@ -92,13 +94,25 @@ function Edit( { attributes, setAttributes, context } ) {
 					link.url ? link.label || __( 'Learn more', 'floe' ) : ''
 				}
 				media={
-					<MediaSlot
-						value={ attributes.media }
-						onChange={ ( media ) => setAttributes( { media } ) }
-						ratio="4/3"
-						className="card__media"
-						placeholder
-					/>
+					style === 'icon' ? (
+						<MediaSlot
+							value={ attributes.media }
+							onChange={ ( media ) => setAttributes( { media } ) }
+							ratio="1/1"
+							radius="none"
+							allowVideo={ false }
+							label={ __( 'Icon', 'floe' ) }
+							className="card__icon"
+						/>
+					) : (
+						<MediaSlot
+							value={ attributes.media }
+							onChange={ ( media ) => setAttributes( { media } ) }
+							ratio="4/3"
+							className="card__media"
+							placeholder
+						/>
+					)
 				}
 				title={ text( 'title', __( 'Card title', 'floe' ) ) }
 				text={ text( 'text', __( 'A sentence or two', 'floe' ), {

@@ -345,6 +345,27 @@ textarea {
 	display: block;
 }
 
+// The footer sits at the bottom of the window on short pages: the page is a
+// column at least as tall as the window and the main content takes up the
+// slack. (Only on the front end: the editor canvas has no .site-main.)
+body:has(> .site-main) {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	min-height: 100dvh;
+
+	> .site-main {
+		flex: 1 0 auto;
+	}
+}
+
+// A Shortcode block placed directly on the page (not inside a section) sits
+// in the content width with a section's spacing below it.
+.shortcode__inner {
+
+	@include container;
+}
+
 .screen-reader-text {
 
 	@include visually-hidden;

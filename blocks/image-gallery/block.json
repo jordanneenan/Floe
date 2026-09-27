@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/image-gallery",
+	"version": "1.0.0",
+	"title": "Gallery",
+	"category": "floe-sections",
+	"icon": "format-gallery",
+	"description": "A grid of images chosen from the media library, as an even grid, a mosaic or a masonry layout. Clicking an image opens a full-screen slideshow.",
+	"keywords": [ "images", "photos", "lightbox", "grid", "mosaic", "masonry" ],
+	"textdomain": "floe",
+	"attributes": {
+		"images": { "type": "array", "default": [], "items": { "type": "object" } },
+		"layout": { "type": "string", "enum": [ "grid", "mosaic", "masonry" ], "default": "grid" },
+		"columns": { "type": "number", "default": 3 },
+		"lightbox": { "type": "boolean", "default": true }
+	},
+	"usesContext": [ "floe/nested" ],
+	"supports": {
+		"html": false,
+		"anchor": true,
+		"floeBlockIntro": true
+	},
+	"example": { "attributes": { "layout": "mosaic" } },
+	"editorScript": "file:./assets/image-gallery-editor.js",
+	"style": "file:./assets/image-gallery.css",
+	"render": "file:./image-gallery.php"
+}

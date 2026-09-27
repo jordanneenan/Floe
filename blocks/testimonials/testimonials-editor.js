@@ -9,7 +9,7 @@ import { PanelBody } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { useFloeBlockProps } from '@floe/editor';
-import { Icon } from '@floe/components/icon';
+import { CarouselControls } from '@floe/components/carousel';
 import metadata from './block.json';
 
 function Edit( { clientId, name, context } ) {
@@ -32,17 +32,6 @@ function Edit( { clientId, name, context } ) {
 			orientation: 'horizontal',
 		}
 	);
-	const controls = slider ? (
-		<div className="testimonials__controls" aria-hidden="true">
-			<button type="button" className="testimonials__prev" disabled>
-				<Icon name="arrow-left" />
-			</button>
-			<button type="button" className="testimonials__next">
-				<Icon name="arrow" />
-			</button>
-		</div>
-	) : null;
-
 	return (
 		<>
 			<InspectorControls>
@@ -58,7 +47,7 @@ function Edit( { clientId, name, context } ) {
 			<section { ...blockProps }>
 				<div className="testimonials__inner">
 					<div { ...innerBlocksProps } />
-					{ controls }
+					{ slider && <CarouselControls /> }
 				</div>
 			</section>
 		</>

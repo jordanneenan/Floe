@@ -6,12 +6,13 @@
 	"title": "Cards",
 	"category": "floe-sections",
 	"icon": "screenoptions",
-	"description": "A grid of cards: numbered Feature cards, or Media cards with an image each. Add a Block intro above it for a heading.",
-	"keywords": [ "grid", "services", "features", "benefits" ],
+	"description": "A grid of cards: numbered Feature cards, Icon cards, or Media cards with an image each. Add a Block intro above it for a heading.",
+	"keywords": [ "grid", "services", "features", "benefits", "icons" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/card-item" ],
 	"attributes": {
-		"style": { "type": "string", "enum": [ "feature", "media" ], "default": "feature" }
+		"style": { "type": "string", "enum": [ "feature", "icon", "media" ], "default": "feature" },
+		"columns": { "type": "number", "default": 3 }
 	},
 	"providesContext": {
 		"floe/cardStyle": "style"
@@ -21,6 +22,18 @@
 		"html": false,
 		"anchor": true
 	},
+	"variations": [
+		{
+			"name": "icon-grid",
+			"title": "Icon grid",
+			"description": "A grid of cards, each with an icon, a title, a short text and an optional link.",
+			"icon": "grid-view",
+			"keywords": [ "icons", "features", "services", "benefits" ],
+			"attributes": { "style": "icon" },
+			"scope": [ "inserter", "transform" ],
+			"isActive": [ "style" ]
+		}
+	],
 	"example": {
 		"innerBlocks": [
 			{ "name": "floe/card-item", "attributes": { "title": "Plan the structure", "text": "Sections are chosen for the job each page needs to do." } },

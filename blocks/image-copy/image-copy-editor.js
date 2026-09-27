@@ -1,6 +1,11 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { PanelBody, ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import {
+	CheckboxControl,
+	PanelBody,
+	ToolbarGroup,
+	ToolbarButton,
+} from '@wordpress/components';
 import { pullLeft, pullRight } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import {
@@ -44,6 +49,20 @@ function Edit( { attributes, setAttributes, name } ) {
 			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={ __( 'Settings', 'floe' ) }>
+					<CheckboxControl
+						__nextHasNoMarginBottom
+						label={ __( 'Switch side', 'floe' ) }
+						help={ __(
+							'Puts the image on the right and the text on the left.',
+							'floe'
+						) }
+						checked={ mediaPosition === 'right' }
+						onChange={ ( checked ) =>
+							setAttributes( {
+								mediaPosition: checked ? 'right' : 'left',
+							} )
+						}
+					/>
 					<HeadingLevelControl
 						value={ headingLevel }
 						onChange={ ( next ) =>
