@@ -17,6 +17,6 @@ The eyebrow, heading, intro and button for the block it introduces. Add an Intro
 
 **Responsive:** two columns stack below 768px, heading first.
 
-**How holding works.** The Intro passes `floe/nested` (its layout) and `floe/headingLevel` as block context. A held block that uses `floe/nested` gets neither `floe-section` nor a surface class from `Floe\block_attributes()` (and `useFloeBlockProps()` in the editor), and `.intro__block` zeroes `--floe-section-space` and the content gutter, so the block's own padding and container collapse into the Intro's.
+**How holding works.** The Intro passes `floe/nested` (its layout), `floe/headingLevel` and `floe/heading` as block context (Video uses the heading to name its play button). A held block that uses `floe/nested` gets neither `floe-section` nor a surface class from `Floe\block_attributes()` (and `useFloeBlockProps()` in the editor), and `.intro__block` zeroes `--floe-section-space` and the content gutter, so the block's own padding and container collapse into the Intro's.
 
 **Components used:** Section header, Button.
