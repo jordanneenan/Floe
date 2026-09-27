@@ -1,6 +1,8 @@
 <?php
 /**
- * Team: section header plus people (portrait, name, role).
+ * Team: people (portrait, name, role). The heading group comes from an Intro
+ * block holding the Team; names are one level below its heading (block
+ * context).
  *
  * @var array    $attributes
  * @var string   $content
@@ -15,17 +17,6 @@ if ( '' === trim( $content ) ) {
 ?>
 <section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="team__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-			)
-		);
-		?>
 		<ul class="team__grid"><?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></ul>
 	</div>
 </section>
