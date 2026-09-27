@@ -47,6 +47,7 @@ Delete a file to remove that behaviour.
 | Header menu | Appearance → Menus, location "Header menu" | Main navigation. |
 | Header and footer button | Menu location of that name | First item becomes the header and footer button. |
 | Footer menus 1–3 | Menu locations | Footer link columns; each menu's name is its heading. |
+| Header options | Customize → Header | Sticky header (on by default), show the button (on), menu position (Centred or Right). |
 | Footer legal line | Customize → Footer | Text after "© year site name." |
 | Code injection | Customize → Code injection | Scripts in head, body and footer. |
 | Date format | Settings → General | Post card and post dates. |

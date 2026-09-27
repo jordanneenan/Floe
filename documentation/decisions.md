@@ -193,7 +193,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
   - Testimonials: a 32px minimum gap between quote and attribution (they touch in Figma); previous/next controls only appear when there are more than three quotes (as the description says).
   - Testimonial: the quote keeps Figma's drawn 40/50 size rather than the 36/44 Quote style.
   - Table: the highlighted column tint fills whole cells (Figma leaves strips in icon rows).
-  - Header: not sticky; In-page navigation sticks to the top of the window instead (Figma gives no offset).
+  - Header: not sticky; In-page navigation sticks to the top of the window instead (Figma gives no offset). Superseded by D53.
   - Media tag ("Image or looping MP4") is a Figma annotation and isn't rendered.
 - **Status:** Adopted (phases 3–5)
 
@@ -360,4 +360,10 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-09-27): smooth scrolling for anchor links and for landing on a page with an anchor in the URL, and no blue selection colour on links and buttons when tapped on mobile, globally.
 - **Decision:** A **Smooth scroll** component (`components/smooth-scroll/`, no markup, like Reveal). Clicks use native CSS `scroll-behavior: smooth` on the page, left off in the editor canvas and admin screens. For a landing, browsers jump to the anchor instantly, so an inline script at the top of `<head>` takes the anchor off the URL before they can, and the component's script puts it back with `location.replace()` once the page has loaded, which scrolls there smoothly, sets `:target` and adds no history entry. Only on a fresh visit: reloads and Back keep the browser's scroll position, and a visitor who has already scrolled is left alone. `prefers-reduced-motion: reduce` keeps the instant jump for both. The tap highlight is a global reset in `base.scss` (`-webkit-tap-highlight-color: transparent` on `html`); keyboard focus still shows through `:focus-visible`.
+- **Status:** Adopted
+
+## D53: The header is sticky by default, with Customizer options
+
+- **Source:** Jordan (2026-09-27): the header should have the option to be sticky, sticky by default, the option of no button, and the option of right-aligned menu items.
+- **Decision:** Appearance → Customize → **Header** (theme mods, in the Header component beside the Footer's section) has **Sticky header** (on by default), **Show the button** (on) and **Menu position** (Centred or Right). A sticky header sets `--floe-sticky-top` on the root (0 otherwise), which the In-page navigation uses as its `top`, so the two bars stack and share one line, and which `scroll-padding-top` adds to, so anchors land below both. Centred is now centred on the bar, a three-column grid whose logo and button columns never shrink below their content, so the menu stays in the middle without a button; with the button it moves about 5px from the old layout. Right pushes the menu against the button, or the edge without one. Hiding the button only affects the header; the footer keeps it. Supersedes the "Header: not sticky" item in D24.
 - **Status:** Adopted

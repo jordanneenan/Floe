@@ -2,10 +2,23 @@
  * Mobile menu disclosure: the toggle's aria-expanded shows or hides the
  * panel. Escape closes it and returns focus to the toggle; so does moving
  * focus out of the header or resizing to desktop.
+ *
+ * A sticky header also keeps --floe-sticky-top at the bar's real height, for
+ * when a long menu wraps onto a second row (header.scss).
  */
 const header = document.querySelector( '.site-header' );
 const toggle = header?.querySelector( '.site-header__toggle' );
 const panel = header?.querySelector( '.site-header__panel' );
+const inner = header?.querySelector( '.site-header__inner' );
+
+if ( inner && header.classList.contains( 'site-header--sticky' ) ) {
+	new ResizeObserver( () =>
+		document.documentElement.style.setProperty(
+			'--floe-sticky-top',
+			`${ inner.offsetHeight }px`
+		)
+	).observe( inner );
+}
 
 if ( header && toggle && panel ) {
 	// The menu sits in the bar from 1280px (header.scss).

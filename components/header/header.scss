@@ -12,6 +12,19 @@
 	background: var(--surface-background);
 }
 
+// Sticky (Customizer → Header, on by default). --floe-sticky-top tells sticky
+// bars further down (In-page navigation) and anchor scrolling how much of the
+// window the header covers: the bar's height, so a bar below it tucks its top
+// line under the header's. header.js measures it when a long menu wraps.
+.site-header--sticky {
+	position: sticky;
+	top: 0;
+}
+
+:root:has(.site-header--sticky) {
+	--floe-sticky-top: var(--floe-header-height);
+}
+
 .site-header__inner {
 
 	@include container;
@@ -137,6 +150,16 @@
 			padding-bottom: 20px;
 		}
 	}
+
+	// A sticky header with the menu open would fill a phone's screen, so
+	// without JavaScript it scrolls away instead.
+	.site-header--sticky:not(.has-js):has(.site-header__toggle) {
+		position: relative;
+	}
+
+	:root:has(.site-header--sticky:not(.has-js) .site-header__toggle) {
+		--floe-sticky-top: 0px;
+	}
 }
 
 @include from(large) {
@@ -151,6 +174,36 @@
 
 	.site-header__action {
 		white-space: nowrap;
+	}
+
+	// Menu position (Customizer → Header): centred on the bar, with or without
+	// the button, or on the right beside the button. The logo and button
+	// columns never shrink below their content, so a long menu wraps instead.
+	.site-header--menu-center {
+
+		.site-header__inner {
+			display: grid;
+			grid-template-columns: minmax(max-content, 1fr) auto minmax(max-content, 1fr);
+		}
+
+		.site-header__logo {
+			justify-self: start;
+		}
+
+		.site-header__action {
+			justify-self: end;
+		}
+	}
+
+	.site-header--menu-right {
+
+		.site-header__nav {
+			margin-left: auto;
+		}
+
+		.site-header__action {
+			margin-left: 16px;
+		}
 	}
 
 	// A long menu wraps onto a second row between items rather than squeezing

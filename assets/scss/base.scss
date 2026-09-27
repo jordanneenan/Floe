@@ -9,6 +9,10 @@
 :root {
 	--floe-section-space: 64px;
 	--floe-header-height: 72px;
+	// How much of the top of the window something sticky covers: 0 unless the
+	// header sticks (header.scss). Sticky bars sit below it, and anchors land
+	// clear of it.
+	--floe-sticky-top: 0px;
 	--floe-focus: var(--wp--preset--color--blue);
 
 	@include from(tablet) {
@@ -235,7 +239,7 @@ html {
 	// No grey or blue flash over links and buttons when tapped on phones;
 	// :focus-visible still shows keyboard focus.
 	-webkit-tap-highlight-color: transparent;
-	scroll-padding-top: calc(var(--floe-header-height) + 16px);
+	scroll-padding-top: calc(var(--floe-sticky-top) + 16px);
 }
 
 body {
