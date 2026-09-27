@@ -1,0 +1,90 @@
+// Gallery: three layouts on the content width, images at the md radius.
+//   grid     even 4:3 tiles, two across on phones, 2–4 from 768px
+//   mosaic   a large image beside two small ones, the large one swapping
+//            sides each time (two across on phones, the large one full width)
+//   masonry  each image at its own proportions, in 2–4 columns
+@use "floe" as *;
+
+.image-gallery__inner {
+
+	@include container;
+}
+
+.image-gallery__grid {
+	--image-gallery-gap: 12px;
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: var(--image-gallery-gap);
+	margin: 0;
+	padding: 0;
+	list-style: none;
+
+	@include from(desktop) {
+		--image-gallery-gap: 24px;
+		grid-template-columns: repeat(var(--image-gallery-columns, 3), minmax(0, 1fr));
+	}
+}
+
+.image-gallery__item {
+	min-width: 0;
+}
+
+// Mosaic: rows of a fixed height; the large image spans two rows and two
+// columns, first on the left, then on the right.
+.image-gallery--mosaic .image-gallery__grid {
+	grid-auto-flow: dense;
+	grid-auto-rows: clamp(120px, 36vw, 240px);
+
+	@include from(desktop) {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		grid-auto-rows: clamp(160px, 20vw, 300px);
+	}
+
+	.image-gallery__item:nth-child(3n + 1),
+	.image-gallery__item:nth-child(3n + 2):last-child {
+		grid-column: span 2;
+	}
+
+	@include from(desktop) {
+
+		.image-gallery__item:nth-child(3n + 1) {
+			grid-row: span 2;
+		}
+
+		.image-gallery__item:nth-child(6n + 4) {
+			grid-column: 2 / span 2;
+		}
+
+		// An unfinished group: a large image on its own takes the full
+		// width; a large one with a single small one shares the height.
+		.image-gallery__item:nth-child(3n + 1):last-child {
+			grid-column: 1 / -1;
+		}
+
+		.image-gallery__item:nth-child(3n + 2):last-child {
+			grid-column: auto;
+			grid-row: span 2;
+		}
+	}
+
+	.image-gallery__item > *,
+	.image-gallery__item .media {
+		height: 100%;
+	}
+}
+
+// Masonry: CSS columns, so each image keeps its own shape.
+.image-gallery--masonry .image-gallery__grid {
+	display: block;
+	columns: 2;
+	column-gap: var(--image-gallery-gap);
+
+	@include from(desktop) {
+		columns: var(--image-gallery-columns, 3);
+	}
+
+	.image-gallery__item {
+		margin-bottom: var(--image-gallery-gap);
+		break-inside: avoid;
+	}
+}
