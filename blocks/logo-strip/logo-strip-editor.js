@@ -15,7 +15,12 @@ import {
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, useText } from '@floe/editor';
+import {
+	useFloeBlockProps,
+	useText,
+	useIsEditing,
+	hasText,
+} from '@floe/editor';
 import { Carousel } from '@floe/components/carousel';
 import metadata from './block.json';
 
@@ -66,6 +71,7 @@ function Edit( { attributes, setAttributes, name } ) {
 	const { logos, ticker } = attributes;
 	const limit = ticker ? 24 : 8;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name );
 	const onSelect = ( items ) =>
 		setAttributes( {
@@ -130,11 +136,15 @@ function Edit( { attributes, setAttributes, name } ) {
 			</InspectorControls>
 			<section { ...blockProps }>
 				<div className="logo-strip__inner">
-					{ text(
-						'label',
-						__( 'Short label, e.g. Trusted by teams at', 'floe' ),
-						{ allowedFormats: [] }
-					)( { tagName: 'p', className: 'logo-strip__label' } ) }
+					{ ( editing || hasText( attributes.label ) ) &&
+						text(
+							'label',
+							__(
+								'Short label, e.g. Trusted by teams at',
+								'floe'
+							),
+							{ allowedFormats: [] }
+						)( { tagName: 'p', className: 'logo-strip__label' } ) }
 					{ logos.length && ticker ? (
 						<Carousel
 							mode="ticker"

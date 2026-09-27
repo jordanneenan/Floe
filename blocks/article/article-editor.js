@@ -6,7 +6,12 @@ import {
 } from '@wordpress/block-editor';
 import { RangeControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useFloeBlockProps, LinkButton } from '@floe/editor';
+import {
+	useFloeBlockProps,
+	LinkButton,
+	useIsEditing,
+	hasLink,
+} from '@floe/editor';
 import metadata from './block.json';
 
 // "Lead" paragraph style (Body L, ink) for the opening paragraph.
@@ -28,6 +33,7 @@ const TEMPLATE = [
 
 function Edit( { attributes, setAttributes, name } ) {
 	const { fullWidth, width } = attributes;
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name, {
 		className: fullWidth ? 'article--full' : undefined,
 		style:
@@ -80,15 +86,17 @@ function Edit( { attributes, setAttributes, name } ) {
 			<section { ...blockProps }>
 				<div className="article__inner">
 					<div { ...innerBlocksProps } />
-					<div className="article__action">
-						<LinkButton
-							value={ attributes.action }
-							onChange={ ( action ) =>
-								setAttributes( { action } )
-							}
-							placeholder={ __( 'Optional button', 'floe' ) }
-						/>
-					</div>
+					{ ( editing || hasLink( attributes.action ) ) && (
+						<div className="article__action">
+							<LinkButton
+								value={ attributes.action }
+								onChange={ ( action ) =>
+									setAttributes( { action } )
+								}
+								placeholder={ __( 'Optional button', 'floe' ) }
+							/>
+						</div>
+					) }
 				</div>
 			</section>
 		</>

@@ -14,6 +14,9 @@ import {
 	LinkButton,
 	MediaSlot,
 	HeadingLevelControl,
+	useIsEditing,
+	hasText,
+	hasLink,
 } from '@floe/editor';
 import { Eyebrow } from '@floe/components/eyebrow';
 import metadata from './block.json';
@@ -21,6 +24,7 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, name } ) {
 	const { mediaPosition, headingLevel } = attributes;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const blockProps = useFloeBlockProps( name, {
 		className: `image-copy--media-${ mediaPosition } has-media`,
 	} );
@@ -80,11 +84,13 @@ function Edit( { attributes, setAttributes, name } ) {
 						className="image-copy__media"
 					/>
 					<div className="image-copy__copy">
-						<Eyebrow>
-							{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
-								allowedFormats: [],
-							} )( { tagName: 'span' } ) }
-						</Eyebrow>
+						{ ( editing || hasText( attributes.eyebrow ) ) && (
+							<Eyebrow>
+								{ text( 'eyebrow', __( 'Eyebrow', 'floe' ), {
+									allowedFormats: [],
+								} )( { tagName: 'span' } ) }
+							</Eyebrow>
+						) }
 						{ text(
 							'heading',
 							__( 'Heading', 'floe' )
@@ -95,15 +101,20 @@ function Edit( { attributes, setAttributes, name } ) {
 						{ text( 'body', __( 'Body copy', 'floe' ), {
 							disableLineBreaks: false,
 						} )( { tagName: 'p', className: 'image-copy__body' } ) }
-						<div className="image-copy__action">
-							<LinkButton
-								value={ attributes.action }
-								onChange={ ( action ) =>
-									setAttributes( { action } )
-								}
-								placeholder={ __( 'Optional action', 'floe' ) }
-							/>
-						</div>
+						{ ( editing || hasLink( attributes.action ) ) && (
+							<div className="image-copy__action">
+								<LinkButton
+									value={ attributes.action }
+									onChange={ ( action ) =>
+										setAttributes( { action } )
+									}
+									placeholder={ __(
+										'Optional action',
+										'floe'
+									) }
+								/>
+							</div>
+						) }
 					</div>
 				</div>
 			</section>

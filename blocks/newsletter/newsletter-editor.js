@@ -15,11 +15,14 @@ import {
 	LinkButton,
 	useText,
 	useFormSlotBlocks,
+	useIsEditing,
+	hasText,
 } from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, clientId, name } ) {
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const allowedBlocks = useFormSlotBlocks( name );
 	const hasForm = useSelect(
 		( select ) => select( blockEditorStore ).getBlockCount( clientId ) > 0,
@@ -76,13 +79,14 @@ function Edit( { attributes, setAttributes, clientId, name } ) {
 									) }
 								/>
 							) }
-							{ text(
-								'note',
-								__( 'Optional privacy note', 'floe' )
-							)( {
-								tagName: 'p',
-								className: 'newsletter__note',
-							} ) }
+							{ ( editing || hasText( attributes.note ) ) &&
+								text(
+									'note',
+									__( 'Optional privacy note', 'floe' )
+								)( {
+									tagName: 'p',
+									className: 'newsletter__note',
+								} ) }
 						</div>
 					</div>
 				</div>
