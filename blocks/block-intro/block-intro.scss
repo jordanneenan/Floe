@@ -1,0 +1,50 @@
+// Stacked: the split section header (Figma: Cards, Posts, Stats…), 64px to
+// the block below on desktop, 40px on smaller screens. A Spacing block after
+// it replaces that gap. Two columns: a 400px stacked header on the left and a
+// 760px column on the right holding the block (Figma: FAQ, Document Download).
+@use "floe" as *;
+
+.block-intro__inner {
+
+	@include container;
+}
+
+// The section margin (base.css) reads this, so a Spacing block still
+// replaces it.
+.block-intro--stacked {
+	--floe-section-gap: 40px;
+
+	@include from(desktop) {
+		--floe-section-gap: 64px;
+	}
+}
+
+// The held block sits in the Block intro's container: zero its own gutter.
+.block-intro__block {
+	--wp--custom--content--gutter: 0px;
+	min-width: 0;
+}
+
+.block-intro--columns .block-intro__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+
+	@include from(desktop) {
+		flex-direction: row;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 48px;
+
+		> .section-header {
+			flex: 0 1 400px;
+		}
+	}
+}
+
+.block-intro--columns .block-intro__block {
+
+	@include from(desktop) {
+		flex: 0 1 760px;
+	}
+}

@@ -19,11 +19,7 @@ import metadata from './block.json';
 function Edit( { attributes, setAttributes, name } ) {
 	const text = useText( attributes, setAttributes );
 	const allowedBlocks = useFormSlotBlocks( name );
-	const blockProps = useFloeBlockProps(
-		name,
-		{ className: 'has-form' },
-		{ surface: 'base' }
-	);
+	const blockProps = useFloeBlockProps( name, { className: 'has-form' } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'contact__form form-slot' },
 		{

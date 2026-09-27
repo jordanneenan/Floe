@@ -18,11 +18,7 @@ const TEMPLATE = [ item( '' ), item( '' ), item( '' ) ];
 
 function Edit( { attributes, setAttributes, name, context } ) {
 	const { oneOpen, schema } = attributes;
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: 'base', context }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const innerBlocksProps = useInnerBlocksProps(
 		{ className: 'faq__items' },
 		{ allowedBlocks: metadata.allowedBlocks, template: TEMPLATE }

@@ -9,7 +9,7 @@
 }
 
 :root[data-theme="dark"] .form,
-:is(.surface-inverse, .surface-accent) .form {
+:is(.surface-inverse, .surface-accent, .force-light-text) .form {
 	--form-error: #ff9a9e;
 }
 

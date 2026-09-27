@@ -17,7 +17,7 @@ $form   = trim( $content );
 $action = $form ? '' : component( 'button', Floe\Components\button_args_from_link( $attributes['action'] ) );
 $note   = trim( (string) $attributes['note'] );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="newsletter__inner">
 		<div class="newsletter__panel surface-tint">
 			<?php

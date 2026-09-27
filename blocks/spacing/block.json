@@ -6,7 +6,7 @@
 	"title": "Spacing",
 	"category": "floe-sections",
 	"icon": "image-flip-vertical",
-	"description": "A gap between two sections. Replaces the space the sections would otherwise leave, at each screen size.",
+	"description": "A gap below a block. Replaces the block's usual space below, at each screen size.",
 	"keywords": [ "gap", "space", "spacer" ],
 	"textdomain": "floe",
 	"attributes": {

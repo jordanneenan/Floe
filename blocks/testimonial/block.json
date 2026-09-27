@@ -13,8 +13,7 @@
 		"quote": { "type": "string", "default": "" },
 		"name": { "type": "string", "default": "" },
 		"role": { "type": "string", "default": "" },
-		"portrait": { "type": "object", "default": {} },
-		"surface": { "type": "string", "enum": [ "subtle", "base", "tint" ], "default": "subtle" }
+		"portrait": { "type": "object", "default": {} }
 	},
 	"supports": {
 		"html": false,

@@ -63,7 +63,7 @@ add_filter( 'pre_render_block', __NAMESPACE__ . '\\hidden_from_visitors_skip', 1
  * counts its children (CTA columns, the Testimonials slider, Stats) lays out
  * only the ones this viewer will see. The parsed block's "hiddenChildren"
  * says how many were taken out, for a parent that would otherwise show
- * something of its own with no children (an Intro's heading).
+ * something of its own with no children (a Block intro's heading).
  */
 function hidden_from_visitors_prune( array $block ): array {
 	if ( empty( $block['innerBlocks'] ) ) {
@@ -113,7 +113,7 @@ add_filter( 'render_block', __NAMESPACE__ . '\\hidden_from_visitors_mark', 10, 2
 /**
  * Answers floe_block_visible for other modules (see In-page navigation). A
  * block whose children are all hidden shows nothing either (a CTA with every
- * panel hidden, an Intro whose block is hidden).
+ * panel hidden, a Block intro whose block is hidden).
  */
 function hidden_from_visitors_visible( bool $visible, array $block ): bool {
 	if ( ! $visible || hidden_from_viewer( $block ) ) {

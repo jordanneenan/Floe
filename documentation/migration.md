@@ -17,7 +17,7 @@ Made is the default reference where the [build brief](build-brief.md) is silent.
 | Code injection options | Adopted, natively | Customizer fields, `includes/admin/code-injection.php`. |
 | Image sizes and processing | Adopted | `includes/media/images.php`. |
 | Brand colours, logo, favicon, fonts options | Replaced | `theme.json`, custom logo, Site Icon, self-hosted Geist. |
-| Spacing block and section gaps | Adapted | Sections own their padding; `floe/spacing` replaces the facing padding. |
+| Spacing block and section gaps | Adopted | Each section has a margin below it, as Made's `.block`; `floe/spacing` replaces the margin of the section above it (D49). |
 | Header layouts as subfolders | In reserve | One header layout for now (D14). |
 | Animate on scroll, Ajax Load More, Relevanssi search | Not ported | Not in the brief; native search is used when search is designed. |
 

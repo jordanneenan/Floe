@@ -124,5 +124,5 @@ Patterns to leave behind:
 | Comments off | In theme, admin-only file | **Keep in theme** permanently, in `includes/admin/comments.php`, applying on the front end too (D8, D17). |
 | Admin tidy-up | Extensive | **Adopt all of it** in `includes/admin/`, one file per tweak. Appearance and Customize are never hidden (D11, D17). |
 | Image pipeline | Own sizes, quality 70, opaque PNG → JPEG | **Adopt all of it** (D12). The sizes and the processing live in the theme, with a faster transparency check. |
-| Spacing | 120/80/40, per-block override, ÷1.4 and ÷1.8 | **Already reimplemented** in `floe/spacing`. The brief keeps its behaviour. Section padding follows brief section 4. |
+| Spacing | 120/80/40, per-block override, ÷1.4 and ÷1.8 | **Already reimplemented** in `floe/spacing`. The brief keeps its behaviour. Sections have a margin below them, as `.block` does (D49). |
 | Scroll animation (AOS) | Option-driven library | **Not now.** It isn't in the brief, and any future version must respect reduced motion. |

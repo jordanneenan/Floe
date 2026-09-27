@@ -180,11 +180,7 @@ function Edit( { attributes, setAttributes, name, context } ) {
 		posts,
 		mediaOverrides,
 	} = attributes;
-	const blockProps = useFloeBlockProps(
-		name,
-		{},
-		{ surface: 'base', context }
-	);
+	const blockProps = useFloeBlockProps( name, {}, { context } );
 	const cardLevel = Math.min(
 		4,
 		( context[ 'floe/headingLevel' ] || 2 ) + 1

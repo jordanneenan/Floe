@@ -1,0 +1,1 @@
+.block-intro__block>.block-list-appender:only-child{display:grid;place-items:center;min-height:120px;border:1.5px dashed var(--surface-line);border-radius:var(--wp--custom--radius--lg)}

@@ -11,8 +11,7 @@
 	"textdomain": "floe",
 	"allowedBlocks": [ "core/heading", "core/paragraph", "core/list", "core/list-item", "core/quote", "core/pullquote", "core/image", "floe/media", "core/table", "core/separator", "core/buttons", "core/button", "core/embed" ],
 	"attributes": {
-		"action": { "type": "object", "default": {} },
-		"surface": { "type": "string", "enum": [ "base", "subtle" ], "default": "base" }
+		"action": { "type": "object", "default": {} }
 	},
 	"supports": {
 		"html": false,

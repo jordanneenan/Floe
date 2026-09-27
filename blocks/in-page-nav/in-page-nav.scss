@@ -7,10 +7,19 @@
 	position: sticky;
 	top: 0;
 	z-index: 40;
+	margin-bottom: var(--floe-section-space);
 	border-block: 1px solid var(--surface-line);
 	background: var(--surface-glass);
 	color: var(--surface-text);
 	backdrop-filter: blur(10px);
+}
+
+// The bar sits right under the block before it (usually the banner) and has
+// the section margin below it (it isn't a floe-section), which a Spacing
+// block after it replaces, as for any block.
+.floe-section:has(+ .in-page-nav),
+.in-page-nav:has(+ .spacing) {
+	margin-bottom: 0;
 }
 
 .in-page-nav__inner {

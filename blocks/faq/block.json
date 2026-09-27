@@ -6,7 +6,7 @@
 	"title": "FAQ",
 	"category": "floe-sections",
 	"icon": "editor-help",
-	"description": "A list of questions and answers, built with WordPress's own Details block. Put it in an Intro for a heading.",
+	"description": "A list of questions and answers, built with WordPress's own Details block. Put it in a two-column Block intro for a heading beside it.",
 	"keywords": [ "questions", "accordion", "help" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "core/details" ],
@@ -18,7 +18,7 @@
 	"supports": {
 		"html": false,
 		"anchor": true,
-		"floeIntro": [ "beside", "above" ]
+		"floeBlockIntro": true
 	},
 	"example": { "innerBlocks": [ { "name": "core/details", "attributes": { "summary": "Can we edit the site ourselves?" }, "innerBlocks": [ { "name": "core/paragraph", "attributes": { "content": "Yes. Every section is edited in place." } } ] } ] },
 	"editorScript": "file:./assets/faq-editor.js",

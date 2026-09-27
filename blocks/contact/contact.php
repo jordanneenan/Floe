@@ -39,7 +39,7 @@ $map  = component(
 );
 $form = trim( $content );
 ?>
-<section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base', 'class' => $form ? 'has-form' : 'no-form' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<section <?php echo Floe\block_attributes( $block, array( 'class' => $form ? 'has-form' : 'no-form' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="contact__inner">
 		<div class="contact__details">
 			<?php
