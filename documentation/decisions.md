@@ -355,3 +355,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-27): merging to `main` was pushing straight to the live site
 - **Decision:** `dev` is what floe.local runs. Feature branches start from `origin/dev` and pull requests target `dev`. Merging `dev` into `main` is the release, which syncs to the live site. [Workflow](workflow.md) has the steps.
 - **Status:** Adopted
+
+## D52: Anchors scroll smoothly, and taps don't flash
+
+- **Source:** Jordan (2026-09-27): smooth scrolling for anchor links and for landing on a page with an anchor in the URL, and no blue selection colour on links and buttons when tapped on mobile, globally.
+- **Decision:** A **Smooth scroll** component (`components/smooth-scroll/`, no markup, like Reveal). Clicks use native CSS `scroll-behavior: smooth` on the page, left off in the editor canvas and admin screens. For a landing, browsers jump to the anchor instantly, so an inline script at the top of `<head>` takes the anchor off the URL before they can, and the component's script puts it back with `location.replace()` once the page has loaded, which scrolls there smoothly, sets `:target` and adds no history entry. Only on a fresh visit: reloads and Back keep the browser's scroll position, and a visitor who has already scrolled is left alone. `prefers-reduced-motion: reduce` keeps the instant jump for both. The tap highlight is a global reset in `base.scss` (`-webkit-tap-highlight-color: transparent` on `html`); keyboard focus still shows through `:focus-visible`.
+- **Status:** Adopted
