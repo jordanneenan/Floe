@@ -1,11 +1,12 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useText, MediaSlot } from '@floe/editor';
+import { useText, MediaSlot, useIsEditing, hasText } from '@floe/editor';
 import metadata from './block.json';
 
 function Edit( { attributes, setAttributes, context } ) {
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const level = Math.min( 4, ( context[ 'floe/headingLevel' ] || 2 ) + 1 );
 	const blockProps = useBlockProps( { className: 'person' } );
 	return (
@@ -23,10 +24,11 @@ function Edit( { attributes, setAttributes, context } ) {
 				tagName: `h${ level }`,
 				className: 'person__name',
 			} ) }
-			{ text( 'role', __( 'Role', 'floe' ), { allowedFormats: [] } )( {
-				tagName: 'p',
-				className: 'person__role',
-			} ) }
+			{ ( editing || hasText( attributes.role ) ) &&
+				text( 'role', __( 'Role', 'floe' ), { allowedFormats: [] } )( {
+					tagName: 'p',
+					className: 'person__role',
+				} ) }
 		</li>
 	);
 }

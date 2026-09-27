@@ -14,7 +14,14 @@ import {
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { close } from '@wordpress/icons';
-import { useText, LinkButton, plain } from '@floe/editor';
+import {
+	useText,
+	LinkButton,
+	plain,
+	useIsEditing,
+	hasText,
+	hasLink,
+} from '@floe/editor';
 import metadata from './block.json';
 
 // Anchored Floe blocks in page order, including those inside other blocks
@@ -30,6 +37,7 @@ const anchored = ( blocks ) =>
 function Edit( { attributes, setAttributes } ) {
 	const { items } = attributes;
 	const text = useText( attributes, setAttributes );
+	const editing = useIsEditing();
 	const auto = useSelect(
 		( select ) =>
 			anchored( select( blockEditorStore ).getBlocks() ).map(
@@ -132,12 +140,13 @@ function Edit( { attributes, setAttributes } ) {
 			<nav { ...blockProps }>
 				<div className="in-page-nav__inner">
 					<div className="in-page-nav__links">
-						{ text( 'label', __( 'On this page', 'floe' ), {
-							allowedFormats: [],
-						} )( {
-							tagName: 'p',
-							className: 'in-page-nav__label',
-						} ) }
+						{ ( editing || hasText( attributes.label ) ) &&
+							text( 'label', __( 'On this page', 'floe' ), {
+								allowedFormats: [],
+							} )( {
+								tagName: 'p',
+								className: 'in-page-nav__label',
+							} ) }
 						<ul className="in-page-nav__list">
 							{ shown.length ? (
 								shown.map( ( item, index ) => (
@@ -159,17 +168,19 @@ function Edit( { attributes, setAttributes } ) {
 							) }
 						</ul>
 					</div>
-					<div className="in-page-nav__action">
-						<LinkButton
-							value={ attributes.action }
-							onChange={ ( action ) =>
-								setAttributes( { action } )
-							}
-							style="outline"
-							arrow={ false }
-							placeholder={ __( 'Optional action', 'floe' ) }
-						/>
-					</div>
+					{ ( editing || hasLink( attributes.action ) ) && (
+						<div className="in-page-nav__action">
+							<LinkButton
+								value={ attributes.action }
+								onChange={ ( action ) =>
+									setAttributes( { action } )
+								}
+								style="outline"
+								arrow={ false }
+								placeholder={ __( 'Optional action', 'floe' ) }
+							/>
+						</div>
+					) }
 				</div>
 			</nav>
 		</>

@@ -457,3 +457,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Judgement, from the first logged-in editor audit (2026-09-27). The brief says Floe sections are the top-level items and core blocks go in slots; the editor still let a Home Banner, CTA or any other section be inserted inside an FAQ's Details or an Article's Quote.
 - **Decision:** A Floe block without a `parent` can be inserted only at the top level or into a Floe block (Background, a two-column Block intro, or any Floe slot that lists it). `block.json` can't express "top level or these parents", so `includes/editor.php` adds this check to the editor's `blockEditor.__unstableCanInsertBlockType` filter. The filter's name is marked unstable; if WordPress renames or drops it, the fallback is `allowedBlocks` on the Details items in FAQ's template.
 - **Status:** Adopted
+
+## D68: Empty optional parts show only while a block is edited
+
+- **Source:** Judgement, from the first logged-in editor audit (2026-09-27), after Jordan saw spacing in the editor that didn't match the page. Every empty optional part showed its placeholder in the editor (a Block intro's "Optional button", a Page Banner's intro, a CTA panel's note) but renders nothing on the page, so unselected blocks were up to 112px taller in the editor and the spacing looked wrong.
+- **Decision:** An empty optional part, and a wrapper left with nothing in it, shows only while its block, or a block inside it, is selected, as core does with captions (Media and Slide already did this for theirs). Headings, body text and names always show, so a new block never collapses to nothing. A button with a label but no link stays visible, outlined, because it won't appear on the page until it's linked. `@floe/editor` provides `useIsEditing()`, `hasText()` and `hasLink()`, and `LinkButton` and `EditableSectionHeader` apply the rule themselves.
+- **Status:** Adopted
