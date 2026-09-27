@@ -1,5 +1,7 @@
 # Article (`floe/article`)
 
+**Figma:** design [34:28](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=34-28) · dark [91:458](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-458) · wireframe [46:360](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-360)
+
 Long-form content written with WordPress's own blocks, in an 860px reading column, left-aligned with the other sections (Figma `34:28`, widened). New posts start with an Article.
 
 **Allowed inside:** Heading, Paragraph, List, Quote, Pullquote, Image, Media (Floe), Table, Separator, Buttons, Embed, Shortcode. Floe sections can't be nested inside.

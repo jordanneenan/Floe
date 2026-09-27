@@ -1,5 +1,7 @@
 # Cards (`floe/cards`)
 
+**Figma:** design [36:173](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=36-173), [102:1062](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1062), [102:1105](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1105), [108:1623](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=108-1623) · dark [91:602](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-602), [113:3527](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3527) · wireframe [46:791](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-791), [113:3732](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3732)
+
 A grid of manually entered cards (Figma `36:173`). For an eyebrow, heading, intro or button, add a **Block intro** above the Cards.
 
 | Field | Notes |

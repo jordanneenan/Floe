@@ -1,5 +1,7 @@
 # FAQ (`floe/faq`)
 
+**Figma:** design [43:183](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=43-183), [101:1113](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=101-1113), [102:1456](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1456) · dark [91:783](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-783) · wireframe [46:1688](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1688)
+
 A list of questions (Figma `43:183`). Each question is WordPress's own **Details** block (native `<details>`/`<summary>`), so it works with the keyboard and without JavaScript. For the eyebrow, heading, intro and link (e.g. "Contact us"), put the FAQ in a **Block intro** set to Two columns (heading beside the questions), as in Figma. A stacked Block intro above the FAQ also works.
 
 | Field | Notes |

@@ -1,5 +1,7 @@
 # Footer
 
+**Figma:** design [30:25](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=30-25) · dark [91:325](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-325) · wireframe [46:2308](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-2308)
+
 Site footer on the Inverse surface (Figma `30:25`).
 
 - **Sign-off:** the Logo component (white), the **site tagline** (Settings → General → Tagline) in H3, and the "Header and footer button" menu's first item as a button (Inverse look on the dark surface, with arrow).

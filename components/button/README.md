@@ -1,5 +1,7 @@
 # Button
 
+**Figma:** design [29:18](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=29-18) · dark [91:266](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-266)
+
 Every button on the site: pill shape, 48px tall, Label type. From Figma component `29:18`.
 
 | Style | Use |

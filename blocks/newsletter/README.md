@@ -1,5 +1,7 @@
 # Newsletter (`floe/newsletter`)
 
+**Figma:** design [45:363](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=45-363), [121:1975](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=121-1975), [121:1993](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=121-1993) · dark [91:1135](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-1135), [122:2044](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-2044), [122:2053](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-2053) · wireframe [46:2211](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-2211), [113:3780](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3780)
+
 A tint panel with a signup form (Figma `45:363`).
 
 | Field | Notes |

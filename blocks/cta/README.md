@@ -1,5 +1,7 @@
 # CTA (`floe/cta`)
 
+**Figma:** design [35:75](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=35-75), [108:2893](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=108-2893), [119:1865](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=119-1865), [119:1897](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=119-1897), [119:1950](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=119-1950) · dark [91:525](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-525), [113:3563](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3563), [122:1957](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-1957), [122:1975](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-1975), [122:2004](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-2004) · wireframe [46:971](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-971), [113:3193](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3193)
+
 One to four call-to-action panels in a row (Figma `35:75`, extended to multiple columns). Add **CTA panel** blocks inside it; the columns follow the number of panels.
 
 | Panels | Layout |

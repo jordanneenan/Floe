@@ -1,5 +1,7 @@
 # Spacing (`floe/spacing`)
 
+**Figma:** none (editor-only gap; nothing to draw)
+
 A gap below a block. Every block has a margin below it (120px on large desktop, 96 desktop, 80 tablet, 64 mobile; smaller below a stacked Block intro). A Spacing block replaces the margin of the block above it, so the space is exactly the size chosen here.
 
 **Fields**

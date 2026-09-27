@@ -1,5 +1,7 @@
 # Block intro (`floe/block-intro`)
 
+**Figma:** design [100:1117](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=100-1117), [100:1089](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=100-1089) · dark [102:2705](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-2705) · wireframe [103:28](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=103-28)
+
 The eyebrow, heading, intro and button that introduce a block. Blocks such as Cards, Posts and FAQ don't have headings of their own: their heading is a Block intro.
 
 | Field | Notes |

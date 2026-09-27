@@ -483,3 +483,9 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Source:** Jordan (2026-09-27): always merge work into `dev` so he can see it on floe.local, without having to tell each agent.
 - **Decision:** Replaces D51's "stop for review before merging". Once a branch is built and verified, the agent opens its pull request into `dev`, merges it, and fast-forwards the shared checkout so floe.local shows it. Jordan reviews on floe.local, and changes he asks for come as new pull requests. Pull requests stay, rather than pushing straight to `dev`, because they record what changed and how it was checked. If another session has the shared checkout on another branch or has uncommitted work there, the agent leaves it and says so. `main` is unchanged: merging `dev` into `main` is the release and waits for Jordan to ask. [Workflow](workflow.md) has the steps.
 - **Status:** Adopted
+
+## D72: Figma is updated with each change, and checked
+
+- **Source:** Jordan (2026-09-28): whenever anything changes, the wireframes, designs and codebase should stay in sync.
+- **Decision:** A change to how a block or component looks, or to its options, updates its Figma design, dark copy and wireframe in the same piece of work, before its pull request merges into `dev`. Each module's README carries a `**Figma:**` line with those nodes (the map lives in the module folders, so there's still no central list of modules), and each Figma component's description names its code folder. `bin/design-sync` lists the modules a branch changed, `npm run lint` checks every README maps to Figma, and a GitHub check fails a pull request into `dev` whose `## Design sync` section doesn't account for each changed module. Periodic full audits catch what doesn't pass through a module, and `bin/floe-status` checks code, live, content and Figma together. [Design sync](design-sync.md) has the process.
+- **Status:** Adopted

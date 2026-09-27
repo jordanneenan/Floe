@@ -1,5 +1,7 @@
 # Video (`floe/video`)
 
+**Figma:** design [37:201](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=37-201), [102:1581](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1581) · dark [91:731](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-731) · wireframe [46:1991](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1991)
+
 A YouTube video behind a cover image (Figma `37:201`). Nothing loads from YouTube until the visitor presses play; then a `youtube-nocookie.com` player replaces the cover. For an eyebrow, heading and intro, add a **Block intro** above the Video (as in Figma), or put the Video in a Block intro set to Two columns.
 
 | Field | Notes |

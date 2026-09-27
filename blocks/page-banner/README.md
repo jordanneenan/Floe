@@ -1,5 +1,7 @@
 # Page Banner (`floe/page-banner`)
 
+**Figma:** design [33:65](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=33-65) · dark [91:424](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-424) · wireframe [46:254](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-254)
+
 The opener for inner pages (Figma `33:65`). Owns the page's H1.
 
 | Field | Notes |

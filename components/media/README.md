@@ -1,5 +1,7 @@
 # Media
 
+**Figma:** design [29:38](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=29-38) · dark [91:290](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-290)
+
 An image or a silent looping MP4 from the media library (Figma `29:38`).
 
 | Argument | Notes |

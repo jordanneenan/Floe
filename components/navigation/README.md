@@ -1,5 +1,7 @@
 # Navigation
 
+**Figma:** none (menu markup; drawn in Header/Footer)
+
 Renders a registered menu location with `wp_nav_menu()`. Nothing is printed when a location has no menu, so there's never an automatic list of every page.
 
 | Location | Used for |

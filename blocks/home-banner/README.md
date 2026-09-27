@@ -1,5 +1,7 @@
 # Home Banner (`floe/home-banner`)
 
+**Figma:** design [33:11](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=33-11) · dark [91:404](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-404) · wireframe [46:165](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-165)
+
 The home page opener (Figma `33:11`). Owns the page's H1.
 
 | Field | Notes |

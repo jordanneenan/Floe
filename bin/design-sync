@@ -1,0 +1,242 @@
+#!/usr/bin/env node
+// design-sync: keeps the Figma file, its wireframes and the theme in step.
+// Every block and component README carries a `**Figma:**` line naming its
+// design, dark copy and wireframe nodes (or `none`, with the reason). This
+// script reads those lines; there is no separate list of modules.
+//
+// Guide: documentation/design-sync.md
+/* eslint-disable no-console */
+//
+//   bin/design-sync changed [<base>]   modules this branch changed since <base>
+//                                      (default origin/dev), with their Figma
+//                                      links and a "Design sync" section to fill in
+//   bin/design-sync check              every module README has a Figma line
+//   bin/design-sync audit              modules changed since the last full audit
+//   bin/design-sync pr --base <ref> --body-file <file>
+//                                      CI: a pull request that changes modules
+//                                      must say what happened in Figma
+
+import { execFileSync } from 'node:child_process';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = join( dirname( fileURLToPath( import.meta.url ) ), '..' );
+const FILE_KEY = 'F43LfH93WZls4WkgIo5e3n';
+const GUIDE = 'documentation/design-sync.md';
+const MODULE_DIRS = [ 'blocks', 'components' ];
+// Files outside a module that change how every page looks.
+const FOUNDATIONS = [ /^theme\.json$/, /^assets\/scss\//, /^assets\/fonts\// ];
+// Files inside a module that don't change what visitors see.
+const IGNORED = [ /(^|\/)README\.md$/, /editor/ ];
+
+const git = ( ...args ) =>
+	execFileSync( 'git', args, { cwd: ROOT, encoding: 'utf8' } ).trim();
+
+const die = ( message ) => {
+	process.stderr.write( `design-sync: ${ message }\n` );
+	process.exit( 1 );
+};
+
+function modules() {
+	return MODULE_DIRS.flatMap( ( dir ) =>
+		readdirSync( join( ROOT, dir ), { withFileTypes: true } )
+			.filter( ( entry ) => entry.isDirectory() )
+			.map( ( entry ) => `${ dir }/${ entry.name }` )
+	);
+}
+
+function figmaLine( path ) {
+	const readme = join( ROOT, path, 'README.md' );
+	if ( ! existsSync( readme ) ) {
+		return null;
+	}
+	const line = readFileSync( readme, 'utf8' )
+		.split( '\n' )
+		.find( ( text ) => text.startsWith( '**Figma:**' ) );
+	return line ? line.replace( '**Figma:**', '' ).trim() : null;
+}
+
+function foundationsLine() {
+	if ( ! existsSync( join( ROOT, GUIDE ) ) ) {
+		return '';
+	}
+	const line = readFileSync( join( ROOT, GUIDE ), 'utf8' )
+		.split( '\n' )
+		.find( ( text ) => text.startsWith( '**Foundations Figma:**' ) );
+	return line ? line.replace( '**Foundations Figma:**', '' ).trim() : '';
+}
+
+// Readable in a terminal: markdown links become "label 36:173 (url)".
+function plain( line ) {
+	return line.replace( /\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)' );
+}
+
+function changedFiles( base ) {
+	try {
+		git( 'rev-parse', '--verify', '--quiet', `${ base }^{commit}` );
+	} catch {
+		die( `can't find ${ base }; run git fetch first` );
+	}
+	const from = git( 'merge-base', base, 'HEAD' );
+	const committed = git( 'diff', '--name-only', from, 'HEAD' );
+	const working = git( 'diff', '--name-only', 'HEAD' );
+	return [
+		...new Set(
+			`${ committed }\n${ working }`.split( '\n' ).filter( Boolean )
+		),
+	];
+}
+
+function affected( files ) {
+	const found = new Set();
+	let foundations = false;
+	for ( const file of files ) {
+		if ( FOUNDATIONS.some( ( pattern ) => pattern.test( file ) ) ) {
+			foundations = true;
+			continue;
+		}
+		const [ dir, name, ...rest ] = file.split( '/' );
+		if ( ! MODULE_DIRS.includes( dir ) || ! name || ! rest.length ) {
+			continue;
+		}
+		if ( IGNORED.some( ( pattern ) => pattern.test( rest.join( '/' ) ) ) ) {
+			continue;
+		}
+		if ( existsSync( join( ROOT, dir, name ) ) ) {
+			found.add( `${ dir }/${ name }` );
+		}
+	}
+	return { modules: [ ...found ].sort(), foundations };
+}
+
+function report( { modules: changed, foundations }, heading ) {
+	if ( ! changed.length && ! foundations ) {
+		console.log( `${ heading }: nothing that Figma draws.` );
+		return;
+	}
+	console.log( `${ heading }:\n` );
+	if ( foundations ) {
+		console.log( `  foundations (theme.json / global styles)` );
+		console.log( `    ${ plain( foundationsLine() ) }\n` );
+	}
+	for ( const path of changed ) {
+		console.log( `  ${ path }` );
+		console.log(
+			`    ${ plain( figmaLine( path ) ?? 'no Figma line in its README yet' ) }\n`
+		);
+	}
+	console.log( 'Paste into the pull request and fill in each line:\n' );
+	console.log( '## Design sync\n' );
+	if ( foundations ) {
+		console.log( '- foundations: ' );
+	}
+	for ( const path of changed ) {
+		console.log( `- ${ path.split( '/' )[ 1 ] }: ` );
+	}
+	console.log(
+		`\nFor each: "design, dark and wireframe updated (<node IDs>)", or "no visual change: <why>". See ${ GUIDE }.`
+	);
+}
+
+function check() {
+	const missing = modules().filter( ( path ) => ! figmaLine( path ) );
+	if ( missing.length ) {
+		die(
+			`these READMEs have no **Figma:** line (see ${ GUIDE }):\n  ${ missing.join( '\n  ' ) }`
+		);
+	}
+	if ( ! foundationsLine() ) {
+		die( `${ GUIDE } has no **Foundations Figma:** line` );
+	}
+	console.log(
+		`design-sync: all ${ modules().length } modules map to Figma.`
+	);
+}
+
+function lastAudit() {
+	const match = readFileSync( join( ROOT, GUIDE ), 'utf8' ).match(
+		/\*\*Last full audit:\*\* \S+ at commit `([0-9a-f]{7,40})`/
+	);
+	if ( ! match ) {
+		die( `${ GUIDE } has no **Last full audit:** line` );
+	}
+	return match[ 1 ];
+}
+
+function pr( args ) {
+	const base = args[ args.indexOf( '--base' ) + 1 ];
+	const bodyFile = args[ args.indexOf( '--body-file' ) + 1 ];
+	if ( ! base || ! bodyFile ) {
+		die( 'pr needs --base <ref> and --body-file <file>' );
+	}
+	const result = affected( changedFiles( base ) );
+	report( result, 'This pull request changes' );
+	if ( ! result.modules.length && ! result.foundations ) {
+		return;
+	}
+	const body = readFileSync( bodyFile, 'utf8' );
+	const section = body.split( /^## Design sync\s*$/m )[ 1 ];
+	if ( section === undefined ) {
+		die( 'the pull request description needs a "## Design sync" section' );
+	}
+	const text = section.split( /^## /m )[ 0 ];
+	const names = [
+		...( result.foundations ? [ 'foundations' ] : [] ),
+		...result.modules.map( ( path ) => path.split( '/' )[ 1 ] ),
+	];
+	const unanswered = names.filter( ( name ) => {
+		const line = text
+			.split( '\n' )
+			.find( ( row ) =>
+				new RegExp( `^\\s*[-*]\\s*\`?${ name }\`?\\s*:` ).test( row )
+			);
+		return ! line || ! line.split( ':' ).slice( 1 ).join( ':' ).trim();
+	} );
+	if ( unanswered.length ) {
+		die(
+			`"## Design sync" needs a filled-in line for: ${ unanswered.join( ', ' ) }`
+		);
+	}
+	console.log( '\nDesign sync section is complete.' );
+}
+
+const [ command = 'help', ...args ] = process.argv.slice( 2 );
+
+switch ( command ) {
+	case 'changed':
+		report(
+			affected( changedFiles( args[ 0 ] ?? 'origin/dev' ) ),
+			`Changed since ${ args[ 0 ] ?? 'origin/dev' }`
+		);
+		break;
+	case 'check':
+		check();
+		break;
+	case 'audit': {
+		const since = lastAudit();
+		report(
+			affected(
+				git( 'diff', '--name-only', since, 'HEAD' )
+					.split( '\n' )
+					.filter( Boolean )
+			),
+			`Changed since the last full audit (${ since })`
+		);
+		break;
+	}
+	case 'pr':
+		pr( args );
+		break;
+	default:
+		console.log(
+			readFileSync( fileURLToPath( import.meta.url ), 'utf8' )
+				.split( '\n' )
+				.filter( ( line ) => line.startsWith( '//' ) )
+				.map( ( line ) => line.replace( /^\/\/ ?/, '' ) )
+				.join( '\n' )
+		);
+		console.log(
+			`\nFigma file: https://www.figma.com/design/${ FILE_KEY }`
+		);
+}

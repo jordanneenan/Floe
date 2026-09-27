@@ -1,5 +1,7 @@
 # Posts (`floe/posts`)
 
+**Figma:** design [36:58](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=36-58), [102:1276](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1276), [120:1900](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=120-1900), [118:2945](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=118-2945) · dark [91:563](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-563), [122:2015](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=122-2015), [118:2947](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=118-2947) · wireframe [46:1251](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-1251), [113:3733](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=113-3733)
+
 A grid of post cards (Figma `36:58`), with listing, filters and load more built in (no plugin needed). For an eyebrow, heading and "View all" link (a Secondary button on the right), add a **Block intro** above the Posts.
 
 | Field | Notes |

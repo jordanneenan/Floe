@@ -1,5 +1,7 @@
 # Background (`floe/background`)
 
+**Figma:** design [102:1061](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-1061) · dark [102:2734](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=102-2734) · wireframe [103:41](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=103-41)
+
 A full-width band of colour behind the blocks you put inside it, for example a Block intro and its Cards on grey, or a Video on ink. Blocks have no background colours of their own; banners and panels (Page Banner, CTA panels, the Newsletter panel) keep theirs because the colour is part of their design.
 
 | Field | Notes |

@@ -1,0 +1,27 @@
+# Every pull request into dev that changes how a block or component looks must
+# say what happened in Figma. See documentation/design-sync.md.
+name: Design sync
+
+on:
+  pull_request:
+    branches: [dev]
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  design-sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Every module README maps to Figma
+        run: node bin/design-sync check
+      - name: The description accounts for each changed module
+        env:
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          printf '%s' "$PR_BODY" > "$RUNNER_TEMP/body.md"
+          node bin/design-sync pr --base "origin/${{ github.base_ref }}" --body-file "$RUNNER_TEMP/body.md"
