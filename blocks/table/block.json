@@ -23,5 +23,6 @@
 	"example": { "attributes": { "highlight": 1, "badge": "Popular" } },
 	"editorScript": "file:./assets/table-editor.js",
 	"style": "file:./assets/table.css",
+	"editorStyle": "file:./assets/table-editor.css",
 	"render": "file:./table.php"
 }
