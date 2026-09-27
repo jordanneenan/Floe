@@ -18,7 +18,8 @@ blocks/<name>/            one block: block.json, <name>.php, <name>.scss,
                           <name>-server.php, README.md, assets/
 blocks/<parent>/<child>/  child blocks live inside their parent
 components/<name>/        one UI piece: <name>.php, <name>.scss, optional
-                          <name>-editor.js (editor twin) and <name>.js, README.md
+                          <name>-editor.js (editor twin), <name>.js and
+                          <name>-editor-script.js (editor behaviour), README.md
 assets/                   global SCSS, fonts, shared editor helpers, brand files
 includes/                 theme setup; includes/admin/ and includes/media/ hold
                           self-contained feature files

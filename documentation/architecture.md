@@ -29,7 +29,7 @@ Every module can be switched off without deleting it: the `floe_disabled_modules
 | --- | --- |
 | Names | Folder = block short name = wrapper class = file names (`blocks/page-banner/page-banner.php`, class `page-banner`). Components the same (`components/button/button.php`, root class `button`). |
 | Block files | `block.json`, `<name>.php` (render), `<name>.scss` (front end and editor), optional `<name>-editor.scss`, `<name>-editor.js` (editor), optional `<name>.js` (front end, `viewScript`), optional `<name>-server.php` (server code such as a REST route, loaded when the block is enabled), `README.md`, compiled `assets/`. |
-| Component files | `<name>.php` defining `Floe\Components\<name>( array $args ): string` (hyphens become underscores), `<name>.scss`, optional `<name>-editor.js` (React twin for editor previews), optional `<name>.js`, `README.md`, compiled `assets/`. |
+| Component files | `<name>.php` defining `Floe\Components\<name>( array $args ): string` (hyphens become underscores), `<name>.scss`, optional `<name>-editor.js` (React twin for editor previews), optional `<name>.js`, optional `<name>-editor-script.js` (editor behaviour for every block, loaded on every block editor screen), `README.md`, compiled `assets/`. |
 | Calling a component | `Floe\component( 'button', $args )` returns escaped HTML, or `''` (logged under `WP_DEBUG`) if the component is missing or off. `Floe\icon( 'arrow' )` is shorthand. |
 | Editor twins | Block editor scripts import `@floe/components/<name>`; the build resolves it to `components/<name>/<name>-editor.js` and fails with a clear message if it's missing. Shared editing UI (link buttons, media slots, the editable section header) is `@floe/editor` in `assets/js/editor/`. |
 | Wrapper attributes | Block templates call `Floe\block_attributes( $block, array( 'surface' => 'tint', 'class' => … ) )`: adds the block's own class, `floe-section` for top-level sections, the surface class and the section anchor as `id`. The editor uses `useFloeBlockProps()` for the same classes. |
@@ -39,7 +39,7 @@ Every module can be switched off without deleting it: the `floe_disabled_modules
 
 - `npm run build` finds every module by folder and compiles its SCSS (Sass, `assets/scss` on the load path so modules `@use 'floe' as *`) and JS (webpack, one bundle per file, WordPress packages external) into that module's `assets/`. Global SCSS in `assets/scss/*.scss` compiles to `assets/css/`. Geist fonts are copied from the `geist` package.
 - Block assets are declared in `block.json` and load only on pages that use the block (`should_load_block_assets_on_demand`). Front-end block JS uses `viewScript`.
-- Component CSS loads on every page and in the editor canvas (it's small and used everywhere). Component front-end JS (header menu, media) is registered as `floe-<name>` and enqueued by the component when it renders.
+- Component CSS loads on every page and in the editor canvas (it's small and used everywhere). Component front-end JS (header menu, media) is registered as `floe-<name>` and enqueued by the component when it renders. A component's `<name>-editor-script.js` (e.g. [Hidden from visitors](../components/hidden-from-visitors/README.md)) is registered as `floe-<name>-editor-script` and loads on every block editor screen.
 - `assets/css/base.css` (reset, surfaces, text-style classes, template fallbacks) loads from the template directory, so child themes don't break it.
 
 ## Styling system

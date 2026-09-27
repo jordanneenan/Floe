@@ -45,6 +45,7 @@ Every block is a folder under `blocks/` with its own README describing its field
 - **Links** are `{ label, url, newTab }` objects edited with WordPress's link picker (page search included); a button without a URL isn't rendered.
 - **Media** is stored as `{ id, posterId, alt }`. Alt text is read from the library at render time unless the slot overrides it. WordPress decides lazy or eager loading. Each slot's shape and crop, and the sizes to upload, are in [Images](images.md).
 - **Keyboard and focus.** Every interactive element has a visible focus style; custom controls (header menu, slider, video, media pause) are real buttons with accessible names.
+- **Hide from visitors.** Every Floe block has a Hide from visitors setting (Block settings → Advanced) without doing anything itself: the [Hidden from visitors](../components/hidden-from-visitors/README.md) component adds the attribute, skips the block for people who can't edit the page and marks it for those who can. A block that links to other blocks asks the `floe_block_visible` filter first (In-page navigation does), so it never links to something the viewer can't see.
 - **`example`** in every `block.json` for inserter previews, and a README in every folder.
 
 ## Adding a block

@@ -31,7 +31,7 @@
 - Type: classic WordPress theme with block editor support and `theme.json`, not a full-site-editing block theme.
 - Minimum: WordPress 7.1, PHP 8.0, Node.js 20 for development. Production uses committed built assets and doesn't need Node.
 - License: GPL-2.0-or-later.
-- 23 sections plus 11 child blocks and 17 components. No required plugins and no ACF.
+- 23 sections plus 11 child blocks and 18 components. No required plugins and no ACF.
 
 ## Source-of-truth order
 
