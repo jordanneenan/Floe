@@ -61,7 +61,9 @@ add_filter( 'pre_render_block', __NAMESPACE__ . '\\hidden_from_visitors_skip', 1
 /**
  * Takes hidden children out of a block before it renders, so a parent that
  * counts its children (CTA columns, the Testimonials slider, Stats) lays out
- * only the ones this viewer will see.
+ * only the ones this viewer will see. The parsed block's "hiddenChildren"
+ * says how many were taken out, for a parent that would otherwise show
+ * something of its own with no children (an Intro's heading).
  */
 function hidden_from_visitors_prune( array $block ): array {
 	if ( empty( $block['innerBlocks'] ) ) {
@@ -70,6 +72,7 @@ function hidden_from_visitors_prune( array $block ): array {
 	$inner   = array();
 	$content = array();
 	$index   = 0;
+	$removed = 0;
 	foreach ( (array) ( $block['innerContent'] ?? array() ) as $chunk ) {
 		if ( is_string( $chunk ) ) {
 			$content[] = $chunk;
@@ -79,10 +82,15 @@ function hidden_from_visitors_prune( array $block ): array {
 		if ( is_array( $child ) && ! hidden_from_viewer( $child ) ) {
 			$inner[]   = hidden_from_visitors_prune( $child );
 			$content[] = null;
+		} else {
+			++$removed;
 		}
 	}
 	$block['innerBlocks']  = $inner;
 	$block['innerContent'] = $content;
+	if ( $removed ) {
+		$block['hiddenChildren'] = $removed;
+	}
 	return $block;
 }
 add_filter( 'render_block_data', __NAMESPACE__ . '\\hidden_from_visitors_prune' );
@@ -102,8 +110,16 @@ function hidden_from_visitors_mark( $content, array $block ): string {
 }
 add_filter( 'render_block', __NAMESPACE__ . '\\hidden_from_visitors_mark', 10, 2 );
 
-/** Answers floe_block_visible for other modules (see In-page navigation). */
+/**
+ * Answers floe_block_visible for other modules (see In-page navigation). A
+ * block whose children are all hidden shows nothing either (a CTA with every
+ * panel hidden, an Intro whose block is hidden).
+ */
 function hidden_from_visitors_visible( bool $visible, array $block ): bool {
-	return $visible && ! hidden_from_viewer( $block );
+	if ( ! $visible || hidden_from_viewer( $block ) ) {
+		return false;
+	}
+	$inner = (array) ( $block['innerBlocks'] ?? array() );
+	return ! $inner || array() !== array_filter( $inner, fn( $child ) => ! hidden_from_viewer( $child ) );
 }
 add_filter( 'floe_block_visible', __NAMESPACE__ . '\\hidden_from_visitors_visible', 10, 2 );
