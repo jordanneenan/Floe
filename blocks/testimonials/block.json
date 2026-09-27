@@ -6,20 +6,17 @@
 	"title": "Testimonials",
 	"category": "floe-sections",
 	"icon": "format-quote",
-	"description": "Several short quotes as cards: a grid for up to three, a slider with previous and next buttons for more.",
+	"description": "Several short quotes as cards: a grid for up to three, a slider with previous and next buttons for more. Put it in an Intro for a heading.",
 	"keywords": [ "quotes", "reviews", "slider" ],
 	"textdomain": "floe",
 	"allowedBlocks": [ "floe/quote" ],
-	"attributes": {
-		"eyebrow": { "type": "string", "default": "" },
-		"heading": { "type": "string", "default": "" },
-		"headingLevel": { "type": "number", "default": 2 }
-	},
+	"usesContext": [ "floe/nested" ],
 	"supports": {
 		"html": false,
-		"anchor": true
+		"anchor": true,
+		"floeIntro": [ "above" ]
 	},
-	"example": { "attributes": { "eyebrow": "What clients say", "heading": "Teams who edit their own sites" }, "innerBlocks": [ { "name": "floe/quote", "attributes": { "quote": "“We publish weekly now.”", "name": "Priya Shah", "role": "Marketing lead" } }, { "name": "floe/quote", "attributes": { "quote": "“Nothing looks off even when we move fast.”", "name": "Tom Reeves", "role": "Communications" } } ] },
+	"example": { "innerBlocks": [ { "name": "floe/quote", "attributes": { "quote": "“We publish weekly now.”", "name": "Priya Shah", "role": "Marketing lead" } }, { "name": "floe/quote", "attributes": { "quote": "“Nothing looks off even when we move fast.”", "name": "Tom Reeves", "role": "Communications" } } ] },
 	"editorScript": "file:./assets/testimonials-editor.js",
 	"editorStyle": "file:./assets/testimonials-editor.css",
 	"style": "file:./assets/testimonials.css",
