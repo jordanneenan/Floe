@@ -1,6 +1,7 @@
 <?php
 /**
- * Table: section header plus a core Table block with Floe styling. A cell
+ * Table: a core Table block with Floe styling (the heading group comes from an
+ * Intro block holding the Table). A cell
  * that contains only ✓ shows the check icon ("Included"); only — or –
  * shows the dash icon ("Not included").
  *
@@ -36,17 +37,6 @@ if ( $highlight ) {
 ?>
 <section <?php echo Floe\block_attributes( $block, array( 'surface' => 'base' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="table__inner">
-		<?php
-		echo Floe\component( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			'section-header',
-			array(
-				'eyebrow'       => $attributes['eyebrow'],
-				'heading'       => $attributes['heading'],
-				'heading_level' => $attributes['headingLevel'],
-				'intro'         => $attributes['intro'],
-			)
-		);
-		?>
 		<div <?php echo implode( ' ', $frame ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from escaped parts. ?>>
 			<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
