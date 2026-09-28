@@ -1,0 +1,32 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "floe/statement",
+	"version": "1.0.0",
+	"title": "Statement",
+	"category": "floe-sections",
+	"icon": "editor-textcolor",
+	"description": "One big line in large type, such as a mission or what you believe. It lights up word by word as visitors scroll, with bold words in the accent colour.",
+	"keywords": [ "manifesto", "mission", "belief", "big text", "headline" ],
+	"textdomain": "floe",
+	"attributes": {
+		"eyebrow": { "type": "string", "default": "" },
+		"statement": { "type": "string", "default": "" },
+		"action": { "type": "object", "default": {} },
+		"lightUp": { "type": "boolean", "default": true }
+	},
+	"supports": {
+		"html": false,
+		"anchor": true
+	},
+	"example": {
+		"attributes": {
+			"eyebrow": "What we believe",
+			"statement": "Every page deserves a designed starting point, and every team deserves <strong>the freedom to build on it</strong> without waiting on a developer."
+		}
+	},
+	"editorScript": "file:./assets/statement-editor.js",
+	"style": "file:./assets/statement.css",
+	"viewScript": "file:./assets/statement.js",
+	"render": "file:./statement.php"
+}

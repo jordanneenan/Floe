@@ -18,6 +18,7 @@ Every block is a folder under `blocks/` with its own README describing its field
 | Stats | [stats](../blocks/stats/README.md) | 2–4 figures with optional prefixes and accent units; child **Stat**. Block intro above. |
 | Steps | [steps](../blocks/steps/README.md) | 3–5 numbered, connected steps; child **Step**. Block intro above. |
 | Logo strip | [logo-strip](../blocks/logo-strip/README.md) | Label and 4–8 logos in one muted tone, or up to 24 scrolling past as a ticker. |
+| Statement | [statement](../blocks/statement/README.md) | One big line in large type, optional eyebrow and button; bold words in the accent colour; lights up word by word as it scrolls (setting, on by default). |
 | Testimonial | [testimonial](../blocks/testimonial/README.md) | One long quote with optional portrait. |
 | Testimonials | [testimonials](../blocks/testimonials/README.md) | Quote cards: grid up to three, slider beyond; child **Quote card**. Block intro above. |
 | Team | [team](../blocks/team/README.md) | People (portrait, name, role); child **Person**. Block intro above. |

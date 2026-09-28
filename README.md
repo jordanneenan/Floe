@@ -42,7 +42,7 @@ npm run lint           # JS and SCSS lint
 
 ## Library
 
-Sections: Home Banner, Page Banner, In-page navigation, Block intro, Background, Article, Image + Copy, Cards, Posts (latest of any post type with load more and filters, hand-picked or manual), Stats, Steps, Logo strip, Testimonial, Testimonials, Team, Table, FAQ, Document Download, Images, Video, Contact, Newsletter, CTA (one to three panels) and Spacing. Each block's README describes its fields and responsive behaviour.
+Sections: Home Banner, Page Banner, In-page navigation, Block intro, Background, Article, Image + Copy, Cards, Posts (latest of any post type with load more and filters, hand-picked or manual), Stats, Steps, Logo strip, Statement, Testimonial, Testimonials, Team, Table, FAQ, Document Download, Images, Video, Contact, Newsletter, CTA (one to three panels) and Spacing. Each block's README describes its fields and responsive behaviour.
 
 Components: Button, Eyebrow, Section header, Media, Card, File row, Play control, Icon, Breadcrumb, Logo, Navigation, Header, Footer, plus Form and Accordion styles.
 
