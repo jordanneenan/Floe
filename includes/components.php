@@ -30,7 +30,7 @@ function load(): void {
 load();
 
 function url( array $module, string $file ): string {
-	return get_template_directory_uri() . '/components/' . $module['name'] . '/assets/' . $file;
+	return $module['uri'] . '/assets/' . $file;
 }
 
 function register_assets(): void {
