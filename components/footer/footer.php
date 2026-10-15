@@ -38,7 +38,11 @@ function footer( array $args = array() ): string {
 		$action ? '<div class="site-footer__action">' . $action . '</div>' : '',
 		$columns ? '<div class="site-footer__columns">' . $columns . '</div>' : '',
 		esc_html( $legal ),
-		esc_html__( 'Built with Floe', 'floe' ),
+		sprintf(
+			/* translators: %s: "Floe", linked to the Floe website. */
+			esc_html__( 'Built with %s', 'floe' ),
+			'<a href="' . esc_url( 'https://floewp.com' ) . '">Floe</a>'
+		),
 		\Floe\component( 'theme-toggle', array( 'class' => 'site-footer__theme' ) )
 	);
 }

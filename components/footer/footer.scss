@@ -102,4 +102,15 @@
 	display: flex;
 	align-items: center;
 	gap: 16px;
+
+	// "Built with Floe": the muted footer text, underlined so it reads as a link.
+	a {
+		color: inherit;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+
+		&:hover {
+			color: var(--surface-accent);
+		}
+	}
 }
