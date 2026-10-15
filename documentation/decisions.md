@@ -296,7 +296,7 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 ## D41: One motion timing, and reveals that never hold content back
 
 - **Source:** Jordan (2026-09-26): "any color changes, on buttons, need to fade over 0.4 seconds", with a smooth, subtle fade-in as content scrolls into view
-- **Decision:** Every colour change and hover uses `--floe-duration` (0.4s) and `--floe-ease` (`cubic-bezier(0.22, 1, 0.36, 1)`), from `settings.custom.motion`. Scroll reveals are a component (`components/reveal/`) that picks its own targets: the parts of each section, with grid and list items staggered 90ms apart. Only JavaScript hides anything, and only below the fold, so nothing is hidden without it and the first screen never waits; banners have their own CSS load-in instead. Reduced motion turns every animation off. Deleting the Reveal folder switches reveals off.
+- **Decision:** Every colour change and hover uses `--floe-duration` (0.4s) and `--floe-ease` (`cubic-bezier(0.22, 1, 0.36, 1)`), from `settings.custom.motion`. Scroll reveals are a component (`components/reveal/`) that picks its own targets: the parts of each section, with grid and list items staggered 90ms apart. Only JavaScript hides anything, and only below the fold, so nothing is hidden without it and the first screen never waits; banners have their own CSS load-in instead (removed by D75: the first screen is static). Reduced motion turns every animation off. Deleting the Reveal folder switches reveals off.
 - **Status:** Adopted (phase 9)
 
 ## D42: Floe has its own form, not a form plugin
@@ -500,5 +500,11 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 
 - **Source:** Jordan (2026-10-15) asked for a site of his own (Numbat) to be rebuilt on Floe, with custom blocks wherever Floe's library doesn't cover something. Clients building their own blocks in their own Floe-based repo is also the plan for the studio offer.
 - **Decision:** A client site is a WordPress child theme of Floe, and its custom blocks and components are modules in the child theme. `includes/modules.php` scans the child theme's `blocks/` and `components/` after Floe's; a child folder with the same name as a Floe module replaces it, so a site can swap one component (its logo, say) without forking Floe. Each module records its folder URL, which component assets now use instead of the template directory. Child blocks keep the `floe/` namespace, so the editor lockdown, the form slots and the section placement rules (all found by namespace) apply to them unchanged; a separate namespace would have meant a second list of "Floe" blocks. `build.mjs --theme <folder>` builds a child theme's modules with Floe's toolchain, so a child theme has no build setup or `node_modules` of its own. The same build change stops Sass writing a byte-order mark (`charset: false`): WordPress inlines small block stylesheets, and a leading BOM broke the first rule of a child block whose CSS had a non-ASCII character.
+- **Status:** Adopted
+
+## D75: The first screen is static
+
+- **Source:** Jordan (2026-10-15): on a page whose first screen held a Page Banner and a Contact block, refreshing faded the banner in while the Contact block just appeared. Some things fading in and others not is the problem; content fading in on scroll and the first screen being static is what he wants.
+- **Decision:** Nothing animates as a page loads. The Home and Page banners' CSS load-in (the `rise()` mixin and its `floe-rise` keyframes) is removed, so whatever is on the first screen, banners included, is simply there. Scroll reveals are unchanged: content below the fold fades up as it scrolls into view, and anything already on screen at load is left alone, so nothing on the first screen fades while its neighbours don't.
 - **Status:** Adopted
 
