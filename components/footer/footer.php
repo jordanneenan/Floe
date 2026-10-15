@@ -41,7 +41,8 @@ function footer( array $args = array() ): string {
 		sprintf(
 			/* translators: %s: "Floe", linked to the Floe website. */
 			esc_html__( 'Built with %s', 'floe' ),
-			'<a href="' . esc_url( 'https://floewp.com' ) . '">Floe</a>'
+			'<a href="' . esc_url( 'https://floewp.com' ) . '" target="_blank" rel="noopener">Floe<span class="screen-reader-text"> '
+				. esc_html__( '(opens in a new tab)', 'floe' ) . '</span></a>'
 		),
 		\Floe\component( 'theme-toggle', array( 'class' => 'site-footer__theme' ) )
 	);
