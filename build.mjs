@@ -20,6 +20,12 @@
  *   npm run build   one-off production build
  *   npm run start   build, then watch, recompile on save and live-reload
  *                   floe.local through BrowserSync (FLOE_PROXY overrides the URL)
+ *
+ * A child theme's modules are built with Floe's tools: pass its folder with
+ * --theme, e.g. `npm run build -- --theme ../my-site`. Its blocks/, components/
+ * and assets/scss/ are compiled in place, Sass can `@use 'floe' as *`, and
+ * editor scripts can import @floe/editor and @floe/components/<name> (the
+ * child's component first, then Floe's). Floe's fonts aren't copied.
  */
 import {
 	existsSync,
@@ -28,7 +34,7 @@ import {
 	copyFileSync,
 	writeFileSync,
 } from 'node:fs';
-import { basename, dirname, join, relative, sep } from 'node:path';
+import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import * as sass from 'sass';
@@ -36,6 +42,16 @@ import * as sass from 'sass';
 const require = createRequire( import.meta.url );
 const root = dirname( fileURLToPath( import.meta.url ) );
 const watch = process.argv.includes( '--watch' );
+// The theme being built: Floe itself, or a child theme given with --theme.
+const themeArg = process.argv.indexOf( '--theme' );
+const theme =
+	themeArg > -1 && process.argv[ themeArg + 1 ]
+		? resolve( process.argv[ themeArg + 1 ] )
+		: root;
+if ( ! existsSync( theme ) ) {
+	console.error( `[floe] No theme folder at ${ theme }` );
+	process.exit( 1 );
+}
 let only = 'all';
 if ( process.argv.includes( '--css' ) ) {
 	only = 'css';
@@ -44,7 +60,7 @@ if ( process.argv.includes( '--css' ) ) {
 }
 
 const log = ( ...args ) => console.log( '[floe]', ...args );
-const rel = ( path ) => relative( root, path ).split( sep ).join( '/' );
+const rel = ( path ) => relative( theme, path ).split( sep ).join( '/' );
 
 // ---------------------------------------------------------------------------
 // Discovery
@@ -64,7 +80,7 @@ const subfolders = ( dir ) =>
 
 export function discoverModules() {
 	const modules = [];
-	for ( const dir of subfolders( join( root, 'blocks' ) ) ) {
+	for ( const dir of subfolders( join( theme, 'blocks' ) ) ) {
 		if ( existsSync( join( dir, 'block.json' ) ) ) {
 			modules.push( { type: 'block', dir, name: basename( dir ) } );
 		}
@@ -78,7 +94,7 @@ export function discoverModules() {
 			}
 		}
 	}
-	for ( const dir of subfolders( join( root, 'components' ) ) ) {
+	for ( const dir of subfolders( join( theme, 'components' ) ) ) {
 		modules.push( { type: 'component', dir, name: basename( dir ) } );
 	}
 	return modules;
@@ -91,7 +107,10 @@ function compileScss( input, output ) {
 	try {
 		const result = sass.compile( input, {
 			style: 'compressed',
-			loadPaths: [ join( root, 'assets/scss' ) ],
+			loadPaths: [
+				join( theme, 'assets/scss' ),
+				join( root, 'assets/scss' ),
+			],
 			quietDeps: true,
 		} );
 		mkdirSync( dirname( output ), { recursive: true } );
@@ -127,14 +146,17 @@ function compileModuleCss( module ) {
 
 function compileGlobalCss() {
 	let ok = true;
-	const dir = join( root, 'assets/scss' );
+	const dir = join( theme, 'assets/scss' );
+	if ( ! existsSync( dir ) ) {
+		return true;
+	}
 	for ( const file of readdirSync( dir ) ) {
 		if ( file.endsWith( '.scss' ) && ! file.startsWith( '_' ) ) {
 			ok =
 				compileScss(
 					join( dir, file ),
 					join(
-						root,
+						theme,
 						'assets/css',
 						file.replace( /\.scss$/, '.css' )
 					)
@@ -202,7 +224,7 @@ function jsEntries( modules ) {
 			}
 		}
 	}
-	const globalJs = join( root, 'assets/js' );
+	const globalJs = join( theme, 'assets/js' );
 	if ( existsSync( globalJs ) ) {
 		for ( const file of readdirSync( globalJs ) ) {
 			if ( file.endsWith( '.js' ) && ! file.startsWith( '_' ) ) {
@@ -220,13 +242,15 @@ function webpackConfig( modules ) {
 
 	return {
 		mode: 'production',
-		context: root,
+		context: theme,
 		entry: jsEntries( modules ),
-		output: { path: root, filename: '[name].js', clean: false },
+		output: { path: theme, filename: '[name].js', clean: false },
 		devtool: false,
 		resolve: {
 			extensions: [ '.js', '.jsx' ],
 			alias: { '@floe/editor': join( root, 'assets/js/editor' ) },
+			// A child theme has no node_modules of its own.
+			modules: [ 'node_modules', join( root, 'node_modules' ) ],
 		},
 		module: {
 			rules: [
@@ -251,19 +275,24 @@ function webpackConfig( modules ) {
 		performance: { hints: false },
 		plugins: [
 			// `import { Button } from '@floe/components/button'` loads
-			// components/button/button-editor.js. A missing component fails the
+			// components/button/button-editor.js (a child theme's own
+			// component first, then Floe's). A missing component fails the
 			// build with a clear message instead of failing silently.
 			new webpack.NormalModuleReplacementPlugin(
 				/^@floe\/components\/[^/]+$/,
 				( resource ) => {
 					const name = resource.request.split( '/' ).pop();
-					const file = join(
-						root,
-						'components',
-						name,
-						`${ name }-editor.js`
-					);
-					if ( ! existsSync( file ) ) {
+					const file = [ theme, root ]
+						.map( ( base ) =>
+							join(
+								base,
+								'components',
+								name,
+								`${ name }-editor.js`
+							)
+						)
+						.find( ( path ) => existsSync( path ) );
+					if ( ! file ) {
 						throw new Error(
 							`Floe: "${ resource.request }" is imported by ${ rel( resource.contextInfo?.issuer || resource.context ) }, ` +
 								`but components/${ name }/${ name }-editor.js does not exist. Restore the component or remove the import.`
@@ -358,13 +387,13 @@ async function startWatch( modules ) {
 	} );
 
 	chokidar
-		.watch( [ 'Blocks', 'Components', 'assets/scss' ], {
-			cwd: root,
+		.watch( [ 'blocks', 'components', 'assets/scss' ], {
+			cwd: theme,
 			ignoreInitial: true,
 			ignored: /(^|[/\\])(assets|node_modules)([/\\]|$)/,
 		} )
 		.on( 'all', ( event, path ) => {
-			const file = join( root, path );
+			const file = join( theme, path );
 			if ( file.endsWith( '.scss' ) ) {
 				const module = moduleFor( file, modules );
 				if ( module ) {
@@ -388,7 +417,7 @@ async function startWatch( modules ) {
 
 	chokidar
 		.watch( [ '*.php', 'includes', 'theme.json' ], {
-			cwd: root,
+			cwd: theme,
 			ignoreInitial: true,
 		} )
 		.on( 'change', () => reload() );
@@ -404,7 +433,9 @@ log(
 
 let ok = true;
 if ( only !== 'js' ) {
-	copyFonts();
+	if ( theme === root ) {
+		copyFonts();
+	}
 	ok = buildCss( modules ) && ok;
 }
 if ( watch ) {
