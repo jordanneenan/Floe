@@ -107,6 +107,9 @@ function compileScss( input, output ) {
 	try {
 		const result = sass.compile( input, {
 			style: 'compressed',
+			// No @charset or byte-order mark: WordPress inlines small block
+			// stylesheets into the page, where a leading BOM breaks the first rule.
+			charset: false,
 			loadPaths: [
 				join( theme, 'assets/scss' ),
 				join( root, 'assets/scss' ),
