@@ -2,18 +2,18 @@
 
 **Figma:** design [30:2](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=30-2) · dark [91:303](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=91-303) · wireframe [46:56](https://www.figma.com/design/F43LfH93WZls4WkgIo5e3n?node-id=46-56)
 
-Site header (Figma `30:2`): the Logo component, the `primary` menu and one action button, on a white bar with a line underneath. 88px tall from 768px, 72px below.
+Site header (Figma `30:2`): the Logo component, the `primary` menu and an action button (optionally two), on a white bar with a line underneath. 88px tall from 768px, 72px below.
 
 **Appearance → Customize → Header:**
 
 | Setting | Default | Notes |
 | --- | --- | --- |
 | Sticky header | On | The bar stays at the top of the window while the page scrolls, and its padding shrinks as the page scrolls: over the first 300px it goes from 88px to 64px tall (72px to 52px below 768px), following the scroll position rather than playing an animation. A bottom margin makes up the difference, so nothing below it moves. `header.js` keeps `--floe-sticky-top` (`base.scss`) at the bar's real height, so the In-page navigation sticks right below it; anchors land clear of the shrunk bar (`--floe-sticky-top-scrolled`). As it shrinks it also turns to glass like the In-page navigation: the background thins to `--surface-glass` (90% white) and what scrolls underneath blurs. It stays solid while the menu is open. Without JavaScript it stays full height and solid. |
-| Show the button | On | Off leaves the header without its button. The footer keeps its button either way. |
+| Show the button | On | Off leaves the header without its buttons. The footer keeps its button either way. |
 | Menu position | Centred | From 1280px: **Centred** on the bar (with or without the button), or **Right**, beside the button. Below 1280px the menu is behind the menu button either way. |
 
 - **Menu:** Appearance → Menus → "Header menu" location. The current page is shown in ink, others muted. One level of dropdown is supported (on hover and keyboard focus).
-- **Action:** the first item of the "Header and footer button" menu location, as a Primary button without an arrow.
+- **Action:** the first item of the "Header and footer button" menu location, as a Primary button without an arrow. A second item in that menu shows as a Secondary button to its left, for a lighter action such as "Log in" (D76). Further items are ignored, and the footer only ever shows the first.
 - **Below 1280px:** a menu button (disclosure pattern: `aria-expanded`, `aria-controls`) opens a panel under the bar with the menu and the action. Escape closes it and returns focus to the button; so does tabbing out of the header. Without JavaScript the menu shows under the logo. From 1280px the menu sits in the bar; labels never wrap, and a menu too long for the bar wraps onto a second row between items.
 
 With the header not sticky, the In-page navigation block sticks to the top of the window instead.
