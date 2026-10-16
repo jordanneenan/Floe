@@ -9,7 +9,8 @@
  *       'label'    => 'Main',      // aria-label for the <nav>
  *       'heading'  => false,       // show the menu's name as a heading (footer columns)
  *       'depth'    => 2,
- *       'as'       => 'menu',      // 'button': render the first item as a Button (header/footer action)
+ *       'as'       => 'menu',      // 'button': render one item as a Button (header/footer action)
+ *       'item'     => 0,           // which item when 'as' is 'button' (0 = first)
  *       'style'    => 'primary',   // button style when 'as' is 'button'
  *       'class'    => '',
  *   ) );
@@ -19,17 +20,17 @@ namespace Floe\Components;
 
 defined( 'ABSPATH' ) || exit;
 
-/** The first item of a menu location as { label, url, newTab }, or null. */
-function navigation_first_item( string $location ): ?array {
+/** An item of a menu location (0 = the first) as { label, url, newTab }, or null. */
+function navigation_item( string $location, int $index = 0 ): ?array {
 	$locations = get_nav_menu_locations();
 	if ( empty( $locations[ $location ] ) ) {
 		return null;
 	}
 	$items = wp_get_nav_menu_items( $locations[ $location ] );
-	if ( ! $items ) {
+	if ( ! $items || ! isset( array_values( $items )[ $index ] ) ) {
 		return null;
 	}
-	$item = reset( $items );
+	$item = array_values( $items )[ $index ];
 	return array(
 		'label'  => $item->title,
 		'url'    => $item->url,
@@ -44,7 +45,7 @@ function navigation( array $args ): string {
 	}
 
 	if ( 'button' === ( $args['as'] ?? 'menu' ) ) {
-		$item = navigation_first_item( $location );
+		$item = navigation_item( $location, (int) ( $args['item'] ?? 0 ) );
 		return $item ? \Floe\component(
 			'button',
 			button_args_from_link(

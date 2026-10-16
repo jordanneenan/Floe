@@ -508,3 +508,8 @@ Status values: **Adopted** (in effect), **Planned** (agreed, lands in the named 
 - **Decision:** Nothing animates as a page loads. The Home and Page banners' CSS load-in (the `rise()` mixin and its `floe-rise` keyframes) is removed, so whatever is on the first screen, banners included, is simply there. Scroll reveals are unchanged: content below the fold fades up as it scrolls into view, and anything already on screen at load is left alone, so nothing on the first screen fades while its neighbours don't.
 - **Status:** Adopted
 
+## D76: An optional second header button
+
+- **Source:** Jordan (2026-10-16) wanted a white "Log in" button left of "Get Numbat" in getnumbat.com's header.
+- **Decision:** The header shows the first item of the "Header and footer button" menu as its Primary action, as before. With the Customizer setting **Show a second button** on (off by default: Jordan wants Floe unchanged unless a site opts in), the menu's second item shows as a Secondary button (white with an outline) to its left. Both sit in one `.site-header__actions` group that takes the header's right-hand column, so a one-button site looks exactly as it did. The same menu location keeps the button itself native (editors add "Log in" in Appearance → Menus), and the footer still shows only the first item. A third item is ignored.
+- **Status:** Adopted
