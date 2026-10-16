@@ -1,9 +1,9 @@
 <?php
 /**
  * Header component (Figma 30:2): logo, primary menu and an action: the first
- * item of the "Header and footer button" menu as a Primary button, with an
- * optional second item as a Secondary button to its left (for example
- * "Log in"). Below 1280px the menu and actions move into a panel opened by a
+ * item of the "Header and footer button" menu as a Primary button and, when
+ * "Show a second button" is on (off by default), the second item as a
+ * Secondary button to its left (for example "Log in"). Below 1280px the menu and actions move into a panel opened by a
  * disclosure button.
  * Appearance → Customize → Header sets whether it sticks to the top of the
  * window (on by default), whether it shows the button, and where the menu
@@ -19,11 +19,12 @@ defined( 'ABSPATH' ) || exit;
 function header( array $args = array() ): string {
 	$sticky = (bool) get_theme_mod( 'floe_header_sticky', true );
 	$button = (bool) get_theme_mod( 'floe_header_button', true );
+	$extra  = (bool) get_theme_mod( 'floe_header_second_button', false );
 	$align  = 'right' === get_theme_mod( 'floe_header_menu_align', 'center' ) ? 'right' : 'center';
 
 	$nav    = \Floe\component( 'navigation', array( 'location' => 'primary', 'label' => __( 'Main', 'floe' ), 'class' => 'site-header__nav' ) );
 	$action = $button ? \Floe\component( 'navigation', array( 'location' => 'action', 'as' => 'button', 'class' => 'site-header__action' ) ) : '';
-	$second = $action ? \Floe\component( 'navigation', array( 'location' => 'action', 'as' => 'button', 'item' => 1, 'style' => 'secondary', 'class' => 'site-header__action' ) ) : '';
+	$second = $action && $extra ? \Floe\component( 'navigation', array( 'location' => 'action', 'as' => 'button', 'item' => 1, 'style' => 'secondary', 'class' => 'site-header__action' ) ) : '';
 	$action = $action ? '<div class="site-header__actions">' . $second . $action . '</div>' : '';
 
 	if ( $nav || $action || $sticky ) {
@@ -53,7 +54,7 @@ function header_sanitize_align( $value ): string {
 	return 'right' === $value ? 'right' : 'center';
 }
 
-/** Appearance → Customize → Header: sticky, the button and the menu position. */
+/** Appearance → Customize → Header: sticky, the buttons and the menu position. */
 function header_customizer( \WP_Customize_Manager $customizer ): void {
 	$customizer->add_section(
 		'floe_header',
@@ -92,7 +93,24 @@ function header_customizer( \WP_Customize_Manager $customizer ): void {
 		'floe_header_button',
 		array(
 			'label'       => __( 'Show the button', 'floe' ),
-			'description' => __( 'The first item of the “Header and footer button” menu, with a second item (if there is one) as a lighter button to its left. The footer shows only the first, either way.', 'floe' ),
+			'description' => __( 'The first item of the “Header and footer button” menu. The footer keeps its button either way.', 'floe' ),
+			'section'     => 'floe_header',
+			'type'        => 'checkbox',
+		)
+	);
+
+	$customizer->add_setting(
+		'floe_header_second_button',
+		array(
+			'default'           => false,
+			'sanitize_callback' => 'rest_sanitize_boolean',
+		)
+	);
+	$customizer->add_control(
+		'floe_header_second_button',
+		array(
+			'label'       => __( 'Show a second button', 'floe' ),
+			'description' => __( 'The second item of the “Header and footer button” menu, as a lighter button to the left of the first (for example “Log in”). Header only.', 'floe' ),
 			'section'     => 'floe_header',
 			'type'        => 'checkbox',
 		)
