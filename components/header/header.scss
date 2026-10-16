@@ -1,5 +1,6 @@
 // Site header (Figma 30:2): 88px, white, 1px line underneath. Logo left, menu,
-// one Primary action (no arrow) right. Current page in ink, others muted.
+// a Primary action (no arrow) right, optionally with a Secondary one to its
+// left. Current page in ink, others muted.
 // The menu sits in the bar from 1280px; below that there isn't reliably room
 // for it (the default five items and button need about 820px), so it stays
 // behind the menu button. header.js uses the same width.
@@ -194,6 +195,15 @@
 	}
 }
 
+// One or two buttons: an optional Secondary (such as "Log in") left of the
+// Primary action.
+.site-header__actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 12px;
+}
+
 @include from(large) {
 
 	.site-header__toggle {
@@ -222,8 +232,9 @@
 			justify-self: start;
 		}
 
-		.site-header__action {
+		.site-header__actions {
 			justify-self: end;
+			flex-wrap: nowrap;
 		}
 	}
 
@@ -233,8 +244,9 @@
 			margin-left: auto;
 		}
 
-		.site-header__action {
+		.site-header__actions {
 			margin-left: 16px;
+			flex-wrap: nowrap;
 		}
 	}
 
